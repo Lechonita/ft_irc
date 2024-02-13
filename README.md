@@ -1,1 +1,1 @@
-# ft_irc
+# IRC - Internet Relay Chat
