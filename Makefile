@@ -1,6 +1,6 @@
 ##################################### VARIABLES #####################################
 
-PROJECT_NAME	= ft_irc
+PROJECT_NAME	= ircserv
 NAME			= ./$(PROJECT_NAME)
 CC				= c++
 FLAGS			= -Wall -Wextra -Werror -std=c++98
@@ -49,6 +49,11 @@ CUNIT			= $(CUNIT_FOLDER)/run_cunit.sh
 
 ifeq ($(valgrind), true)
 	VALGRIND	+= valgrind
+endif
+
+
+ifeq ($(debug), true)
+	CFLAGS	+= -fsanitize=address,undefined -g3
 endif
 
 
