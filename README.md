@@ -61,3 +61,36 @@
 		* o
 
 		* l
+
+
+--------------------------------------------------------------------------
+
+# RÈGLES DU CLEAN CODE
+
+
+## Fonctions
+
+	- 1 fonction = 1 action
+	- Un verbe par fonction >> is_valid, display_message, compute_formula...
+	- Utiliser boolean pour les états binaires >> is_whitespace, is_digit...
+
+
+## Magic Numbers
+
+	- Pas de magic numbers !
+	- Utiliser des defines autant que possible:
+		* defines existants >> STDOUT_FILENO, EXIT_SUCCESS...
+		* defines personnalisés >> ARG_COUNT, ERROR...
+	
+
+## Autres réflexes
+
+	- Utiliser des size_t pour les itérateurs >> size_t i = 0
+	- Utiliser ++i au lieux de i++ (when applicable)
+	- Utiliser des const !
+	- Utiliser des static
+
+## Rendre le code lisible
+
+	- Lisibilité > optimisé
+		* exemple: !isFalse()  vs  isFalse() == false
