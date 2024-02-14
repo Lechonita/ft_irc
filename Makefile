@@ -12,7 +12,8 @@ INCLUDES	+= -I $(INC_DIR)
 
 ##################################### HEADERS #####################################
 
-HDR			+= 
+HDR			+= Server.hpp
+HDR			+= defines.hpp
 
 vpath %.h $(INC_DIR)
 
@@ -20,7 +21,7 @@ vpath %.h $(INC_DIR)
 
 SRC_DIR		= ./src
 
-SRC			+= 
+SRC			+= main.cpp
 
 
 vpath %.cpp $(SRC_DIR)
@@ -37,19 +38,6 @@ OBJ			= $(patsubst %.cpp, $(OBJ_DIR)/%.o, $(SRC))
 
 TESTER_FOLDER	= tests/
 TESTER			= $(TESTER_FOLDER)/tester.sh
-
-
-### CUNIT
-
-CUNIT_FOLDER	= $(TESTER_FOLDER)/CUNIT/
-CUNIT			= $(CUNIT_FOLDER)/run_cunit.sh
-
-
-### Valgrind
-
-ifeq ($(valgrind), true)
-	VALGRIND	+= valgrind
-endif
 
 
 ifeq ($(debug), true)
@@ -80,14 +68,9 @@ $(OBJ) : $(OBJ_DIR)/%.o: %.cpp | dir
 
 dir: $(OBJ_DIR)
 
-test	: all
+test: all
 	echo -e $(BLUE) "\n====> IRC TESTS"$(NC)"\n"
-	$(MAKE) -sC $(CUNIT_FOLDER)
-	$(CUNIT) $(VALGRIND)
-
-cunit: all
-	$(MAKE) -sC $(CUNIT_FOLDER)
-	$(CUNIT) $(VALGRIND)
+	$(TESTER)
 
 $(OBJ_DIR):
 	@mkdir $(OBJ_DIR)
@@ -96,12 +79,10 @@ $(OBJ_DIR):
 clean:
 	@echo $(ORANGE)"\nRemoving .o object files...\n"$(END)
 	@rm -rf $(OBJ_DIR)
-	$(MAKE) -sC $(CUNIT_FOLDER) clean > /dev/null
 
 fclean: clean
 	@echo $(ORANGE)"Removing executable...\n"$(END)
 	@rm -f $(NAME)
-	$(MAKE) -sC $(CUNIT_FOLDER) fclean > /dev/null
 	@echo $(BLUE)"	⤳ All cleaned 🌊\n"$(END)
 
 re: fclean all

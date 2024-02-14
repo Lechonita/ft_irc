@@ -1,9 +1,15 @@
-# IRC - Internet Relay Chat
+# [IRC](https://datatracker.ietf.org/doc/html/rfc1459) - Internet Relay Chat
 
 
-## 1. En tant que dev, je veux pouvoir accueillir plusieurs utilisateurs dans mon serveur
+## 1. En tant que dev, je veux pouvoir créer un serveur
 
-	- La communication entre client et serveur se fait par TCP/IP (v4 ou v6)
+	- Créer un [serveur](https://ncona.com/2019/04/building-a-simple-server-with-cpp/)
+		* man [socket](https://man7.org/linux/man-pages/man2/socket.2.html)
+
+
+## 2. En tant que dev, je veux pouvoir accueillir plusieurs utilisateurs dans mon serveur
+
+	- La communication entre client et serveur se fait par [TCP/IP](https://www.fortinet.com/fr/resources/cyberglossary/tcp-ip) (v4 ou v6)
 
 	- Je peux avoir autant d’utilisateurs que je veux
 
@@ -13,15 +19,18 @@
 
 	- Mes utilisateurs pourront utiliser le mdp du serveur pour le rejoindre
 
+	- Il faut utiliser IRSSI comme client (attention à la syntaxe)
 
 
-## 2. En tant que dev, je veux pouvoir ajouter des opérations I/O
+
+## 3. En tant que dev, je veux pouvoir ajouter des opérations I/O
 
 	- Utiliser seulement 1 seul poll() (ou équivalent) pour toutes ces opérations
+		* [I/O operations](https://www.techtarget.com/whatis/definition/input-output-I-O) 
 
 
 
-## 3. En tant qu’utilisateur, je veux pouvoir me connecter au serveur
+## 4. En tant qu’utilisateur, je veux pouvoir me connecter au serveur
 
 	- Je veux pouvoir me connecter au serveur:
 
@@ -29,21 +38,21 @@
 
 	- Utilisation du mdp
 
-	- Message d’erreur approprié si le mdp est invalide
+	- Rajouter un pseudo unique (nickname)
 
-	- Rajouter un pseudo/changer ?
+	- Message d’erreur approprié si le mdp est invalide
 
 	- Rejondre un channel (est-ce qu’il y a plusieurs channels dans un serveur ? ou bien un serveur est un channel ?)
 
 
 
-## 4. En tant qu’utilisateur, je veux pouvoir envoyer et recevoir des messages
+## 5. En tant qu’utilisateur, je veux pouvoir envoyer et recevoir des messages
 
 	- Tous les messages d’un utiisateur doivent être envoyés à tous les utilisateurs du serveur/channel
 
 
 
-## 5. En tant qu’utilisateur opérateur, je veux pouvoir faire plusieurs actions dans le serveur
+## 6. En tant qu’utilisateur opérateur, je veux pouvoir faire plusieurs actions dans le serveur
 
 	- KICK
 
