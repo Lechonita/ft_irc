@@ -78,6 +78,7 @@
 - 1 fonction = 1 action (faire une fonction pour tout !)
 - Un verbe par fonction >> is_valid, display_message, compute_formula...
 - Utiliser boolean pour les états binaires >> is_whitespace, is_digit...
+- Utiliser des overloads pour les surcharges de fonctions (et des constructeurs)
 
 
 ## Magic Numbers
@@ -94,8 +95,12 @@
 - Utiliser ++i au lieux de i++ (when applicable)
 - Utiliser des const !
 - Utiliser des static
+- Pas de nesting (pas plus de 2 boucles dans une fonction)
+- Fail fast & Return early >> Mettre les fails ou les return précoces en premier dans la structure de code
 
 ## Rendre le code lisible
 
 - Lisibilité > optimisé
 	* exemple: !isFalse()  vs  isFalse() == false
+
+
