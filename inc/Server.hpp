@@ -18,9 +18,9 @@ public:
 	// void printErrorMessage(const char *str) const;
 
 private:
-	Server();
 	const std::string	_port;
 	const std::string	_password;
+	struct sockaddr_in _address;
 	const int _socketfd;	// file descriptor that can be used for communication
 	const int _bind;		// assign an IP address and port to the socket
 	const int _listen;		// marks a socket as passive - used to accept connections
@@ -31,7 +31,23 @@ private:
 		public:
 			const char *what() const throw();
 	};
+	class InvalidPort : public Server::Exception {
+		public:
+			const char *what() const throw();
+	};
 	class SocketException : public Server::Exception {
+		public:
+			const char *what() const throw();
+	};
+	class BindException : public Server::Exception {
+		public:
+			const char *what() const throw();
+	};
+	class ListenException : public Server::Exception {
+		public:
+			const char *what() const throw();
+	};
+	class ConnectionException : public Server::Exception {
 		public:
 			const char *what() const throw();
 	};

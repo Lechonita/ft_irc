@@ -1,16 +1,17 @@
 #ifndef DEFINES_HPP
-#define DEFINES_HPP
+# define DEFINES_HPP
 
-#include <iostream>
+# include <iostream>
 
 // Colors
 
-#define RED "\033[0;31m"
-#define GREEN "\033[1;32m"
-#define NC "\033[0m"
+# define RED "\033[0;31m"
+# define GREEN "\033[1;32m"
+# define NC "\033[0m"
 
 // Values
-#define ERROR -1
+# define ERROR -1
+# define MAX_CLIENTS 10
 
 // Error messages
 
