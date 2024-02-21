@@ -1,12 +1,12 @@
 #ifndef SERVER_HPP
 #define SERVER_HPP
 
-#include "defines.hpp"
-
-#include <iostream>
-#include <cstdlib>
-#include <sys/socket.h> // socket
-#include <netinet/in.h> // definitions for Internet Protocol (IP)
+# include <iostream>
+# include <cstdlib>
+# include <cstring>
+# include <sys/socket.h> // socket
+# include <netinet/in.h>
+# include <unistd.h>
 
 class Server
 {
