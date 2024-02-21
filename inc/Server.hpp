@@ -3,7 +3,10 @@
 
 # include <iostream>
 # include <cstdlib>
+# include <cstring>
 # include <sys/socket.h> // socket
+# include <netinet/in.h>
+# include <unistd.h>
 
 class Server
 {
