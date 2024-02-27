@@ -22,6 +22,7 @@ vpath %.h $(INC_DIR)
 SRC_DIR		= ./src
 
 SRC			+= main.cpp
+SRC			+= Server.cpp
 
 
 vpath %.cpp $(SRC_DIR)

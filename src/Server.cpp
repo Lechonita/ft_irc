@@ -1,19 +1,9 @@
+#include "../inc/Server.hpp"
 #include "../inc/defines.hpp"
 
 /********************************************************************************/
 /*************************** CONSTRUCTOR / DESTRUCTOR ***************************/
 /********************************************************************************/
-
-static bool isPortValid(const std::string &password)
-{
-	
-}
-
-
-static bool isPasswordValid(const std::string &password)
-{
-	
-}
 
 Server::Server(const std::string &port, const std::string &password)
 	: _port(port),
@@ -35,12 +25,16 @@ Server::Server(const std::string &port, const std::string &password)
 		throw(SocketException());
 
 
+	std::istringstream iss(port);
+	int portInt;
+	iss >> portInt;
+
 	struct sockaddr_in serverAddress;
 	serverAddress.sin_family = AF_INET;
-	serverAddress.sin_port = htons(atoi(port));
+	serverAddress.sin_port = htons(portInt);
 	serverAddress.sin_addr.s_addr = INADDR_ANY;
 
-	_bind = bind(_socketfd, (struct sockaddr*)&serverAddress, sizeof(serverAddress))
+	_bind = bind(_socketfd, (struct sockaddr *)&serverAddress, sizeof(serverAddress));
 	if (_bind == ERROR)
 	{
 		close(_socketfd);
@@ -54,8 +48,6 @@ Server::Server(const std::string &port, const std::string &password)
 		throw(ListenException());
 	}
 
-	// if (_acceptfd == ERROR)
-	// 	throw(ConnectionException());
 }
 
 Server::~Server()
@@ -71,16 +63,17 @@ Server::~Server()
 /*************** PUBLIC **************/
 /*************************************/
 
-// void Server::printErrorMessage(const char *str) const
-// {
-// 	perror(str);
-// }
+int Server::getSocketFd() const { return (_socketfd); }
 
-/*************************************/
-/*************** PUBLIC **************/
-/*************************************/
+std::string	Server::getPassword() const { return (_password); }
+
 
 // Exceptions
+
+const char*		Server::Exception::what() const throw()
+{
+	return ("\033[0;31mDefault Server Exception\n\033[0m");
+}
 
 const char *Server::InvalidPort::what() const throw()
 {
@@ -110,4 +103,20 @@ const char *Server::ListenException::what() const throw()
 const char *Server::ConnectionException::what() const throw()
 {
 	return ("\033[0;31mError: Failed to grab connection.\n\033[0m");
+}
+
+/*************************************/
+/*************** PRIVATE *************/
+/*************************************/
+
+bool Server::isPortValid(const std::string &port)
+{
+	(void)port;
+	return (true);
+}
+
+bool Server::isPasswordValid(const std::string &password)
+{
+	(void)password;
+	return (true);
 }

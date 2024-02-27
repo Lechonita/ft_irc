@@ -1,7 +1,7 @@
-#include "Server.hpp"
-#include "defines.hpp"
+#include "../inc/Server.hpp"
+#include "../inc/defines.hpp"
 
-int	main(int ac, char **av)
+int main(int ac, char **av)
 {
 	if (ac != ARG_NB)
 	{
@@ -9,7 +9,32 @@ int	main(int ac, char **av)
 		return (EXIT_FAILURE);
 	}
 
-	Server	server(av[1], av[2]);
+	try
+	{
+		std::string	port(av[1]);
+		std::string	password(av[2]);
+		Server server(port, password);
+
+		while (true)
+		{
+			int clientSocket = accept(server.getSocketFd(), NULL, NULL);
+			if (clientSocket == ERROR)
+			{
+				std::cerr << "Error accepting connection\n";
+				continue;
+			}
+			const char *message = "Hello from the server!";
+			send(clientSocket, message, strlen(message), 0);
+
+			// close(clientSocket);
+		}
+
+		close(server.getSocketFd());
+	}
+	catch (Server::Exception &e)
+	{
+		std::cout << e.what() << std::endl;
+	}
 
 	// int	mySocket = socket(AF_INET, SOCK_STREAM, 0);
 	// if (mySocket == -1)
@@ -40,21 +65,7 @@ int	main(int ac, char **av)
 	// 	return EXIT_FAILURE;
 	// }
 
-	while (true)
-	{
-		int	clientSocket = accept(mySocket, NULL, NULL);
-		if (clientSocket == -1)
-		{
-			std::cerr << "Error accepting connection\n";
-			continue;
-		}
-		const char* message = "Hello from the server!";
-		send(clientSocket, message, strlen(message), 0);
-
-		// close(clientSocket);
-	}
-
-	close(mySocket);
+	
 
 	return (EXIT_SUCCESS);
 }

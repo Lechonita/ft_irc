@@ -12,3 +12,9 @@
 - tips pour git
 	- git rebase ou git merge
 	- git checkout a specific commit to detach the HEAD
+
+
+	Faire le client : utiliser poll() ou pollin() pour savoir si client
+	déjà existant ou non. Si pas existant, create client. Sinon, faire
+	l'action qu'il veut faire (message).
+
