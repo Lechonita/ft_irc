@@ -12,8 +12,9 @@ INCLUDES	+= -I $(INC_DIR)
 
 ##################################### HEADERS #####################################
 
-HDR			+= Server.hpp
 HDR			+= defines.hpp
+HDR			+= Server.hpp
+HDR			+= Client.hpp
 
 vpath %.h $(INC_DIR)
 
@@ -23,6 +24,7 @@ SRC_DIR		= ./src
 
 SRC			+= main.cpp
 SRC			+= Server.cpp
+SRC			+= Client.cpp
 
 
 vpath %.cpp $(SRC_DIR)

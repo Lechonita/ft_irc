@@ -9,7 +9,7 @@ Server::Server(const std::string &port, const std::string &password)
 	: _port(port),
 	  _password(password),
 	  _nbClients(0),
-	  _pollFd(NULL)
+	  _pollFd(0)
 {
 	// SOCKET : This code creates a TCP socket for IPv6 communication
 	// AF_INET6 = IPv6 Internet protocols
@@ -52,11 +52,17 @@ Server::Server(const std::string &port, const std::string &password)
 	_pollFd.push_back(pollfd());
 	_pollFd.back().fd = _serverSocket;
 	_pollFd.back().events = POLLIN; // We want to monitor data reception on this file descriptor
+
+	std::cout << "SERVER CREATED - fd = " << _serverSocket
+			<< " / ip = " << inet_ntoa(serverAddress.sin_addr)
+			<< " / port = " << ntohs(serverAddress.sin_port) << std::endl;
 }
+
+
 
 Server::~Server()
 {
-	std::cout << "Default destructor." << std::endl;
+	std::cout << "Default server destructor." << std::endl;
 }
 
 /********************************************************************************/
@@ -67,52 +73,94 @@ Server::~Server()
 /*************** PUBLIC **************/
 /*************************************/
 
+// Debug
+
+static void	printClientMap(const std::map<int, Client>  &clientMap)
+{
+	std::map<int, Client>::const_iterator it;
+
+	for (it = clientMap.begin(); it != clientMap.end(); ++it)
+	{
+		std::cout << "ClientMap #" << it->first << " : " << it->second.getClientSocket() << std::endl;
+	}
+}
+
 // Functions
 
 void Server::runServer()
 {
 	if (poll(&_pollFd[0], _pollFd.size(), TIMEOUT) == ERROR)
 	{
+		close(_serverSocket);
 		throw(PollException());
 	}
 
 	if (_pollFd[0].revents == POLLIN)
 	{
-		createNewClient();
+		try {
+			createNewClient();
+		}
+		catch (Server::Exception &e) {
+			std::cout << e.what() << std::endl;
+		}
 	}
-	else
-	{
-		getClientMessage();
-	}
+	// else
+	// {
+	// 	getClientMessage();
+	// }
 }
+
 
 void Server::createNewClient()
 {
-	size_t	i = 0;
-	typename std::map<int, Client>::iterator it;
-	for (it = _serverClients.begin(); it != _serverClients.end(); ++it)
+	size_t clientIndex = 0;
+	std::map<int, Client>::iterator it;
+	for (it = _clientMap.begin(); it != _clientMap.end(); ++it)
 	{
-		++i;
+		++clientIndex;
 	}
 
-	_clientSocket = accept(_serverSocket, NULL, NULL);
-	if (_clientSocket == ERROR)
+	struct	sockaddr_in clientAddress;
+	socklen_t			size = sizeof(clientAddress);
+
+	int	clientSocket = accept(_pollFd[0].fd, (struct sockaddr *)&clientAddress, &size);
+	if (clientSocket == ERROR)
+	{
+		close(_serverSocket);
 		throw(AcceptException());
+	}
 
-	setNonBlocking(clientSocket);
+	// Make the client socket non-blocking
+	if (fcntl(clientSocket, F_SETFL, O_NONBLOCK) == ERROR)
+	{
+		close(_serverSocket);
+		close(clientSocket);
+		throw(BlockException());
+	}
 
-	struct sockaddr_in clientAddr;
-	socklen_t addrSize = sizeof(clientAddr);
-	getpeername(clientSocket, (struct sockaddr *)&clientAddr, &addrSize);
+	// Create the new client object and store it in std::map
+	Client newClient(clientSocket);
+	_clientMap.insert(std::make_pair(clientIndex, newClient));
+	_nbClients += 1;
 
-	std::cout << "New connection" << std::endl;
+	_pollFd.push_back(pollfd());
+	_pollFd.back().fd = clientSocket;
+	_pollFd.back().events = POLLIN; // We want to monitor data reception on this file descriptor
+
+	std::cout << "New connection - Client fd = " << clientSocket
+			<< " / ip = " << inet_ntoa(clientAddress.sin_addr)
+			<< " / port = " << ntohs(clientAddress.sin_port) << std::endl;
+
+	printClientMap(_clientMap);
 }
+
 
 // Getters
 
 int Server::getSocketFd() const { return (_serverSocket); }
 
 std::string Server::getPassword() const { return (_password); }
+
 
 // Exceptions
 
@@ -146,15 +194,16 @@ const char *Server::PollException::what() const throw()
 	return ("\033[0;31mError: Bad file descriptor.\n\033[0m");
 }
 
+const char *Server::BlockException::what() const throw()
+{
+	return ("\033[0;31mError: Could not set server I/O operations to non-blocking.\n\033[0m");
+}
+
 const char *Server::AcceptException::what() const throw()
 {
 	return ("\033[0;31mError: Could not connect new client.\n\033[0m");
 }
 
-const char *Server::BlockException::what() const throw()
-{
-	return ("\033[0;31mError: Could not set server I/O operations to non-blocking.\n\033[0m");
-}
 
 /*************************************/
 /*************** PRIVATE *************/
