@@ -53,9 +53,11 @@ Server::Server(const std::string &port, const std::string &password)
 	_pollFd.back().fd = _serverSocket;
 	_pollFd.back().events = POLLIN; // We want to monitor data reception on this file descriptor
 
-	std::cout << "SERVER CREATED - fd = " << _serverSocket
-			<< " / ip = " << inet_ntoa(serverAddress.sin_addr)
-			<< " / port = " << ntohs(serverAddress.sin_port) << std::endl;
+	std::cout << GREEN << "\n       Server Creation Successful [Connected]" << NC << std::endl;
+	std::cout << std::endl;
+	// std::cout << "Server fd = " << _serverSocket
+	// 		<< " / ip = " << inet_ntoa(serverAddress.sin_addr)
+	// 		<< " / port = " << ntohs(serverAddress.sin_port) << std::endl;
 }
 
 
@@ -138,6 +140,10 @@ void Server::createNewClient()
 		throw(BlockException());
 	}
 
+	std::cout << "New connection - Client fd = " << clientSocket
+			<< " / ip = " << inet_ntoa(clientAddress.sin_addr)
+			<< " / port = " << ntohs(clientAddress.sin_port) << std::endl;
+
 	// Create the new client object and store it in std::map
 	Client newClient(clientSocket);
 	_clientMap.insert(std::make_pair(clientIndex, newClient));
@@ -146,10 +152,6 @@ void Server::createNewClient()
 	_pollFd.push_back(pollfd());
 	_pollFd.back().fd = clientSocket;
 	_pollFd.back().events = POLLIN; // We want to monitor data reception on this file descriptor
-
-	std::cout << "New connection - Client fd = " << clientSocket
-			<< " / ip = " << inet_ntoa(clientAddress.sin_addr)
-			<< " / port = " << ntohs(clientAddress.sin_port) << std::endl;
 
 	printClientMap(_clientMap);
 }

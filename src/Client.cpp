@@ -7,13 +7,16 @@
 
 Client::Client(const int& clientSocket): _clientSocket(clientSocket)
 {
-	std::cout << "New client connected" << std::endl;
+	std::cout << std::endl;
+	std::cout << "WELCOME" << std::endl;
+	std::cout << ORANGE << "You are not connected to the server yet." << NC << std::endl;
+	std::cout << "Use command PASS followed by <password> to connect." << std::endl;
 }
 
 
 Client::~Client()
 {
-	std::cout << "Client fd " << _clientSocket << " destroyed." << std::endl;
+	// std::cout << "Client fd " << _clientSocket << " destroyed." << std::endl;
 }
 
 
