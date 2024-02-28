@@ -106,10 +106,15 @@ void Server::runServer()
 			std::cout << e.what() << std::endl;
 		}
 	}
-	// else
-	// {
-	// 	getClientMessage();
-	// }
+	else
+	{
+		try {
+			getClientMessage();
+		}
+		catch (Server::Exception &e) {
+			std::cout << e.what() << std::endl;
+		}
+	}
 }
 
 
@@ -154,6 +159,50 @@ void Server::createNewClient()
 	_pollFd.back().events = POLLIN; // We want to monitor data reception on this file descriptor
 
 	printClientMap(_clientMap);
+}
+
+
+
+void	Server::getClientMessage()
+{
+	if (_nbClients == 0 || _clientMap.size() == 0)
+		return ;
+	
+	const int	bufferSize = 1024;
+	char	buffer[bufferSize];
+	
+	std::vector<pollfd>::iterator	it;
+	for(it = _pollFd.begin(); it != _pollFd.end(); ++it)
+	{
+		if (it->revents == POLLIN)
+		{
+			int clientSocket = it->fd;
+			int bytesRead = recv(clientSocket, buffer, bufferSize, 0);
+
+			// Read chunks of data until there is no more data to read
+			while (bytesRead > 0)
+			{
+				std::cout << std::string(buffer, bytesRead) << std::endl;
+				memset(buffer, 0, bufferSize);
+				bytesRead = recv(clientSocket, buffer, bufferSize, 0);
+			}
+
+			if (bytesRead == ERROR)
+			{
+				memset(buffer, 0, bufferSize);
+				disconnectClient(it->fd);
+				return ;
+			}
+		}
+	}
+}
+
+
+
+void	Server::disconnectClient(const int& clientSocket)
+{
+	std::vector<pollfd>	::iterator	it;
+	
 }
 
 
@@ -205,6 +254,12 @@ const char *Server::AcceptException::what() const throw()
 {
 	return ("\033[0;31mError: Could not connect new client.\n\033[0m");
 }
+
+// const char *Server::ReadException::what() const throw()
+// {
+// 	return ("\033[0;31mError: Could not read client's message.\n\033[0m");
+// }
+
 
 
 /*************************************/

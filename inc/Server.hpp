@@ -23,7 +23,8 @@ public:
 	// Functions
 	void	runServer();
 	void	createNewClient();
-	// void	getClientMessage();
+	void	getClientMessage();
+	void	disconnectClient(const int& clientSocket);
 
 	// Debug
 	// void	printClientMap(const std::map<int, Client>  &clientMap);
@@ -69,6 +70,11 @@ public:
 		public:
 			const char *what() const throw();
 	};
+	// class ReadException : public Client::Exception
+	// {
+	// 	public:
+	// 		const char *what() const throw();
+	// };
 
 private:
 	const std::string			_port;
