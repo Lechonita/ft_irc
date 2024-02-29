@@ -9,8 +9,8 @@ Client::Client(const int& clientSocket): _clientSocket(clientSocket)
 {
 	std::cout << std::endl;
 	std::cout << "WELCOME" << std::endl;
-	std::cout << ORANGE << "You are not connected to the server yet." << NC << std::endl;
-	std::cout << "Use command PASS followed by <password> to connect." << std::endl;
+	// std::cout << ORANGE << "You are not connected to the server yet." << NC << std::endl;
+	// std::cout << "Use command PASS followed by <password> to connect." << std::endl;
 }
 
 

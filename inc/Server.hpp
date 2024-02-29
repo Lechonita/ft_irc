@@ -24,7 +24,11 @@ public:
 	void	runServer();
 	void	createNewClient();
 	void	getClientMessage();
+
+	// Client_disconnect
 	void	disconnectClient(const int& clientSocket);
+	void	removeClientFromPollFd(const int& clientSocket);
+	void	removeClientFromMap(const int& clientSocket);
 
 	// Debug
 	// void	printClientMap(const std::map<int, Client>  &clientMap);

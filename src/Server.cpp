@@ -167,7 +167,7 @@ void	Server::getClientMessage()
 {
 	if (_nbClients == 0 || _clientMap.size() == 0)
 		return ;
-	
+
 	const int	bufferSize = 1024;
 	char	buffer[bufferSize];
 	
@@ -190,19 +190,11 @@ void	Server::getClientMessage()
 			if (bytesRead == ERROR)
 			{
 				memset(buffer, 0, bufferSize);
-				disconnectClient(it->fd);
+				disconnectClient(clientSocket);
 				return ;
 			}
 		}
 	}
-}
-
-
-
-void	Server::disconnectClient(const int& clientSocket)
-{
-	std::vector<pollfd>	::iterator	it;
-	
 }
 
 

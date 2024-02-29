@@ -25,6 +25,7 @@ SRC_DIR		= ./src
 SRC			+= main.cpp
 SRC			+= Server.cpp
 SRC			+= Client.cpp
+SRC			+= Client_disconnect.cpp
 
 
 vpath %.cpp $(SRC_DIR)

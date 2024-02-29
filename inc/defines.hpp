@@ -27,7 +27,7 @@
 // Colors
 
 # define RED "\033[0;31m"
-# define GREEN "\033[1;32m"
+# define GREEN "\033[0;32m"
 # define ORANGE "\033[0;33m"
 # define NC "\033[0m"
 
