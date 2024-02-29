@@ -9,7 +9,8 @@ Server::Server(const std::string &port, const std::string &password)
 	: _port(port),
 	  _password(password),
 	  _nbClients(0),
-	  _pollFd(0)
+	  _pollFd(0),
+	  _cmdList(setCommandList())
 {
 	// SOCKET : This code creates a TCP socket for IPv6 communication
 	// AF_INET6 = IPv6 Internet protocols
@@ -87,9 +88,11 @@ static void	printClientMap(const std::map<int, Client>  &clientMap)
 	}
 }
 
+
 // Functions
 
-void Server::runServer()
+
+void	Server::runServer()
 {
 	if (poll(&_pollFd[0], _pollFd.size(), TIMEOUT) == ERROR)
 	{
@@ -99,34 +102,24 @@ void Server::runServer()
 
 	if (_pollFd[0].revents == POLLIN)
 	{
-		try {
+		try
+		{
 			createNewClient();
 		}
-		catch (Server::Exception &e) {
+		catch (Server::Exception &e)
+		{
 			std::cout << e.what() << std::endl;
 		}
 	}
 	else
 	{
-		try {
-			getClientMessage();
-		}
-		catch (Server::Exception &e) {
-			std::cout << e.what() << std::endl;
-		}
+		getClientMessage();
 	}
 }
 
 
-void Server::createNewClient()
+void	Server::createNewClient()
 {
-	size_t clientIndex = 0;
-	std::map<int, Client>::iterator it;
-	for (it = _clientMap.begin(); it != _clientMap.end(); ++it)
-	{
-		++clientIndex;
-	}
-
 	struct	sockaddr_in clientAddress;
 	socklen_t			size = sizeof(clientAddress);
 
@@ -150,8 +143,8 @@ void Server::createNewClient()
 			<< " / port = " << ntohs(clientAddress.sin_port) << std::endl;
 
 	// Create the new client object and store it in std::map
-	Client newClient(clientSocket);
-	_clientMap.insert(std::make_pair(clientIndex, newClient));
+	Client	newClient(clientSocket);
+	_clientMap.insert(std::make_pair(clientSocket, newClient));
 	_nbClients += 1;
 
 	_pollFd.push_back(pollfd());
@@ -162,90 +155,92 @@ void Server::createNewClient()
 }
 
 
-
 void	Server::getClientMessage()
 {
 	if (_nbClients == 0 || _clientMap.size() == 0)
 		return ;
 
-	const int	bufferSize = 1024;
-	char	buffer[bufferSize];
+	char	buffer[BUFFERSIZE];
 	
 	std::vector<pollfd>::iterator	it;
 	for(it = _pollFd.begin(); it != _pollFd.end(); ++it)
 	{
 		if (it->revents == POLLIN)
 		{
-			int clientSocket = it->fd;
-			int bytesRead = recv(clientSocket, buffer, bufferSize, 0);
-
-			// Read chunks of data until there is no more data to read
-			while (bytesRead > 0)
-			{
-				std::cout << std::string(buffer, bytesRead) << std::endl;
-				memset(buffer, 0, bufferSize);
-				bytesRead = recv(clientSocket, buffer, bufferSize, 0);
-			}
+			int	clientSocket = it->fd;
+			int	bytesRead = recv(clientSocket, buffer, BUFFERSIZE, 0);
 
 			if (bytesRead == ERROR)
 			{
-				memset(buffer, 0, bufferSize);
+				memset(buffer, 0, BUFFERSIZE);
 				disconnectClient(clientSocket);
 				return ;
 			}
+			else
+			{
+				manageClientMessageReception(buffer, clientSocket);
+				memset(buffer, 0, BUFFERSIZE);
+			}
+
+			// Read chunks of data until there is no more data to read
+			// while (bytesRead > 0)
+			// {
+			// 	std::cout << std::string(buffer, bytesRead) << std::endl;
+			// 	memset(buffer, 0, BUFFERSIZE);
+			// 	bytesRead = recv(clientSocket, buffer, BUFFERSIZE, 0);
+			// }
 		}
 	}
 }
 
 
+
+void		Server::executeCommand(const std::string& line, const std::string& command) const
+{
+	if (command.compare("JOIN") == IS_EQUAL)
+		commandJoin(line);
+}
+
+
+
 // Getters
 
-int Server::getSocketFd() const { return (_serverSocket); }
+int							Server::getSocketFd() const { return (_serverSocket); }
 
-std::string Server::getPassword() const { return (_password); }
+std::string					Server::getPassword() const { return (_password); }
+
+std::vector<std::string>	Server::getCommandList() const { return (_cmdList); }
+
+
+
+// Setters
+
+std::vector<std::string>	Server::setCommandList()
+{
+	std::vector<std::string>	res;
+
+	res.push_back("JOIN");
+	return (res);
+}
 
 
 // Exceptions
 
-const char *Server::Exception::what() const throw()
-{
-	return ("\033[0;31mDefault Server Exception\n\033[0m");
-}
+const char *Server::Exception::what() const throw() { return (ERR_SERVER); }
 
-const char *Server::SocketException::what() const throw()
-{
-	return ("\033[0;31mError: Invalid socket at server creation.\n\033[0m");
-}
+const char *Server::SocketException::what() const throw() { return (ERR_SERVER_SOCKET); }
 
-const char *Server::BindException::what() const throw()
-{
-	return ("\033[0;31mError: failed to bind port.\n\033[0m");
-}
+const char *Server::BindException::what() const throw() { return (ERR_SERVER_BIND); }
 
-const char *Server::ListenException::what() const throw()
-{
-	return ("\033[0;31mError: Failed to listen to socket.\n\033[0m");
-}
+const char *Server::ListenException::what() const throw() { return (ERR_SERVER_LISTEN); }
 
-const char *Server::ConnectionException::what() const throw()
-{
-	return ("\033[0;31mError: Failed to grab connection.\n\033[0m");
-}
+const char *Server::ConnectionException::what() const throw() { return (ERR_SERVER_CONNECT); }
 
-const char *Server::PollException::what() const throw()
-{
-	return ("\033[0;31mError: Bad file descriptor.\n\033[0m");
-}
+const char *Server::PollException::what() const throw() { return (ERR_SERVER_POLL); }
 
-const char *Server::BlockException::what() const throw()
-{
-	return ("\033[0;31mError: Could not set server I/O operations to non-blocking.\n\033[0m");
-}
+const char *Server::BlockException::what() const throw() { return (ERR_SERVER_BLOCK); }
 
-const char *Server::AcceptException::what() const throw()
-{
-	return ("\033[0;31mError: Could not connect new client.\n\033[0m");
-}
+const char *Server::AcceptException::what() const throw() { return (ERR_SERVER_ACCEPT); }
 
 // const char *Server::ReadException::what() const throw()
 // {

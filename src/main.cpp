@@ -36,23 +36,7 @@ int main(int ac, char **av)
 		Server server(port, password);
 
 		while (true)
-		{
-
 			server.runServer();
-
-			// int clientSocket = accept(server.getSocketFd(), NULL, NULL);
-			// if (clientSocket == ERROR)
-			// {
-			// 	std::cerr << "Error accepting connection\n";
-			// 	continue;
-			// }
-			// const char *message = "Hello from the server!";
-			// send(clientSocket, message, strlen(message), 0);
-
-			// close(clientSocket);
-		}
-
-		close(server.getSocketFd());
 	}
 	catch (Server::Exception &e)
 	{

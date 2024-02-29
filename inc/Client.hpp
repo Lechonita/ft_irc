@@ -2,6 +2,9 @@
 #define CLIENT_HPP
 
 #include "../inc/defines.hpp"
+#include "../inc/Server.hpp"
+
+class Server;
 
 class Client
 {
@@ -12,7 +15,18 @@ class Client
 
 
 	// Getters
-	int		getClientSocket() const;
+	int				getClientSocket() const;
+
+
+	// Setters
+	void			setBuffer(const char *buffer);
+
+
+	// Functions
+	void			interpretMessage(const Server& server);
+	void			parseClientMessage(const std::string& line, const Server& server);
+	std::string		getCommandFromLine(const std::string& line) const;
+	bool			isCommandFromList(const std::string& command, const Server& server) const;
 
 
 	// Exceptions
@@ -32,6 +46,7 @@ class Client
 		std::string		_clientUsername;
 		std::string		_clientPassword;
 		std::string		_clientNickname;
+		std::string		_buffer;
 		int				_clientSocket;
 		// bool			_clientStatus;
 };
