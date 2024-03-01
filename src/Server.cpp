@@ -9,8 +9,8 @@ Server::Server(const std::string &port, const std::string &password)
 	: _port(port),
 	  _password(password),
 	  _nbClients(0),
-	  _pollFd(0),
-	  _cmdList(setCommandList())
+	  _pollFd(0)
+	//   _cmdList(setCommandList())
 {
 	// SOCKET : This code creates a TCP socket for IPv6 communication
 	// AF_INET6 = IPv6 Internet protocols
@@ -65,7 +65,8 @@ Server::Server(const std::string &port, const std::string &password)
 
 Server::~Server()
 {
-	std::cout << "Default server destructor." << std::endl;
+	_clientMap.clear();
+	// std::cout << "Default server destructor." << std::endl;
 }
 
 /********************************************************************************/
@@ -195,33 +196,26 @@ void	Server::getClientMessage()
 
 
 
-void		Server::executeCommand(const std::string& line, const std::string& command) const
-{
-	if (command.compare("JOIN") == IS_EQUAL)
-		commandJoin(line);
-}
-
-
-
 // Getters
 
 int							Server::getSocketFd() const { return (_serverSocket); }
 
 std::string					Server::getPassword() const { return (_password); }
 
-std::vector<std::string>	Server::getCommandList() const { return (_cmdList); }
+// std::vector<std::string>	Server::getCommandList() const { return (_cmdList); }
 
 
 
 // Setters
 
-std::vector<std::string>	Server::setCommandList()
-{
-	std::vector<std::string>	res;
+// std::vector<std::string>	Server::setCommandList()
+// {
+// 	std::vector<std::string>	res;
 
-	res.push_back("JOIN");
-	return (res);
-}
+// 	res.push_back("JOIN");
+// 	res.push_back("PASS");
+// 	return (res);
+// }
 
 
 // Exceptions

@@ -1,13 +1,15 @@
 #ifndef SERVER_HPP
 #define SERVER_HPP
 
+
 #include "../inc/Client.hpp"
-// #include "../inc/Channel.hpp"
+#include "../inc/Channel.hpp"
 #include "../inc/defines.hpp"
+
 
 class Client;
 
-// class Channel;
+class Channel;
 
 class Server
 {
@@ -18,16 +20,15 @@ class Server
 		// Getters
 		int							getSocketFd() const;
 		std::string					getPassword() const;
-		std::vector<std::string>	getCommandList() const;
+		// std::vector<std::string>	getCommandList() const;
 
 		// Setters
-		std::vector<std::string>	setCommandList();
+		// std::vector<std::string>	setCommandList();
 
 		// Functions
 		void						runServer();
 		void						createNewClient();
 		void						getClientMessage();
-		void						executeCommand(const std::string& line, const std::string& command) const;
 
 		// Client message reception
 		void						manageClientMessageReception(const char *buffer, const int& clientSocket);
@@ -40,7 +41,8 @@ class Server
 		void						removeClientFromMap(const int& clientSocket);
 
 		// Commands
-		void			commandJoin(const std::string& str) const;
+		void						executeCommand(const std::string& line, const std::string& command) const;
+		void						commandJOIN(const std::string& str) const;
 
 
 		// Debug
@@ -101,9 +103,9 @@ class Server
 		int									_bind; // assign an IP address and port to the socket
 		int									_listen; // marks a socket as passive - used to accept connections
 		std::vector<pollfd>					_pollFd; // poll descriptors, one per client connection
-		std::vector<std::string>			_cmdList; // command function pointers indexed
+		// std::vector<std::string>			_cmdList; // command function pointers indexed
 		std::map<int, Client>				_clientMap; // map of client sockets
-		// std::map<int, Channel>			_channelMap; // map of channel sockets
+		std::map<int, Channel>				_channelMap; // map of channel sockets
 };
 
 #endif

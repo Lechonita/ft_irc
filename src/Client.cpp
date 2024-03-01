@@ -31,7 +31,8 @@ Client::~Client()
 
 // Getters
 
-int		Client::getClientSocket() const { return (_clientSocket); }
+int				Client::getClientSocket() const { return (_clientSocket); }
+std::string		Client::getClientUsername() const { return (_clientUsername); }
 
 
 // Setters
@@ -43,6 +44,7 @@ void	Client::setBuffer(const char *buffer) { _buffer += buffer; }
 
 void	Client::interpretMessage(const Server& server)
 {
+	printf("Je rentre dans interpretMessage\n");
 	if (_buffer.empty() == true)
 		return ;
 
@@ -55,7 +57,7 @@ void	Client::interpretMessage(const Server& server)
 		std::string	line = _buffer.substr(0, pos);
 
 		if (line.empty() == false)
-			parseClientMessage(line, server);
+			findCommandInMessage(line, server);
 
 		_buffer.erase(0, _buffer.find("\n") + 1);
 		pos = _buffer.find("\r\n");
@@ -79,47 +81,6 @@ void	Client::interpretMessage(const Server& server)
 	// 		sendPublicMessage(&server);
 	// 	_buffer.clear();
 	// }
-}
-
-
-
-void	Client::parseClientMessage(const std::string& line, const Server& server)
-{
-	const std::string		command = getCommandFromLine(line);
-
-	if (command.empty() == true)
-		return ;
-	
-	if (isCommandFromList(command, server) == false)
-		return ;
-	
-	server.executeCommand(line, command);
-}
-
-
-std::string		Client::getCommandFromLine(const std::string& line) const
-{
-	std::string		command;
-	
-	for(size_t i = 0; i < line.size(); ++i)
-	{
-		if (isspace(line[i]) == true)
-			break ;
-		command[i] = line[i];
-	}
-	return (command);
-}
-
-
-bool	Client::isCommandFromList(const std::string& command, const Server& server) const
-{
-	std::vector<std::string>::iterator	it;
-	for(it = server.getCommandList().begin(); it != server.getCommandList().end(); ++it)
-	{
-		if ((*it).compare(command) == IS_EQUAL)
-			return (true);
-	}
-	return (false);
 }
 
 

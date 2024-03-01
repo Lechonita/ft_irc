@@ -9,6 +9,7 @@
 # include <cstdlib>
 # include <cstring>
 # include <fcntl.h>
+# include <stdio.h>
 # include <unistd.h>
 # include <iostream>
 # include <exception>
@@ -39,8 +40,7 @@
 # define MAX_CLIENTS 10
 # define TIMEOUT 10000
 # define BUFFERSIZE 1024
-# define NB_CMDS 1
-# define IS_EQUAL 0
+# define SPACE " "
 # define CONNECTED true
 # define DISCONNECTED false
 
@@ -60,5 +60,10 @@
 
 # define ERR_CLIENT "\033[0;31mDefault Client Exception\n\033[0m"
 # define ERR_CLIENT_BLOCK "\033[0;31mError: Could not set client I/O operations to non-blocking.\n\033[0m"
+
+
+// Constructor messages
+
+// # define SERVER_C ""
 
 #endif

@@ -16,6 +16,7 @@ class Client
 
 	// Getters
 	int				getClientSocket() const;
+	std::string		getClientUsername() const;
 
 
 	// Setters
@@ -24,9 +25,12 @@ class Client
 
 	// Functions
 	void			interpretMessage(const Server& server);
-	void			parseClientMessage(const std::string& line, const Server& server);
+
+
+	// Commands
+	void			findCommandInMessage(const std::string& line, const Server& server);
 	std::string		getCommandFromLine(const std::string& line) const;
-	bool			isCommandFromList(const std::string& command, const Server& server) const;
+	// bool			isCommandFromList(const std::string& command, const Server& server) const;
 
 
 	// Exceptions
