@@ -20,6 +20,7 @@ class Server
 		// Getters
 		int							getSocketFd() const;
 		std::string					getPassword() const;
+		std::map<int, Client>		getClientMap() const;
 		// std::vector<std::string>	getCommandList() const;
 
 		// Setters
@@ -41,9 +42,13 @@ class Server
 		void						removeClientFromMap(const int& clientSocket);
 
 		// Commands
-		void						executeCommand(const std::string& line, const std::string& command) const;
-		void						commandJOIN(const std::string& str) const;
+		std::string					eraseCommandfromLine(const std::string& line, const std::string& command) const;
+		void						executeCommand(const std::string& line, const std::string& command, Client& client) const;
+		void						commandJOIN(const std::string& line, const std::string& command) const;
+		void						commandNICK(const std::string& line, const std::string& command, Client& client) const;
 
+		// Commands_utils
+		bool						isValidNickname(const std::string& nickname) const;
 
 		// Debug
 		// void	printClientMap(const std::map<int, Client>  &clientMap);

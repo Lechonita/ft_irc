@@ -8,13 +8,6 @@
 /********************************************************************************/
 
 
-static bool	 isSpace(const char& c)
-{
-	return (std::isspace(static_cast<unsigned char>(c)));
-}
-
-
-
 void	Client::findCommandInMessage(const std::string& line, const Server& server)
 {
 	const std::string		command = getCommandFromLine(line);
@@ -25,7 +18,7 @@ void	Client::findCommandInMessage(const std::string& line, const Server& server)
 	// if (isCommandFromList(command, server) == false)
 	// 	return ;
 
-	server.executeCommand(line, command);
+	server.executeCommand(line, command, *this);
 }
 
 
@@ -36,7 +29,7 @@ std::string		Client::getCommandFromLine(const std::string& line) const
 
 	for(size_t i = 0; i < line.size(); ++i)
 	{
-		if (isSpace(line[i]) == true)
+		if (isspace(line[i]) == true)
 			break ;
 		command += line[i];
 	}
@@ -61,18 +54,51 @@ std::string		Client::getCommandFromLine(const std::string& line) const
 /********************************************************************************/
 
 
-void		Server::commandJOIN(const std::string& str) const
+// Command Functions
+
+void		Server::commandJOIN(const std::string& line, const std::string& command) const
 {
+	std::string		str;
+	str = eraseCommandfromLine(line, command);
 	// si channel existe, rejoindre  le channel
-	// si channel n'existe pas, créer un serveur et le rejoindre
+	// si channel n'existe pas, créer un channel et le rejoindre
 }
 
 
 
-void		Server::executeCommand(const std::string& line, const std::string& command) const
+void		Server::commandNICK(const std::string& line, const std::string& command, Client& client) const
+{
+	std::string		nickname;
+	nickname = eraseCommandfromLine(line, command);
+
+	try
+	{
+		if (isValidNickname(nickname) == true)
+			client.setNickname(nickname);
+	}
+	catch (Server::Exception &e)
+	{
+		std::cout << e.what() << std::endl;
+	}
+}
+
+
+
+std::string		Server::eraseCommandfromLine(const std::string& line, const std::string& command) const
+{
+	std::string		res;
+	res = line.substr(command.size() + 1);
+	return (res);
+}
+
+
+
+void		Server::executeCommand(const std::string& line, const std::string& command, Client& client) const
 {
 	if (command == "JOIN")
-		commandJOIN(line);
+		commandJOIN(line, command);
+	else if (command == "NICK")
+		commandNICK(line, command, client);
 	else
 		return ;
 }

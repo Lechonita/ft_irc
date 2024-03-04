@@ -33,11 +33,19 @@ Client::~Client()
 
 int				Client::getClientSocket() const { return (_clientSocket); }
 std::string		Client::getClientUsername() const { return (_clientUsername); }
+std::string		Client::getClientNickname() const { return (_clientNickname); }
 
 
 // Setters
 
 void	Client::setBuffer(const char *buffer) { _buffer += buffer; }
+
+void	Client::setNickname(const std::string& nickname)
+{
+	if (_clientNickname.empty() == false)
+		_clientNickname = nullptr;
+	_clientNickname = nickname;
+}
 
 
 // Functions

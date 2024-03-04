@@ -29,6 +29,7 @@ SRC			+= Server.cpp
 SRC			+= Client.cpp
 SRC			+= Channel.cpp
 SRC			+= Commands.cpp
+SRC			+= Commands_utils.cpp
 # SRC			+= irc_utils.cpp
 SRC			+= Client_disconnect.cpp
 SRC			+= Client_message_reception.cpp

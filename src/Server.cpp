@@ -162,7 +162,7 @@ void	Server::getClientMessage()
 		return ;
 
 	char	buffer[BUFFERSIZE];
-	
+
 	std::vector<pollfd>::iterator	it;
 	for(it = _pollFd.begin(); it != _pollFd.end(); ++it)
 	{
@@ -199,8 +199,8 @@ void	Server::getClientMessage()
 // Getters
 
 int							Server::getSocketFd() const { return (_serverSocket); }
-
 std::string					Server::getPassword() const { return (_password); }
+std::map<int, Client>		Server::getClientMap() const { return (_clientMap); }
 
 // std::vector<std::string>	Server::getCommandList() const { return (_cmdList); }
 
