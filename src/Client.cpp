@@ -44,7 +44,6 @@ void	Client::setBuffer(const char *buffer) { _buffer += buffer; }
 
 void	Client::interpretMessage(const Server& server)
 {
-	printf("Je rentre dans interpretMessage\n");
 	if (_buffer.empty() == true)
 		return ;
 
