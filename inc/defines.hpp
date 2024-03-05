@@ -40,7 +40,9 @@
 # define MAX_CLIENTS 10
 # define TIMEOUT 10000
 # define BUFFERSIZE 1024
-# define SPACE " "
+# define NOT_WHITESPACE 0
+# define EQUAL 0
+# define EMPTY ""
 # define CONNECTED true
 # define DISCONNECTED false
 

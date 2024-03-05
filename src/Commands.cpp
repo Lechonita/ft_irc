@@ -29,7 +29,8 @@ std::string		Client::getCommandFromLine(const std::string& line) const
 
 	for(size_t i = 0; i < line.size(); ++i)
 	{
-		if (isspace(line[i]) == true)
+		printf("  -%c-\n", line[i]);
+		if (isspace(line[i]) != NOT_WHITESPACE)
 			break ;
 		command += line[i];
 	}
@@ -71,15 +72,8 @@ void		Server::commandNICK(const std::string& line, const std::string& command, C
 	std::string		nickname;
 	nickname = eraseCommandfromLine(line, command);
 
-	try
-	{
-		if (isValidNickname(nickname) == true)
-			client.setNickname(nickname);
-	}
-	catch (Server::Exception &e)
-	{
-		std::cout << e.what() << std::endl;
-	}
+	if (isValidNickname(nickname) == true)
+		client.setNickname(nickname);
 }
 
 
@@ -95,6 +89,7 @@ std::string		Server::eraseCommandfromLine(const std::string& line, const std::st
 
 void		Server::executeCommand(const std::string& line, const std::string& command, Client& client) const
 {
+	printf("Entering execute command with -%s-\n", command.c_str());
 	if (command == "JOIN")
 		commandJOIN(line, command);
 	else if (command == "NICK")

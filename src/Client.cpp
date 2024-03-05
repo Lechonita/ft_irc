@@ -7,10 +7,10 @@
 
 Client::Client(const int& clientSocket): _clientSocket(clientSocket)
 {
-	_clientUsername = "";
-	_clientPassword = "";
-	_clientNickname = "";
-	_buffer = "";
+	_clientUsername = EMPTY;
+	_clientPassword = EMPTY;
+	_clientNickname = EMPTY;
+	_buffer = EMPTY;
 
 	std::cout << std::endl;
 	std::cout << "WELCOME" << std::endl;
@@ -43,7 +43,10 @@ void	Client::setBuffer(const char *buffer) { _buffer += buffer; }
 void	Client::setNickname(const std::string& nickname)
 {
 	if (_clientNickname.empty() == false)
-		_clientNickname = nullptr;
+	{
+		std::cout << ORANGE << "You have changed your nickname from <" << _clientNickname << "> to <" << nickname << ">" << NC << std::endl;
+		_clientNickname.clear();
+	}
 	_clientNickname = nickname;
 }
 
@@ -61,6 +64,7 @@ void	Client::interpretMessage(const Server& server)
 
 	while (pos != std::string::npos)
 	{
+		printf("buffer substr = -%s-\n", _buffer.substr(0, pos).c_str());
 		std::string	line = _buffer.substr(0, pos);
 
 		if (line.empty() == false)
