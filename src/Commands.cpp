@@ -83,8 +83,9 @@ bool	Commands::passwordIsSetup(const std::string& password, const int clientSock
 			// 462 ERR_ALREADYREGISTRED
 			perror(PERR_SEND);
 		}
-		return ;
+		return (true);
 	}
+	return (true);
 }
 
 
@@ -99,8 +100,9 @@ bool	Commands::nicknameIsSetup(const std::string& nickname, const int clientSock
 			// 462 ERR_ALREADYREGISTRED
 			perror(PERR_SEND);
 		}
-		return ;
+		return (true);
 	}
+	return (true);
 }
 
 

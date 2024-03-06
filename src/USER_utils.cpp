@@ -5,6 +5,8 @@
 
 bool		Commands::areValidUserParameters(const std::string& userInfo, const Server& server)
 {
+	(void)userInfo;
+	(void)server;
 	// USER alice * 192.168.1.10 :Alice Smith
 
 	// USER: This is the command itself.
@@ -12,4 +14,5 @@ bool		Commands::areValidUserParameters(const std::string& userInfo, const Server
 	// *: This is typically an unused parameter in modern IRC implementations, similar to the previous example.
 	// 192.168.1.10: This is the hostname or IP address of the new user.
 	// :Alice Smith: This is the realname of the new user.
+	// return (true);
 }
