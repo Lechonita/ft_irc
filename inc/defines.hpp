@@ -62,6 +62,7 @@
 // COMMANDS Error messages
 
 # define PASS_NOT_ENTERED "\033[0;33m> Please use PASS command to enter server password first <\n\033[0m"
+# define NICK_NOT_ENTERED "\033[0;33m> Please set Nickname first (use NICK command) <\n\033[0m"
 # define PASS_ALREADY_ENTERED "\033[0;33m> Password has already been entered <\n\033[0m"
 # define ERR_NEEDMOREPARAMS "\033[0;33m461: Not enough parameters.\n\033[0m"
 # define ERR_PASSWDMISMATCH "\033[0;33m464: Password incorrect.\n\033[0m"

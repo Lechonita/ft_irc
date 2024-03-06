@@ -17,16 +17,21 @@ class Commands
 		static void			commandJOIN(const std::string& line, const std::string& command);
 		static void			commandPASS(const std::string& line, const std::string& command, Client& client, const Server& server);
 		static void			commandNICK(const std::string& line, const std::string& command, Client& client, const Server& server);
+		static void			commandUSER(const std::string& line, const std::string& command, Client& client, const Server& server);
 		
 		
 		// Util functions
-		static void			findCommandInMessage(const std::string& line, const Server& server, Client& client);
 		static std::string	getCommandFromLine(const std::string& line);
-		static void			executeCommand(const std::string& line, const std::string& command, const Server& server, Client& client);
 		static std::string	eraseCommandfromLine(const std::string& line, const std::string& command);
-		
+		static void			findCommandInMessage(const std::string& line, const Server& server, Client& client);
+		static void			executeCommand(const std::string& line, const std::string& command, const Server& server, Client& client);
+		static bool			commandParameterExists(const std::string& parameter, const std::string& command, const int clientSocket);
+		static bool			passwordIsSetup(const std::string& password, const int clientSocket, const std::string& command);
+		static bool			nicknameIsSetup(const std::string& nickname, const int clientSocket, const std::string& command);
+
 		static bool			isValidNickname(const std::string& nickname, const Server& server);
-		static bool			isValidPassword(const std::string& nickname, const Client& client, const Server& server);
+		static bool			isValidPassword(const std::string& password, const Client& client, const Server& server);
+		static bool			areValidUserParameters(const std::string& userInfo, const Server& server);
 
 
 
