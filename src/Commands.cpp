@@ -38,23 +38,32 @@ std::string		Commands::getCommandFromLine(const std::string& line)
 }
 
 
+
 void		Commands::executeCommand(const std::string& line, const std::string& command, const Server& server, Client& client)
 {
 	if (command == "JOIN")
 		Commands::commandJOIN(line, command);
 	else if (command == "PASS")
-		Commands::commandPASS(line, command, client);
+		Commands::commandPASS(line, command, client, server);
 	else if (command == "NICK")
 		Commands::commandNICK(line, command, client, server);
 	else
-		return ;
+	{
+		if (send(client.getClientSocket(), ERR_UNKNOWNCOMMAND,  strlen(ERR_UNKNOWNCOMMAND), 0) == ERROR)
+		{
+			// 421 ERR_UNKNOWNCOMMAND <command>
+			perror(PERR_SEND);
+		}
+	}
 }
-
 
 
 
 std::string		Commands::eraseCommandfromLine(const std::string& line, const std::string& command)
 {
+	if (line.length() == command.length())
+		return (EMPTY);
+
 	std::string		res;
 	res = line.substr(command.size() + 1);
 	return (res);
@@ -77,14 +86,36 @@ void		Commands::commandJOIN(const std::string& line, const std::string& command)
 }
 
 
+
 // PASS
 
-void			Commands::commandPASS(const std::string& line, const std::string& command, Client& client)
+void		Commands::commandPASS(const std::string& line, const std::string& command, Client& client, const Server& server)
 {
-	(void)line;
-	(void)command;
-	(void)client;
+	if (client.getClientPassword() != EMPTY)
+	{
+		if (send(client.getClientSocket(), PASS_ALREADY_ENTERED,  strlen(PASS_ALREADY_ENTERED), 0) == ERROR)
+		{
+			// 462 ERR_ALREADYREGISTRED
+			perror(PERR_SEND);
+		}
+		return ;
+	}
+
+	const std::string	password = eraseCommandfromLine(line, command);
+	if (password == EMPTY)
+	{
+		// 461 ERR_NEEDMOREPARAMS <command>
+		if (send(client.getClientSocket(), ERR_NEEDMOREPARAMS,  strlen(ERR_NEEDMOREPARAMS), 0) == ERROR)
+		{
+			perror(PERR_SEND);
+		}
+		return ;
+	}
+
+	if (isValidPassword(password, client, server) == true)
+		client.setPassword(password);
 }
+
 
 
 // NICK
@@ -93,12 +124,22 @@ void		Commands::commandNICK(const std::string& line, const std::string& command,
 {
 	if (client.getClientPassword() == EMPTY)
 	{
-		if (send(client.getClientSocket(), NO_PASS,  strlen(NO_PASS), 0) == ERROR)
+		if (send(client.getClientSocket(), PASS_NOT_ENTERED,  strlen(PASS_NOT_ENTERED), 0) == ERROR)
+		{
 			perror(PERR_SEND);
+		}
+		return ;
 	}
 
-	std::string		nickname;
-	nickname = eraseCommandfromLine(line, command);
+	const std::string	nickname = eraseCommandfromLine(line, command);
+	if (nickname == EMPTY)
+	{
+		if (send(client.getClientSocket(), ERR_NEEDMOREPARAMS,  strlen(ERR_NEEDMOREPARAMS), 0) == ERROR)
+		{
+			perror(PERR_SEND);
+		}
+		return ;
+	}
 
 	if (isValidNickname(nickname, server) == true)
 		client.setNickname(nickname);

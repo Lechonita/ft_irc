@@ -31,6 +31,7 @@ SRC			+= Client.cpp
 SRC			+= Channel.cpp
 SRC			+= Commands.cpp
 SRC			+= NICK_utils.cpp
+SRC			+= PASS_utils.cpp
 # SRC			+= irc_utils.cpp
 SRC			+= Client_disconnect.cpp
 SRC			+= Client_message_reception.cpp

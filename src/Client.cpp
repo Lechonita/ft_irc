@@ -41,15 +41,35 @@ std::string		Client::getClientPassword() const { return (_clientPassword); }
 // Setters
 
 void	Client::setBuffer(const char *buffer) { _buffer += buffer; }
+void	Client::setPassword(const std::string& password)
+{
+	_clientPassword = password;
+	if (send(getClientSocket(), PASS_OK,  strlen(PASS_OK), 0) == ERROR)
+	{
+		perror(PERR_SEND);
+	}
+}
 
 void	Client::setNickname(const std::string& nickname)
 {
 	if (_clientNickname.empty() == false)
 	{
-		std::cout << ORANGE << "You have changed your nickname from <" << _clientNickname << "> to <" << nickname << ">" << NC << std::endl;
+		if (send(getClientSocket(), NICK_CHANGED,  strlen(NICK_CHANGED), 0) == ERROR)
+		{
+			perror(PERR_SEND);
+		}
 		_clientNickname.clear();
+		_clientNickname = nickname;
 	}
-	_clientNickname = nickname;
+	else
+	{
+		if (send(getClientSocket(), NICK_OK,  strlen(NICK_OK), 0) == ERROR)
+		{
+			perror(PERR_SEND);
+		}
+		_clientNickname = nickname;
+	}
+	
 }
 
 

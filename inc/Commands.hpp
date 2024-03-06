@@ -15,7 +15,7 @@ class Commands
 
 		// Command functions
 		static void			commandJOIN(const std::string& line, const std::string& command);
-		static void			commandPASS(const std::string& line, const std::string& command, Client& client);
+		static void			commandPASS(const std::string& line, const std::string& command, Client& client, const Server& server);
 		static void			commandNICK(const std::string& line, const std::string& command, Client& client, const Server& server);
 		
 		
@@ -24,8 +24,9 @@ class Commands
 		static std::string	getCommandFromLine(const std::string& line);
 		static void			executeCommand(const std::string& line, const std::string& command, const Server& server, Client& client);
 		static std::string	eraseCommandfromLine(const std::string& line, const std::string& command);
+		
 		static bool			isValidNickname(const std::string& nickname, const Server& server);
-
+		static bool			isValidPassword(const std::string& nickname, const Client& client, const Server& server);
 
 
 

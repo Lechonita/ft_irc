@@ -43,6 +43,7 @@
 # define NOT_WHITESPACE 0
 # define EQUAL 0
 # define EMPTY ""
+# define MAX_NICK_LEN 9
 # define CONNECTED true
 # define DISCONNECTED false
 
@@ -57,8 +58,21 @@
 # define ERR_SERVER_BLOCK "\033[0;31mError: Could not set server I/O operations to non-blocking.\n\033[0m"
 # define ERR_SERVER_ACCEPT "\033[0;31mError: Could not connect new client.\n\033[0m"
 
-# define NO_PASS "\033[0;33m> Please use PASS command to enter server password first <\n\033[0m"
 
+// COMMANDS Error messages
+
+# define PASS_NOT_ENTERED "\033[0;33m> Please use PASS command to enter server password first <\n\033[0m"
+# define PASS_ALREADY_ENTERED "\033[0;33m> Password has already been entered <\n\033[0m"
+# define ERR_NEEDMOREPARAMS "\033[0;33m461: Not enough parameters.\n\033[0m"
+# define ERR_PASSWDMISMATCH "\033[0;33m464: Password incorrect.\n\033[0m"
+# define ERR_UNKNOWNCOMMAND "\033[0;33m421: Unknown command.\n\033[0m"
+
+
+// COMMANDS Messages
+
+# define PASS_OK "\033[0;32mPassword correct !\033[0m Please set up Nickname now (use NICK command).\n"
+# define NICK_OK "\033[0;32mNickname has been set !\033[0m Please set up Username now (use USER command).\n"
+# define NICK_CHANGED "\033[0;32mYour nickname has been changed successfuly.\n\033[0m"
 
 // CLIENT Error messages
 

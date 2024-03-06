@@ -24,6 +24,7 @@ class Client
 	// Setters
 	void			setBuffer(const char *buffer);
 	void			setNickname(const std::string& nickname);
+	void			setPassword(const std::string& password);
 
 
 	// Functions
