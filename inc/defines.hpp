@@ -57,12 +57,18 @@
 # define ERR_SERVER_BLOCK "\033[0;31mError: Could not set server I/O operations to non-blocking.\n\033[0m"
 # define ERR_SERVER_ACCEPT "\033[0;31mError: Could not connect new client.\n\033[0m"
 
+# define NO_PASS "\033[0;33m> Please use PASS command to enter server password first <\n\033[0m"
+
 
 // CLIENT Error messages
 
 # define ERR_CLIENT "\033[0;31mDefault Client Exception\n\033[0m"
 # define ERR_CLIENT_BLOCK "\033[0;31mError: Could not set client I/O operations to non-blocking.\n\033[0m"
 
+
+// Perror messages
+
+# define PERR_SEND "send: "
 
 // Constructor messages
 

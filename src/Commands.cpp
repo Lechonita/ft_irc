@@ -1,14 +1,15 @@
+#include "../inc/Commands.hpp"
+#include "../inc/defines.hpp"
 #include "../inc/Server.hpp"
 #include "../inc/Client.hpp"
-#include "../inc/defines.hpp"
 
 
 /********************************************************************************/
-/************************** CLIENT CLASS FUNCTIONS ******************************/
+/****************************** UTIL FUNCTIONS **********************************/
 /********************************************************************************/
 
 
-void	Client::findCommandInMessage(const std::string& line, const Server& server)
+void	Commands::findCommandInMessage(const std::string& line, const Server& server, Client& client)
 {
 	const std::string		command = getCommandFromLine(line);
 
@@ -18,18 +19,17 @@ void	Client::findCommandInMessage(const std::string& line, const Server& server)
 	// if (isCommandFromList(command, server) == false)
 	// 	return ;
 
-	server.executeCommand(line, command, *this);
+	Commands::executeCommand(line, command, server, client);
 }
 
 
 
-std::string		Client::getCommandFromLine(const std::string& line) const
+std::string		Commands::getCommandFromLine(const std::string& line)
 {
 	std::string	command;
 
 	for(size_t i = 0; i < line.size(); ++i)
 	{
-		printf("  -%c-\n", line[i]);
 		if (isspace(line[i]) != NOT_WHITESPACE)
 			break ;
 		command += line[i];
@@ -38,26 +38,37 @@ std::string		Client::getCommandFromLine(const std::string& line) const
 }
 
 
-// bool	Client::isCommandFromList(const std::string& command, const Server& server) const
-// {
-// 	std::vector<std::string>::iterator	it;
-// 	for(it = server.getCommandList().begin(); it != server.getCommandList().end(); ++it)
-// 	{
-// 		if ((*it) == command)
-// 			return (true);
-// 	}
-// 	return (false);
-// }
+void		Commands::executeCommand(const std::string& line, const std::string& command, const Server& server, Client& client)
+{
+	if (command == "JOIN")
+		Commands::commandJOIN(line, command);
+	else if (command == "PASS")
+		Commands::commandPASS(line, command, client);
+	else if (command == "NICK")
+		Commands::commandNICK(line, command, client, server);
+	else
+		return ;
+}
+
+
+
+
+std::string		Commands::eraseCommandfromLine(const std::string& line, const std::string& command)
+{
+	std::string		res;
+	res = line.substr(command.size() + 1);
+	return (res);
+}
 
 
 /********************************************************************************/
-/************************** SERVER CLASS FUNCTIONS ******************************/
+/***************************** COMMAND FUNCTIONS ********************************/
 /********************************************************************************/
 
 
-// Command Functions
+// JOIN
 
-void		Server::commandJOIN(const std::string& line, const std::string& command) const
+void		Commands::commandJOIN(const std::string& line, const std::string& command)
 {
 	std::string		str;
 	str = eraseCommandfromLine(line, command);
@@ -66,34 +77,29 @@ void		Server::commandJOIN(const std::string& line, const std::string& command) c
 }
 
 
+// PASS
 
-void		Server::commandNICK(const std::string& line, const std::string& command, Client& client) const
+void			Commands::commandPASS(const std::string& line, const std::string& command, Client& client)
 {
+	(void)line;
+	(void)command;
+	(void)client;
+}
+
+
+// NICK
+
+void		Commands::commandNICK(const std::string& line, const std::string& command, Client& client, const Server& server)
+{
+	if (client.getClientPassword() == EMPTY)
+	{
+		if (send(client.getClientSocket(), NO_PASS,  strlen(NO_PASS), 0) == ERROR)
+			perror(PERR_SEND);
+	}
+
 	std::string		nickname;
 	nickname = eraseCommandfromLine(line, command);
 
-	if (isValidNickname(nickname) == true)
+	if (isValidNickname(nickname, server) == true)
 		client.setNickname(nickname);
-}
-
-
-
-std::string		Server::eraseCommandfromLine(const std::string& line, const std::string& command) const
-{
-	std::string		res;
-	res = line.substr(command.size() + 1);
-	return (res);
-}
-
-
-
-void		Server::executeCommand(const std::string& line, const std::string& command, Client& client) const
-{
-	printf("Entering execute command with -%s-\n", command.c_str());
-	if (command == "JOIN")
-		commandJOIN(line, command);
-	else if (command == "NICK")
-		commandNICK(line, command, client);
-	else
-		return ;
 }

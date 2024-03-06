@@ -41,14 +41,7 @@ class Server
 		void						removeClientFromPollFd(const int& clientSocket);
 		void						removeClientFromMap(const int& clientSocket);
 
-		// Commands
-		std::string					eraseCommandfromLine(const std::string& line, const std::string& command) const;
-		void						executeCommand(const std::string& line, const std::string& command, Client& client) const;
-		void						commandJOIN(const std::string& line, const std::string& command) const;
-		void						commandNICK(const std::string& line, const std::string& command, Client& client) const;
 
-		// Commands_utils
-		bool						isValidNickname(const std::string& nickname) const;
 
 		// Debug
 		// void	printClientMap(const std::map<int, Client>  &clientMap);

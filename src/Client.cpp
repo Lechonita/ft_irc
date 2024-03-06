@@ -1,5 +1,6 @@
 #include "../inc/Client.hpp"
 #include "../inc/defines.hpp"
+#include "../inc/Commands.hpp"
 
 /********************************************************************************/
 /*************************** CONSTRUCTOR / DESTRUCTOR ***************************/
@@ -34,6 +35,7 @@ Client::~Client()
 int				Client::getClientSocket() const { return (_clientSocket); }
 std::string		Client::getClientUsername() const { return (_clientUsername); }
 std::string		Client::getClientNickname() const { return (_clientNickname); }
+std::string		Client::getClientPassword() const { return (_clientPassword); }
 
 
 // Setters
@@ -64,34 +66,16 @@ void	Client::interpretMessage(const Server& server)
 
 	while (pos != std::string::npos)
 	{
-		printf("buffer substr = -%s-\n", _buffer.substr(0, pos).c_str());
 		std::string	line = _buffer.substr(0, pos);
 
 		if (line.empty() == false)
-			findCommandInMessage(line, server);
+			Commands::findCommandInMessage(line, server, *this);
 
 		_buffer.erase(0, _buffer.find("\n") + 1);
 		pos = _buffer.find("\r\n");
 		if (pos == std::string::npos)
 			pos = _buffer.find("\n");
 	}
-
-	// if (!(_buffer.empty()))
-	// {
-	// 	char	command[10];
-	// 	toupperBuff(command, _buffer.c_str());
-
-	// 	// If it's a message from the client to the server
-	// 	if (isalpha((unsigned char)*command))
-	// 	{
-	// 		handleCommandFromClientToServer();
-	// 	}
-	// 	else if (*command == ':') // It's a private message
-	// 		handlePrivateMessage(&server);
-	// 	else // It's a public message
-	// 		sendPublicMessage(&server);
-	// 	_buffer.clear();
-	// }
 }
 
 

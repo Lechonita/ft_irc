@@ -1,5 +1,6 @@
 #include "../inc/Server.hpp"
 #include "../inc/defines.hpp"
+#include "../inc/Commands.hpp"
 
 
 // Command NICK
@@ -30,7 +31,7 @@ static bool	isValidCharacter(const char c)
 
 
 
-bool	Server::isValidNickname(const std::string& nickname) const
+bool	Commands::isValidNickname(const std::string& nickname, const Server& server)
 {
 	// ERR 432 "<nick> :Erroneus nickname"
 	for(size_t i = 0; i < nickname.size(); ++i)
@@ -49,7 +50,7 @@ bool	Server::isValidNickname(const std::string& nickname) const
 		return (false);
 	}
 
-	if (nicknameAlreadyExists(nickname, *this) == true)
+	if (nicknameAlreadyExists(nickname, server) == true)
 	{
 		std::cout << RED << "Error: Nickname already exists." << NC << std::endl;
 		return (false);
