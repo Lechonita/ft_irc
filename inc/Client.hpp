@@ -17,10 +17,13 @@ class Client
 	// Getters
 	int				getClientSocket() const;
 	std::string		getClientUsername() const;
+	std::string		getClientNickname() const;
+	std::string		getClientPassword() const;
 
 
 	// Setters
 	void			setBuffer(const char *buffer);
+	void			setNickname(const std::string& nickname);
 
 
 	// Functions
@@ -28,8 +31,6 @@ class Client
 
 
 	// Commands
-	void			findCommandInMessage(const std::string& line, const Server& server);
-	std::string		getCommandFromLine(const std::string& line) const;
 	// bool			isCommandFromList(const std::string& command, const Server& server) const;
 
 

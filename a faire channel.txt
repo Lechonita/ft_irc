@@ -7,4 +7,5 @@ A faire pour les channels:
 		- ses clients
 		- ses modes
 		- son operator
+		- son topic
 	-

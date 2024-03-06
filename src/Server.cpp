@@ -139,9 +139,9 @@ void	Server::createNewClient()
 		throw(BlockException());
 	}
 
-	std::cout << "New connection - Client fd = " << clientSocket
-			<< " / ip = " << inet_ntoa(clientAddress.sin_addr)
-			<< " / port = " << ntohs(clientAddress.sin_port) << std::endl;
+	std::cout << "[ New connection ] Client fd = " << clientSocket
+			<< "  /  ip = " << inet_ntoa(clientAddress.sin_addr)
+			<< "  /  port = " << ntohs(clientAddress.sin_port) << std::endl;
 
 	// Create the new client object and store it in std::map
 	Client	newClient(clientSocket);
@@ -179,17 +179,10 @@ void	Server::getClientMessage()
 			}
 			else
 			{
+				buffer[bytesRead] = '\0';
 				manageClientMessageReception(buffer, clientSocket);
 				memset(buffer, 0, BUFFERSIZE);
 			}
-
-			// Read chunks of data until there is no more data to read
-			// while (bytesRead > 0)
-			// {
-			// 	std::cout << std::string(buffer, bytesRead) << std::endl;
-			// 	memset(buffer, 0, BUFFERSIZE);
-			// 	bytesRead = recv(clientSocket, buffer, BUFFERSIZE, 0);
-			// }
 		}
 	}
 }
@@ -199,8 +192,8 @@ void	Server::getClientMessage()
 // Getters
 
 int							Server::getSocketFd() const { return (_serverSocket); }
-
 std::string					Server::getPassword() const { return (_password); }
+std::map<int, Client>		Server::getClientMap() const { return (_clientMap); }
 
 // std::vector<std::string>	Server::getCommandList() const { return (_cmdList); }
 

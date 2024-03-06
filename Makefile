@@ -16,6 +16,7 @@ HDR			+= Server.hpp
 HDR			+= Client.hpp
 HDR			+= defines.hpp
 HDR			+= Channel.hpp
+HDR			+= Commands.hpp
 HDR			+= Utils.hpp
 # HDR			+= irc_utils.hpp
 
@@ -30,6 +31,7 @@ SRC			+= Server.cpp
 SRC			+= Client.cpp
 SRC			+= Channel.cpp
 SRC			+= Commands.cpp
+SRC			+= NICK_utils.cpp
 SRC			+= Utils.cpp
 # SRC			+= irc_utils.cpp
 SRC			+= Client_disconnect.cpp

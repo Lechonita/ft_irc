@@ -20,6 +20,7 @@ class Server
 		// Getters
 		int							getSocketFd() const;
 		std::string					getPassword() const;
+		std::map<int, Client>		getClientMap() const;
 		// std::vector<std::string>	getCommandList() const;
 
 		// Setters
@@ -40,10 +41,6 @@ class Server
 		void						removeClientFromPollFd(const int& clientSocket);
 		void						removeClientFromMap(const int& clientSocket);
 
-		// Commands
-		std::string					eraseCommandfromLine(const std::string& line, const std::string& command) const;
-		void						executeCommand(const std::string& line, const std::string& command) const;
-		void						commandJOIN(const std::string& line, const std::string& command) const;
 
 
 		// Debug

@@ -22,6 +22,8 @@
 
 
 - nc -C localhost 6667 // pour lancer un client dans le serveur
+- Quakenet
+- Dalnet : nc -C irc.dal.net 6667
 
 
 LISTE DES COMMANDES
