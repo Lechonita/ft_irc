@@ -41,7 +41,7 @@ std::string		Commands::getCommandFromLine(const std::string& line)
 void		Commands::executeCommand(const std::string& line, const std::string& command, const Server& server, Client& client)
 {
 	if (command == "JOIN")
-		Commands::commandJOIN(line, command);
+		Commands::commandJOIN(line, command, server, client);
 	else if (command == "PASS")
 		Commands::commandPASS(line, command, client);
 	else if (command == "NICK")
@@ -55,6 +55,8 @@ void		Commands::executeCommand(const std::string& line, const std::string& comma
 
 std::string		Commands::eraseCommandfromLine(const std::string& line, const std::string& command)
 {
+	if (line.length() == command.length())
+		return (EMPTY);
 	std::string		res;
 	res = line.substr(command.size() + 1);
 	return (res);
@@ -68,15 +70,16 @@ std::string		Commands::eraseCommandfromLine(const std::string& line, const std::
 
 // JOIN
 
-void		Commands::commandJOIN(const std::string& line, const std::string& command)
+
+void		Commands::commandJOIN(const std::string& line, const std::string& command, const Server& server, Client& client)
 {
-	std::string		str;
-	str = eraseCommandfromLine(line, command);
-	std::string		channel_params;
+	std::string		join_params;
 
-	channel_params = eraseCommandfromLine(line, command);
-
-	if (channel_params.empty() == true)
+	join_params = eraseCommandfromLine(line, command);
+	checkJoinParams(join_params);
+	(void)server;
+	(void)client;
+	if (join_params.empty() == true)
 	{
 		Utils::sendErrorMsg(ERR_NEEDMOREPARAMS);
 		return ;

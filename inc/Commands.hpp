@@ -14,11 +14,11 @@ class Commands
 	public:
 
 		// Command functions
-		static void			commandJOIN(const std::string& line, const std::string& command);
+		static void			commandJOIN(const std::string& line, const std::string& command, const Server& server, Client& client);
 		static void			commandPASS(const std::string& line, const std::string& command, Client& client);
 		static void			commandNICK(const std::string& line, const std::string& command, Client& client, const Server& server);
-		
-		
+		static bool			checkJoinParams(std::string join_params);
+
 		// Util functions
 		static void			findCommandInMessage(const std::string& line, const Server& server, Client& client);
 		static std::string	getCommandFromLine(const std::string& line);

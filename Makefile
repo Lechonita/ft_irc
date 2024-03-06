@@ -31,6 +31,7 @@ SRC			+= Server.cpp
 SRC			+= Client.cpp
 SRC			+= Channel.cpp
 SRC			+= Commands.cpp
+SRC			+= join_utils.cpp
 SRC			+= NICK_utils.cpp
 SRC			+= Utils.cpp
 # SRC			+= irc_utils.cpp

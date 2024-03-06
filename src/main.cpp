@@ -42,6 +42,10 @@ int main(int ac, char **av)
 	{
 		std::cout << e.what() << std::endl;
 	}
+	catch (std::exception const& e)
+	{
+		std::cout << e.what() << std::endl;
+	}
 
 	return (EXIT_SUCCESS);
 }
