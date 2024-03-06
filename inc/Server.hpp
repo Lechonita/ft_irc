@@ -41,8 +41,9 @@ class Server
 		void						removeClientFromMap(const int& clientSocket);
 
 		// Commands
+		std::string					eraseCommandfromLine(const std::string& line, const std::string& command) const;
 		void						executeCommand(const std::string& line, const std::string& command) const;
-		void						commandJOIN(const std::string& str) const;
+		void						commandJOIN(const std::string& line, const std::string& command) const;
 
 
 		// Debug
@@ -85,6 +86,11 @@ class Server
 				const char *what() const throw();
 		};
 		class AcceptException : public Server::Exception
+		{
+			public:
+				const char *what() const throw();
+		};
+		class ParametersException : public Server::Exception
 		{
 			public:
 				const char *what() const throw();

@@ -6,7 +6,8 @@
    (^G or ASCII 7), or a comma (',' which is used as a list item
    separator by the protocol).
 - the client that creates a channel becomes an operator of this channel
--
+- a command can only take up to 15 parameters (that's a lot)
+- 512 characters (including \r\n, so really 510) maximum per messages
 
 
 - tips pour git
@@ -23,7 +24,7 @@
 - nc -C localhost 6667 // pour lancer un client dans le serveur
 
 
-LISTE DES COMMANDES 
+LISTE DES COMMANDES
 
 CHANNEL COMMANDS :
 	- JOIN (join channel)
@@ -37,10 +38,16 @@ CHANNEL COMMANDS :
 	- LIST (list channels)
 	- PRIVMSG (send a private message to another user)
 	- PING (PONG)
-	- WHOIS (send a private message to another user)
+	- WHOIS (get personnal information about a user)
 
 CHANNEL OPERATOR COMMANDS :
 	- KICK
 	- INVITE
 	- TOPIC
 	- MODE
+
+QUESTIONS A POSER
+	- The command must either be a valid IRC command or a three (3) digit
+   number represented in ASCII text.
+   -> est-ce qu'on doit gerer ca?
+   - doit on gere les communications de client a client hors d'un channel?

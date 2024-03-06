@@ -162,7 +162,7 @@ void	Server::getClientMessage()
 		return ;
 
 	char	buffer[BUFFERSIZE];
-	
+
 	std::vector<pollfd>::iterator	it;
 	for(it = _pollFd.begin(); it != _pollFd.end(); ++it)
 	{
@@ -235,6 +235,8 @@ const char *Server::PollException::what() const throw() { return (ERR_SERVER_POL
 const char *Server::BlockException::what() const throw() { return (ERR_SERVER_BLOCK); }
 
 const char *Server::AcceptException::what() const throw() { return (ERR_SERVER_ACCEPT); }
+
+const char *Server::ParametersException::what() const throw() { return (ERR_NEEDMOREPARAMS); }
 
 // const char *Server::ReadException::what() const throw()
 // {

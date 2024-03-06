@@ -1,17 +1,11 @@
 #include "../inc/Server.hpp"
 #include "../inc/Client.hpp"
 #include "../inc/defines.hpp"
-
+#include "../inc/Utils.hpp"
 
 /********************************************************************************/
 /************************** CLIENT CLASS FUNCTIONS ******************************/
 /********************************************************************************/
-
-
-static bool	 isSpace(const char& c)
-{
-	return (std::isspace(static_cast<unsigned char>(c)));
-}
 
 
 
@@ -36,7 +30,7 @@ std::string		Client::getCommandFromLine(const std::string& line) const
 
 	for(size_t i = 0; i < line.size(); ++i)
 	{
-		if (isSpace(line[i]) == true)
+		if (isspace(line[i]) != NOT_WHITESPACE)
 			break ;
 		command += line[i];
 	}
@@ -61,10 +55,30 @@ std::string		Client::getCommandFromLine(const std::string& line) const
 /********************************************************************************/
 
 
-void		Server::commandJOIN(const std::string& str) const
+void		Server::commandJOIN(const std::string& line, const std::string& command) const
 {
+	std::string		channel_params;
+
+	channel_params = eraseCommandfromLine(line, command);
+
+	if (channel_params.empty() == true)
+	{
+		Utils::sendErrorMsg(ERR_NEEDMOREPARAMS);
+		return ;
+	}
+
+
 	// si channel existe, rejoindre  le channel
 	// si channel n'existe pas, créer un serveur et le rejoindre
+}
+
+
+
+std::string		Server::eraseCommandfromLine(const std::string& line, const std::string& command) const
+{
+	std::string		res;
+	res = line.substr(command.size() + 1);
+	return (res);
 }
 
 
@@ -72,7 +86,10 @@ void		Server::commandJOIN(const std::string& str) const
 void		Server::executeCommand(const std::string& line, const std::string& command) const
 {
 	if (command == "JOIN")
-		commandJOIN(line);
+		commandJOIN(line, command);
 	else
+	{
+		std::cout << Utils::sendErrorMsg(ERR_UNKNOWNCOMMAND);
 		return ;
+	}
 }

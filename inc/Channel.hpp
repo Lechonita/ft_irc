@@ -18,7 +18,6 @@ struct channelClient
 
 enum channelModes
 {
-	NO_MODE,
 	MODE_I,
 	MODE_T,
 	MODE_K,
@@ -39,8 +38,8 @@ class Channel
 
 		std::string							_channelName;
 		std::string							_channelTopic;
-		channelModes						_channelMode;
-		std::vector<channelClient>			_clientsInside;
+		std::vector<channelModes>			_channelModes;
+		std::vector<channelClient>			_channelClients;
 };
 
 #endif

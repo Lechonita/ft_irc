@@ -6,11 +6,11 @@
 /*************************** CONSTRUCTOR / DESTRUCTOR ***************************/
 /********************************************************************************/
 
-Channel::Channel(const std::string& name, const Client *const client): _channelName(name), _channelMode(NO_MODE)
+Channel::Channel(const std::string& name, const Client *const client): _channelName(name)
 {
 	const channelClient newClient = {.client = client, .isOperator = true};
-	_clientsInside.push_back(newClient);
-	(void)_channelMode;
+	_channelClients.push_back(newClient);
+	(void)_channelModes;
 
 	std::cout << "Client " << client->getClientUsername() << " has joined the channel " << name << std::endl;
 }

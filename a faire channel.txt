@@ -1,0 +1,10 @@
+A faire pour les channels:
+ - JOIN pour le rejoindre ou le creer s'il n'existe pas encore
+	- dans JOIN j'ai besoin du client qui join, du nom du channel et du mdp si necessaire
+	- le nouveau channel est stocke dans la map channel du Serveur
+	- il contient:
+		- son nom
+		- ses clients
+		- ses modes
+		- son operator
+	-
