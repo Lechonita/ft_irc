@@ -79,15 +79,15 @@ Server::~Server()
 
 // Debug
 
-static void	printClientMap(const std::map<int, Client>  &clientMap)
-{
-	std::map<int, Client>::const_iterator it;
+// static void	printClientMap(const std::map<int, Client>  &clientMap)
+// {
+// 	std::map<int, Client>::const_iterator it;
 
-	for (it = clientMap.begin(); it != clientMap.end(); ++it)
-	{
-		std::cout << "ClientMap #" << it->first << " : " << it->second.getClientSocket() << std::endl;
-	}
-}
+// 	for (it = clientMap.begin(); it != clientMap.end(); ++it)
+// 	{
+// 		std::cout << "ClientMap #" << it->first << " : " << it->second.getClientSocket() << std::endl;
+// 	}
+// }
 
 
 // Functions
@@ -152,7 +152,7 @@ void	Server::createNewClient()
 	_pollFd.back().fd = clientSocket;
 	_pollFd.back().events = POLLIN; // We want to monitor data reception on this file descriptor
 
-	printClientMap(_clientMap);
+	// printClientMap(_clientMap);
 }
 
 

@@ -1,6 +1,7 @@
 #ifndef COMMANDS_HPP
 # define COMMANDS_HPP
 
+#include "../inc/Utils.hpp"
 # include "../inc/Client.hpp"
 # include "../inc/Server.hpp"
 
@@ -25,9 +26,8 @@ class Commands
 		static std::string	eraseCommandfromLine(const std::string& line, const std::string& command);
 		static void			findCommandInMessage(const std::string& line, const Server& server, Client& client);
 		static void			executeCommand(const std::string& line, const std::string& command, const Server& server, Client& client);
-		static bool			commandParameterExists(const std::string& parameter, const std::string& command, const int clientSocket);
-		static bool			passwordIsSetup(const std::string& password, const int clientSocket, const std::string& command);
-		static bool			nicknameIsSetup(const std::string& nickname, const int clientSocket, const std::string& command);
+		static bool			commandParameterExists(const std::string& parameter, const std::string& command, const Client& client);
+		static bool			isParameterSetUp(const std::string& parameter, const Client& client, const std::string& errorMessage);
 
 		static bool			isValidNickname(const std::string& nickname, const Server& server);
 		static bool			isValidPassword(const std::string& password, const Client& client, const Server& server);

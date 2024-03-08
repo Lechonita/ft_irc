@@ -31,6 +31,8 @@
 # define RED "\033[0;31m"
 # define GREEN "\033[0;32m"
 # define ORANGE "\033[0;33m"
+# define BLUE "\033[0;36m"
+# define PINK "\033[0;35m"
 # define NC "\033[0m"
 
 // Values
@@ -44,6 +46,9 @@
 # define EQUAL 0
 # define EMPTY ""
 # define MAX_NICK_LEN 9
+# define PATTERN_COUNT 4
+# define INCOMING_MSG "\033[0;36m<< \033[0m"
+# define OUTGOING_MSG "\033[0;35m>> \033[0m"
 # define CONNECTED true
 # define DISCONNECTED false
 
@@ -64,9 +69,11 @@
 # define PASS_NOT_ENTERED "\033[0;33m> Please use PASS command to enter server password first <\n\033[0m"
 # define NICK_NOT_ENTERED "\033[0;33m> Please set Nickname first (use NICK command) <\n\033[0m"
 # define PASS_ALREADY_ENTERED "\033[0;33m> Password has already been entered <\n\033[0m"
-# define ERR_NEEDMOREPARAMS "\033[0;33m461: Not enough parameters.\n\033[0m"
-# define ERR_PASSWDMISMATCH "\033[0;33m464: Password incorrect.\n\033[0m"
+
 # define ERR_UNKNOWNCOMMAND "\033[0;33m421: Unknown command.\n\033[0m"
+# define ERR_NEEDMOREPARAMS "\033[0;33m461 <command>: Not enough parameters.\n\033[0m"
+# define ERR_ALREADYREGISTRED "\033[0;33m462: You may not reregister.\n\033[0m"
+# define ERR_PASSWDMISMATCH "\033[0;33m464: Password incorrect.\n\033[0m"
 
 
 // COMMANDS Messages

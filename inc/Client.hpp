@@ -1,6 +1,7 @@
 #ifndef CLIENT_HPP
 #define CLIENT_HPP
 
+#include "../inc/Utils.hpp"
 #include "../inc/defines.hpp"
 #include "../inc/Server.hpp"
 

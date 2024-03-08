@@ -51,11 +51,7 @@ void		Commands::executeCommand(const std::string& line, const std::string& comma
 		Commands::commandUSER(line, command, client, server);
 	else
 	{
-		if (send(client.getClientSocket(), ERR_UNKNOWNCOMMAND,  strlen(ERR_UNKNOWNCOMMAND), 0) == ERROR)
-		{
-			// 421 ERR_UNKNOWNCOMMAND <command>
-			perror(PERR_SEND);
-		}
+		Utils::sendErrorMessage(ERR_UNKNOWNCOMMAND, command, "", client, "");
 	}
 }
 
@@ -73,49 +69,23 @@ std::string		Commands::eraseCommandfromLine(const std::string& line, const std::
 
 
 
-bool	Commands::passwordIsSetup(const std::string& password, const int clientSocket, const std::string& command)
-{
-	if (password != EMPTY)
-	{
-		(void)command;
-		if (send(clientSocket, PASS_NOT_ENTERED,  strlen(PASS_NOT_ENTERED), 0) == ERROR)
-		{
-			// 462 ERR_ALREADYREGISTRED
-			perror(PERR_SEND);
-		}
-		return (true);
-	}
-	return (true);
-}
-
-
-
-bool	Commands::nicknameIsSetup(const std::string& nickname, const int clientSocket, const std::string& command)
-{
-	if (nickname != EMPTY)
-	{
-		(void)command;
-		if (send(clientSocket, NICK_NOT_ENTERED,  strlen(NICK_NOT_ENTERED), 0) == ERROR)
-		{
-			// 462 ERR_ALREADYREGISTRED
-			perror(PERR_SEND);
-		}
-		return (true);
-	}
-	return (true);
-}
-
-
-bool	Commands::commandParameterExists(const std::string& parameter, const std::string& command, const int clientSocket)
+bool	Commands::isParameterSetUp(const std::string& parameter, const Client& client, const std::string& errorMessage)
 {
 	if (parameter == EMPTY)
 	{
-		(void)command;
-		// 461 ERR_NEEDMOREPARAMS <command>
-		if (send(clientSocket, ERR_NEEDMOREPARAMS,  strlen(ERR_NEEDMOREPARAMS), 0) == ERROR)
-		{
-			perror(PERR_SEND);
-		}
+		Utils::sendErrorMessage(errorMessage, "", "", client, "");
+		return (false);
+	}
+	return (true);
+}
+
+
+
+bool	Commands::commandParameterExists(const std::string& parameter, const std::string& command, const Client& client)
+{
+	if (parameter == EMPTY)
+	{
+		Utils::sendErrorMessage(ERR_NEEDMOREPARAMS, command, "", client, "");
 		return (false);
 	}
 	return (true);
@@ -145,17 +115,13 @@ void		Commands::commandPASS(const std::string& line, const std::string& command,
 {
 	if (client.getClientPassword() != EMPTY)
 	{
-		if (send(client.getClientSocket(), PASS_ALREADY_ENTERED,  strlen(PASS_ALREADY_ENTERED), 0) == ERROR)
-		{
-			// 462 ERR_ALREADYREGISTRED
-			perror(PERR_SEND);
-		}
+		Utils::sendErrorMessage(ERR_ALREADYREGISTRED, "", "", client, "");
 		return ;
 	}
 
 	const std::string	password = eraseCommandfromLine(line, command);
 
-	if (commandParameterExists(password, command, client.getClientSocket()) == false)
+	if (commandParameterExists(password, command, client) == false)
 		return ;
 
 	if (isValidPassword(password, client, server) == true)
@@ -168,12 +134,12 @@ void		Commands::commandPASS(const std::string& line, const std::string& command,
 
 void		Commands::commandNICK(const std::string& line, const std::string& command, Client& client, const Server& server)
 {
-	if (passwordIsSetup(client.getClientPassword(), client.getClientSocket(), command) == false)
+	if (isParameterSetUp(client.getClientPassword(), client, PASS_NOT_ENTERED) == false)
 		return ;
 
 	const std::string	nickname = eraseCommandfromLine(line, command);
 
-	if (commandParameterExists(nickname, command, client.getClientSocket()) == false)
+	if (commandParameterExists(nickname, command, client) == false)
 		return ;
 
 	if (isValidNickname(nickname, server) == true)
@@ -186,17 +152,17 @@ void		Commands::commandNICK(const std::string& line, const std::string& command,
 
 void		Commands::commandUSER(const std::string& line, const std::string& command, Client& client, const Server& server)
 {
-	if (passwordIsSetup(client.getClientPassword(), client.getClientSocket(), command) == false)
+	if (isParameterSetUp(client.getClientPassword(), client, PASS_NOT_ENTERED) == false)
 		return ;
-	
-	if (nicknameIsSetup(client.getClientPassword(), client.getClientSocket(), command) == false)
+
+	if (isParameterSetUp(client.getClientNickname(), client, NICK_NOT_ENTERED) == false)
 		return ;
 
 	const std::string	userInfo = eraseCommandfromLine(line, command);
 
-	if (commandParameterExists(userInfo, command, client.getClientSocket()) == false)
+	if (commandParameterExists(userInfo, command, client) == false)
 		return ;
-	
+
 	if (areValidUserParameters(userInfo, server) == true)
-		
+		return ;
 }
