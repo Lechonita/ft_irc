@@ -14,20 +14,17 @@ class Commands
 	public:
 
 		// Command functions
-		static void			commandJOIN(const std::string& line, const std::string& command, const Server& server, Client& client);
+		static void			commandJOIN(const std::string& line, const std::string& command, Server& server, Client& client);
 		static void			commandPASS(const std::string& line, const std::string& command, Client& client);
-		static void			commandNICK(const std::string& line, const std::string& command, Client& client, const Server& server);
-		static bool			checkJoinParams(std::string join_params);
+		static void			commandNICK(const std::string& line, const std::string& command, Client& client, Server& server);
+		static bool			checkJoinParams(std::string join_params, std::vector<std::string> *channels, std::vector<std::string> *passwrds);
 
 		// Util functions
-		static void			findCommandInMessage(const std::string& line, const Server& server, Client& client);
+		static void			findCommandInMessage(const std::string& line, Server& server, Client& client);
 		static std::string	getCommandFromLine(const std::string& line);
-		static void			executeCommand(const std::string& line, const std::string& command, const Server& server, Client& client);
+		static void			executeCommand(const std::string& line, const std::string& command, Server& server, Client& client);
 		static std::string	eraseCommandfromLine(const std::string& line, const std::string& command);
 		static bool			isValidNickname(const std::string& nickname, const Server& server);
-
-
-
 
 	private:
 

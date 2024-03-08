@@ -6,7 +6,7 @@
 /*   By: cbernaze <cbernaze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 16:55:12 by cbernaze          #+#    #+#             */
-/*   Updated: 2024/03/06 19:09:22 by cbernaze         ###   ########.fr       */
+/*   Updated: 2024/03/08 16:39:18 by cbernaze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,18 +71,11 @@ static std::vector<std::string>	extractPasswrds(std::string join_params, int &po
 
 
 
-bool		Commands::checkJoinParams(std::string join_params)
+bool		Commands::checkJoinParams(std::string join_params, std::vector<std::string> *channels, std::vector<std::string> *passwrds)
 {
-	std::vector<std::string>	channels;
-	std::vector<std::string>	passwrds;
-	int							pos = 0;
+	int	pos = 0;
 
-	channels = extractChannels(join_params, pos);
-	passwrds = extractPasswrds(join_params, pos);
-
-	for (size_t i = 0; i < channels.size(); i++)
-		std::cout << RED << "chan: " << channels[i] << NC << std::endl;
-	for (size_t i = 0; i < passwrds.size(); i++)
-		std::cout << GREEN << "pwd: " << passwrds[i] << NC << std::endl;
+	*channels = extractChannels(join_params, pos);
+	*passwrds = extractPasswrds(join_params, pos);
 	return (true);
 }

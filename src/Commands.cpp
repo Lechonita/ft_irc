@@ -9,7 +9,7 @@
 /********************************************************************************/
 
 
-void	Commands::findCommandInMessage(const std::string& line, const Server& server, Client& client)
+void	Commands::findCommandInMessage(const std::string& line, Server& server, Client& client)
 {
 	const std::string		command = getCommandFromLine(line);
 
@@ -38,7 +38,7 @@ std::string		Commands::getCommandFromLine(const std::string& line)
 }
 
 
-void		Commands::executeCommand(const std::string& line, const std::string& command, const Server& server, Client& client)
+void		Commands::executeCommand(const std::string& line, const std::string& command, Server& server, Client& client)
 {
 	if (command == "JOIN")
 		Commands::commandJOIN(line, command, server, client);
@@ -71,20 +71,30 @@ std::string		Commands::eraseCommandfromLine(const std::string& line, const std::
 // JOIN
 
 
-void		Commands::commandJOIN(const std::string& line, const std::string& command, const Server& server, Client& client)
+void		Commands::commandJOIN(const std::string& line, const std::string& command, Server& server, Client& client)
 {
-	std::string		join_params;
+	std::string					join_params;
+	std::vector<std::string>	channels;
+	std::vector<std::string>	passwrds;
 
 	join_params = eraseCommandfromLine(line, command);
-	checkJoinParams(join_params);
 	(void)server;
 	(void)client;
 	if (join_params.empty() == true)
 	{
-		Utils::sendErrorMsg(ERR_NEEDMOREPARAMS);
+		std::cout << Utils::sendErrorMsg(ERR_NEEDMOREPARAMS) << std::endl;
 		return ;
 	}
-
+	checkJoinParams(join_params, &channels, &passwrds);
+	for (int i = 0; i < channels.size(); i++)
+	{
+		if (server.getChannelMap().find(channels[i]) == server.getChannelMap().end())
+		{
+			server.setChannelMap(channels[i], client.getClientSocket());
+		}
+		server.getChannelMap()[channels[i]].newClient(passwrds[i], client);
+		// addClientToChannel(channels[i], passwrds[i], client, server);
+	}
 
 	// si channel existe, rejoindre  le channel
 	// si channel n'existe pas, créer un channel et le rejoindre
@@ -108,7 +118,7 @@ void			Commands::commandPASS(const std::string& line, const std::string& command
 
 // NICK
 
-void		Commands::commandNICK(const std::string& line, const std::string& command, Client& client, const Server& server)
+void		Commands::commandNICK(const std::string& line, const std::string& command, Client& client, Server& server)
 {
 	if (client.getClientPassword() == EMPTY)
 	{

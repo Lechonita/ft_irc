@@ -194,12 +194,21 @@ void	Server::getClientMessage()
 int							Server::getSocketFd() const { return (_serverSocket); }
 std::string					Server::getPassword() const { return (_password); }
 std::map<int, Client>		Server::getClientMap() const { return (_clientMap); }
+std::map<std::string, Channel>		Server::getChannelMap() const {return (_channelMap);}
 
 // std::vector<std::string>	Server::getCommandList() const { return (_cmdList); }
 
 
 
 // Setters
+
+void	Server::setChannelMap(std::string channel_name, int client)
+{
+	if (_channelMap.find(channel_name) == _channelMap.end())
+	{
+		_channelMap[channel_name] = Channel(channel_name, &_clientMap[client]);
+	}
+}
 
 // std::vector<std::string>	Server::setCommandList()
 // {

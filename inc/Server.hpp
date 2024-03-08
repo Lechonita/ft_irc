@@ -18,13 +18,15 @@ class Server
 		~Server();
 
 		// Getters
-		int							getSocketFd() const;
-		std::string					getPassword() const;
-		std::map<int, Client>		getClientMap() const;
+		int									getSocketFd() const;
+		std::string							getPassword() const;
+		std::map<int, Client>				getClientMap() const;
+		std::map<std::string, Channel>		getChannelMap() const;
 		// std::vector<std::string>	getCommandList() const;
 
 		// Setters
 		// std::vector<std::string>	setCommandList();
+		void						setChannelMap(std::string channel_name, int client);
 
 		// Functions
 		void						runServer();
@@ -108,7 +110,7 @@ class Server
 		std::vector<pollfd>					_pollFd; // poll descriptors, one per client connection
 		// std::vector<std::string>			_cmdList; // command function pointers indexed
 		std::map<int, Client>				_clientMap; // map of client sockets
-		std::map<int, Channel>				_channelMap; // map of channel sockets
+		std::map<std::string, Channel>		_channelMap; // map of channel sockets
 };
 
 #endif
