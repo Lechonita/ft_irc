@@ -1,7 +1,7 @@
 #ifndef SERVER_HPP
 #define SERVER_HPP
 
-
+#include "../inc/Utils.hpp"
 #include "../inc/Client.hpp"
 #include "../inc/Channel.hpp"
 #include "../inc/defines.hpp"

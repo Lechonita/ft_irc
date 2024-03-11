@@ -38,18 +38,22 @@ std::string		Commands::getCommandFromLine(const std::string& line)
 }
 
 
-void		Commands::executeCommand(const std::string& line, const std::string& command, Server& server, Client& client)
+
+void		Commands::executeCommand(const std::string& line, const std::string& command, const Server& server, Client& client)
 {
 	if (command == "JOIN")
 		Commands::commandJOIN(line, command, server, client);
 	else if (command == "PASS")
-		Commands::commandPASS(line, command, client);
+		Commands::commandPASS(line, command, client, server);
 	else if (command == "NICK")
 		Commands::commandNICK(line, command, client, server);
+	else if (command == "USER")
+		Commands::commandUSER(line, command, client, server);
 	else
-		return ;
+	{
+		Utils::sendErrorMessage(ERR_UNKNOWNCOMMAND, command, "", client, "");
+	}
 }
-
 
 
 
@@ -57,9 +61,34 @@ std::string		Commands::eraseCommandfromLine(const std::string& line, const std::
 {
 	if (line.length() == command.length())
 		return (EMPTY);
+
 	std::string		res;
 	res = line.substr(command.size() + 1);
 	return (res);
+}
+
+
+
+bool	Commands::isParameterSetUp(const std::string& parameter, const Client& client, const std::string& errorMessage)
+{
+	if (parameter == EMPTY)
+	{
+		Utils::sendErrorMessage(errorMessage, "", "", client, "");
+		return (false);
+	}
+	return (true);
+}
+
+
+
+bool	Commands::commandParameterExists(const std::string& parameter, const std::string& command, const Client& client)
+{
+	if (parameter == EMPTY)
+	{
+		Utils::sendErrorMessage(ERR_NEEDMOREPARAMS, command, "", client, "");
+		return (false);
+	}
+	return (true);
 }
 
 
@@ -101,34 +130,61 @@ void		Commands::commandJOIN(const std::string& line, const std::string& command,
 }
 
 
-// PASS
-
-
-
 
 // PASS
 
-void			Commands::commandPASS(const std::string& line, const std::string& command, Client& client)
+void		Commands::commandPASS(const std::string& line, const std::string& command, Client& client, const Server& server)
 {
-	(void)line;
-	(void)command;
-	(void)client;
+	if (client.getClientPassword() != EMPTY)
+	{
+		Utils::sendErrorMessage(ERR_ALREADYREGISTRED, "", "", client, "");
+		return ;
+	}
+
+	const std::string	password = eraseCommandfromLine(line, command);
+
+	if (commandParameterExists(password, command, client) == false)
+		return ;
+
+	if (isValidPassword(password, client, server) == true)
+		client.setPassword(password);
 }
+
 
 
 // NICK
 
 void		Commands::commandNICK(const std::string& line, const std::string& command, Client& client, Server& server)
 {
-	if (client.getClientPassword() == EMPTY)
-	{
-		if (send(client.getClientSocket(), NO_PASS,  strlen(NO_PASS), 0) == ERROR)
-			perror(PERR_SEND);
-	}
+	if (isParameterSetUp(client.getClientPassword(), client, PASS_NOT_ENTERED) == false)
+		return ;
 
-	std::string		nickname;
-	nickname = eraseCommandfromLine(line, command);
+	const std::string	nickname = eraseCommandfromLine(line, command);
+
+	if (commandParameterExists(nickname, command, client) == false)
+		return ;
 
 	if (isValidNickname(nickname, server) == true)
 		client.setNickname(nickname);
+}
+
+
+
+// USER
+
+void		Commands::commandUSER(const std::string& line, const std::string& command, Client& client, const Server& server)
+{
+	if (isParameterSetUp(client.getClientPassword(), client, PASS_NOT_ENTERED) == false)
+		return ;
+
+	if (isParameterSetUp(client.getClientNickname(), client, NICK_NOT_ENTERED) == false)
+		return ;
+
+	const std::string	userInfo = eraseCommandfromLine(line, command);
+
+	if (commandParameterExists(userInfo, command, client) == false)
+		return ;
+
+	if (areValidUserParameters(userInfo, server) == true)
+		return ;
 }

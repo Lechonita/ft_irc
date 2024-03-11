@@ -14,7 +14,7 @@ Client::Client(const int& clientSocket): _clientSocket(clientSocket)
 	_buffer = EMPTY;
 
 	std::cout << std::endl;
-	std::cout << "WELCOME" << std::endl;
+	std::cout << "WELCOME\n" << std::endl;
 	// std::cout << ORANGE << "You are not connected to the server yet." << NC << std::endl;
 	// std::cout << "Use command PASS followed by <password> to connect." << std::endl;
 }
@@ -41,13 +41,22 @@ std::string		Client::getClientPassword() const { return (_clientPassword); }
 // Setters
 
 void	Client::setBuffer(const char *buffer) { _buffer += buffer; }
+void	Client::setPassword(const std::string& password)
+{
+	_clientPassword = password;
+	Utils::sendMessage(PASS_OK, *this);
+}
 
 void	Client::setNickname(const std::string& nickname)
 {
 	if (_clientNickname.empty() == false)
 	{
-		std::cout << ORANGE << "You have changed your nickname from <" << _clientNickname << "> to <" << nickname << ">" << NC << std::endl;
+		Utils::sendMessage(NICK_CHANGED, *this);
 		_clientNickname.clear();
+	}
+	else
+	{
+		Utils::sendMessage(NICK_OK, *this);
 	}
 	_clientNickname = nickname;
 }
@@ -67,6 +76,7 @@ void	Client::interpretMessage(const Server& server)
 	while (pos != std::string::npos)
 	{
 		std::string	line = _buffer.substr(0, pos);
+		std::cout << INCOMING_MSG << line << std::endl;
 
 		if (line.empty() == false)
 			Commands::findCommandInMessage(line, server, *this);

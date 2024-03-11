@@ -34,6 +34,7 @@ static bool	isValidCharacter(const char c)
 bool	Commands::isValidNickname(const std::string& nickname, const Server& server)
 {
 	// ERR 432 "<nick> :Erroneus nickname"
+
 	for(size_t i = 0; i < nickname.size(); ++i)
 	{
 		if (isspace(nickname[i]) != NOT_WHITESPACE ||
@@ -44,7 +45,7 @@ bool	Commands::isValidNickname(const std::string& nickname, const Server& server
 		}
 	}
 
-	if (nickname.size() > 9)
+	if (nickname.size() > MAX_NICK_LEN)
 	{
 		std::cout << RED << "Error: Maximum length for nickname is 9 characters." << NC << std::endl;
 		return (false);

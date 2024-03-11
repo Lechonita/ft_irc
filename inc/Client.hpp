@@ -1,6 +1,7 @@
 #ifndef CLIENT_HPP
 #define CLIENT_HPP
 
+#include "../inc/Utils.hpp"
 #include "../inc/defines.hpp"
 #include "../inc/Server.hpp"
 
@@ -24,6 +25,7 @@ class Client
 	// Setters
 	void			setBuffer(const char *buffer);
 	void			setNickname(const std::string& nickname);
+	void			setPassword(const std::string& password);
 
 
 	// Functions

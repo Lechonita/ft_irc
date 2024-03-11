@@ -1,20 +1,30 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   Utils.hpp                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: cbernaze <cbernaze@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/05 16:27:56 by cbernaze          #+#    #+#             */
-/*   Updated: 2024/03/06 10:36:26 by cbernaze         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#ifndef UTILS_HPP
+# define UTILS_HPP
 
-#include "Client.hpp"
+#include "../inc/defines.hpp"
+#include "../inc/Client.hpp"
+
+class Client;
 
 class Utils
 {
+
 	public:
-		static std::string sendErrorMsg(std::string error);
+
+	// Error management
+	static void			sendErrorMessage(
+			const std::string& message, const std::string& command, const std::string& arg, const Client& client, const std::string& channelName);
+
+	static std::string	getFormattedMessage(
+			const std::string& message, const std::string& command, const std::string& arg, const Client& client, const std::string& channelName);
+
+	static std::string	replacePattern(
+			std::string& message, const std::string& toChange, const std::string& replacement);
+
+
+	// Send messages
+	static void			sendMessage(const std::string& message, const Client& client);
 
 };
+
+#endif

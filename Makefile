@@ -3,7 +3,7 @@
 PROJECT_NAME	= ircserv
 NAME			= ./$(PROJECT_NAME)
 CC				= c++
-FLAGS			= -Wall -Wextra -Werror -std=c++98
+FLAGS			= -Wall -Wextra -Werror -std=c++98 -g3
 
 ##################################### INCLUDES #####################################
 
@@ -12,6 +12,7 @@ INCLUDES	+= -I $(INC_DIR)
 
 ##################################### HEADERS #####################################
 
+HDR			+= Utils.hpp
 HDR			+= Server.hpp
 HDR			+= Client.hpp
 HDR			+= defines.hpp
@@ -27,16 +28,19 @@ vpath %.h $(INC_DIR)
 SRC_DIR		= ./src
 
 SRC			+= main.cpp
+SRC			+= Utils.cpp
 SRC			+= Server.cpp
 SRC			+= Client.cpp
 SRC			+= Channel.cpp
 SRC			+= Commands.cpp
 SRC			+= join_utils.cpp
-SRC			+= NICK_utils.cpp
+SRC			+= nick_utils.cpp
+SRC			+= pass_utils.cpp
 SRC			+= Utils.cpp
-# SRC			+= irc_utils.cpp
+SRC			+= user_utils.cpp
 SRC			+= Client_disconnect.cpp
 SRC			+= Client_message_reception.cpp
+# SRC			+= irc_utils.cpp
 
 
 vpath %.cpp $(SRC_DIR)
