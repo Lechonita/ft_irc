@@ -20,12 +20,15 @@ class Client
 	std::string		getClientUsername() const;
 	std::string		getClientNickname() const;
 	std::string		getClientPassword() const;
+	const char*		getClientIP() const;
 
 
 	// Setters
+	void			setClientIP(const char * IP);
 	void			setBuffer(const char *buffer);
-	void			setNickname(const std::string& nickname);
-	void			setPassword(const std::string& password);
+	void			setNickname(const std::string& nickname, const bool irssi);
+	void			setPassword(const std::string& password, const bool irssi);
+	void			setUsername(const std::string& username, const bool irssi);
 
 
 	// Functions
@@ -54,6 +57,7 @@ class Client
 		std::string		_clientPassword;
 		std::string		_clientNickname;
 		std::string		_buffer;
+		const char*		_clientIP;
 		int				_clientSocket;
 		// bool			_clientStatus;
 };

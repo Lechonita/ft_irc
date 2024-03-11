@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   join_utils.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cbernaze <cbernaze@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jrouillo <jrouillo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 16:55:12 by cbernaze          #+#    #+#             */
-/*   Updated: 2024/03/11 13:07:40 by cbernaze         ###   ########.fr       */
+/*   Updated: 2024/03/11 17:44:47 by jrouillo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static std::vector<std::string>	extractChannels(std::string join_params, int &po
 		std::string	chan = join_params.substr(start, pos - start);
 
 		if (chan[0] != '#')
-			Utils::sendErrorMessage(ERR_NOSUCHCHANNEL, NULL, NULL, NULL, chan);
+			Utils::sendErrorMessage(ERR_NOSUCHCHANNEL, NULL, NULL, NULL, chan.c_str());
 		else
 			channels.push_back(chan);
 		if (isspace(join_params[pos]) != NOT_WHITESPACE || join_params[pos] == '\0')

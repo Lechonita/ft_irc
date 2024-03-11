@@ -36,18 +36,26 @@ int				Client::getClientSocket() const { return (_clientSocket); }
 std::string		Client::getClientUsername() const { return (_clientUsername); }
 std::string		Client::getClientNickname() const { return (_clientNickname); }
 std::string		Client::getClientPassword() const { return (_clientPassword); }
-
+const char*		Client::getClientIP() const { return (_clientIP); }
 
 // Setters
 
+void	Client::setClientIP(const char * IP) { _clientIP = IP; }
+
 void	Client::setBuffer(const char *buffer) { _buffer += buffer; }
-void	Client::setPassword(const std::string& password)
+
+
+
+void	Client::setPassword(const std::string& password, const bool irssi)
 {
 	_clientPassword = password;
-	Utils::sendMessage(PASS_OK, *this);
+	if (irssi == false)
+		Utils::sendMessage(PASS_OK, *this);
 }
 
-void	Client::setNickname(const std::string& nickname)
+
+
+void	Client::setNickname(const std::string& nickname, const bool irssi)
 {
 	if (_clientNickname.empty() == false)
 	{
@@ -56,11 +64,20 @@ void	Client::setNickname(const std::string& nickname)
 	}
 	else
 	{
-		Utils::sendMessage(NICK_OK, *this);
+		if (irssi == false)
+			Utils::sendMessage(NICK_OK, *this);
 	}
 	_clientNickname = nickname;
 }
 
+
+
+void	Client::setUsername(const std::string& username, const bool irssi)
+{
+	_clientUsername = username;
+	if (irssi == false)
+		Utils::sendMessage(USERNAME_OK, *this);
+}
 
 // Functions
 

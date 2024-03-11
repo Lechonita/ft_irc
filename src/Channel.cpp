@@ -45,7 +45,7 @@ void	Channel::newClient(std::string passwrd, Client &client)
 		}
 		else
 		{
-			Utils::sendErrorMessage(ERR_BADCHANNELKEY, NULL, NULL, client, _channelName);
+			Utils::sendErrorMessage(ERR_BADCHANNELKEY, NULL, NULL, client, _channelName.c_str());
 		}
 	}
 	else

@@ -15,11 +15,11 @@ std::string Utils::replacePattern(std::string &message, const std::string &from,
 }
 
 // Command, Arg, Client, ChannelName
-std::string Utils::getFormattedMessage(const std::string &message, const std::string &command, const std::string &arg, const Client &client, const std::string &channelName)
+std::string Utils::getFormattedMessage(const std::string& message, const char* command, const char* arg, const Client client, const char* channelName)
 {
-	const std::string pattern[PATTERN_COUNT][2] = {
+	const char* pattern[PATTERN_COUNT][2] = {
 		{"<command>", command}, {"<arg>", arg},
-		{"<client>", client.getClientNickname()},
+		{"<client>", client.getClientNickname().c_str()},
 		{"ChannelName", channelName}};
 
 	std::string formattedMessage = message;
@@ -31,7 +31,7 @@ std::string Utils::getFormattedMessage(const std::string &message, const std::st
 	return (formattedMessage);
 }
 
-void Utils::sendErrorMessage(const std::string &message, const std::string &command, const std::string &arg, const Client &client, const std::string &channelName)
+void Utils::sendErrorMessage(const std::string &message, const char* command, const char* arg, const Client client, const char* channelName)
 {
 	std::string formattedMessage = Utils::getFormattedMessage(message, command, arg, client, channelName);
 
@@ -45,7 +45,7 @@ void Utils::sendErrorMessage(const std::string &message, const std::string &comm
 
 // Send messages
 
-void Utils::sendMessage(const std::string &message, const Client &client)
+void	Utils::sendMessage(const std::string &message, const Client &client)
 {
 	if (send(client.getClientSocket(), message.c_str(), message.length(), 0) == ERROR)
 	{
@@ -53,4 +53,78 @@ void Utils::sendMessage(const std::string &message, const Client &client)
 	}
 	else
 		std::cout << OUTGOING_MSG << message;
+}
+
+
+
+// Welcome Message
+
+
+static std::string	WelcomeLine1(const Client &client)
+{
+	return (":irc 001 " + client.getClientNickname() + " :Welcome to the Internet Relay Network " + client.getClientNickname() + "!" + client.getClientUsername() + "@" + client.getClientIP() + '\n');
+}
+
+
+static std::string	WelcomeLine2(const Client &client)
+{
+	return (":irc 002 " + client.getClientNickname() + ":Your host is irc, running version 0.6\n");
+}
+
+
+static std::string	WelcomeLine3(const Client &client)
+{
+	std::time_t now = std::time(NULL);
+	std::tm* localTime = std::localtime(&now);
+
+	std::stringstream ss;
+	ss << ":irc 003 " << client.getClientNickname() << ":This server was created on ";
+	ss << (localTime->tm_year + 1900) << "/";
+	ss << (localTime->tm_mon + 1) << "/";
+	ss << localTime->tm_mday << '\n';
+
+	return ss.str();
+}
+
+
+static std::string	WelcomeLine4(const Client &client)
+{
+	return ("004 " + client.getClientNickname() + ":irc 1.0 -none- itkol\n");
+}
+
+
+void	Utils::displayWelcomeMessage(const Client& client)
+{
+	if (send(client.getClientSocket(), WelcomeLine1(client).c_str(), WelcomeLine1(client).length(), 0) == ERROR ||
+		send(client.getClientSocket(), WelcomeLine2(client).c_str(), WelcomeLine2(client).length(), 0) == ERROR ||
+		send(client.getClientSocket(), WelcomeLine3(client).c_str(), WelcomeLine3(client).length(), 0) == ERROR ||
+		send(client.getClientSocket(), WelcomeLine4(client).c_str(), WelcomeLine4(client).length(), 0) == ERROR)
+	{
+		std::perror(PERR_SEND);
+	}
+	else
+	{
+		std::cout << OUTGOING_MSG << WelcomeLine1(client);
+		std::cout << OUTGOING_MSG << WelcomeLine2(client);
+		std::cout << OUTGOING_MSG << WelcomeLine3(client);
+		std::cout << OUTGOING_MSG << WelcomeLine4(client);
+	}
+}
+
+
+
+
+// Util functions
+
+std::vector<std::string>		Utils::splitParameters(const std::string& userInfo)
+{
+	std::vector<std::string>	parameters;
+
+	char *token = strtok((char *)userInfo.c_str(), " ");
+	while (token != NULL && userInfo.empty() == false)
+	{
+		parameters.push_back(token);
+		token = strtok(NULL, " ");
+	}
+	return(parameters);
 }

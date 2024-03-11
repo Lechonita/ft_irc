@@ -9,7 +9,8 @@ Server::Server(const std::string &port, const std::string &password)
 	: _port(port),
 	  _password(password),
 	  _nbClients(0),
-	  _pollFd(0)
+	  _pollFd(0),
+	  _irssi(false)
 	//   _cmdList(setCommandList())
 {
 	// SOCKET : This code creates a TCP socket for IPv6 communication
@@ -145,6 +146,7 @@ void	Server::createNewClient()
 
 	// Create the new client object and store it in std::map
 	Client	newClient(clientSocket);
+	newClient.setClientIP(inet_ntoa(clientAddress.sin_addr));
 	_clientMap.insert(std::make_pair(clientSocket, newClient));
 	_nbClients += 1;
 
@@ -191,16 +193,19 @@ void	Server::getClientMessage()
 
 // Getters
 
-int							Server::getSocketFd() const { return (_serverSocket); }
-std::string					Server::getPassword() const { return (_password); }
-std::map<int, Client>		Server::getClientMap() const { return (_clientMap); }
-std::map<std::string, Channel>		Server::getChannelMap() const {return (_channelMap);}
+int									Server::getSocketFd() const { return (_serverSocket); }
+std::string							Server::getPassword() const { return (_password); }
+std::map<int, Client>				Server::getClientMap() const { return (_clientMap); }
+std::map<std::string, Channel>		Server::getChannelMap() const { return (_channelMap); }
+bool								Server::getIrssi()const { return (_irssi); }
 
 // std::vector<std::string>	Server::getCommandList() const { return (_cmdList); }
 
 
 
 // Setters
+
+void	Server::setIrssi(const bool result) { _irssi = result; }
 
 void	Server::setChannelMap(std::string channel_name, int client_socket)
 {

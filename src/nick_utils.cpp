@@ -1,6 +1,7 @@
-#include "../inc/Server.hpp"
-#include "../inc/defines.hpp"
 #include "../inc/Commands.hpp"
+
+//  ERR_NONICKNAMEGIVEN             ERR_ERRONEUSNICKNAME
+//  ERR_NICKNAMEINUSE               ERR_NICKCOLLISION
 
 
 // Command NICK

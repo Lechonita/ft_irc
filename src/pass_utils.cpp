@@ -3,7 +3,7 @@
 bool	Commands::isValidPassword(const std::string& password, const Client& client, const Server& server)
 {
 	if (password != server.getPassword())
-		Utils::sendErrorMessage(ERR_PASSWDMISMATCH, "", "", client, "");
+		Utils::sendErrorMessage(ERR_PASSWDMISMATCH, NULL, NULL, client, NULL);
 	// {
 	// 	// 464 ERR_PASSWDMISMATCH
 	// 	if (send(client.getClientSocket(), ERR_PASSWDMISMATCH,  strlen(ERR_PASSWDMISMATCH), 0) == ERROR)
