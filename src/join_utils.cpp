@@ -6,7 +6,7 @@
 /*   By: cbernaze <cbernaze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 16:55:12 by cbernaze          #+#    #+#             */
-/*   Updated: 2024/03/11 13:07:40 by cbernaze         ###   ########.fr       */
+/*   Updated: 2024/03/11 17:16:00 by cbernaze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,10 @@ static std::vector<std::string>	extractPasswrds(std::string join_params, int &po
 		{
 			pos++;
 		}
-		std::string	chan = join_params.substr(start, pos - start);
+		std::string	pass = join_params.substr(start, pos - start);
 
-		if (chan.empty() == false)
-			passwrd.push_back(chan);
+		if (pass.empty() == false)
+			passwrd.push_back(pass);
 		if (isspace(join_params[pos]) != NOT_WHITESPACE || join_params[pos] == '\0')
 			break ;
 		pos++;
@@ -70,11 +70,10 @@ static std::vector<std::string>	extractPasswrds(std::string join_params, int &po
 
 
 
-bool		Commands::checkJoinParams(std::string join_params, std::vector<std::string> *channels, std::vector<std::string> *passwrds)
+void		Commands::checkJoinParams(std::string join_params, std::vector<std::string> *channels, std::vector<std::string> *passwrds)
 {
 	int	pos = 0;
 
 	*channels = extractChannels(join_params, pos);
 	*passwrds = extractPasswrds(join_params, pos);
-	return (true);
 }

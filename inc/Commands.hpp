@@ -19,7 +19,7 @@ class Commands
 		static void			commandPASS(const std::string& line, const std::string& command, Client& client, Server& server);
 		static void			commandNICK(const std::string& line, const std::string& command, Client& client, Server& server);
 		static void			commandUSER(const std::string& line, const std::string& command, Client& client, Server& server);
-		static bool			checkJoinParams(std::string join_params, std::vector<std::string> *channels, std::vector<std::string> *passwrds);
+		static void			checkJoinParams(std::string join_params, std::vector<std::string> *channels, std::vector<std::string> *passwrds);
 
 		// Util functions
 		static std::string	getCommandFromLine(const std::string& line);

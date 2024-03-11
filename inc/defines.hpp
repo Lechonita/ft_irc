@@ -97,6 +97,7 @@
 # define PASS_OK "\033[0;32mPassword correct !\033[0m Please set up Nickname now (use NICK command).\n"
 # define NICK_OK "\033[0;32mNickname has been set !\033[0m Please set up Username now (use USER command).\n"
 # define NICK_CHANGED "\033[0;32mYour nickname has been changed successfuly.\n\033[0m"
+# define JOINED_CHANNEL "\033[0;32mYou join the channel\n\033[0m"
 
 // CLIENT Error messages
 

@@ -17,6 +17,7 @@ Channel::Channel(const std::string& name, const Client *const client): _channelN
 
 Channel::~Channel()
 {
+	std::cout << this->_channelName;
 	std::cout << "Default destructor." << std::endl;
 }
 
@@ -36,6 +37,13 @@ void	Channel::newClient(std::string passwrd, Client &client)
 {
 	channelClient	newClient = {.client = &client, .isOperator = false};
 
+	for (size_t i = 0; i <= _channelClients.size(); i++)
+	{
+		if (_channelClients[i].client == &client)
+		{
+			return ;
+		}
+	}
 	if (_channelPass.empty() == false)
 	{
 		if (passwrd == _channelPass)

@@ -204,13 +204,38 @@ std::map<std::string, Channel>		Server::getChannelMap() const {return (_channelM
 
 void	Server::setChannelMap(std::string channel_name, int client_socket)
 {
-	if (_channelMap.find(channel_name) == _channelMap.end())
+	std::map<int, Client>::iterator it_client = _clientMap.find(client_socket);
+	_channelMap.insert(std::make_pair(channel_name, Channel(channel_name, &(it_client->second))));
+}
+
+void	Server::addClientToChannel(std::string channel, std::string passwrd, Client& client)
+{
+	std::map<std::string, Channel>::iterator	it = _channelMap.find(channel);
+
+	it->second.newClient(passwrd, client);
+}
+
+void	Server::manageChannel(std::vector<std::string> channels, std::vector<std::string> passwrds, Client& client)
+{
+	for (size_t i = 0; i < channels.size(); i++)
 	{
-		// _channelMap[channel_name] = Channel(channel_name, &_clientMap[client]);
-		std::map<int, Client>::iterator it_client = _clientMap.find(client_socket);
-		_channelMap.insert(std::make_pair(channel_name, Channel(channel_name, &(it_client->second))));
+		if (_channelMap.find(channels[i]) == _channelMap.end())
+		{
+			setChannelMap(channels[i], client.getClientSocket());
+		}
+		else if (i >= passwrds.size())
+		{
+			std::cout << "passe par la" << std::endl;
+			addClientToChannel(channels[i], "", client);
+		}
+		else
+		{
+			std::cout << "passe par ici" << std::endl;
+			addClientToChannel(channels[i], passwrds[i], client);
+		}
 	}
 }
+
 
 // std::vector<std::string>	Server::setCommandList()
 // {

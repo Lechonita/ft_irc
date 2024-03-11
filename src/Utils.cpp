@@ -17,6 +17,7 @@ std::string Utils::replacePattern(std::string &message, const std::string &from,
 // Command, Arg, Client, ChannelName
 std::string Utils::getFormattedMessage(const std::string &message, const std::string &command, const std::string &arg, const Client &client, const std::string &channelName)
 {
+	std::cout << RED << "je passe par la" << NC << std::endl;
 	const std::string pattern[PATTERN_COUNT][2] = {
 		{"<command>", command}, {"<arg>", arg},
 		{"<client>", client.getClientNickname()},
@@ -33,6 +34,7 @@ std::string Utils::getFormattedMessage(const std::string &message, const std::st
 
 void Utils::sendErrorMessage(const std::string &message, const std::string &command, const std::string &arg, const Client &client, const std::string &channelName)
 {
+	std::cout << RED << "je passe par ici" << NC << std::endl;
 	std::string formattedMessage = Utils::getFormattedMessage(message, command, arg, client, channelName);
 
 	if (send(client.getClientSocket(), formattedMessage.c_str(), formattedMessage.length(), 0) == ERROR)
@@ -40,7 +42,9 @@ void Utils::sendErrorMessage(const std::string &message, const std::string &comm
 		perror(PERR_SEND);
 	}
 	else
+	{
 		std::cout << OUTGOING_MSG << formattedMessage;
+	}
 }
 
 // Send messages
