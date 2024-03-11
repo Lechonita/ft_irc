@@ -4,7 +4,7 @@
 
 
 
-void	Server::interpretClientBuffer(const std::map<int, Client>::iterator &client, const Server& server)
+void	Server::interpretClientBuffer(const std::map<int, Client>::iterator &client, Server& server)
 {
 	client->second.interpretMessage(server);
 }

@@ -6,12 +6,11 @@
 /*   By: cbernaze <cbernaze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 16:55:12 by cbernaze          #+#    #+#             */
-/*   Updated: 2024/03/08 16:39:18 by cbernaze         ###   ########.fr       */
+/*   Updated: 2024/03/11 13:07:40 by cbernaze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/Commands.hpp"
-#include "../inc/Utils.hpp"
 
 static std::vector<std::string>	extractChannels(std::string join_params, int &pos)
 {
@@ -31,7 +30,7 @@ static std::vector<std::string>	extractChannels(std::string join_params, int &po
 		std::string	chan = join_params.substr(start, pos - start);
 
 		if (chan[0] != '#')
-			std::cout << Utils::sendErrorMsg(ERR_NOSUCHCHANNEL) << std::endl;
+			Utils::sendErrorMessage(ERR_NOSUCHCHANNEL, NULL, NULL, NULL, chan);
 		else
 			channels.push_back(chan);
 		if (isspace(join_params[pos]) != NOT_WHITESPACE || join_params[pos] == '\0')

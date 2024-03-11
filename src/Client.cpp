@@ -64,7 +64,7 @@ void	Client::setNickname(const std::string& nickname)
 
 // Functions
 
-void	Client::interpretMessage(const Server& server)
+void	Client::interpretMessage(Server& server)
 {
 	if (_buffer.empty() == true)
 		return ;

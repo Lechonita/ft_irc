@@ -2,14 +2,12 @@
 # define CHANNEL_HPP
 
 
-#include "../inc/Utils.hpp"
 #include "../inc/Client.hpp"
 #include "../inc/Utils.hpp"
 #include "../inc/defines.hpp"
 
 
 class Client;
-
 
 struct channelClient
 {

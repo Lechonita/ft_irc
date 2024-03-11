@@ -2,7 +2,6 @@
 #include "../inc/defines.hpp"
 #include "../inc/Server.hpp"
 #include "../inc/Client.hpp"
-#include "../inc/Utils.hpp"
 
 /********************************************************************************/
 /****************************** UTIL FUNCTIONS **********************************/
@@ -115,13 +114,13 @@ void		Commands::commandJOIN(const std::string& line, const std::string& command,
 		return ;
 	}
 	checkJoinParams(join_params, &channels, &passwrds);
-	for (int i = 0; i < channels.size(); i++)
+	for (size_t i = 0; i < channels.size(); i++)
 	{
 		if (server.getChannelMap().find(channels[i]) == server.getChannelMap().end())
 		{
 			server.setChannelMap(channels[i], client.getClientSocket());
 		}
-		server.getChannelMap()[channels[i]].newClient(passwrds[i], client);
+		// server.getChannelMap()[channels[i]].newClient(passwrds[i], client);
 		// addClientToChannel(channels[i], passwrds[i], client, server);
 	}
 
@@ -137,7 +136,7 @@ void		Commands::commandPASS(const std::string& line, const std::string& command,
 {
 	if (client.getClientPassword() != EMPTY)
 	{
-		Utils::sendErrorMessage(ERR_ALREADYREGISTRED, "", "", client, "");
+		Utils::sendErrorMessage(ERR_ALREADYREGISTERED, "", "", client, "");
 		return ;
 	}
 

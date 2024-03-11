@@ -29,7 +29,7 @@ class Client
 
 
 	// Functions
-	void			interpretMessage(const Server& server);
+	void			interpretMessage(Server& server);
 
 
 	// Commands
