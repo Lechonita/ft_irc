@@ -33,9 +33,9 @@ Client::~Client()
 // Getters
 
 int				Client::getClientSocket() const { return (_clientSocket); }
-std::string		Client::getClientUsername() const { return (_clientUsername); }
-std::string		Client::getClientNickname() const { return (_clientNickname); }
-std::string		Client::getClientPassword() const { return (_clientPassword); }
+const std::string		Client::getClientUsername() const { return (_clientUsername); }
+const std::string		Client::getClientNickname() const { return (_clientNickname); }
+const std::string		Client::getClientPassword() const { return (_clientPassword); }
 
 
 // Setters

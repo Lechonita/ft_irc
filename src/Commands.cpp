@@ -117,7 +117,6 @@ void		Commands::commandJOIN(const std::string& line, const std::string& command,
 	if (join_params.empty() == true)
 	{
 		Utils::sendErrorMessage(ERR_NEEDMOREPARAMS, command, NULL, client, channels[0]);
-		std::cout << RED << "c'est pas la que ca bug" << NC << std::endl;
 		return ;
 	}
 	checkJoinParams(join_params, &channels, &passwrds);

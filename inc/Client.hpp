@@ -17,9 +17,9 @@ class Client
 
 	// Getters
 	int				getClientSocket() const;
-	std::string		getClientUsername() const;
-	std::string		getClientNickname() const;
-	std::string		getClientPassword() const;
+	const std::string		getClientUsername() const;
+	const std::string		getClientNickname() const;
+	const std::string		getClientPassword() const;
 
 
 	// Setters
