@@ -202,11 +202,13 @@ std::map<std::string, Channel>		Server::getChannelMap() const {return (_channelM
 
 // Setters
 
-void	Server::setChannelMap(std::string channel_name, int client)
+void	Server::setChannelMap(std::string channel_name, int client_socket)
 {
 	if (_channelMap.find(channel_name) == _channelMap.end())
 	{
-		_channelMap[channel_name] = Channel(channel_name, &_clientMap[client]);
+		// _channelMap[channel_name] = Channel(channel_name, &_clientMap[client]);
+		std::map<int, Client>::iterator it_client = _clientMap.find(client_socket);
+		_channelMap.insert(std::make_pair(channel_name, Channel(channel_name, &(it_client->second))));
 	}
 }
 

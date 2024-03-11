@@ -26,7 +26,7 @@ class Server
 
 		// Setters
 		// std::vector<std::string>	setCommandList();
-		void						setChannelMap(std::string channel_name, int client);
+		void						setChannelMap(std::string channel_name, int client_socket);
 
 		// Functions
 		void						runServer();
@@ -36,7 +36,7 @@ class Server
 		// Client message reception
 		void						manageClientMessageReception(const char *buffer, const int& clientSocket);
 		void						setClientBuffer(const std::map<int, Client>::iterator &client, const char *buffer);
-		void						interpretClientBuffer(const std::map<int, Client>::iterator &client, const Server& server);
+		void						interpretClientBuffer(const std::map<int, Client>::iterator &client, Server& server);
 
 		// Client_disconnect
 		void						disconnectClient(const int& clientSocket);
