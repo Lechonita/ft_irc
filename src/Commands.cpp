@@ -39,7 +39,7 @@ std::string		Commands::getCommandFromLine(const std::string& line)
 
 
 
-void		Commands::executeCommand(const std::string& line, const std::string& command, const Server& server, Client& client)
+void		Commands::executeCommand(const std::string& line, const std::string& command, Server& server, Client& client)
 {
 	if (command == "JOIN")
 		Commands::commandJOIN(line, command, server, client);
@@ -111,7 +111,7 @@ void		Commands::commandJOIN(const std::string& line, const std::string& command,
 	(void)client;
 	if (join_params.empty() == true)
 	{
-		std::cout << Utils::sendErrorMsg(ERR_NEEDMOREPARAMS) << std::endl;
+		Utils::sendErrorMessage(ERR_NEEDMOREPARAMS, command, NULL, client, channels[0]);
 		return ;
 	}
 	checkJoinParams(join_params, &channels, &passwrds);
@@ -133,7 +133,7 @@ void		Commands::commandJOIN(const std::string& line, const std::string& command,
 
 // PASS
 
-void		Commands::commandPASS(const std::string& line, const std::string& command, Client& client, const Server& server)
+void		Commands::commandPASS(const std::string& line, const std::string& command, Client& client, Server& server)
 {
 	if (client.getClientPassword() != EMPTY)
 	{
@@ -172,7 +172,7 @@ void		Commands::commandNICK(const std::string& line, const std::string& command,
 
 // USER
 
-void		Commands::commandUSER(const std::string& line, const std::string& command, Client& client, const Server& server)
+void		Commands::commandUSER(const std::string& line, const std::string& command, Client& client, Server& server)
 {
 	if (isParameterSetUp(client.getClientPassword(), client, PASS_NOT_ENTERED) == false)
 		return ;

@@ -16,16 +16,16 @@ class Commands
 
 		// Command functions
 		static void			commandJOIN(const std::string& line, const std::string& command, Server& server, Client& client);
-		static void			commandPASS(const std::string& line, const std::string& command, Client& client, const Server& server);
+		static void			commandPASS(const std::string& line, const std::string& command, Client& client, Server& server);
 		static void			commandNICK(const std::string& line, const std::string& command, Client& client, Server& server);
-		static void			commandUSER(const std::string& line, const std::string& command, Client& client, const Server& server);
+		static void			commandUSER(const std::string& line, const std::string& command, Client& client, Server& server);
 		static bool			checkJoinParams(std::string join_params, std::vector<std::string> *channels, std::vector<std::string> *passwrds);
 
 		// Util functions
 		static std::string	getCommandFromLine(const std::string& line);
 		static std::string	eraseCommandfromLine(const std::string& line, const std::string& command);
-		static void			findCommandInMessage(const std::string& line, const Server& server, Client& client);
-		static void			executeCommand(const std::string& line, const std::string& command, const Server& server, Client& client);
+		static void			findCommandInMessage(const std::string& line, Server& server, Client& client);
+		static void			executeCommand(const std::string& line, const std::string& command, Server& server, Client& client);
 		static bool			commandParameterExists(const std::string& parameter, const std::string& command, const Client& client);
 		static bool			isParameterSetUp(const std::string& parameter, const Client& client, const std::string& errorMessage);
 
