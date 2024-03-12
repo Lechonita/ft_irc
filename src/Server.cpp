@@ -219,7 +219,11 @@ void	Server::manageChannel(std::vector<std::string> channels, std::vector<std::s
 {
 	for (size_t i = 0; i < channels.size(); i++)
 	{
-		if (_channelMap.find(channels[i]) == _channelMap.end())
+		if (channels[i][0] != PREFIX_CHAN)
+		{
+			Utils::sendErrorMessage(ERR_NOSUCHCHANNEL, client, channels[i]);
+		}
+		else if (_channelMap.find(channels[i]) == _channelMap.end())
 		{
 			setChannelMap(channels[i], client.getClientSocket());
 		}

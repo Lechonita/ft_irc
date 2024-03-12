@@ -6,7 +6,7 @@
 /*   By: cbernaze <cbernaze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 16:55:12 by cbernaze          #+#    #+#             */
-/*   Updated: 2024/03/11 18:24:58 by cbernaze         ###   ########.fr       */
+/*   Updated: 2024/03/12 16:14:13 by cbernaze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,7 @@ static std::vector<std::string>	extractChannels(std::string join_params, int &po
 		}
 		std::string	chan = join_params.substr(start, pos - start);
 
-		if (chan[0] != '#')
-			Utils::sendErrorMessage(ERR_NOSUCHCHANNEL, NULL, NULL, NULL, chan);
-		else
-			channels.push_back(chan);
+		channels.push_back(chan);
 		if (isspace(join_params[pos]) != NOT_WHITESPACE || join_params[pos] == '\0')
 			break ;
 		pos++;

@@ -13,10 +13,10 @@ class Utils
 
 	// Error management
 	static void			sendErrorMessage(
-			const std::string& message, const std::string& command, const std::string& arg, const Client& client, const std::string& channelName);
+			const std::string& message, const Client& client, const std::string channelName = "");
 
 	static std::string	getFormattedMessage(
-			const std::string& message, const std::string& command, const std::string& arg, const Client& client, const std::string& channelName);
+			const std::string& message, const Client& client, const std::string channelName);
 
 	static std::string	replacePattern(
 			std::string& message, const std::string& toChange, const std::string& replacement);

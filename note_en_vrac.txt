@@ -53,3 +53,11 @@ QUESTIONS A POSER
    number represented in ASCII text.
    -> est-ce qu'on doit gerer ca?
    - doit on gere les communications de client a client hors d'un channel?
+
+   IMPLEMENTER CAP LS (ENVOYE PAR LE CLIENT A LA CONNECTION AU SERVEUR, SERVEUR QUI REPOND PAR CE QU'IL PERMET DE FAIRE)
+   EXEMPLE DE Dalnet :
+   NETWORK=DALnet SAFELIST MAXBANS=200 MAXCHANNELS=20 CHANNELLEN=32 KICKLEN=307 NICKLEN=30 TOPICLEN=307 MODES=6
+          CHANTYPES=# CHANLIMIT=#:20 PREFIX=(ohv)@%+ STATUSMSG=@%+ are available on this server
+	CASEMAPPING=ascii WATCH=128 SILENCE=10 ELIST=cmntu EXCEPTS INVEX CHANMODES=beI,k,jl,ciPAmMnOprRsSt
+          MAXLIST=b:200,e:100,I:100 TARGMAX=DCCALLOW:,JOIN:,KICK:4,KILL:20,NOTICE:20,PART:,PRIVMSG:20,WHOIS:,WHOWAS: are
+          available on this server
