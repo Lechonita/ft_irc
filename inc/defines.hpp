@@ -46,6 +46,7 @@
 # define NOT_WHITESPACE 0
 # define EQUAL 0
 # define EMPTY ""
+# define SPACE " "
 # define MAX_NICK_LEN 9
 # define PATTERN_COUNT 4
 # define EXPECTED_USER_PARAM 5
@@ -96,7 +97,7 @@
 # define ERR_USERONCHANNEL		"\033[0;33m443 <client> <arg> <channelName> :is already on channel\033[0m"
 # define ERR_NEEDMOREPARAMS		"\033[0;33m461 <client> <command> :Not enough parameters\033[0m"
 # define ERR_ALREADYREGISTERED	"\033[0;33m462 <client> :You may not reregister\033[0m"
-# define ERR_PASSWDMISMATCH		"\033[0;33m464 <client> :Password incorrect\033[0m"
+# define ERR_PASSWDMISMATCH		"\033[0;33m464 :Password incorrect\033[0m"
 # define ERR_CHANNELISFULL		"\033[0;33m471 <client> <channelName> :Cannot join channel (+l)\033[0m"
 # define ERR_INVITEONLYCHAN		"\033[0;33m473 <client> <channelName> :Cannot join channel (+i)\033[0m"
 # define ERR_BADCHANNELKEY		"\033[0;33m475 <client> <channelName> :Cannot join channel (+k)\033[0m"

@@ -1,6 +1,9 @@
 #include "../inc/Utils.hpp"
 
+
+
 // Error management
+
 
 std::string Utils::replacePattern(std::string &message, const std::string &from, const std::string &to)
 {
@@ -13,6 +16,8 @@ std::string Utils::replacePattern(std::string &message, const std::string &from,
 	}
 	return (message);
 }
+
+
 
 // Command, Arg, Client, ChannelName
 std::string Utils::getFormattedMessage(const std::string &message, const Client &client, const std::string channelName)
@@ -32,6 +37,8 @@ std::string Utils::getFormattedMessage(const std::string &message, const Client 
 	return (formattedMessage + END_MSG);
 }
 
+
+
 void Utils::sendErrorMessage(const std::string &message, const Client &client, const std::string channelName)
 {
 	std::string formattedMessage = Utils::getFormattedMessage(message, client, channelName);
@@ -43,6 +50,41 @@ void Utils::sendErrorMessage(const std::string &message, const Client &client, c
 	else
 		std::cout << OUTGOING_MSG << formattedMessage;
 }
+
+
+
+std::string		Utils::getFormattedMessage(const std::string &message, const Client &client)
+{
+	const std::string pattern[PATTERN_COUNT - 1][2] = {
+		{"<command>", client.getLastCommand()},
+		{"<arg>", client.getLastArgument()},
+		{"<client>", client.getClientNickname()}};
+
+	std::string formattedMessage = message;
+
+	for (size_t i = 0; i < PATTERN_COUNT; ++i)
+	{
+		formattedMessage = replacePattern(formattedMessage, pattern[i][0], pattern[i][1]);
+	}
+	return (formattedMessage + END_MSG);
+}
+
+
+
+void	Utils::sendErrorMessage(const std::string &message, const Client &client)
+{
+	std::string formattedMessage = Utils::getFormattedMessage(message, client);
+
+	if (send(client.getClientSocket(), formattedMessage.c_str(), formattedMessage.length(), 0) == ERROR)
+	{
+		perror(PERR_SEND);
+	}
+	else
+		std::cout << OUTGOING_MSG << formattedMessage;
+}
+
+
+
 
 // Send messages
 
@@ -58,6 +100,7 @@ void	Utils::sendMessage(const std::string &message, const Client &client)
 
 
 
+
 // Welcome Message
 
 
@@ -67,10 +110,12 @@ static std::string	WelcomeLine1(const Client &client)
 }
 
 
+
 static std::string	WelcomeLine2(const Client &client)
 {
 	return (":irc 002 " + client.getClientNickname() + ":Your host is irc, running version 0.6\n");
 }
+
 
 
 static std::string	WelcomeLine3(const Client &client)
@@ -114,18 +159,17 @@ void	Utils::displayWelcomeMessage(const Client& client)
 
 
 
-
 // Util functions
 
 std::vector<std::string>		Utils::splitParameters(const std::string& userInfo)
 {
 	std::vector<std::string>	parameters;
 
-	char *token = strtok((char *)userInfo.c_str(), " ");
+	char *token = strtok((char *)userInfo.c_str(), SPACE);
 	while (token != NULL && userInfo.empty() == false)
 	{
 		parameters.push_back(token);
-		token = strtok(NULL, " ");
+		token = strtok(NULL, SPACE);
 	}
 	return(parameters);
 }

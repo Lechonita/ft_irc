@@ -12,14 +12,13 @@ class Utils
 	public:
 
 	// Error management
-	static void			sendErrorMessage(
-			const std::string& message, const Client& client, const std::string channelName = "");
+	static void							sendErrorMessage(const std::string& message, const Client& client, const std::string channelName);
+	static std::string					getFormattedMessage(const std::string& message, const Client& client, const std::string channelName);
 
-	static std::string	getFormattedMessage(
-			const std::string& message, const Client& client, const std::string channelName);
+	static void							sendErrorMessage(const std::string& message, const Client& client);
+	static std::string					getFormattedMessage(const std::string& message, const Client& client);
 
-	static std::string					replacePattern(
-											std::string& message, const std::string& toChange, const std::string& replacement);
+	static std::string					replacePattern(std::string& message, const std::string& toChange, const std::string& replacement);
 
 
 	// Send messages

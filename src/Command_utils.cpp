@@ -45,7 +45,7 @@ void		Commands::executeCommand(const std::string& line, const std::string& comma
 		Commands::commandUSER(line, command, client, server);
 	else
 	{
-		Utils::sendErrorMessage(ERR_UNKNOWNCOMMAND, client, NULL);
+		Utils::sendErrorMessage(ERR_UNKNOWNCOMMAND, client);
 	}
 
 	std::map<std::string, Channel>	test = server.getChannelMap();
@@ -76,7 +76,7 @@ bool	Commands::isParameterSetUp(const std::string& parameter, const Client& clie
 	if (parameter == EMPTY)
 	{
 		if (errorMessage != EMPTY)
-			Utils::sendErrorMessage(errorMessage, client, NULL);
+			Utils::sendErrorMessage(errorMessage, client);
 		return (false);
 	}
 	return (true);
