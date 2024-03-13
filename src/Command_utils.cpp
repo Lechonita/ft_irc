@@ -45,7 +45,15 @@ void		Commands::executeCommand(const std::string& line, const std::string& comma
 		Commands::commandUSER(line, command, client, server);
 	else
 	{
-		Utils::sendErrorMessage(ERR_UNKNOWNCOMMAND, command.c_str(), NULL, client, NULL);
+		Utils::sendErrorMessage(ERR_UNKNOWNCOMMAND, client, NULL);
+	}
+
+	std::map<std::string, Channel>	test = server.getChannelMap();
+	std::map<std::string, Channel>::iterator	it;
+
+	for (it = test.begin(); it != test.end(); it++)
+	{
+		std::cout << GREEN << "Channel name: " << it->first << NC << std::endl;
 	}
 }
 
@@ -67,19 +75,8 @@ bool	Commands::isParameterSetUp(const std::string& parameter, const Client& clie
 {
 	if (parameter == EMPTY)
 	{
-		Utils::sendErrorMessage(errorMessage, NULL, NULL, client, NULL);
-		return (false);
-	}
-	return (true);
-}
-
-
-
-bool	Commands::commandParameterExists(const std::string& parameter, const std::string& command, const Client& client)
-{
-	if (parameter == EMPTY)
-	{
-		Utils::sendErrorMessage(ERR_NEEDMOREPARAMS, command.c_str(), NULL, client, NULL);
+		if (errorMessage != EMPTY)
+			Utils::sendErrorMessage(errorMessage, client, NULL);
 		return (false);
 	}
 	return (true);

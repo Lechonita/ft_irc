@@ -27,11 +27,10 @@ class Commands
 		static std::string	eraseCommandfromLine(const std::string& line, const std::string& command);
 		static void			findCommandInMessage(const std::string& line, Server& server, Client& client);
 		static void			executeCommand(const std::string& line, const std::string& command, Server& server, Client& client);
-		static bool			commandParameterExists(const std::string& parameter, const Client& client);
 		static bool			isParameterSetUp(const std::string& parameter, const Client& client, const std::string& errorMessage);
 
 		// join_utils
-		static bool			checkJoinParams(std::string join_params, std::vector<std::string> *channels, std::vector<std::string> *passwrds);
+		static void			checkJoinParams(std::string join_params, std::vector<std::string> *channels, std::vector<std::string> *passwrds);
 		
 		// nick_utils
 		static bool			isValidNickname(const std::string& nickname, const Server& server);

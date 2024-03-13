@@ -36,7 +36,7 @@ void		Commands::commandPASS(const std::string& line, const std::string& command,
 
 	const std::string	password = eraseCommandfromLine(line, command);
 
-	if (commandParameterExists(password, client) == false)
+	if (isParameterSetUp(password, client, ERR_NEEDMOREPARAMS) == false)
 		return ;
 
 	if (isValidPassword(password, client, server) == true)
@@ -57,7 +57,7 @@ void		Commands::commandNICK(const std::string& line, const std::string& command,
 
 	const std::string	nickname = eraseCommandfromLine(line, command);
 
-	if (commandParameterExists(nickname, client) == false)
+	if (isParameterSetUp(nickname, client, EMPTY) == false)
 		return ;
 
 	if (isValidNickname(nickname, server) == true)
@@ -81,7 +81,7 @@ void		Commands::commandUSER(const std::string& line, const std::string& command,
 
 	const std::string	userInfo = eraseCommandfromLine(line, command);
 
-	if (commandParameterExists(userInfo, client) == false)
+	if (isParameterSetUp(userInfo, client, EMPTY) == false)
 		return ;
 
 
@@ -102,7 +102,7 @@ void		Commands::commandCAP(const std::string& line, const std::string& command, 
 {
 	const std::string	parameter = eraseCommandfromLine(line, command);
 
-	if (commandParameterExists(parameter, client) == false)
+	if (isParameterSetUp(parameter, client, EMPTY) == false)
 		return ;
 
 	if (isIrssi(parameter) == true)
