@@ -41,7 +41,7 @@
 # define ARG_NB 3
 # define ERROR -1
 # define MAX_CLIENTS 10
-# define TIMEOUT 10000
+# define TIMEOUT 30000
 # define BUFFERSIZE 1024
 # define NOT_WHITESPACE 0
 # define EQUAL 0
@@ -129,6 +129,7 @@
 # define NICK_CHANGED "\033[0;32mYour nickname has been changed successfuly.\n\033[0m"
 # define USERNAME_OK "\033[0;32mUsername has been set.\033[0m\n"
 # define JOINED_CHANNEL "\033[0;32mYou join the channel\n\033[0m"
+# define LEFT_CHANNEL " has left the channel.\n"
 
 // CLIENT Error messages
 

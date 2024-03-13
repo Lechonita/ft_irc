@@ -20,7 +20,8 @@ class Commands
 		static void			commandPASS(const std::string& line, const std::string& command, Client& client, Server& server);
 		static void			commandNICK(const std::string& line, const std::string& command, Client& client, Server& server);
 		static void			commandUSER(const std::string& line, const std::string& command, Client& client, Server& server);
-		static void			commandCAP(const std::string& line, const std::string& command, Client& client, Server& server);
+		static void			commandCAP(const std::string& line, const std::string& command, Client& client, Server& server);\
+		static void			commandQUIT(const std::string& line, const std::string& command, Client& client, Server& server);
 
 		// Command Utils
 		static std::string	getCommandFromLine(const std::string& line);

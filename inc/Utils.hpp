@@ -3,8 +3,14 @@
 
 #include "../inc/defines.hpp"
 #include "../inc/Client.hpp"
+#include "../inc/Channel.hpp"
+#include "../inc/Server.hpp"
 
 class Client;
+
+class Channel;
+
+class Server;
 
 class Utils
 {
@@ -13,17 +19,19 @@ class Utils
 
 	// Error management
 	static void							sendErrorMessage(const std::string& message, const Client& client, const std::string channelName);
-	static std::string					getFormattedMessage(const std::string& message, const Client& client, const std::string channelName);
-
 	static void							sendErrorMessage(const std::string& message, const Client& client);
+	static std::string					getFormattedMessage(const std::string& message, const Client& client, const std::string channelName);
 	static std::string					getFormattedMessage(const std::string& message, const Client& client);
-
 	static std::string					replacePattern(std::string& message, const std::string& toChange, const std::string& replacement);
-
 
 	// Send messages
 	static void							sendMessage(const std::string& message, const Client& client);
 	static void							displayWelcomeMessage(const Client& client);
+
+	// Quit_utils
+	static void							notifyQuitinChannels(const Client& client, const Server& server);
+	static void							sendQuitMessagetoChannels(const std::string& nickname, const Channel channel);
+	static void							displayQuitChannelMessage(const std::string& nickname, const int receiverSocket);
 
 	// utils functions
 	static std::vector<std::string>		splitParameters(const std::string& userInfo);

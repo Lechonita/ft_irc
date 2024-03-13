@@ -43,6 +43,8 @@ void		Commands::executeCommand(const std::string& line, const std::string& comma
 		Commands::commandNICK(line, command, client, server);
 	else if (command == "USER")
 		Commands::commandUSER(line, command, client, server);
+	else if (command == "QUIT")
+		Commands::commandQUIT(line, command, client, server);
 	else
 	{
 		Utils::sendErrorMessage(ERR_UNKNOWNCOMMAND, client);

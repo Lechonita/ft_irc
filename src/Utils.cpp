@@ -101,7 +101,7 @@ void	Utils::sendMessage(const std::string &message, const Client &client)
 
 
 
-// Welcome Message
+// [ Welcome Message ]
 
 
 static std::string	WelcomeLine1(const Client &client)
@@ -156,6 +156,7 @@ void	Utils::displayWelcomeMessage(const Client& client)
 		std::cout << OUTGOING_MSG << WelcomeLine4(client);
 	}
 }
+
 
 
 

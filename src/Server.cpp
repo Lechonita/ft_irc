@@ -191,6 +191,16 @@ void	Server::getClientMessage()
 
 
 
+void	Server::removeClientfromServer(const Client& client)
+{
+	const size_t	clientSocket = client.getClientSocket();
+
+	if (_clientMap.find(clientSocket) != _clientMap.end())
+		_clientMap.erase(_clientMap.find(clientSocket));
+}
+
+
+
 // Getters
 
 int									Server::getSocketFd() const { return (_serverSocket); }
@@ -219,6 +229,8 @@ void	Server::addClientToChannel(std::string channel, std::string passwrd, Client
 
 	it->second.newClient(passwrd, client);
 }
+
+
 
 void	Server::manageChannel(std::vector<std::string> channels, std::vector<std::string> passwrds, Client& client)
 {

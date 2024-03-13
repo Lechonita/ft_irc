@@ -36,6 +36,7 @@ class Server
 		void								runServer();
 		void								createNewClient();
 		void								getClientMessage();
+		void								removeClientfromServer(const Client& client);
 
 		// Client message reception
 		void								manageClientMessageReception(const char *buffer, const int& clientSocket);

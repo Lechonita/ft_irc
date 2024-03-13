@@ -34,8 +34,9 @@ CHANNEL COMMANDS :
 	- NAMES (list les utilisateurs de la channel)
 
  BASIC COMMANDS :
-	- NICK (change your nick)
-	- USER (set username and mode)
+	x PASS (pour rentrer le mdp)
+	x NICK (change your nick)
+	x USER (set username and mode)
 	- QUIT (quit server)
 	- LIST (list channels)
 	- PRIVMSG (send a private message to another user)

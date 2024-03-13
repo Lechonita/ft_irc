@@ -108,3 +108,23 @@ void		Commands::commandCAP(const std::string& line, const std::string& command, 
 	if (isIrssi(parameter) == true)
 		server.setIrssi(true);
 }
+
+
+
+// QUIT
+
+void		Commands::commandQUIT(const std::string& line, const std::string& command, Client& client, Server& server)
+{
+	(void)line;
+	(void)command;
+
+	close(client.getClientSocket());
+
+	Utils::notifyQuitinChannels(client, server);
+
+	server.removeClientfromServer(client);
+
+	// remove client from channel list (channel) >> send message to this user's channels to norify other users
+	// if it was last client from a channel, delete that channel
+	// other memory allocations
+}
