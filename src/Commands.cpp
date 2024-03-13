@@ -9,28 +9,17 @@ void		Commands::commandJOIN(const std::string& line, const std::string& command,
 	std::string					join_params;
 	std::vector<std::string>	channels;
 	std::vector<std::string>	passwrds;
+	std::map<std::string, std::string*>	chan_pass;
 
 	join_params = eraseCommandfromLine(line, command);
-	(void)server;
-	(void)client;
 	if (join_params.empty() == true)
 	{
-		Utils::sendErrorMessage(ERR_NEEDMOREPARAMS, command.c_str(), NULL, client, channels[0].c_str());
+		Utils::sendErrorMessage(ERR_NEEDMOREPARAMS, client);
 		return ;
 	}
 	checkJoinParams(join_params, &channels, &passwrds);
-	for (size_t i = 0; i < channels.size(); i++)
-	{
-		if (server.getChannelMap().find(channels[i]) == server.getChannelMap().end())
-		{
-			server.setChannelMap(channels[i], client.getClientSocket());
-		}
-		// server.getChannelMap()[channels[i]].newClient(passwrds[i], client);
-		// addClientToChannel(channels[i], passwrds[i], client, server);
-	}
 
-	// si channel existe, rejoindre  le channel
-	// si channel n'existe pas, créer un channel et le rejoindre
+	server.manageChannel(channels, passwrds, client);
 }
 
 
@@ -41,13 +30,13 @@ void		Commands::commandPASS(const std::string& line, const std::string& command,
 {
 	if (client.getClientPassword() != EMPTY)
 	{
-		Utils::sendErrorMessage(ERR_ALREADYREGISTERED, NULL, NULL, client, NULL);
+		Utils::sendErrorMessage(ERR_ALREADYREGISTERED, client);
 		return ;
 	}
 
 	const std::string	password = eraseCommandfromLine(line, command);
 
-	if (commandParameterExists(password, command, client) == false)
+	if (commandParameterExists(password, client) == false)
 		return ;
 
 	if (isValidPassword(password, client, server) == true)
@@ -68,7 +57,7 @@ void		Commands::commandNICK(const std::string& line, const std::string& command,
 
 	const std::string	nickname = eraseCommandfromLine(line, command);
 
-	if (commandParameterExists(nickname, command, client) == false)
+	if (commandParameterExists(nickname, client) == false)
 		return ;
 
 	if (isValidNickname(nickname, server) == true)
@@ -92,7 +81,7 @@ void		Commands::commandUSER(const std::string& line, const std::string& command,
 
 	const std::string	userInfo = eraseCommandfromLine(line, command);
 
-	if (commandParameterExists(userInfo, command, client) == false)
+	if (commandParameterExists(userInfo, client) == false)
 		return ;
 
 
@@ -113,7 +102,7 @@ void		Commands::commandCAP(const std::string& line, const std::string& command, 
 {
 	const std::string	parameter = eraseCommandfromLine(line, command);
 
-	if (commandParameterExists(parameter, command, client) == false)
+	if (commandParameterExists(parameter, client) == false)
 		return ;
 
 	if (isIrssi(parameter) == true)

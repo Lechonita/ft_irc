@@ -26,24 +26,27 @@ class Server
 		// std::vector<std::string>	getCommandList() const;
 
 		// Setters
+		void								setIrssi(const bool result);
 		// std::vector<std::string>	setCommandList();
-		void						setChannelMap(std::string channel_name, int client_socket);
-		void						setIrssi(const bool result);
+		void								setChannelMap(std::string channel_name, int client_socket);
+		void								addClientToChannel(std::string channel, std::string passwrd, Client& client);
+		void								manageChannel(std::vector<std::string> channels, std::vector<std::string> passwrds, Client& client);
+		void								setIrssi(const bool result);
 
 		// Functions
-		void						runServer();
-		void						createNewClient();
-		void						getClientMessage();
+		void								runServer();
+		void								createNewClient();
+		void								getClientMessage();
 
 		// Client message reception
-		void						manageClientMessageReception(const char *buffer, const int& clientSocket);
-		void						setClientBuffer(const std::map<int, Client>::iterator &client, const char *buffer);
-		void						interpretClientBuffer(const std::map<int, Client>::iterator &client, Server& server);
+		void								manageClientMessageReception(const char *buffer, const int& clientSocket);
+		void								setClientBuffer(const std::map<int, Client>::iterator &client, const char *buffer);
+		void								interpretClientBuffer(const std::map<int, Client>::iterator &client, Server& server);
 
 		// Client_disconnect
-		void						disconnectClient(const int& clientSocket);
-		void						removeClientFromPollFd(const int& clientSocket);
-		void						removeClientFromMap(const int& clientSocket);
+		void								disconnectClient(const int& clientSocket);
+		void								removeClientFromPollFd(const int& clientSocket);
+		void								removeClientFromMap(const int& clientSocket);
 
 
 

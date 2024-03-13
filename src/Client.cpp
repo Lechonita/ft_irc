@@ -33,10 +33,11 @@ Client::~Client()
 // Getters
 
 int				Client::getClientSocket() const { return (_clientSocket); }
-std::string		Client::getClientUsername() const { return (_clientUsername); }
-std::string		Client::getClientNickname() const { return (_clientNickname); }
-std::string		Client::getClientPassword() const { return (_clientPassword); }
-const char*		Client::getClientIP() const { return (_clientIP); }
+const std::string		Client::getClientUsername() const { return (_clientUsername); }
+const std::string		Client::getClientNickname() const { return (_clientNickname); }
+const std::string		Client::getClientPassword() const { return (_clientPassword); }
+const std::string		Client::getLastArgument() const {return (_lastArg);}
+const std::string		Client::getLastCommand() const {return (_lastCommand);}const char*		Client::getClientIP() const { return (_clientIP); }
 
 // Setters
 
@@ -70,6 +71,8 @@ void	Client::setNickname(const std::string& nickname, const bool irssi)
 	_clientNickname = nickname;
 }
 
+void			Client::setLastArgument(const std::string& arg) {_lastArg = arg;}
+void			Client::setLastCommand(const std::string& command) {_lastCommand = command;}
 
 
 void	Client::setUsername(const std::string& username, const bool irssi)

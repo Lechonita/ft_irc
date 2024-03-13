@@ -10,15 +10,14 @@ Channel::Channel(const std::string& name, const Client *const client): _channelN
 {
 	const channelClient newClient = {.client = client, .isOperator = true};
 	_channelClients.push_back(newClient);
-	std::cout << "Client " << client->getClientUsername() << " has joined the channel " << name << std::endl;
+	// send message new client in channel
+	//RPL_NAMREPLY
+	//RPL_ENDOFNAMES
 }
 
 
 
-Channel::~Channel()
-{
-	std::cout << "Default destructor." << std::endl;
-}
+Channel::~Channel() {}
 
 /********************************************************************************/
 /***************************** MEMBER FUNCTIONS *********************************/
@@ -36,21 +35,30 @@ void	Channel::newClient(std::string passwrd, Client &client)
 {
 	channelClient	newClient = {.client = &client, .isOperator = false};
 
+	for (size_t i = 0; i <= _channelClients.size(); i++)
+	{
+		if (_channelClients[i].client == &client)
+			return ;
+	}
 	if (_channelPass.empty() == false)
 	{
 		if (passwrd == _channelPass)
 		{
 			_channelClients.push_back(newClient);
 			// send message new client in channel
+			//RPL_NAMREPLY
+			//RPL_ENDOFNAMES
 		}
 		else
 		{
-			Utils::sendErrorMessage(ERR_BADCHANNELKEY, NULL, NULL, client, _channelName.c_str());
+			Utils::sendErrorMessage(ERR_BADCHANNELKEY, client, _channelName);
 		}
 	}
 	else
 	{
 		_channelClients.push_back(newClient);
 		// send message new client in channel
+		//RPL_NAMREPLY
+		//RPL_ENDOFNAMES
 	}
 }

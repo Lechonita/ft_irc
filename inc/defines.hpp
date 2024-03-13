@@ -59,6 +59,8 @@
 # define HOST_NAME "localhost"
 # define SERVER_NAME "IRCserver"
 
+# define PREFIX_CHAN '#'
+# define END_MSG "\r\n"
 
 // SERVER Error messages
 
@@ -78,27 +80,44 @@
 # define NICK_NOT_ENTERED "\033[0;33m> Please set Nickname first (use NICK command) <\n\033[0m"
 # define PASS_ALREADY_ENTERED "\033[0;33m> Password has already been entered <\n\033[0m"
 
-# define ERR_NOSUCHNICK			"\033[0;33m401 <client> <arg> :No such nick/channel\n\033[0m"
-# define ERR_NOSUCHCHANNEL		"\033[0;33m403 <client> <channelName> :No such channel\n\033[0m"
-# define ERR_CANNOTSENDTOCHAN	"\033[0;33m404 <client> <channelName> :Cannot send to channel\n\033[0m"
-# define ERR_TOOMANYCHANNELS	"\033[0;33m405 <client> <channelName> :You have joined too many channels\n\033[0m"
-# define ERR_NOTEXTTOSEND		"\033[0;33m412 <client> :No text to send\n\033[0m"
-# define ERR_UNKNOWNCOMMAND		"\033[0;33m421 <client> <command> :Unknown command\n\033[0m"
-# define ERR_NONICKNAMEGIVEN	"\033[0;33m431 <client> :No nickname given\n\033[0m"
-# define ERR_ERRONEUSNICKNAME	"\033[0;33m432 <client> <arg> :Erroneus nickname\n\033[0m"
-# define ERR_NICKNAMEINUSE		"\033[0;33m433 *<client> <arg> :Nickname is already in use\n\033[0m"
-# define ERR_USERNOTINCHANNEL	"\033[0;33m441 <client> <arg> <channelName> :They aren't on that channel\n\033[0m"
-# define ERR_NOTONCHANNEL		"\033[0;33m442 <client> <channelName> :You're not on that channel\n\033[0m"
-# define ERR_USERONCHANNEL		"\033[0;33m443 <client> <arg> <channelName> :is already on channel\n\033[0m"
-# define ERR_NEEDMOREPARAMS		"\033[0;33m461 <client> <command> :Not enough parameters\n\033[0m"
-# define ERR_ALREADYREGISTERED	"\033[0;33m462 <client> :You may not reregister\n\033[0m"
-# define ERR_PASSWDMISMATCH		"\033[0;33m464 <client> :Password incorrect\n\033[0m"
-# define ERR_CHANNELISFULL		"\033[0;33m471 <client> <channelName> :Cannot join channel (+l)\n\033[0m"
-# define ERR_INVITEONLYCHAN		"\033[0;33m473 <client> <channelName> :Cannot join channel (+i)\n\033[0m"
-# define ERR_BADCHANNELKEY		"\033[0;33m475 <client> <channelName> :Cannot join channel (+k)\n\033[0m"
-# define ERR_BADCHANMASK		"\033[0;33m476 <channelName> :Bad Channel Mask\n\033[0m"
-# define ERR_CHANOPRIVSNEEDED	"\033[0;33m482 <client> <channelName> :You're not channel operator\n\033[0m"
+# define ERR_NOSUCHNICK			"\033[0;33m401 <client> <arg> :No such nick/channel\033[0m\n\033[0m"
+# define ERR_NOSUCHCHANNEL		"\033[0;33m403 <client> <channelName> :No such channel\033[0m\n\033[0m"
+# define ERR_CANNOTSENDTOCHAN	"\033[0;33m404 <client> <channelName> :Cannot send to channel\033[0m\n\033[0m"
+# define ERR_TOOMANYCHANNELS	"\033[0;33m405 <client> <channelName> :You have joined too many channels\033[0m\n\033[0m"
+# define ERR_NOTEXTTOSEND		"\033[0;33m412 <client> :No text to send\033[0m\n\033[0m"
+# define ERR_UNKNOWNCOMMAND		"\033[0;33m421 <client> <command> :Unknown command\033[0m\n\033[0m"
+# define ERR_NONICKNAMEGIVEN	"\033[0;33m431 <client> :No nickname given\033[0m\n\033[0m"
+# define ERR_ERRONEUSNICKNAME	"\033[0;33m432 <client> <arg> :Erroneus nickname\033[0m\n\033[0m"
+# define ERR_NICKNAMEINUSE		"\033[0;33m433 <client> <arg> :Nickname is already in use\033[0m\n\033[0m"
+# define ERR_USERNOTINCHANNEL	"\033[0;33m441 <client> <arg> <channelName> :They aren't on that channel\033[0m\n\033[0m"
+# define ERR_NOTONCHANNEL		"\033[0;33m442 <client> <channelName> :You're not on that channel\033[0m\n\033[0m"
+# define ERR_USERONCHANNEL		"\033[0;33m443 <client> <arg> <channelName> :is already on channel\033[0m\n\033[0m"
+# define ERR_NEEDMOREPARAMS		"\033[0;33m461 <client> <command> :Not enough parameters\033[0m\n\033[0m"
+# define ERR_ALREADYREGISTERED	"\033[0;33m462 <client> :You may not reregister\033[0m\n\033[0m"
+# define ERR_PASSWDMISMATCH		"\033[0;33m464 <client> :Password incorrect\033[0m\n\033[0m"
+# define ERR_CHANNELISFULL		"\033[0;33m471 <client> <channelName> :Cannot join channel (+l)\033[0m\n\033[0m"
+# define ERR_INVITEONLYCHAN		"\033[0;33m473 <client> <channelName> :Cannot join channel (+i)\033[0m\n\033[0m"
+# define ERR_BADCHANNELKEY		"\033[0;33m475 <client> <channelName> :Cannot join channel (+k)\033[0m\n\033[0m"
+# define ERR_BADCHANMASK		"\033[0;33m476 <channelName> :Bad Channel Mask\033[0m\n\033[0m"
+# define ERR_CHANOPRIVSNEEDED	"\033[0;33m482 <client> <channelName> :You're not channel operator\033[0m\n\033[0m"
 
+
+//Replies
+
+# define RPL_TOPIC 0
+# define RPL_NOTOPIC 0
+# define RPL_CHANNELMODEIS 0
+# define RPL_BANLIST 0
+# define RPL_EXCEPTLIST 0
+# define RPL_INVITELIST 0
+# define RPL_UNIQOPIS 0
+# define RPL_ENDOFBANLIST 0
+# define RPL_ENDOFEXCEPTLIST 0
+# define RPL_ENDOFINVITELIST 0
+# define RPL_NAMREPLY 0
+# define RPL_ENDOFNAMES 0
+# define RPL_INVITING 0
+# define RPL_AWAY 0
 
 // COMMANDS Messages
 
@@ -106,6 +125,7 @@
 # define NICK_OK "\033[0;32mNickname has been set !\033[0m Please set up Username now (use USER command).\n"
 # define NICK_CHANGED "\033[0;32mYour nickname has been changed successfuly.\n\033[0m"
 # define USERNAME_OK "\033[0;32mUsername has been set.\033[0m\n"
+# define JOINED_CHANNEL "\033[0;32mYou join the channel\n\033[0m"
 
 // CLIENT Error messages
 
