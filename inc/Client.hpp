@@ -16,17 +16,20 @@ class Client
 
 
 	// Getters
-	int				getClientSocket() const;
-	std::string		getClientUsername() const;
-	std::string		getClientNickname() const;
-	std::string		getClientPassword() const;
+	int						getClientSocket() const;
+	const std::string		getClientUsername() const;
+	const std::string		getClientNickname() const;
+	const std::string		getClientPassword() const;
+	const std::string		getLastArgument() const;
+	const std::string		getLastCommand() const;
 
 
 	// Setters
 	void			setBuffer(const char *buffer);
 	void			setNickname(const std::string& nickname);
 	void			setPassword(const std::string& password);
-
+	void			setLastArgument(const std::string& arg);
+	void			setLastCommand(const std::string& command);
 
 	// Functions
 	void			interpretMessage(Server& server);
@@ -53,6 +56,8 @@ class Client
 		std::string		_clientUsername;
 		std::string		_clientPassword;
 		std::string		_clientNickname;
+		std::string		_lastArg;
+		std::string		_lastCommand;
 		std::string		_buffer;
 		int				_clientSocket;
 		// bool			_clientStatus;

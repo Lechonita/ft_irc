@@ -26,7 +26,11 @@ class Server
 
 		// Setters
 		// std::vector<std::string>	setCommandList();
+
+		//JOIN command
 		void						setChannelMap(std::string channel_name, int client_socket);
+		void						addClientToChannel(std::string channel, std::string passwrd, Client& client);
+		void						manageChannel(std::vector<std::string> channels, std::vector<std::string> passwrds, Client& client);
 
 		// Functions
 		void						runServer();
