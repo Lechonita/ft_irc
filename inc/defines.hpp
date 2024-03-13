@@ -54,6 +54,7 @@
 // # define CONNECTED true
 // # define DISCONNECTED false
 
+
 // Server specifications
 
 # define HOST_NAME "localhost"
@@ -61,6 +62,7 @@
 
 # define PREFIX_CHAN '#'
 # define END_MSG "\r\n"
+
 
 // SERVER Error messages
 
@@ -136,6 +138,7 @@
 // Perror messages
 
 # define PERR_SEND "send: "
+
 
 // Constructor messages
 
