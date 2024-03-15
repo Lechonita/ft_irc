@@ -62,3 +62,9 @@ QUESTIONS A POSER
 	CASEMAPPING=ascii WATCH=128 SILENCE=10 ELIST=cmntu EXCEPTS INVEX CHANMODES=beI,k,jl,ciPAmMnOprRsSt
           MAXLIST=b:200,e:100,I:100 TARGMAX=DCCALLOW:,JOIN:,KICK:4,KILL:20,NOTICE:20,PART:,PRIVMSG:20,WHOIS:,WHOWAS: are
           available on this server
+
+
+:irc 001 JEss :Welcome to the Internet Relay Network JEss!cmoa@127.0.0.1
+:irc 002 JEss :Your host is irc, running version 0.6
+:irc 003 JEss :This server was created on 2024/01/24
+004 JEss :irc 1.0 -none- itkol

@@ -15,20 +15,23 @@ class Commands
 
 	public:
 
+		Commands();
+		~Commands() {}
+
 		// Command functions
-		static void			commandJOIN(const std::string& line, const std::string& command, Server& server, Client& client);
+		static void			commandJOIN(const std::string& line, const std::string& command, Client& client, Server& server);
 		static void			commandPASS(const std::string& line, const std::string& command, Client& client, Server& server);
 		static void			commandNICK(const std::string& line, const std::string& command, Client& client, Server& server);
 		static void			commandUSER(const std::string& line, const std::string& command, Client& client, Server& server);
-		static void			commandCAP(const std::string& line, const std::string& command, Client& client, Server& server);\
+		static void			commandCAP(const std::string& line, const std::string& command, Client& client, Server& server);
 		static void			commandQUIT(const std::string& line, const std::string& command, Client& client, Server& server);
 
 		// Command Utils
 		static std::string	getCommandFromLine(const std::string& line);
 		static std::string	eraseCommandfromLine(const std::string& line, const std::string& command);
 		static void			findCommandInMessage(const std::string& line, Server& server, Client& client);
-		static void			executeCommand(const std::string& line, const std::string& command, Server& server, Client& client);
 		static bool			isParameterSetUp(const std::string& parameter, const Client& client, const std::string& errorMessage);
+		void				executeCommand(std::string& line, std::string& command, Server& server, Client& client);
 
 		// join_utils
 		static void			checkJoinParams(std::string join_params, std::vector<std::string> *channels, std::vector<std::string> *passwrds);
@@ -48,19 +51,8 @@ class Commands
 
 
 	private:
-
+		typedef void (Commands::*functionPointer)(const std::string&, const std::string&, Client&, Server&);
+		std::map<std::string, functionPointer>		_cmdList;
 };
 
 #endif
-
-
-// bool	Client::isCommandFromList(const std::string& command, const Server& server) const
-// {
-// 	std::vector<std::string>::iterator	it;
-// 	for(it = server.getCommandList().begin(); it != server.getCommandList().end(); ++it)
-// 	{
-// 		if ((*it) == command)
-// 			return (true);
-// 	}
-// 	return (false);
-// }

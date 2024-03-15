@@ -37,11 +37,6 @@ class Client
 	// Functions
 	void					interpretMessage(Server& server);
 
-
-	// Commands
-	// bool					isCommandFromList(const std::string& command, const Server& server) const;
-
-
 	// Exceptions
 	class Exception : public std::exception
 	{

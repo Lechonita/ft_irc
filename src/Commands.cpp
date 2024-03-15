@@ -1,10 +1,23 @@
 #include "../inc/Commands.hpp"
 
 
+// Constructor
+
+Commands::Commands()
+{
+	_cmdList["JOIN"] = &Commands::commandJOIN;
+	_cmdList["PASS"] = &Commands::commandPASS;
+	_cmdList["NICK"] = &Commands::commandNICK;
+	_cmdList["USER"] = &Commands::commandUSER;
+	_cmdList["CAP"] = &Commands::commandCAP;
+	_cmdList["QUIT"] = &Commands::commandQUIT;
+}
+
+
 // JOIN
 
 
-void		Commands::commandJOIN(const std::string& line, const std::string& command, Server& server, Client& client)
+void		Commands::commandJOIN(const std::string& line, const std::string& command, Client& client, Server& server)
 {
 	std::string					join_params;
 	std::vector<std::string>	channels;

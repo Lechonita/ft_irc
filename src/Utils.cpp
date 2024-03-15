@@ -113,7 +113,7 @@ static std::string	WelcomeLine1(const Client &client)
 
 static std::string	WelcomeLine2(const Client &client)
 {
-	return (":irc 002 " + client.getClientNickname() + ":Your host is irc, running version 0.6\n");
+	return (":irc 002 " + client.getClientNickname() + " :Your host is irc, running version 0.6\n");
 }
 
 
@@ -124,7 +124,7 @@ static std::string	WelcomeLine3(const Client &client)
 	std::tm* localTime = std::localtime(&now);
 
 	std::stringstream ss;
-	ss << ":irc 003 " << client.getClientNickname() << ":This server was created on ";
+	ss << ":irc 003 " << client.getClientNickname() << " :This server was created on ";
 	ss << (localTime->tm_year + 1900) << "/";
 	ss << (localTime->tm_mon + 1) << "/";
 	ss << localTime->tm_mday << '\n';
@@ -135,7 +135,7 @@ static std::string	WelcomeLine3(const Client &client)
 
 static std::string	WelcomeLine4(const Client &client)
 {
-	return ("004 " + client.getClientNickname() + ":irc 1.0 -none- itkol\n");
+	return ("004 " + client.getClientNickname() + " :irc 1.0 -none- itkol\n");
 }
 
 
