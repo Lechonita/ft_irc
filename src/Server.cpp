@@ -258,6 +258,82 @@ void	Server::manageChannel(std::vector<std::string> channels, std::vector<std::s
 }
 
 
+
+bool	Server::isPartOfChannel(std::string channel_name, Client& client)
+{
+	std::map<std::string, Channel>::iterator	it = _channelMap.find(channel_name);
+
+	if (it == _channelMap.end())
+	{
+		Utils::sendErrorMessage(ERR_NOSUCHNICK, client);
+		return (false);
+	}
+	std::vector<channelClient>	clients = it->second.getChannelClients();
+
+	for (size_t i = 0; i < clients.size(); i++)
+	{
+		if (clients[i].client->getClientNickname() == client.getClientNickname())
+			return (true);
+	}
+	Utils::sendErrorMessage(ERR_NOTONCHANNEL, client, channel_name);
+	return (false);
+}
+
+
+void	Server::sendMessageToReceivers(std::vector<std::string> receivers, std::string message, Client& client)
+{
+	for (size_t i = 0; i < receivers.size(); i++)
+	{
+		if (receivers[i][0] == '#' && isPartOfChannel(receivers[i], client) == true)
+		{
+			sendMessageToChannel(receivers[i], message, client);
+		}
+		else if (receivers[i][0] != '#')
+		{
+			sendMessageToUser(receivers[i], message, client);
+		}
+	}
+}
+
+
+
+void	Server::sendMessageToChannel(std::string receiver, std::string message, Client& client)
+{
+	std::map<std::string, Channel>::iterator	it = _channelMap.find(receiver);
+
+	if (it == _channelMap.end())
+	{
+		Utils::sendErrorMessage(ERR_NOSUCHNICK, client);
+		return ;
+	}
+	std::string	full_message = client.getClientNickname() + ": " + message + END_MSG;
+
+	it->second.sendMessageToAll(full_message);
+}
+
+
+
+void	Server::sendMessageToUser(std::string receiver, std::string message, Client& client)
+{
+	std::map<int, Client>::iterator	it;
+
+	for(it = _clientMap.begin(); it != _clientMap.end(); it++)
+	{
+		if (it->second.getClientNickname() == receiver)
+			break;
+	}
+	if (it == _clientMap.end())
+	{
+		Utils::sendErrorMessage(ERR_NOSUCHNICK, client);
+		return ;
+	}
+	std::string	full_message = client.getClientNickname() + ": " + message+ END_MSG;
+
+	Utils::sendMessage(full_message, it->second.getClientSocket());
+}
+
+
+
 // std::vector<std::string>	Server::setCommandList()
 // {
 // 	std::vector<std::string>	res;

@@ -24,6 +24,35 @@ void		Commands::commandJOIN(const std::string& line, const std::string& command,
 
 
 
+//PRIVMSG
+
+
+
+void		Commands::commandPRIVMSG(const std::string& line, const std::string& command, Server& server, Client& client)
+{
+	std::string					privmsg_params;
+	std::string					message;
+	std::vector<std::string>	receivers;
+
+	(void)server;
+	privmsg_params = eraseCommandfromLine(line, command);
+	if (privmsg_params.empty() == true)
+	{
+		Utils::sendErrorMessage(ERR_NEEDMOREPARAMS, client);
+		return ;
+	}
+	checkPrivmsgParams(privmsg_params, &receivers, &message);
+	if (message.empty() == true)
+	{
+		Utils::sendErrorMessage(ERR_NOTEXTTOSEND, client);
+		return ;
+	}
+
+	server.sendMessageToReceivers(receivers, message, client);
+}
+
+
+
 // PASS
 
 void		Commands::commandPASS(const std::string& line, const std::string& command, Client& client, Server& server)

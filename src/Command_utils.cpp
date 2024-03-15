@@ -35,6 +35,8 @@ void		Commands::executeCommand(const std::string& line, const std::string& comma
 {
 	if (command == "JOIN")
 		Commands::commandJOIN(line, command, server, client);
+	else if (command == "PRIVMSG")
+		Commands::commandPRIVMSG(line, command, server, client);
 	else if (command == "CAP")
 		Commands::commandCAP(line, command, client, server);
 	else if (command == "PASS")

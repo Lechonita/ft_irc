@@ -1,10 +1,11 @@
 #ifndef COMMANDS_HPP
 # define COMMANDS_HPP
 
-#include "../inc/Utils.hpp"
+# include "../inc/Utils.hpp"
 # include "../inc/Client.hpp"
 # include "../inc/Server.hpp"
-#include "../inc/defines.hpp"
+# include "../inc/defines.hpp"
+# include "../inc/Channel.hpp"
 
 class Client;
 
@@ -17,6 +18,7 @@ class Commands
 
 		// Command functions
 		static void			commandJOIN(const std::string& line, const std::string& command, Server& server, Client& client);
+		static void			commandPRIVMSG(const std::string& line, const std::string& command, Server& server, Client& client);
 		static void			commandPASS(const std::string& line, const std::string& command, Client& client, Server& server);
 		static void			commandNICK(const std::string& line, const std::string& command, Client& client, Server& server);
 		static void			commandUSER(const std::string& line, const std::string& command, Client& client, Server& server);
@@ -32,16 +34,17 @@ class Commands
 
 		// join_utils
 		static void			checkJoinParams(std::string join_params, std::vector<std::string> *channels, std::vector<std::string> *passwrds);
-		
+		static void			checkPrivmsgParams(std::string parameters, std::vector<std::string> *receivers, std::string *message);
+
 		// nick_utils
 		static bool			isValidNickname(const std::string& nickname, const Server& server);
-		
+
 		// pass_utils
 		static bool			isValidPassword(const std::string& password, const Client& client, const Server& server);
-		
+
 		// user_utils
 		static bool			areValidUserParameters(const std::vector<std::string> parameters);
-		
+
 		// cap_utils
 		static bool			isIrssi(const std::string& line);
 

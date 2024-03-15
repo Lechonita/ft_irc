@@ -35,12 +35,11 @@ CHANNEL COMMANDS :
 
  BASIC COMMANDS :
 	x PASS (pour rentrer le mdp)
-	x NICK (change your nick)
+	x NICK (change your nick) //rajouter message d'erreur quand nickname existe deja //supprimer client lorsque QUIT ou controle C
 	x USER (set username and mode)
 	- QUIT (quit server)
 	- LIST (list channels)
 	- PRIVMSG (send a private message to another user)
-	- PING (PONG)
 	- WHOIS (get personnal information about a user)
 
 CHANNEL OPERATOR COMMANDS :

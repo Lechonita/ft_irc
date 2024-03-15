@@ -45,6 +45,7 @@ void	Channel::newClient(std::string passwrd, Client &client)
 		if (passwrd == _channelPass)
 		{
 			_channelClients.push_back(newClient);
+			client.newChannel(*this);
 			// send message new client in channel
 			//RPL_NAMREPLY
 			//RPL_ENDOFNAMES
@@ -57,8 +58,17 @@ void	Channel::newClient(std::string passwrd, Client &client)
 	else
 	{
 		_channelClients.push_back(newClient);
+		client.newChannel(*this);
 		// send message new client in channel
 		//RPL_NAMREPLY
 		//RPL_ENDOFNAMES
+	}
+}
+
+void	Channel::sendMessageToAll(std::string message)
+{
+	for(size_t i = 0; i < _channelClients.size(); i++)
+	{
+		Utils::sendMessage(message, *_channelClients[i].client);
 	}
 }

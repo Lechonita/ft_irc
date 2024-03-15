@@ -38,7 +38,7 @@ class Channel
 		std::vector<channelModes>	getChannelModes() const;
 		std::vector<channelClient>	getChannelClients() const;
 		void						newClient(std::string passwrd, Client &client);
-
+		void						sendMessageToAll(std::string message);
 
 	private:
 

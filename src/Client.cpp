@@ -112,6 +112,10 @@ void	Client::interpretMessage(Server& server)
 
 
 
+void	Client::newChannel(Channel& channel)
+{
+	_channels.push_back(&channel);
+}
 
 // Exceptions
 
