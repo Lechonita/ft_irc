@@ -19,27 +19,28 @@ class Client
 
 
 	// Getters
-	int						getClientSocket() const;
-	const std::string		getClientUsername() const;
-	const std::string		getClientNickname() const;
-	const std::string		getClientPassword() const;
-	const std::string		getLastArgument() const;
-	const std::string		getLastCommand() const;
-	const char*				getClientIP() const;
+	int							getClientSocket() const;
+	const std::string			getClientUsername() const;
+	const std::string			getClientNickname() const;
+	const std::string			getClientPassword() const;
+	const std::string			getLastArgument() const;
+	const std::string			getLastCommand() const;
+	const char*					getClientIP() const;
+	const std::vector<Channel*>	getClientChannels() const;
 
 
 	// Setters
-	void					setClientIP(const char * IP);
-	void					setBuffer(const char *buffer);
-	void					setNickname(const std::string& nickname, const bool irssi);
-	void					setPassword(const std::string& password, const bool irssi);
-	void					setUsername(const std::string& username, const bool irssi);
-	void					setLastArgument(const std::string& arg);
-	void					setLastCommand(const std::string& command);
+	void						setClientIP(const char * IP);
+	void						setBuffer(const char *buffer);
+	void						setNickname(const std::string& nickname, const bool irssi);
+	void						setPassword(const std::string& password, const bool irssi);
+	void						setUsername(const std::string& username, const bool irssi);
+	void						setLastArgument(const std::string& arg);
+	void						setLastCommand(const std::string& command);
 
 	// Functions
-	void					interpretMessage(Server& server);
-	void					newChannel(Channel& channel_name);
+	void						interpretMessage(Server& server);
+	void						newChannel(Channel& channel_name);
 
 	// Commands
 	// bool					isCommandFromList(const std::string& command, const Server& server) const;

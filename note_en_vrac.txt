@@ -39,7 +39,7 @@ CHANNEL COMMANDS :
 	x USER (set username and mode)
 	- QUIT (quit server)
 	- LIST (list channels)
-	- PRIVMSG (send a private message to another user)
+	x PRIVMSG (send a private message to another user)
 	- WHOIS (get personnal information about a user)
 
 CHANNEL OPERATOR COMMANDS :
@@ -53,6 +53,7 @@ QUESTIONS A POSER
    number represented in ASCII text.
    -> est-ce qu'on doit gerer ca?
    - doit on gere les communications de client a client hors d'un channel?
+   - est-ce qu'il faut qu'on puisse etre away du serveur mais pouvoir revenir dessus sans que le client soit supprimer?
 
    IMPLEMENTER CAP LS (ENVOYE PAR LE CLIENT A LA CONNECTION AU SERVEUR, SERVEUR QUI REPOND PAR CE QU'IL PERMET DE FAIRE)
    EXEMPLE DE Dalnet :

@@ -66,7 +66,7 @@ Server::Server(const std::string &port, const std::string &password)
 
 Server::~Server()
 {
-	_clientMap.clear();
+	// _clientMap.clear();
 	// std::cout << "Default server destructor." << std::endl;
 }
 
@@ -219,8 +219,11 @@ void	Server::setIrssi(const bool result) { _irssi = result; }
 
 void	Server::setChannelMap(std::string channel_name, int client_socket)
 {
-	std::map<int, Client>::iterator it_client = _clientMap.find(client_socket);
+	std::map<int, Client>::iterator	it_client = _clientMap.find(client_socket);
+
 	_channelMap.insert(std::make_pair(channel_name, Channel(channel_name, &(it_client->second))));
+	it_client->second.newChannel(_channelMap.begin()->second);
+	Utils::joinMessageSuccessful(it_client->second, channel_name);
 }
 
 void	Server::addClientToChannel(std::string channel, std::string passwrd, Client& client)
@@ -228,6 +231,7 @@ void	Server::addClientToChannel(std::string channel, std::string passwrd, Client
 	std::map<std::string, Channel>::iterator	it = _channelMap.find(channel);
 
 	it->second.newClient(passwrd, client);
+	Utils::joinMessageSuccessful(client, channel);
 }
 
 
@@ -246,12 +250,10 @@ void	Server::manageChannel(std::vector<std::string> channels, std::vector<std::s
 		}
 		else if (i >= passwrds.size())
 		{
-			std::cout << "passe par la" << std::endl;
 			addClientToChannel(channels[i], "", client);
 		}
 		else
 		{
-			std::cout << "passe par ici" << std::endl;
 			addClientToChannel(channels[i], passwrds[i], client);
 		}
 	}

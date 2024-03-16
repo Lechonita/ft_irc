@@ -51,14 +51,6 @@ void		Commands::executeCommand(const std::string& line, const std::string& comma
 	{
 		Utils::sendErrorMessage(ERR_UNKNOWNCOMMAND, client);
 	}
-
-	std::map<std::string, Channel>	test = server.getChannelMap();
-	std::map<std::string, Channel>::iterator	it;
-
-	for (it = test.begin(); it != test.end(); it++)
-	{
-		std::cout << GREEN << "Channel name: " << it->first << NC << std::endl;
-	}
 }
 
 

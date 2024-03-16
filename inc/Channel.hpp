@@ -30,7 +30,7 @@ class Channel
 {
 
 	public:
-		Channel(const std::string& name, const Client *const client);
+		Channel(const std::string& name, Client *client);
 		~Channel();
 		std::string					getChannelName() const;
 		std::string					getChannelTopic() const;
