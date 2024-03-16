@@ -18,6 +18,7 @@ class Commands
 
 		// Command functions
 		static void			commandJOIN(const std::string& line, const std::string& command, Server& server, Client& client);
+		static void			commandPART(const std::string& line, const std::string& command, Server& server, Client& client);
 		static void			commandPRIVMSG(const std::string& line, const std::string& command, Server& server, Client& client);
 		static void			commandPASS(const std::string& line, const std::string& command, Client& client, Server& server);
 		static void			commandNICK(const std::string& line, const std::string& command, Client& client, Server& server);
@@ -35,6 +36,7 @@ class Commands
 		// join_utils
 		static void			checkJoinParams(std::string join_params, std::vector<std::string> *channels, std::vector<std::string> *passwrds);
 		static void			checkPrivmsgParams(std::string parameters, std::vector<std::string> *receivers, std::string *message);
+		static void			checkPartParams(std::string part_params, std::vector<std::string> *channels);
 
 		// nick_utils
 		static bool			isValidNickname(const std::string& nickname, const Server& server);

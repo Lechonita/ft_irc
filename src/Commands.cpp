@@ -24,6 +24,29 @@ void		Commands::commandJOIN(const std::string& line, const std::string& command,
 
 
 
+//PART
+
+
+void		Commands::commandPART(const std::string& line, const std::string& command, Server& server, Client& client)
+{
+	std::string					part_params;
+	std::vector<std::string>	channels;
+
+	part_params = eraseCommandfromLine(line, command);
+	if (part_params.empty() == true)
+	{
+		Utils::sendErrorMessage(ERR_NEEDMOREPARAMS, client);
+		return ;
+	}
+	checkPartParams(part_params, &channels);
+
+	for (size_t i = 0; i < channels.size(); i++)
+		std::cout << channels[i] << std::endl;
+	server.partFromChannels(client, channels);
+}
+
+
+
 //PRIVMSG
 
 

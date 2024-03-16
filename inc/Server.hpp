@@ -36,7 +36,7 @@ class Server
 		void								sendMessageToChannel(std::string receiver, std::string message, Client& client);
 		void								sendMessageToUser(std::string receiver, std::string message, Client& client);
 		bool								isPartOfChannel(std::string channel_name, Client& client);
-
+		void								partFromChannels(Client& client, std::vector<std::string> channels);
 		// Functions
 		void								runServer();
 		void								createNewClient();

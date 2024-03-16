@@ -282,6 +282,14 @@ bool	Server::isPartOfChannel(std::string channel_name, Client& client)
 }
 
 
+
+void	Server::partFromChannels(Client& client, std::vector<std::string> channels)
+{
+
+}
+
+
+
 void	Server::sendMessageToReceivers(std::vector<std::string> receivers, std::string message, Client& client)
 {
 	for (size_t i = 0; i < receivers.size(); i++)
