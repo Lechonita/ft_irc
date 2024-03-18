@@ -88,7 +88,7 @@ std::string		Utils::getFormattedMessage(const std::string &message, const Client
 
 	std::string formattedMessage = message;
 
-	for (size_t i = 0; i < PATTERN_COUNT; ++i)
+	for (size_t i = 0; i < PATTERN_COUNT - 2; ++i)
 	{
 		formattedMessage = replacePattern(formattedMessage, pattern[i][0], pattern[i][1]);
 	}

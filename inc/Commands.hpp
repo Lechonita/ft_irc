@@ -21,8 +21,8 @@ class Commands
 
 		// Command functions
 		void			commandJOIN(const std::string& line, const std::string& command, Client& client, Server& server);
-		void			commandPART(const std::string& line, const std::string& command, Server& server, Client& client);
-		void			commandPRIVMSG(const std::string& line, const std::string& command, Server& server, Client& client);
+		void			commandPART(const std::string& line, const std::string& command, Client& client, Server& server);
+		void			commandPRIVMSG(const std::string& line, const std::string& command, Client& client, Server& server);
 		void			commandPASS(const std::string& line, const std::string& command, Client& client, Server& server);
 		void			commandNICK(const std::string& line, const std::string& command, Client& client, Server& server);
 		void			commandUSER(const std::string& line, const std::string& command, Client& client, Server& server);
@@ -57,7 +57,7 @@ class Commands
 
 	private:
 		typedef void (Commands::*functionPointer)(const std::string&, const std::string&, Client&, Server&);
-		std::map<std::string, functionPointer>		_cmdList;
+		std::map<std::string, functionPointer>		_cmdMap;
 };
 
 #endif

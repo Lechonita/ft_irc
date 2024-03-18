@@ -11,6 +11,8 @@ Client::Client(const int& clientSocket): _clientSocket(clientSocket)
 	_clientUsername = EMPTY;
 	_clientPassword = EMPTY;
 	_clientNickname = EMPTY;
+	_lastArg = EMPTY;
+	_lastCommand = EMPTY;
 	_buffer = EMPTY;
 
 	std::cout << std::endl;

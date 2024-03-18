@@ -5,12 +5,14 @@
 
 Commands::Commands()
 {
-	_cmdList["JOIN"] = &Commands::commandJOIN;
-	_cmdList["PASS"] = &Commands::commandPASS;
-	_cmdList["NICK"] = &Commands::commandNICK;
-	_cmdList["USER"] = &Commands::commandUSER;
-	_cmdList["CAP"] = &Commands::commandCAP;
-	_cmdList["QUIT"] = &Commands::commandQUIT;
+	_cmdMap["JOIN"] = &Commands::commandJOIN;
+	_cmdMap["PASS"] = &Commands::commandPASS;
+	_cmdMap["NICK"] = &Commands::commandNICK;
+	_cmdMap["USER"] = &Commands::commandUSER;
+	_cmdMap["CAP"] = &Commands::commandCAP;
+	_cmdMap["QUIT"] = &Commands::commandQUIT;
+	_cmdMap["PRIVMSG"] = &Commands::commandPRIVMSG;
+	_cmdMap["PART"] = &Commands::commandPART;
 }
 
 
@@ -40,7 +42,7 @@ void		Commands::commandJOIN(const std::string& line, const std::string& command,
 //PART
 
 
-void		Commands::commandPART(const std::string& line, const std::string& command, Server& server, Client& client)
+void		Commands::commandPART(const std::string& line, const std::string& command, Client& client, Server& server)
 {
 	std::string					part_params;
 	std::vector<std::string>	channels;
@@ -64,7 +66,7 @@ void		Commands::commandPART(const std::string& line, const std::string& command,
 
 
 
-void		Commands::commandPRIVMSG(const std::string& line, const std::string& command, Server& server, Client& client)
+void		Commands::commandPRIVMSG(const std::string& line, const std::string& command, Client& client, Server& server)
 {
 	std::string					privmsg_params;
 	std::string					message;

@@ -11,7 +11,7 @@ Server::Server(const std::string &port, const std::string &password)
 	  _nbClients(0),
 	  _pollFd(0),
 	  _irssi(false)
-	//   _cmdList(setCommandList())
+	//   _cmdMap(setCommandList())
 {
 	// SOCKET : This code creates a TCP socket for IPv6 communication
 	// AF_INET6 = IPv6 Internet protocols
@@ -209,7 +209,7 @@ std::map<int, Client>				Server::getClientMap() const { return (_clientMap); }
 std::map<std::string, Channel>		Server::getChannelMap() const { return (_channelMap); }
 bool								Server::getIrssi()const { return (_irssi); }
 
-// std::vector<std::string>	Server::getCommandList() const { return (_cmdList); }
+// std::vector<std::string>	Server::getCommandList() const { return (_cmdMap); }
 
 
 
