@@ -4,7 +4,7 @@
 void	Commands::findCommandInMessage(std::string& line, Server& server, Client& client)
 {
 	std::string		command = getCommandFromLine(line);
-	Commands				cmd;
+	Commands		cmd;
 
 	if (command.empty() == true)
 		return ;

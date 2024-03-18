@@ -44,6 +44,8 @@ static std::string	getClientListInChannel(const Client &client, const std::strin
 
 
 
+
+
 // Command, Arg, Client, ChannelName
 std::string Utils::getFormattedMessage(const std::string &message, const Client &client, const std::string channelName)
 {
@@ -202,6 +204,7 @@ void	Utils::joinMessageSuccessful(const Client& client, std::string channel_name
 }
 
 
+
 // Util functions
 
 std::vector<std::string>		Utils::splitParameters(const std::string& userInfo)
@@ -215,4 +218,40 @@ std::vector<std::string>		Utils::splitParameters(const std::string& userInfo)
 		token = strtok(NULL, SPACE);
 	}
 	return(parameters);
+}
+
+
+
+bool		Utils::userIsInChannel(const Client& client, const std::string& channelname)
+{
+	const std::string	clientList = getClientListInChannel(client, channelname);
+
+	if (clientList.find(client.getClientNickname()) != std::string::npos)
+		return (true);
+	return (false);
+}
+
+
+static std::string		getChannelListInServer(const Server& server)
+{
+	std::map<std::string, Channel>	channels = server.getChannelMap();
+	std::string						channel_list = "";
+
+	std::map<std::string, Channel>::iterator	it;
+	for (it = channels.begin(); it != channels.end(); ++it)
+	{
+		channel_list += it->second.getChannelName();
+		channel_list += " ";
+	}
+	return (channel_list);
+}
+
+
+bool		Utils::channelExists(const Server& server, const std::string& channelname)
+{
+	const std::string	channelList = getChannelListInServer(server);
+
+	if (channelList.find(channelname) != std::string::npos)
+		return (true);
+	return (false);
 }

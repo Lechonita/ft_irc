@@ -23,12 +23,10 @@ class Server
 		std::map<int, Client>				getClientMap() const;
 		std::map<std::string, Channel>		getChannelMap() const;
 		bool								getIrssi() const;
-		// std::vector<std::string>	getCommandList() const;
 
 		// Setters
 		void								setIrssi(const bool result);
 		void								setChannelMap(std::string channel_name, int client_socket);
-		// std::vector<std::string>	setCommandList();
 
 		void								addClientToChannel(std::string channel, std::string passwrd, Client& client);
 		void								manageChannel(std::vector<std::string> channels, std::vector<std::string> passwrds, Client& client);

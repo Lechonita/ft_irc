@@ -36,6 +36,8 @@ class Utils
 
 	// utils functions
 	static std::vector<std::string>		splitParameters(const std::string& userInfo);
+	static bool							userIsInChannel(const Client& client, const std::string& channelname);
+	static bool							channelExists(const Server& server, const std::string& channelname);
 
 };
 

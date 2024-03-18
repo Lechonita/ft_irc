@@ -14,6 +14,7 @@ Client::Client(const int& clientSocket): _clientSocket(clientSocket)
 	_lastArg = EMPTY;
 	_lastCommand = EMPTY;
 	_buffer = EMPTY;
+	_clientStatus = DISCONNECTED;
 
 	std::cout << std::endl;
 	std::cout << "WELCOME\n" << std::endl;
@@ -42,12 +43,17 @@ const std::string			Client::getLastArgument() const { return (_lastArg); }
 const std::string			Client::getLastCommand() const { return (_lastCommand); }
 const char*					Client::getClientIP() const { return (_clientIP); }
 const std::vector<Channel*>	Client::getClientChannels() const {return (_channels);}
+bool					Client ::getClientStatus() const { return (_clientStatus); }
+
+
 
 // Setters
 
-void	Client::setClientIP(const char * IP) { _clientIP = IP; }
-
 void	Client::setBuffer(const char *buffer) { _buffer += buffer; }
+void	Client::setLastArgument(const std::string& arg) { _lastArg = arg; }
+void	Client::setLastCommand(const std::string& command) { _lastCommand = command; }
+void	Client::setClientIP(const char * IP) { _clientIP = IP; }
+void	Client::setClientStatus(const bool& connected) { _clientStatus = connected; }
 
 
 
@@ -75,9 +81,6 @@ void	Client::setNickname(const std::string& nickname, const bool irssi)
 	_clientNickname = nickname;
 }
 
-void			Client::setLastArgument(const std::string& arg) {_lastArg = arg;}
-void			Client::setLastCommand(const std::string& command) {_lastCommand = command;}
-
 
 void	Client::setUsername(const std::string& username, const bool irssi)
 {
@@ -85,6 +88,9 @@ void	Client::setUsername(const std::string& username, const bool irssi)
 	if (irssi == false)
 		Utils::sendMessage(USERNAME_OK, *this);
 }
+
+
+
 
 // Functions
 

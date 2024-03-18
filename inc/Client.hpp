@@ -27,16 +27,18 @@ class Client
 	const std::string			getLastCommand() const;
 	const char*					getClientIP() const;
 	const std::vector<Channel*>	getClientChannels() const;
+	bool						getClientStatus() const;
 
 
 	// Setters
-	void						setClientIP(const char * IP);
 	void						setBuffer(const char *buffer);
+	void						setUsername(const std::string& username, const bool irssi);
 	void						setNickname(const std::string& nickname, const bool irssi);
 	void						setPassword(const std::string& password, const bool irssi);
-	void						setUsername(const std::string& username, const bool irssi);
 	void						setLastArgument(const std::string& arg);
 	void						setLastCommand(const std::string& command);
+	void						setClientIP(const char * IP);
+	void						setClientStatus(const bool& connected);
 
 	// Functions
 	void						interpretMessage(Server& server);
@@ -69,7 +71,7 @@ class Client
 		std::vector<Channel*>		_channels;
 		const char*					_clientIP;
 		int							_clientSocket;
-		// bool						_clientStatus;
+		bool						_clientStatus;
 };
 
 #endif

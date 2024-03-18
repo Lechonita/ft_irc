@@ -32,29 +32,22 @@ static bool	isValidCharacter(const char c)
 
 
 
-bool	Commands::isValidNickname(const std::string& nickname, const Server& server)
+bool	Commands::isValidNickname(const std::string& nickname, const Client& client, const Server& server)
 {
-	// ERR 432 "<nick> :Erroneus nickname"
-
 	for(size_t i = 0; i < nickname.size(); ++i)
 	{
 		if (isspace(nickname[i]) != NOT_WHITESPACE ||
-			isValidCharacter(nickname[i]) == false)
+			isValidCharacter(nickname[i]) == false ||
+			nickname.size() > MAX_NICK_LEN)
 		{
-			std::cout << RED << "Error: Invalid character for nickname. Whitespaces, @, +, %, & not allowed." << NC << std::endl;
+			Utils::sendErrorMessage(ERR_ERRONEUSNICKNAME, client);
 			return (false);
 		}
 	}
 
-	if (nickname.size() > MAX_NICK_LEN)
-	{
-		std::cout << RED << "Error: Maximum length for nickname is 9 characters." << NC << std::endl;
-		return (false);
-	}
-
 	if (nicknameAlreadyExists(nickname, server) == true)
 	{
-		std::cout << RED << "Error: Nickname already exists." << NC << std::endl;
+		Utils::sendErrorMessage(ERR_NICKNAMEINUSE, client);
 		return (false);
 	}
 	return (true);

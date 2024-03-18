@@ -53,6 +53,10 @@ QUESTIONS A POSER
    number represented in ASCII text.
    -> est-ce qu'on doit gerer ca?
 
+A GERER
+	-> quand des users s'envoient des messages dans un channel, ca apparait le nombre de fois qu'il y a de users dans le terminal du serveur
+	-> WELCOME apparait a chaque fois que des users s'ecrivent en prive. Ca veut dire que ca passe par le constructor...why ?
+
    IMPLEMENTER CAP LS (ENVOYE PAR LE CLIENT A LA CONNECTION AU SERVEUR, SERVEUR QUI REPOND PAR CE QU'IL PERMET DE FAIRE)
    EXEMPLE DE Dalnet :
    NETWORK=DALnet SAFELIST MAXBANS=200 MAXCHANNELS=20 CHANNELLEN=32 KICKLEN=307 NICKLEN=30 TOPICLEN=307 MODES=6
@@ -66,3 +70,20 @@ QUESTIONS A POSER
 :irc 002 JEss :Your host is irc, running version 0.6
 :irc 003 JEss :This server was created on 2024/01/24
 004 JEss :irc 1.0 -none- itkol
+
+
+
+INVITE
+
+message automatique sur le terminal de la personne qui invite :
+	INVITE Jesson #newtest
+	:choopa.nj.us.dal.net 341 Guest05609 Jesson #newtest
+	:atw.hu.eu.dal.net NOTICE @#newtest :Guest05609 invited Jesson into channel #newtest
+
+
+message automatique sur le terminal de l'invité :
+	:Guest05609!~lechon@bc22-251f-212f-9745-7c26.210.62.ip INVITE Jesson :#newtest
+
+Jesson = nickname de l'invité
+Guest05609 = nickname de ce lui qui invite
+newtest = channelname

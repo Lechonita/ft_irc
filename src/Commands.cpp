@@ -13,6 +13,7 @@ Commands::Commands()
 	_cmdMap["QUIT"] = &Commands::commandQUIT;
 	_cmdMap["PRIVMSG"] = &Commands::commandPRIVMSG;
 	_cmdMap["PART"] = &Commands::commandPART;
+	_cmdMap["INVITE"] = &Commands::commandINVITE;
 }
 
 
@@ -126,14 +127,14 @@ void		Commands::commandNICK(const std::string& line, const std::string& command,
 	}
 
 	const std::string	nickname = eraseCommandfromLine(line, command);
+	client.setLastArgument(nickname);
 
 	if (isParameterSetUp(nickname, client, EMPTY) == false)
 		return ;
 
-	if (isValidNickname(nickname, server) == true)
+	if (isValidNickname(nickname, client, server) == true)
 	{
 		client.setNickname(nickname, server.getIrssi());
-		client.setLastArgument(nickname);
 	}
 }
 
@@ -153,6 +154,7 @@ void		Commands::commandUSER(const std::string& line, const std::string& command,
 	}
 
 	const std::string	userInfo = eraseCommandfromLine(line, command);
+	client.setLastArgument(userInfo);
 
 	if (isParameterSetUp(userInfo, client, EMPTY) == false)
 		return ;
@@ -164,7 +166,7 @@ void		Commands::commandUSER(const std::string& line, const std::string& command,
 		return ;
 
 	client.setUsername(parameters[0], server.getIrssi());
-	client.setLastArgument(userInfo);
+	client.setClientStatus(CONNECTED);
 	Utils::displayWelcomeMessage(client);
 }
 
@@ -175,12 +177,15 @@ void		Commands::commandUSER(const std::string& line, const std::string& command,
 void		Commands::commandCAP(const std::string& line, const std::string& command, Client& client, Server& server)
 {
 	const std::string	parameter = eraseCommandfromLine(line, command);
+	client.setLastArgument(parameter);
 
 	if (isParameterSetUp(parameter, client, EMPTY) == false)
 		return ;
 
 	if (isIrssi(parameter) == true)
 		server.setIrssi(true);
+	
+	// récupérer les infos sur les autres lignes et passer le _clientStatus à CONNECTED
 }
 
 
@@ -201,4 +206,61 @@ void		Commands::commandQUIT(const std::string& line, const std::string& command,
 	// remove client from channel list (channel) >> send message to this user's channels to norify other users
 	// if it was last client from a channel, delete that channel
 	// other memory allocations
+}
+
+
+
+void		Commands::commandINVITE(const std::string& line, const std::string& command, Client& client, Server& server)
+{
+	if (client.getClientStatus() == DISCONNECTED)
+	{
+		Utils::sendErrorMessage(NOT_CONNECTED, client);
+		return ;
+	}
+
+	const std::string	invitation = eraseCommandfromLine(line, command);
+	const std::vector<std::string>	parameters = Utils::splitParameters(invitation);
+
+	if (invitation.empty() == true || parameters.size() < 2)
+	{
+		Utils::sendErrorMessage(ERR_NEEDMOREPARAMS, client);
+		return ;
+	}
+
+
+	if (parameters.size() > 2)
+	{
+		Utils::sendErrorMessage(TOO_MANY_PARAM, client);
+		return ;
+	}
+
+	// check that the channel exists
+	// check if inviter is in that channel 442
+	// check that the inviter has operator rights in the said channel 482
+	// check that the invitee nickname exists
+	// check if the invited user is already in the channel
+
+
+	if (Utils::channelExists(server, parameters[1]) == false)
+	{
+		Utils::sendErrorMessage(ERR_NOSUCHCHANNEL, client, parameters[1]);
+		return ;
+	}
+
+	if (Utils::userIsInChannel(client, parameters[1]) == false)
+	{
+		Utils::sendErrorMessage(ERR_NOTONCHANNEL, client, parameters[1]);
+		return ;
+	}
+	
+
+
+	// ERR_NEEDMOREPARAMS
+	// ERR_NOSUCHNICK
+	// ERR_NOTONCHANNEL
+	// ERR_USERONCHANNEL
+	// ERR_CHANOPRIVSNEEDED
+	// RPL_INVITING
+
+	// INVITE <invitee> <channelname>
 }

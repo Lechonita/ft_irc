@@ -52,8 +52,8 @@
 # define EXPECTED_USER_PARAM 5
 # define INCOMING_MSG "\033[0;36m<< \033[0m"
 # define OUTGOING_MSG "\033[0;35m>> \033[0m"
-// # define CONNECTED true
-// # define DISCONNECTED false
+# define CONNECTED true
+# define DISCONNECTED false
 
 
 // Server specifications
@@ -82,6 +82,7 @@
 # define PASS_NOT_ENTERED "\033[0;33m> Please use PASS command to enter server password first <\033[0m"
 # define NICK_NOT_ENTERED "\033[0;33m> Please set Nickname first (use NICK command) <\033[0m"
 # define PASS_ALREADY_ENTERED "\033[0;33m> Password has already been entered <\033[0m"
+# define NOT_CONNECTED "\033[0;33m> You are not connected yet. Use PASS, NICK, USER <\033[0m"
 
 # define ERR_NOSUCHNICK			"\033[0;33m401 <client> <arg> :No such nick/channel\033[0m"
 # define ERR_NOSUCHCHANNEL		"\033[0;33m403 <client> <channelName> :No such channel\033[0m"
@@ -91,7 +92,7 @@
 # define ERR_UNKNOWNCOMMAND		"\033[0;33m421 <client> <command> :Unknown command\033[0m"
 # define ERR_NONICKNAMEGIVEN	"\033[0;33m431 <client> :No nickname given\033[0m"
 # define ERR_ERRONEUSNICKNAME	"\033[0;33m432 <client> <arg> :Erroneus nickname\033[0m"
-# define ERR_NICKNAMEINUSE		"\033[0;33m433 *<client> <arg> :Nickname is already in use\033[0m"
+# define ERR_NICKNAMEINUSE		"\033[0;33m433 <client> <arg> :Nickname is already in use\033[0m"
 # define ERR_USERNOTINCHANNEL	"\033[0;33m441 <client> <arg> <channelName> :They aren't on that channel\033[0m"
 # define ERR_NOTONCHANNEL		"\033[0;33m442 <client> <channelName> :You're not on that channel\033[0m"
 # define ERR_USERONCHANNEL		"\033[0;33m443 <client> <arg> <channelName> :is already on channel\033[0m"
@@ -103,6 +104,7 @@
 # define ERR_BADCHANNELKEY		"\033[0;33m475 <client> <channelName> :Cannot join channel (+k)\033[0m"
 # define ERR_BADCHANMASK		"\033[0;33m476 <channelName> :Bad Channel Mask\033[0m"
 # define ERR_CHANOPRIVSNEEDED	"\033[0;33m482 <client> <channelName> :You're not channel operator\033[0m"
+# define TOO_MANY_PARAM			"\033[0;33m:<client> <command> :Too many parameters\033[0m"
 
 
 //Replies
@@ -117,7 +119,7 @@
 # define RPL_UNIQOPIS			"325 <channelName> <client>"
 # define RPL_NOTOPIC			"331 <channelName> :No topic is set"
 # define RPL_TOPIC				"332 <channelName> :<topic>"
-// # define RPL_INVITING			"341 <channelName> <client>"
+# define RPL_INVITING			"341 <channelName> <client>"
 // # define RPL_INVITELIST			"346 <channelName> <invitemask>"
 // # define RPL_ENDOFINVITELIST	"347 <channelName> :End of channel invite list"
 // # define RPL_EXCEPTLIST			"348 <channelName> <exceptionmask>"
@@ -126,6 +128,8 @@
 # define RPL_NAMREPLY 			"353 <client> = <channelName> : <nicknames>"
 # define RPL_ENDOFNAMES			"366 <channelName> :End of NAMES list"
 # define RPL_BANLIST			"367 <channelName> <banmask>"
+
+
 // COMMANDS Messages
 
 # define PASS_OK "\033[0;32mPassword correct !\033[0m Please set up Nickname now (use NICK command).\n"
@@ -134,6 +138,7 @@
 # define USERNAME_OK "\033[0;32mUsername has been set.\033[0m\n"
 # define JOINED_CHANNEL "\033[0;32mYou join the channel\n\033[0m"
 # define LEFT_CHANNEL " has left the channel.\n"
+
 
 // CLIENT Error messages
 
@@ -146,8 +151,5 @@
 # define PERR_SEND "send: "
 
 
-// Constructor messages
-
-// # define SERVER_C ""
 
 #endif

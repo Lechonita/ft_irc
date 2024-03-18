@@ -26,8 +26,9 @@ class Commands
 		void			commandPASS(const std::string& line, const std::string& command, Client& client, Server& server);
 		void			commandNICK(const std::string& line, const std::string& command, Client& client, Server& server);
 		void			commandUSER(const std::string& line, const std::string& command, Client& client, Server& server);
-		void			commandCAP(const std::string& line, const std::string& command, Client& client, Server& server);\
+		void			commandCAP(const std::string& line, const std::string& command, Client& client, Server& server);
 		void			commandQUIT(const std::string& line, const std::string& command, Client& client, Server& server);
+		void			commandINVITE(const std::string& line, const std::string& command, Client& client, Server& server);
 
 		// Command Utils
 		static std::string	getCommandFromLine(const std::string& line);
@@ -42,7 +43,7 @@ class Commands
 		static void			checkPartParams(std::string part_params, std::vector<std::string> *channels);
 
 		// nick_utils
-		static bool			isValidNickname(const std::string& nickname, const Server& server);
+		static bool			isValidNickname(const std::string& nickname, const Client& client, const Server& server);
 
 		// pass_utils
 		static bool			isValidPassword(const std::string& password, const Client& client, const Server& server);
