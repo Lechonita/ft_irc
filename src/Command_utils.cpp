@@ -33,7 +33,6 @@ std::string		Commands::getCommandFromLine(const std::string& line)
 
 void		Commands::executeCommand(std::string& line, std::string& command, Server& server, Client& client)
 {
-
 	std::map<std::string, functionPointer>::iterator it;
 	bool			correctCmd = false;
 
