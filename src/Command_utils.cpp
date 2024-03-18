@@ -36,7 +36,7 @@ void		Commands::executeCommand(std::string& line, std::string& command, Server& 
 	std::map<std::string, functionPointer>::iterator it;
 	bool			correctCmd = false;
 
-	for (it = _cmdList.begin(); it != _cmdList.end(); ++it)
+	for (it = _cmdMap.begin(); it != _cmdMap.end(); ++it)
 	{
 		if (it->first == command)
 		{

@@ -36,7 +36,10 @@ int main(int ac, char **av)
 		Server server(port, password);
 
 		while (true)
+		{
 			server.runServer();
+			server.printAll();
+		}
 	}
 	catch (Server::Exception &e)
 	{

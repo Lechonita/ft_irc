@@ -25,16 +25,20 @@ static std::string	getClientListInChannel(const Client &client, const std::strin
 	std::string				client_list = "";
 	size_t					pos;
 
+	if (channels.empty() == true)
+		return ("");
 	for (pos = 0; pos < channels.size(); pos++)
 	{
 		if (channels[pos]->getChannelName() == channelName)
 			break ;
 	}
+	if (pos == channels.size())
+		return ("");
 	std::vector<channelClient>	clients = channels[pos]->getChannelClients();
 
 	for (size_t i = 0; i < clients.size(); i++)
 	{
-		if (i == 0)
+		if (clients[i].isOperator == true)
 			client_list += "@";
 		client_list += clients[i].client->getClientNickname();
 		client_list += " ";
@@ -88,7 +92,7 @@ std::string		Utils::getFormattedMessage(const std::string &message, const Client
 
 	std::string formattedMessage = message;
 
-	for (size_t i = 0; i < PATTERN_COUNT; ++i)
+	for (size_t i = 0; i < PATTERN_COUNT - 2; ++i)
 	{
 		formattedMessage = replacePattern(formattedMessage, pattern[i][0], pattern[i][1]);
 	}
@@ -199,6 +203,17 @@ void	Utils::joinMessageSuccessful(const Client& client, std::string channel_name
 	sendErrorMessage(message1, client);
 	sendErrorMessage(message2, client, channel_name);
 	sendErrorMessage(message3, client, channel_name);
+}
+
+
+
+void	Utils::partMessage(const Client& client, std::string channel_name)
+{
+	std::string						message = ":" + client.getClientNickname()
+												+ "!~" + client.getClientUsername() + "@"
+												+ client.getClientIP() + " PART :" + channel_name;
+
+	sendErrorMessage(message, client);
 }
 
 

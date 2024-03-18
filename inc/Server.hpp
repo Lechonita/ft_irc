@@ -16,7 +16,7 @@ class Server
 	public:
 		Server(const std::string &port, const std::string &password);
 		~Server();
-
+		void	printAll(); //provisoire, a supprimer
 		// Getters
 		int									getSocketFd() const;
 		std::string							getPassword() const;
@@ -36,7 +36,6 @@ class Server
 		void								sendMessageToChannel(std::string receiver, std::string message, Client& client);
 		void								sendMessageToUser(std::string receiver, std::string message, Client& client);
 		bool								isPartOfChannel(std::string channel_name, Client& client);
-		void								partFromChannels(Client& client, std::vector<std::string> channels);
 		// Functions
 		void								runServer();
 		void								createNewClient();
@@ -118,7 +117,7 @@ class Server
 		int									_bind; // assign an IP address and port to the socket
 		int									_listen; // marks a socket as passive - used to accept connections
 		std::vector<pollfd>					_pollFd; // poll descriptors, one per client connection
-		// std::vector<std::string>			_cmdList; // command function pointers indexed
+		// std::vector<std::string>			_cmdMap; // command function pointers indexed
 		std::map<int, Client>				_clientMap; // map of client sockets
 		std::map<std::string, Channel>		_channelMap; // map of channel sockets
 		bool								_irssi;

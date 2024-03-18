@@ -66,6 +66,32 @@ void	Channel::newClient(std::string passwrd, Client &client)
 	}
 }
 
+
+
+void	Channel::removeClient(Client &client)
+{
+	std::vector<channelClient>::iterator	it;
+
+	for (it = _channelClients.begin(); it < _channelClients.end(); it++)
+	{
+		if (&client == (*it).client)
+		{
+			_channelClients.erase(it);
+		}
+	}
+}
+
+void	Channel::printClients()
+{
+	for (size_t pos = 0; pos < _channelClients.size(); pos++)
+	{
+		std::cout << "	client " << pos << "= " << _channelClients[pos].client->getClientNickname() << std::endl;
+	}
+}
+
+
+
+
 void	Channel::sendMessageToAll(std::string message)
 {
 	for(size_t i = 0; i < _channelClients.size(); i++)

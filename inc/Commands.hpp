@@ -21,8 +21,8 @@ class Commands
 
 		// Command functions
 		void			commandJOIN(const std::string& line, const std::string& command, Client& client, Server& server);
-		void			commandPART(const std::string& line, const std::string& command, Server& server, Client& client);
-		void			commandPRIVMSG(const std::string& line, const std::string& command, Server& server, Client& client);
+		void			commandPART(const std::string& line, const std::string& command, Client& client, Server& server);
+		void			commandPRIVMSG(const std::string& line, const std::string& command, Client& client, Server& server);
 		void			commandPASS(const std::string& line, const std::string& command, Client& client, Server& server);
 		void			commandNICK(const std::string& line, const std::string& command, Client& client, Server& server);
 		void			commandUSER(const std::string& line, const std::string& command, Client& client, Server& server);
@@ -39,7 +39,7 @@ class Commands
 		// join_utils
 		static void			checkJoinParams(std::string join_params, std::vector<std::string> *channels, std::vector<std::string> *passwrds);
 		static void			checkPrivmsgParams(std::string parameters, std::vector<std::string> *receivers, std::string *message);
-		static void			checkPartParams(std::string part_params, std::vector<std::string> *channels);
+		static void			checkPartParams(std::string part_params, std::vector<std::string> *channels, std::string *message);
 
 		// nick_utils
 		static bool			isValidNickname(const std::string& nickname, const Server& server);
@@ -57,7 +57,7 @@ class Commands
 
 	private:
 		typedef void (Commands::*functionPointer)(const std::string&, const std::string&, Client&, Server&);
-		std::map<std::string, functionPointer>		_cmdList;
+		std::map<std::string, functionPointer>		_cmdMap;
 };
 
 #endif

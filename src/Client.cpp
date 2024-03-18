@@ -43,6 +43,12 @@ const std::vector<Channel*>	Client::getClientChannels() const {return (_channels
 
 // Setters
 
+void	Client::printChannels()
+{
+	for (size_t i = 0; i < _channels.size(); i++)
+		std::cout << "	channel " << i << "= " << _channels[i]->getChannelName() << std::endl;
+}
+
 void	Client::setClientIP(const char * IP) { _clientIP = IP; }
 
 void	Client::setBuffer(const char *buffer) { _buffer += buffer; }
@@ -115,6 +121,27 @@ void	Client::interpretMessage(Server& server)
 void	Client::newChannel(Channel& channel)
 {
 	_channels.push_back(&channel);
+}
+
+
+
+void	Client::partFromChannels(Client& client, std::vector<std::string> channels)
+{
+	std::vector<Channel*>::iterator	it;
+
+	for (size_t i = 0; i < channels.size(); i++)
+	{
+		for (it = _channels.begin(); it != _channels.end(); it++)
+		{
+			if (channels[i] == (*it)->getChannelName())
+			{
+				(*it)->removeClient(client);
+				_channels.erase(it);
+				Utils::partMessage(client, channels[i]);
+				break;
+			}
+		}
+	}
 }
 
 // Exceptions

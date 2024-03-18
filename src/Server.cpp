@@ -11,7 +11,7 @@ Server::Server(const std::string &port, const std::string &password)
 	  _nbClients(0),
 	  _pollFd(0),
 	  _irssi(false)
-	//   _cmdList(setCommandList())
+	//   _cmdMap(setCommandList())
 {
 	// SOCKET : This code creates a TCP socket for IPv6 communication
 	// AF_INET6 = IPv6 Internet protocols
@@ -209,7 +209,7 @@ std::map<int, Client>				Server::getClientMap() const { return (_clientMap); }
 std::map<std::string, Channel>		Server::getChannelMap() const { return (_channelMap); }
 bool								Server::getIrssi()const { return (_irssi); }
 
-// std::vector<std::string>	Server::getCommandList() const { return (_cmdList); }
+// std::vector<std::string>	Server::getCommandList() const { return (_cmdMap); }
 
 
 
@@ -222,8 +222,26 @@ void	Server::setChannelMap(std::string channel_name, int client_socket)
 	std::map<int, Client>::iterator	it_client = _clientMap.find(client_socket);
 
 	_channelMap.insert(std::make_pair(channel_name, Channel(channel_name, &(it_client->second))));
-	it_client->second.newChannel(_channelMap.begin()->second);
+	it_client->second.newChannel(_channelMap.find(channel_name)->second);
 	Utils::joinMessageSuccessful(it_client->second, channel_name);
+}
+
+void	Server::printAll() //provisoire, a supprimer
+{
+	std::map<std::string, Channel>::iterator	it_channels;
+	std::map<int, Client>::iterator				it_client;
+
+	for (it_channels = _channelMap.begin() ; it_channels != _channelMap.end() ; it_channels++)
+	{
+		std::cout << GREEN << "channel= " << it_channels->first << ", " << it_channels->second.getChannelName() << std::endl;
+		it_channels->second.printClients();
+	}
+
+	for (it_client = _clientMap.begin() ; it_client != _clientMap.end() ; it_client++)
+	{
+		std::cout << GREEN << "client= " << it_client->first << ", " << it_client->second.getClientNickname() << std::endl;
+		it_client->second.printChannels();
+	}
 }
 
 void	Server::addClientToChannel(std::string channel, std::string passwrd, Client& client)
@@ -279,14 +297,6 @@ bool	Server::isPartOfChannel(std::string channel_name, Client& client)
 	}
 	Utils::sendErrorMessage(ERR_NOTONCHANNEL, client, channel_name);
 	return (false);
-}
-
-
-
-void	Server::partFromChannels(Client& client, std::vector<std::string> channels)
-{
-	(void)client;
-	(void)channels;
 }
 
 
