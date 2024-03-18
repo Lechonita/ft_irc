@@ -4,6 +4,9 @@
 #include "../inc/Utils.hpp"
 #include "../inc/defines.hpp"
 #include "../inc/Server.hpp"
+#include "../inc/Channel.hpp"
+
+class Channel;
 
 class Server;
 
@@ -16,26 +19,32 @@ class Client
 
 
 	// Getters
-	int						getClientSocket() const;
-	const std::string		getClientUsername() const;
-	const std::string		getClientNickname() const;
-	const std::string		getClientPassword() const;
-	const std::string		getLastArgument() const;
-	const std::string		getLastCommand() const;
-	const char*				getClientIP() const;
+	int							getClientSocket() const;
+	const std::string			getClientUsername() const;
+	const std::string			getClientNickname() const;
+	const std::string			getClientPassword() const;
+	const std::string			getLastArgument() const;
+	const std::string			getLastCommand() const;
+	const char*					getClientIP() const;
+	const std::vector<Channel*>	getClientChannels() const;
 
 
 	// Setters
-	void					setClientIP(const char * IP);
-	void					setBuffer(const char *buffer);
-	void					setNickname(const std::string& nickname, const bool irssi);
-	void					setPassword(const std::string& password, const bool irssi);
-	void					setUsername(const std::string& username, const bool irssi);
-	void					setLastArgument(const std::string& arg);
-	void					setLastCommand(const std::string& command);
+	void						setClientIP(const char * IP);
+	void						setBuffer(const char *buffer);
+	void						setNickname(const std::string& nickname, const bool irssi);
+	void						setPassword(const std::string& password, const bool irssi);
+	void						setUsername(const std::string& username, const bool irssi);
+	void						setLastArgument(const std::string& arg);
+	void						setLastCommand(const std::string& command);
 
 	// Functions
-	void					interpretMessage(Server& server);
+	void						interpretMessage(Server& server);
+	void						newChannel(Channel& channel_name);
+
+	// Commands
+	// bool					isCommandFromList(const std::string& command, const Server& server) const;
+
 
 	// Exceptions
 	class Exception : public std::exception
@@ -51,15 +60,16 @@ class Client
 
 
 	private:
-		std::string		_clientUsername;
-		std::string		_clientPassword;
-		std::string		_clientNickname;
-		std::string		_lastArg;
-		std::string		_lastCommand;
-		std::string		_buffer;
-		const char*		_clientIP;
-		int				_clientSocket;
-		// bool			_clientStatus;
+		std::string					_clientUsername;
+		std::string					_clientPassword;
+		std::string					_clientNickname;
+		std::string					_lastArg;
+		std::string					_lastCommand;
+		std::string					_buffer;
+		std::vector<Channel*>		_channels;
+		const char*					_clientIP;
+		int							_clientSocket;
+		// bool						_clientStatus;
 };
 
 #endif

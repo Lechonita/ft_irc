@@ -66,7 +66,7 @@ Server::Server(const std::string &port, const std::string &password)
 
 Server::~Server()
 {
-	_clientMap.clear();
+	// _clientMap.clear();
 	// std::cout << "Default server destructor." << std::endl;
 }
 
@@ -219,8 +219,11 @@ void	Server::setIrssi(const bool result) { _irssi = result; }
 
 void	Server::setChannelMap(std::string channel_name, int client_socket)
 {
-	std::map<int, Client>::iterator it_client = _clientMap.find(client_socket);
+	std::map<int, Client>::iterator	it_client = _clientMap.find(client_socket);
+
 	_channelMap.insert(std::make_pair(channel_name, Channel(channel_name, &(it_client->second))));
+	it_client->second.newChannel(_channelMap.begin()->second);
+	Utils::joinMessageSuccessful(it_client->second, channel_name);
 }
 
 void	Server::addClientToChannel(std::string channel, std::string passwrd, Client& client)
@@ -228,6 +231,7 @@ void	Server::addClientToChannel(std::string channel, std::string passwrd, Client
 	std::map<std::string, Channel>::iterator	it = _channelMap.find(channel);
 
 	it->second.newClient(passwrd, client);
+	Utils::joinMessageSuccessful(client, channel);
 }
 
 
@@ -246,16 +250,99 @@ void	Server::manageChannel(std::vector<std::string> channels, std::vector<std::s
 		}
 		else if (i >= passwrds.size())
 		{
-			std::cout << "passe par la" << std::endl;
 			addClientToChannel(channels[i], "", client);
 		}
 		else
 		{
-			std::cout << "passe par ici" << std::endl;
 			addClientToChannel(channels[i], passwrds[i], client);
 		}
 	}
 }
+
+
+
+bool	Server::isPartOfChannel(std::string channel_name, Client& client)
+{
+	std::map<std::string, Channel>::iterator	it = _channelMap.find(channel_name);
+
+	if (it == _channelMap.end())
+	{
+		Utils::sendErrorMessage(ERR_NOSUCHNICK, client);
+		return (false);
+	}
+	std::vector<channelClient>	clients = it->second.getChannelClients();
+
+	for (size_t i = 0; i < clients.size(); i++)
+	{
+		if (clients[i].client->getClientNickname() == client.getClientNickname())
+			return (true);
+	}
+	Utils::sendErrorMessage(ERR_NOTONCHANNEL, client, channel_name);
+	return (false);
+}
+
+
+
+void	Server::partFromChannels(Client& client, std::vector<std::string> channels)
+{
+	(void)client;
+	(void)channels;
+}
+
+
+
+void	Server::sendMessageToReceivers(std::vector<std::string> receivers, std::string message, Client& client)
+{
+	for (size_t i = 0; i < receivers.size(); i++)
+	{
+		if (receivers[i][0] == '#' && isPartOfChannel(receivers[i], client) == true)
+		{
+			sendMessageToChannel(receivers[i], message, client);
+		}
+		else if (receivers[i][0] != '#')
+		{
+			sendMessageToUser(receivers[i], message, client);
+		}
+	}
+}
+
+
+
+void	Server::sendMessageToChannel(std::string receiver, std::string message, Client& client)
+{
+	std::map<std::string, Channel>::iterator	it = _channelMap.find(receiver);
+
+	if (it == _channelMap.end())
+	{
+		Utils::sendErrorMessage(ERR_NOSUCHNICK, client);
+		return ;
+	}
+	std::string	full_message = client.getClientNickname() + ": " + message + END_MSG;
+
+	it->second.sendMessageToAll(full_message);
+}
+
+
+
+void	Server::sendMessageToUser(std::string receiver, std::string message, Client& client)
+{
+	std::map<int, Client>::iterator	it;
+
+	for(it = _clientMap.begin(); it != _clientMap.end(); it++)
+	{
+		if (it->second.getClientNickname() == receiver)
+			break;
+	}
+	if (it == _clientMap.end())
+	{
+		Utils::sendErrorMessage(ERR_NOSUCHNICK, client);
+		return ;
+	}
+	std::string	full_message = client.getClientNickname() + ": " + message+ END_MSG;
+
+	Utils::sendMessage(full_message, it->second.getClientSocket());
+}
+
 
 
 // std::vector<std::string>	Server::setCommandList()

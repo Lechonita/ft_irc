@@ -48,7 +48,7 @@
 # define EMPTY ""
 # define SPACE " "
 # define MAX_NICK_LEN 9
-# define PATTERN_COUNT 4
+# define PATTERN_COUNT 5
 # define EXPECTED_USER_PARAM 5
 # define INCOMING_MSG "\033[0;36m<< \033[0m"
 # define OUTGOING_MSG "\033[0;35m>> \033[0m"
@@ -107,21 +107,25 @@
 
 //Replies
 
-# define RPL_TOPIC 0
-# define RPL_NOTOPIC 0
-# define RPL_CHANNELMODEIS 0
-# define RPL_BANLIST 0
-# define RPL_EXCEPTLIST 0
-# define RPL_INVITELIST 0
-# define RPL_UNIQOPIS 0
-# define RPL_ENDOFBANLIST 0
-# define RPL_ENDOFEXCEPTLIST 0
-# define RPL_ENDOFINVITELIST 0
-# define RPL_NAMREPLY 0
-# define RPL_ENDOFNAMES 0
-# define RPL_INVITING 0
-# define RPL_AWAY 0
 
+# define RPL_WELCOME			"001 Welcome to the Internet Relay Network <client>!<user>@<host>"
+# define RPL_YOURHOST			"002 Your host is <servername>, running version <ver>"
+# define RPL_CREATED			"003 This server was created <date>"
+# define RPL_MYINFO				"004 <servername> <version> <available user modes> <available channel modes>"
+// # define RPL_AWAY				"301 <client> :<away message>"
+# define RPL_CHANNELMODEIS		"324 <channelName> <mode> <mode params>"
+# define RPL_UNIQOPIS			"325 <channelName> <client>"
+# define RPL_NOTOPIC			"331 <channelName> :No topic is set"
+# define RPL_TOPIC				"332 <channelName> :<topic>"
+// # define RPL_INVITING			"341 <channelName> <client>"
+// # define RPL_INVITELIST			"346 <channelName> <invitemask>"
+// # define RPL_ENDOFINVITELIST	"347 <channelName> :End of channel invite list"
+// # define RPL_EXCEPTLIST			"348 <channelName> <exceptionmask>"
+// # define RPL_ENDOFEXCEPTLIST	"349 <channelName> :End of channel exception list"
+// # define RPL_ENDOFBANLIST		"368 <channelName> :End of channel ban list"
+# define RPL_NAMREPLY 			"353 <client> = <channelName> : <nicknames>"
+# define RPL_ENDOFNAMES			"366 <channelName> :End of NAMES list"
+# define RPL_BANLIST			"367 <channelName> <banmask>"
 // COMMANDS Messages
 
 # define PASS_OK "\033[0;32mPassword correct !\033[0m Please set up Nickname now (use NICK command).\n"

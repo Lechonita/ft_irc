@@ -19,6 +19,31 @@ std::string Utils::replacePattern(std::string &message, const std::string &from,
 
 
 
+static std::string	getClientListInChannel(const Client &client, const std::string channelName)
+{
+	std::vector<Channel*>	channels = client.getClientChannels();
+	std::string				client_list = "";
+	size_t					pos;
+
+	for (pos = 0; pos < channels.size(); pos++)
+	{
+		if (channels[pos]->getChannelName() == channelName)
+			break ;
+	}
+	std::vector<channelClient>	clients = channels[pos]->getChannelClients();
+
+	for (size_t i = 0; i < clients.size(); i++)
+	{
+		if (i == 0)
+			client_list += "@";
+		client_list += clients[i].client->getClientNickname();
+		client_list += " ";
+	}
+	return (client_list);
+}
+
+
+
 // Command, Arg, Client, ChannelName
 std::string Utils::getFormattedMessage(const std::string &message, const Client &client, const std::string channelName)
 {
@@ -26,7 +51,8 @@ std::string Utils::getFormattedMessage(const std::string &message, const Client 
 		{"<command>", client.getLastCommand()},
 		{"<arg>", client.getLastArgument()},
 		{"<client>", client.getClientNickname()},
-		{"<channelName>", channelName}};
+		{"<channelName>", channelName},
+		{"<nicknames>", getClientListInChannel(client, channelName)}};
 
 	std::string formattedMessage = message;
 
@@ -55,7 +81,7 @@ void Utils::sendErrorMessage(const std::string &message, const Client &client, c
 
 std::string		Utils::getFormattedMessage(const std::string &message, const Client &client)
 {
-	const std::string pattern[PATTERN_COUNT - 1][2] = {
+	const std::string pattern[PATTERN_COUNT - 2][2] = {
 		{"<command>", client.getLastCommand()},
 		{"<arg>", client.getLastArgument()},
 		{"<client>", client.getClientNickname()}};
@@ -158,6 +184,22 @@ void	Utils::displayWelcomeMessage(const Client& client)
 }
 
 
+
+void	Utils::joinMessageSuccessful(const Client& client, std::string channel_name)
+{
+	std::string						message1 = ":" + client.getClientNickname()
+												+ "!~" + client.getClientUsername() + "@"
+												+ client.getClientIP() + " JOIN :" + channel_name;
+	std::string						message2 = ":ircserv " + getFormattedMessage(RPL_NAMREPLY, client, channel_name);
+	std::string						message3 = ":ircserv " + getFormattedMessage(RPL_ENDOFNAMES, client);
+
+	message2.erase(message2.size() - 2, 2);
+	message3.erase(message3.size() - 2, 2);
+
+	sendErrorMessage(message1, client);
+	sendErrorMessage(message2, client, channel_name);
+	sendErrorMessage(message3, client, channel_name);
+}
 
 
 // Util functions

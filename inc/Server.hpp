@@ -29,9 +29,14 @@ class Server
 		void								setIrssi(const bool result);
 		void								setChannelMap(std::string channel_name, int client_socket);
 		// std::vector<std::string>	setCommandList();
+
 		void								addClientToChannel(std::string channel, std::string passwrd, Client& client);
 		void								manageChannel(std::vector<std::string> channels, std::vector<std::string> passwrds, Client& client);
-
+		void								sendMessageToReceivers(std::vector<std::string> receivers, std::string message, Client& client);
+		void								sendMessageToChannel(std::string receiver, std::string message, Client& client);
+		void								sendMessageToUser(std::string receiver, std::string message, Client& client);
+		bool								isPartOfChannel(std::string channel_name, Client& client);
+		void								partFromChannels(Client& client, std::vector<std::string> channels);
 		// Functions
 		void								runServer();
 		void								createNewClient();

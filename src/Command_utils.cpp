@@ -8,7 +8,7 @@ void	Commands::findCommandInMessage(std::string& line, Server& server, Client& c
 
 	if (command.empty() == true)
 		return ;
-	
+
 	client.setLastCommand(command);
 
 	cmd.executeCommand(line, command, server, client);

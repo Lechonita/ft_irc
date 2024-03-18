@@ -30,7 +30,7 @@ class Channel
 {
 
 	public:
-		Channel(const std::string& name, const Client *const client);
+		Channel(const std::string& name, Client *client);
 		~Channel();
 		std::string					getChannelName() const;
 		std::string					getChannelTopic() const;
@@ -38,7 +38,7 @@ class Channel
 		std::vector<channelModes>	getChannelModes() const;
 		std::vector<channelClient>	getChannelClients() const;
 		void						newClient(std::string passwrd, Client &client);
-
+		void						sendMessageToAll(std::string message);
 
 	private:
 
