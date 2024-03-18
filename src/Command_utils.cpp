@@ -1,13 +1,15 @@
 #include "../inc/Commands.hpp"
 
 
-void	Commands::findCommandInMessage(const std::string& line, Server& server, Client& client)
+void	Commands::findCommandInMessage(std::string& line, Server& server, Client& client)
 {
-	const std::string		command = getCommandFromLine(line);
+	std::string		command = getCommandFromLine(line);
 	Commands				cmd;
 
 	if (command.empty() == true)
 		return ;
+	
+	client.setLastCommand(command);
 
 	cmd.executeCommand(line, command, server, client);
 }
@@ -47,31 +49,6 @@ void		Commands::executeCommand(std::string& line, std::string& command, Server& 
 	{
 		Utils::sendErrorMessage(ERR_UNKNOWNCOMMAND, client);
 	}
-
-	// if (command == "JOIN")
-	// 	Commands::commandJOIN(line, command, server, client);
-	// else if (command == "CAP")
-	// 	Commands::commandCAP(line, command, client, server);
-	// else if (command == "PASS")
-	// 	Commands::commandPASS(line, command, client, server);
-	// else if (command == "NICK")
-	// 	Commands::commandNICK(line, command, client, server);
-	// else if (command == "USER")
-	// 	Commands::commandUSER(line, command, client, server);
-	// else if (command == "QUIT")
-	// 	Commands::commandQUIT(line, command, client, server);
-	// else
-	// {
-	// 	Utils::sendErrorMessage(ERR_UNKNOWNCOMMAND, client);
-	// }
-
-	// std::map<std::string, Channel>	test = server.getChannelMap();
-	// std::map<std::string, Channel>::iterator	it;
-
-	// for (it = test.begin(); it != test.end(); it++)
-	// {
-	// 	std::cout << GREEN << "Channel name: " << it->first << NC << std::endl;
-	// }
 }
 
 

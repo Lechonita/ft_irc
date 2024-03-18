@@ -53,7 +53,10 @@ void		Commands::commandPASS(const std::string& line, const std::string& command,
 		return ;
 
 	if (isValidPassword(password, client, server) == true)
+	{
 		client.setPassword(password, server.getIrssi());
+		client.setLastArgument(password);
+	}
 }
 
 
@@ -74,7 +77,10 @@ void		Commands::commandNICK(const std::string& line, const std::string& command,
 		return ;
 
 	if (isValidNickname(nickname, server) == true)
+	{
 		client.setNickname(nickname, server.getIrssi());
+		client.setLastArgument(nickname);
+	}
 }
 
 
@@ -104,6 +110,7 @@ void		Commands::commandUSER(const std::string& line, const std::string& command,
 		return ;
 
 	client.setUsername(parameters[0], server.getIrssi());
+	client.setLastArgument(userInfo);
 	Utils::displayWelcomeMessage(client);
 }
 
@@ -128,8 +135,8 @@ void		Commands::commandCAP(const std::string& line, const std::string& command, 
 
 void		Commands::commandQUIT(const std::string& line, const std::string& command, Client& client, Server& server)
 {
-	(void)line;
 	(void)command;
+	client.setLastArgument(line);
 
 	close(client.getClientSocket());
 
