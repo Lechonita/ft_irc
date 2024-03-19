@@ -59,7 +59,7 @@
 // Server specifications
 
 # define HOST_NAME "localhost"
-# define SERVER_NAME "IRCserver"
+# define SERVER_NAME "irc"
 
 # define PREFIX_CHAN '#'
 # define END_MSG "\r\n"
@@ -138,6 +138,7 @@
 # define USERNAME_OK "\033[0;32mUsername has been set.\033[0m\n"
 # define JOINED_CHANNEL "\033[0;32mYou join the channel\n\033[0m"
 # define LEFT_CHANNEL " has left the channel.\n"
+# define PONG "PONG <servername> :<client>"
 
 
 // CLIENT Error messages

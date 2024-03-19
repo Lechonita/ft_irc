@@ -1,13 +1,13 @@
 #include "../inc/Commands.hpp"
 
-//  ERR_NONICKNAMEGIVEN             ERR_ERRONEUSNICKNAME
-//  ERR_NICKNAMEINUSE               ERR_NICKCOLLISION
+//  ERR_NONICKNAMEGIVEN
+//  ERR_NICKCOLLISION
 
 
 // Command NICK
 
 
-static bool	nicknameAlreadyExists(const std::string& nickname, const Server& server)
+bool	Commands::nicknameAlreadyExists(const std::string& nickname, const Server& server)
 {
 	std::map<int, Client> clients = server.getClientMap();
 	if (server.getClientMap().empty() == false)

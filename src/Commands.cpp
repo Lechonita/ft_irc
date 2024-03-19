@@ -14,6 +14,7 @@ Commands::Commands()
 	_cmdMap["PRIVMSG"] = &Commands::commandPRIVMSG;
 	_cmdMap["PART"] = &Commands::commandPART;
 	_cmdMap["INVITE"] = &Commands::commandINVITE;
+	_cmdMap["PING"] = &Commands::commandPING;
 }
 
 
@@ -184,8 +185,6 @@ void		Commands::commandCAP(const std::string& line, const std::string& command, 
 
 	if (isIrssi(parameter) == true)
 		server.setIrssi(true);
-	
-	// récupérer les infos sur les autres lignes et passer le _clientStatus à CONNECTED
 }
 
 
@@ -194,6 +193,12 @@ void		Commands::commandCAP(const std::string& line, const std::string& command, 
 
 void		Commands::commandQUIT(const std::string& line, const std::string& command, Client& client, Server& server)
 {
+	if (client.getClientStatus() == DISCONNECTED)
+	{
+		Utils::sendErrorMessage(NOT_CONNECTED, client);
+		return ;
+	}
+
 	(void)command;
 	client.setLastArgument(line);
 
@@ -227,40 +232,31 @@ void		Commands::commandINVITE(const std::string& line, const std::string& comman
 		return ;
 	}
 
-
 	if (parameters.size() > 2)
 	{
 		Utils::sendErrorMessage(TOO_MANY_PARAM, client);
 		return ;
 	}
 
-	// check that the channel exists
-	// check if inviter is in that channel 442
-	// check that the inviter has operator rights in the said channel 482
-	// check that the invitee nickname exists
-	// check if the invited user is already in the channel
-
-
-	if (Utils::channelExists(server, parameters[1]) == false)
+	if (areValidInviteParameters(parameters, client, server) == false)
 	{
-		Utils::sendErrorMessage(ERR_NOSUCHCHANNEL, client, parameters[1]);
 		return ;
 	}
 
-	if (Utils::userIsInChannel(client, parameters[1]) == false)
-	{
-		Utils::sendErrorMessage(ERR_NOTONCHANNEL, client, parameters[1]);
-		return ;
-	}
-	
-
-
-	// ERR_NEEDMOREPARAMS
-	// ERR_NOSUCHNICK
-	// ERR_NOTONCHANNEL
-	// ERR_USERONCHANNEL
-	// ERR_CHANOPRIVSNEEDED
-	// RPL_INVITING
+	inviteUser(parameters, client, server);
 
 	// INVITE <invitee> <channelname>
+}
+
+
+
+// PING
+
+void		Commands::commandPING(const std::string& line, const std::string& command, Client& client, Server& server)
+{
+	(void)line;
+	(void)command;
+	(void)server;
+	// if PING vient sans parametres, "409 <client> :No origin specified"
+	Utils::sendErrorMessage(PONG, client);
 }

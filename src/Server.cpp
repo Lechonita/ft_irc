@@ -362,11 +362,6 @@ const char *Server::AcceptException::what() const throw() { return (ERR_SERVER_A
 
 const char *Server::ParametersException::what() const throw() { return (ERR_NEEDMOREPARAMS); }
 
-// const char *Server::ReadException::what() const throw()
-// {
-// 	return ("\033[0;31mError: Could not read client's message.\n\033[0m");
-// }
-
 
 
 /*************************************/

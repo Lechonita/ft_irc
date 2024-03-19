@@ -125,6 +125,15 @@ void	Client::newChannel(Channel& channel)
 	_channels.push_back(&channel);
 }
 
+
+void	Client::addChannelToClient(Channel* channel)
+{
+	std::vector<Channel*>	channels = getClientChannels();
+	channels.push_back(channel);
+}
+
+
+
 // Exceptions
 
 const char *Client::Exception::what() const throw() { return (ERR_CLIENT); }

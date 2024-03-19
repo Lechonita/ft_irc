@@ -1,10 +1,10 @@
 #ifndef UTILS_HPP
 # define UTILS_HPP
 
-#include "../inc/defines.hpp"
 #include "../inc/Client.hpp"
-#include "../inc/Channel.hpp"
 #include "../inc/Server.hpp"
+#include "../inc/Channel.hpp"
+#include "../inc/defines.hpp"
 
 class Client;
 
@@ -36,8 +36,7 @@ class Utils
 
 	// utils functions
 	static std::vector<std::string>		splitParameters(const std::string& userInfo);
-	static bool							userIsInChannel(const Client& client, const std::string& channelname);
-	static bool							channelExists(const Server& server, const std::string& channelname);
+	// static std::string					getClientListInChannel(const Client &client, const std::string channelName);
 
 };
 

@@ -102,11 +102,7 @@ class Server
 			public:
 				const char *what() const throw();
 		};
-		// class ReadException : public Client::Exception
-		// {
-		// 	public:
-		// 		const char *what() const throw();
-		// };
+
 
 	private:
 		const std::string					_port;
@@ -116,7 +112,6 @@ class Server
 		int									_bind; // assign an IP address and port to the socket
 		int									_listen; // marks a socket as passive - used to accept connections
 		std::vector<pollfd>					_pollFd; // poll descriptors, one per client connection
-		// std::vector<std::string>			_cmdMap; // command function pointers indexed
 		std::map<int, Client>				_clientMap; // map of client sockets
 		std::map<std::string, Channel>		_channelMap; // map of channel sockets
 		bool								_irssi;

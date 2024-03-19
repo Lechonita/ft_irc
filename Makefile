@@ -41,6 +41,7 @@ SRC			+= nick_utils.cpp
 SRC			+= pass_utils.cpp
 SRC			+= user_utils.cpp
 SRC			+= quit_utils.cpp
+SRC			+= invite_utils.cpp
 SRC			+= Command_utils.cpp
 SRC			+= Client_disconnect.cpp
 SRC			+= Client_message_reception.cpp

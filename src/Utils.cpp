@@ -19,28 +19,28 @@ std::string Utils::replacePattern(std::string &message, const std::string &from,
 
 
 
-static std::string	getClientListInChannel(const Client &client, const std::string channelName)
-{
-	std::vector<Channel*>	channels = client.getClientChannels();
-	std::string				client_list = "";
-	size_t					pos;
+// std::string		Utils::getClientListInChannel(const Client &client, const std::string channelName)
+// {
+// 	std::vector<Channel*>	channels = client.getClientChannels();
+// 	std::string				client_list = "";
+// 	size_t					pos;
 
-	for (pos = 0; pos < channels.size(); pos++)
-	{
-		if (channels[pos]->getChannelName() == channelName)
-			break ;
-	}
-	std::vector<channelClient>	clients = channels[pos]->getChannelClients();
+// 	for (pos = 0; pos < channels.size(); pos++)
+// 	{
+// 		if (channels[pos]->getChannelName() == channelName)
+// 			break ;
+// 	}
+// 	std::vector<channelClient>	clients = channels[pos]->getChannelClients();
 
-	for (size_t i = 0; i < clients.size(); i++)
-	{
-		if (i == 0)
-			client_list += "@";
-		client_list += clients[i].client->getClientNickname();
-		client_list += " ";
-	}
-	return (client_list);
-}
+// 	for (size_t i = 0; i < clients.size(); i++)
+// 	{
+// 		if (i == 0)
+// 			client_list += "@";
+// 		client_list += clients[i].client->getClientNickname();
+// 		client_list += " ";
+// 	}
+// 	return (client_list);
+// }
 
 
 
@@ -54,7 +54,8 @@ std::string Utils::getFormattedMessage(const std::string &message, const Client 
 		{"<arg>", client.getLastArgument()},
 		{"<client>", client.getClientNickname()},
 		{"<channelName>", channelName},
-		{"<nicknames>", getClientListInChannel(client, channelName)}};
+		{"<servername>", SERVER_NAME}};
+		// {"<nicknames>", getClientListInChannel(client, channelName)}};
 
 	std::string formattedMessage = message;
 
@@ -83,14 +84,15 @@ void Utils::sendErrorMessage(const std::string &message, const Client &client, c
 
 std::string		Utils::getFormattedMessage(const std::string &message, const Client &client)
 {
-	const std::string pattern[PATTERN_COUNT - 2][2] = {
+	const std::string pattern[PATTERN_COUNT - 1][2] = {
 		{"<command>", client.getLastCommand()},
 		{"<arg>", client.getLastArgument()},
-		{"<client>", client.getClientNickname()}};
+		{"<client>", client.getClientNickname()},
+		{"<servername>", SERVER_NAME}};
 
 	std::string formattedMessage = message;
 
-	for (size_t i = 0; i < PATTERN_COUNT - 2; ++i)
+	for (size_t i = 0; i < PATTERN_COUNT - 1; ++i)
 	{
 		formattedMessage = replacePattern(formattedMessage, pattern[i][0], pattern[i][1]);
 	}
@@ -222,36 +224,3 @@ std::vector<std::string>		Utils::splitParameters(const std::string& userInfo)
 
 
 
-bool		Utils::userIsInChannel(const Client& client, const std::string& channelname)
-{
-	const std::string	clientList = getClientListInChannel(client, channelname);
-
-	if (clientList.find(client.getClientNickname()) != std::string::npos)
-		return (true);
-	return (false);
-}
-
-
-static std::string		getChannelListInServer(const Server& server)
-{
-	std::map<std::string, Channel>	channels = server.getChannelMap();
-	std::string						channel_list = "";
-
-	std::map<std::string, Channel>::iterator	it;
-	for (it = channels.begin(); it != channels.end(); ++it)
-	{
-		channel_list += it->second.getChannelName();
-		channel_list += " ";
-	}
-	return (channel_list);
-}
-
-
-bool		Utils::channelExists(const Server& server, const std::string& channelname)
-{
-	const std::string	channelList = getChannelListInServer(server);
-
-	if (channelList.find(channelname) != std::string::npos)
-		return (true);
-	return (false);
-}
