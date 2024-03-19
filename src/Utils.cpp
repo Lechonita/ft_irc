@@ -121,14 +121,12 @@ void	Utils::sendErrorMessage(const std::string &message, const Client &client)
 
 void	Utils::sendMessage(const std::string &message, const Client &client)
 {
-	std::cout << "mais ou que ca se passe?" << std::endl;
 	if (send(client.getClientSocket(), message.c_str(), message.length(), 0) == ERROR)
 	{
 		perror(PERR_SEND);
 	}
 	else
 	{
-		std::cout << "ca se passe la sinon?" << std::endl;
 		std::cout << OUTGOING_MSG << message;
 	}
 }

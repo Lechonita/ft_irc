@@ -38,9 +38,6 @@ void	Channel::newClient(std::string passwrd, Client &client)
 
 	for (size_t i = 0; i < _channelClients.size(); i++)
 	{
-		// std::cout << RED << "client du channel= " << _channelClients[i].client->getClientNickname() << ", address = ";
-		// std::cout << this << " client nouveau= " << client.getClientNickname() << ", address = " << &client << NC << std::endl;
-		std::cout << RED << "i = " << i << "size = " << _channelClients.size() << NC << std::endl;
 		if (_channelClients[i].client == &client)
 			return ;
 	}
@@ -88,8 +85,8 @@ void	Channel::printClients()
 {
 	for (size_t pos = 0; pos < _channelClients.size(); pos++)
 	{
-		std::cout << "	client " << pos << "= " << _channelClients[pos].client->getClientNickname()
-		<< ", address = " << (_channelClients[pos].client) << std::endl;
+		std::cout << RED << "	client " << pos << "= " << _channelClients[pos].client->getClientNickname()
+		<< ", address = " << (_channelClients[pos].client) << NC << std::endl;
 	}
 }
 

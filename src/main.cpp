@@ -38,7 +38,7 @@ int main(int ac, char **av)
 		while (true)
 		{
 			server.runServer();
-			server.printAll();
+			// server.printAll();
 		}
 	}
 	catch (Server::Exception &e)

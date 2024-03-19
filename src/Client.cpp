@@ -46,8 +46,8 @@ const std::vector<Channel*>	Client::getClientChannels() const {return (_channels
 void	Client::printChannels()
 {
 	for (size_t i = 0; i < _channels.size(); i++)
-		std::cout << "	channel " << i << "= " << _channels[i]->getChannelName()
-		<< ", channel address = " << (_channels[i]) << std::endl;
+		std::cout << GREEN << "	channel " << i << "= " << _channels[i]->getChannelName()
+		<< ", channel address = " << (_channels[i]) << NC << std::endl;
 }
 
 void	Client::setClientIP(const char * IP) { _clientIP = IP; }

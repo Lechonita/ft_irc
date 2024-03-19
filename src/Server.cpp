@@ -220,14 +220,14 @@ void	Server::printAll() //provisoire, a supprimer
 	for (it_channels = _channelMap.begin() ; it_channels != _channelMap.end() ; it_channels++)
 	{
 		std::cout << GREEN << "channel= " << it_channels->second.getChannelName()
-		<< ", channel address = " << &(it_channels->second) << std::endl;
+		<< ", channel address = " << &(it_channels->second) << NC << std::endl;
 		it_channels->second.printClients();
 	}
 
 	for (it_client = _clientMap.begin() ; it_client != _clientMap.end() ; it_client++)
 	{
-		std::cout << GREEN << "client= " << it_client->first << ", " << it_client->second.getClientNickname()
-		<< ", client address = " << &(it_client->second) << std::endl;
+		std::cout << RED << "client= " << it_client->first << ", " << it_client->second.getClientNickname()
+		<< ", client address = " << &(it_client->second) << NC << std::endl;
 		it_client->second.printChannels();
 	}
 }
@@ -313,7 +313,6 @@ void	Server::sendMessageToReceivers(std::vector<std::string> receivers, std::str
 		}
 		else if (receivers[i][0] != '#')
 		{
-			std::cout << "ca se passe ici" << std::endl;
 			sendMessageToUser(receivers[i], message, client);
 		}
 	}
@@ -341,7 +340,6 @@ void	Server::sendMessageToUser(std::string receiver, std::string message, Client
 {
 	std::map<int, Client>::iterator	it;
 
-	std::cout << "ca se passe peut etre la" << std::endl;
 	for(it = _clientMap.begin(); it != _clientMap.end(); it++)
 	{
 		if (it->second.getClientNickname() == receiver)
@@ -349,12 +347,10 @@ void	Server::sendMessageToUser(std::string receiver, std::string message, Client
 	}
 	if (it == _clientMap.end())
 	{
-		std::cout << "ca se passe maybe la" << std::endl;
 		Utils::sendErrorMessage(ERR_NOSUCHNICK, client);
 		return ;
 	}
 	std::string	full_message = client.getClientNickname() + ": " + message+ END_MSG;
-	std::cout << "ou alors ca se passe peut etre la" << std::endl;
 
 	Utils::sendMessage(full_message, it->second);
 }
