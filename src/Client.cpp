@@ -46,7 +46,8 @@ const std::vector<Channel*>	Client::getClientChannels() const {return (_channels
 void	Client::printChannels()
 {
 	for (size_t i = 0; i < _channels.size(); i++)
-		std::cout << "	channel " << i << "= " << _channels[i]->getChannelName() << std::endl;
+		std::cout << "	channel " << i << "= " << _channels[i]->getChannelName()
+		<< ", channel address = " << (_channels[i]) << std::endl;
 }
 
 void	Client::setClientIP(const char * IP) { _clientIP = IP; }
@@ -125,7 +126,7 @@ void	Client::newChannel(Channel& channel)
 
 
 
-void	Client::partFromChannels(Client& client, std::vector<std::string> channels)
+void	Client::partFromChannels(Client& client, const std::vector<std::string> channels, const std::string message)
 {
 	std::vector<Channel*>::iterator	it;
 
@@ -137,7 +138,7 @@ void	Client::partFromChannels(Client& client, std::vector<std::string> channels)
 			{
 				(*it)->removeClient(client);
 				_channels.erase(it);
-				Utils::partMessage(client, channels[i]);
+				Utils::partMessage(client, channels[i], message);
 				break;
 			}
 		}

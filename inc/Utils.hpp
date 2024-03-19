@@ -28,7 +28,7 @@ class Utils
 	static void							sendMessage(const std::string& message, const Client& client);
 	static void							displayWelcomeMessage(const Client& client);
 	static void							joinMessageSuccessful(const Client& client, std::string channel_name);
-	static void							partMessage(const Client& client, std::string channel_name);
+	static void							partMessage(const Client& client, const std::string channel_name, const std::string message = "");
 
 	// Quit_utils
 	static void							notifyQuitinChannels(const Client& client, const Server& server);

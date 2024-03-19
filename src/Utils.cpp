@@ -41,7 +41,8 @@ static std::string	getClientListInChannel(const Client &client, const std::strin
 		if (clients[i].isOperator == true)
 			client_list += "@";
 		client_list += clients[i].client->getClientNickname();
-		client_list += " ";
+		if (i != clients.size() - 1)
+			client_list += " ";
 	}
 	return (client_list);
 }
@@ -120,12 +121,16 @@ void	Utils::sendErrorMessage(const std::string &message, const Client &client)
 
 void	Utils::sendMessage(const std::string &message, const Client &client)
 {
+	std::cout << "mais ou que ca se passe?" << std::endl;
 	if (send(client.getClientSocket(), message.c_str(), message.length(), 0) == ERROR)
 	{
 		perror(PERR_SEND);
 	}
 	else
+	{
+		std::cout << "ca se passe la sinon?" << std::endl;
 		std::cout << OUTGOING_MSG << message;
+	}
 }
 
 
@@ -207,12 +212,16 @@ void	Utils::joinMessageSuccessful(const Client& client, std::string channel_name
 
 
 
-void	Utils::partMessage(const Client& client, std::string channel_name)
+void	Utils::partMessage(const Client& client, const std::string channel_name, const std::string message)
 {
-	std::string						message = ":" + client.getClientNickname()
+	std::string						full_message = ":" + client.getClientNickname()
 												+ "!~" + client.getClientUsername() + "@"
-												+ client.getClientIP() + " PART :" + channel_name;
+												+ client.getClientIP() + " PART " + channel_name;
 
+	if (message.empty() == true)
+		full_message = full_message + ":" + client.getClientNickname();
+	else
+		full_message = full_message + ":" + message;
 	sendErrorMessage(message, client);
 }
 
