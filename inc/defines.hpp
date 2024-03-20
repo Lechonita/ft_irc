@@ -2,6 +2,8 @@
 # define DEFINES_HPP
 
 
+// Libraries
+
 # include <map>
 # include <ctime>
 # include <vector>
@@ -10,9 +12,11 @@
 # include <sstream>
 # include <cstdlib>
 # include <cstring>
+# include <csignal>
 # include <fcntl.h>
 # include <unistd.h>
 # include <iostream>
+# include <typeinfo>
 # include <exception>
 # include <sys/poll.h>
 # include <arpa/inet.h>
@@ -29,12 +33,20 @@
 
 // Colors
 
+# define RED_ITALIC "\x1b[31m \x1b[3m"
 # define RED "\033[0;31m"
 # define GREEN "\033[0;32m"
 # define ORANGE "\033[0;33m"
 # define BLUE "\033[0;36m"
 # define PINK "\033[0;35m"
 # define NC "\033[0m"
+# define NC_ITALIC "\x1b[0m"
+
+
+// External values
+
+extern bool		doSignal;
+
 
 // Values
 
@@ -84,6 +96,7 @@
 # define USER_NOT_ENTERED "\033[0;33m> Please set Username first (use USER command) <\033[0m"
 # define PASS_ALREADY_ENTERED "\033[0;33m> Password has already been entered <\033[0m"
 # define NOT_CONNECTED "\033[0;33m> You are not connected yet. Use PASS, NICK, USER <\033[0m"
+# define USER_PARAM_KO "\033[0;33m> Please try again with correct parameters <\033[0m"
 
 # define ERR_NOSUCHNICK			"\033[0;33m401 <client> <arg> :No such nick/channel\033[0m"
 # define ERR_NOSUCHCHANNEL		"\033[0;33m403 <client> <channelName> :No such channel\033[0m"
@@ -141,6 +154,11 @@
 # define JOINED_CHANNEL "\033[0;32mYou join the channel\n\033[0m"
 # define LEFT_CHANNEL " has left the channel.\n"
 # define PONG "PONG <servername> :<client>"
+
+
+// Signal
+
+# define SIGNAL_EXIT "  exit"
 
 
 // CLIENT Error messages

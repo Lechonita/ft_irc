@@ -97,8 +97,11 @@ void	Server::runServer()
 {
 	if (poll(&_pollFd[0], _pollFd.size(), TIMEOUT) == ERROR)
 	{
-		close(_serverSocket);
-		throw(PollException());
+		if (doSignal == false)
+		{
+			close(_serverSocket);
+			throw(PollException());
+		}
 	}
 
 	if (_pollFd[0].revents == POLLIN)
@@ -375,7 +378,6 @@ const char *Server::BlockException::what() const throw() { return (ERR_SERVER_BL
 const char *Server::AcceptException::what() const throw() { return (ERR_SERVER_ACCEPT); }
 
 const char *Server::ParametersException::what() const throw() { return (ERR_NEEDMOREPARAMS); }
-
 
 
 /*************************************/

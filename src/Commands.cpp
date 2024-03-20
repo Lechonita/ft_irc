@@ -198,7 +198,10 @@ void		Commands::commandUSER(const std::string& line, const std::string& command,
 	const std::vector<std::string>	parameters = Utils::splitParameters(userInfo);
 
 	if (areValidUserParameters(parameters) == false)
+	{
+		Utils::sendErrorMessage(USER_PARAM_KO, client);
 		return ;
+	}
 
 	client.setUsername(parameters[0], server.getIrssi());
 	client.setClientStatus(CONNECTED);
@@ -289,7 +292,6 @@ void		Commands::commandINVITE(const std::string& line, const std::string& comman
 void		Commands::commandPING(const std::string& line, const std::string& command, Client& client, Server& server)
 {
 	(void)server;
-	// if PING vient sans parametres, "409 <client> :No origin specified"
 	const std::string	parameter = eraseCommandfromLine(line, command);
 	if (parameter.empty() == true)
 	{

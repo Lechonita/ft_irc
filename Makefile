@@ -19,7 +19,6 @@ HDR			+= defines.hpp
 HDR			+= Channel.hpp
 HDR			+= Commands.hpp
 HDR			+= Utils.hpp
-# HDR			+= irc_utils.hpp
 
 vpath %.h $(INC_DIR)
 
@@ -28,6 +27,7 @@ vpath %.h $(INC_DIR)
 SRC_DIR		= ./src
 
 SRC			+= main.cpp
+SRC			+= Signal.cpp
 SRC			+= Utils.cpp
 SRC			+= Server.cpp
 SRC			+= Client.cpp
@@ -45,7 +45,6 @@ SRC			+= invite_utils.cpp
 SRC			+= Command_utils.cpp
 SRC			+= Client_disconnect.cpp
 SRC			+= Client_message_reception.cpp
-# SRC			+= irc_utils.cpp
 
 
 vpath %.cpp $(SRC_DIR)

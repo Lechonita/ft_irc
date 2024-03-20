@@ -66,6 +66,8 @@ class Server
 		void								removeClientFromPollFd(const int& clientSocket);
 		void								removeClientFromMap(const int& clientSocket);
 
+		// Signal
+		static void							signalExit(int signum);
 
 
 		// Debug

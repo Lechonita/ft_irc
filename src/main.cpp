@@ -1,5 +1,8 @@
 #include "../inc/Server.hpp"
+#include "../inc/Signal.hpp"
 #include "../inc/defines.hpp"
+
+bool	doSignal = false;
 
 static bool	isValidPort(const char *port)
 {
@@ -35,7 +38,10 @@ int main(int ac, char **av)
 		std::string	password(av[2]);
 		Server server(port, password);
 
-		while (true)
+		std::signal(SIGINT, Server::signalExit);
+		std::signal(SIGQUIT, Server::signalExit);
+
+		while (doSignal == false)
 		{
 			server.runServer();
 			// server.printAll();
@@ -44,10 +50,7 @@ int main(int ac, char **av)
 	catch (Server::Exception &e)
 	{
 		std::cout << e.what() << std::endl;
-	}
-	catch (std::exception const& e)
-	{
-		std::cout << e.what() << std::endl;
+		return (EXIT_FAILURE);
 	}
 
 	return (EXIT_SUCCESS);
