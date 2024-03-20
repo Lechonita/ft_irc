@@ -128,6 +128,12 @@ void		Commands::commandNICK(const std::string& line, const std::string& command,
 	}
 
 	const std::string	nickname = eraseCommandfromLine(line, command);
+	if (nickname.empty() == true)
+	{
+		Utils::sendErrorMessage(ERR_NEEDMOREPARAMS, client);
+		return ;
+	}
+
 	client.setLastArgument(nickname);
 
 	if (isParameterSetUp(nickname, client, EMPTY) == false)
@@ -254,9 +260,14 @@ void		Commands::commandINVITE(const std::string& line, const std::string& comman
 
 void		Commands::commandPING(const std::string& line, const std::string& command, Client& client, Server& server)
 {
-	(void)line;
-	(void)command;
 	(void)server;
 	// if PING vient sans parametres, "409 <client> :No origin specified"
+	const std::string	parameter = eraseCommandfromLine(line, command);
+	if (parameter.empty() == true)
+	{
+		Utils::sendErrorMessage(ERR_NOORIGIN, client);
+		return ;
+	}
+
 	Utils::sendErrorMessage(PONG, client);
 }

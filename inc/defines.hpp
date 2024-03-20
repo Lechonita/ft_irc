@@ -88,6 +88,7 @@
 # define ERR_NOSUCHCHANNEL		"\033[0;33m403 <client> <channelName> :No such channel\033[0m"
 # define ERR_CANNOTSENDTOCHAN	"\033[0;33m404 <client> <channelName> :Cannot send to channel\033[0m"
 # define ERR_TOOMANYCHANNELS	"\033[0;33m405 <client> <channelName> :You have joined too many channels\033[0m"
+# define ERR_NOORIGIN			"\033[0;33m409 <client> :No origin specified\033[0m"
 # define ERR_NOTEXTTOSEND		"\033[0;33m412 <client> :No text to send\033[0m"
 # define ERR_UNKNOWNCOMMAND		"\033[0;33m421 <client> <command> :Unknown command\033[0m"
 # define ERR_NONICKNAMEGIVEN	"\033[0;33m431 <client> :No nickname given\033[0m"
