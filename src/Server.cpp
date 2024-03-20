@@ -11,6 +11,7 @@ Server::Server(const std::string &port, const std::string &password)
 	  _nbClients(0),
 	  _pollFd(0),
 	  _irssi(false)
+	//   _cmdMap(setCommandList())
 {
 	// SOCKET : This code creates a TCP socket for IPv6 communication
 	// AF_INET6 = IPv6 Internet protocols
@@ -309,6 +310,10 @@ void	Server::sendMessageToReceivers(std::vector<std::string> receivers, std::str
 {
 	for (size_t i = 0; i < receivers.size(); i++)
 	{
+		message = ":" + client.getClientNickname()
+					+ "!~" + client.getClientUsername() + "@"
+					+ client.getClientIP() + " PRIVMSG " + receivers[i]
+					+ " :" + message;
 		if (receivers[i][0] == '#' && isPartOfChannel(receivers[i], client) == true)
 		{
 			sendMessageToChannel(receivers[i], message, client);
@@ -352,11 +357,21 @@ void	Server::sendMessageToUser(std::string receiver, std::string message, const 
 		Utils::sendErrorMessage(ERR_NOSUCHNICK, client);
 		return ;
 	}
-	std::string	full_message = client.getClientNickname() + ": " + message+ END_MSG;
+	std::string	full_message = message + END_MSG;
 
 	Utils::sendMessage(full_message, it->second);
 }
 
+
+
+// std::vector<std::string>	Server::setCommandList()
+// {
+// 	std::vector<std::string>	res;
+
+// 	res.push_back("JOIN");
+// 	res.push_back("PASS");
+// 	return (res);
+// }
 
 
 // Exceptions
@@ -378,6 +393,12 @@ const char *Server::BlockException::what() const throw() { return (ERR_SERVER_BL
 const char *Server::AcceptException::what() const throw() { return (ERR_SERVER_ACCEPT); }
 
 const char *Server::ParametersException::what() const throw() { return (ERR_NEEDMOREPARAMS); }
+
+// const char *Server::ReadException::what() const throw()
+// {
+// 	return ("\033[0;31mError: Could not read client's message.\n\033[0m");
+// }
+
 
 
 /*************************************/
