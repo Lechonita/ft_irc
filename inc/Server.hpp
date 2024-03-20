@@ -39,16 +39,16 @@ class Server
 
 		// Setters
 		void								createNewChannel(std::string channel_name, int client_socket);
-		// std::vector<std::string>	setCommandList();
 
 		// functions that should be reorganised?
 		void								inviteUser(const std::vector<std::string> parameters, Client& client);
 		void								addClientToChannel(std::string channel, std::string passwrd, Client& client);
-		void								executeJoinCommand(std::vector<std::string> channels, std::vector<std::string> passwrds, Client& client);
-		void								sendMessageToReceivers(std::vector<std::string> receivers, std::string message, Client& client);
-		void								sendMessageToChannel(std::string receiver, std::string message, Client& client);
-		void								sendMessageToUser(std::string receiver, std::string message, Client& client);
-		bool								isPartOfChannel(std::string channel_name, Client& client);
+		void								createNewChannel(std::string channel_name, int client_socket, Server& server);
+		void								createOrJoinChannel(std::vector<std::string> channels, std::vector<std::string> passwrds, Client& client, Server& server);
+		void								sendMessageToReceivers(std::vector<std::string> receivers, std::string message, const Client& client);
+		void								sendMessageToChannel(std::string receiver, std::string message, const Client& client);
+		void								sendMessageToUser(std::string receiver, std::string message, const Client& client);
+		bool								isPartOfChannel(std::string channel_name, const Client& client);
 
 
 		// Functions

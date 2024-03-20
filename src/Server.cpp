@@ -239,14 +239,18 @@ void	Server::printAll() //provisoire, a supprimer
 
 
 
-void	Server::createNewChannel(std::string channel_name, int client_socket)
+void	Server::createNewChannel(std::string channel_name, int client_socket, Server& server)
 {
 	std::map<int, Client>::iterator	it_client = _clientMap.find(client_socket);
 
 	_channelMap.insert(std::make_pair(channel_name, Channel(channel_name, &(it_client->second))));
 	it_client->second.newChannel(_channelMap.find(channel_name)->second);
-	Utils::joinMessageSuccessful(it_client->second, channel_name);
+	Utils::joinMessageSuccessful(it_client->second, server, channel_name);
 }
+
+
+
+// TO BE ORGANIZED
 
 
 
@@ -270,12 +274,12 @@ void	Server::addClientToChannel(std::string channel, std::string passwrd, Client
 	std::map<std::string, Channel>::iterator	it = _channelMap.find(channel);
 
 	it->second.newClient(passwrd, client);
-	Utils::joinMessageSuccessful(client, channel);
+	Utils::joinMessageSuccessful(client, *this, channel);
 }
 
 
 
-void	Server::executeJoinCommand(std::vector<std::string> channels, std::vector<std::string> passwrds, Client& client)
+void	Server::createOrJoinChannel(std::vector<std::string> channels, std::vector<std::string> passwrds, Client& client, Server& server)
 {
 	for (size_t i = 0; i < channels.size(); i++)
 	{
@@ -285,7 +289,7 @@ void	Server::executeJoinCommand(std::vector<std::string> channels, std::vector<s
 		}
 		else if (_channelMap.find(channels[i]) == _channelMap.end())
 		{
-			createNewChannel(channels[i], client.getClientSocket());
+			createNewChannel(channels[i], client.getClientSocket(), server);
 		}
 		else if (i >= passwrds.size())
 		{
@@ -300,7 +304,7 @@ void	Server::executeJoinCommand(std::vector<std::string> channels, std::vector<s
 
 
 
-bool	Server::isPartOfChannel(std::string channel_name, Client& client)
+bool	Server::isPartOfChannel(std::string channel_name, const Client& client)
 {
 	std::map<std::string, Channel>::iterator	it = _channelMap.find(channel_name);
 
@@ -322,7 +326,7 @@ bool	Server::isPartOfChannel(std::string channel_name, Client& client)
 
 
 
-void	Server::sendMessageToReceivers(std::vector<std::string> receivers, std::string message, Client& client)
+void	Server::sendMessageToReceivers(std::vector<std::string> receivers, std::string message, const Client& client)
 {
 	for (size_t i = 0; i < receivers.size(); i++)
 	{
@@ -339,7 +343,7 @@ void	Server::sendMessageToReceivers(std::vector<std::string> receivers, std::str
 
 
 
-void	Server::sendMessageToChannel(std::string receiver, std::string message, Client& client)
+void	Server::sendMessageToChannel(std::string receiver, std::string message, const Client& client)
 {
 	std::map<std::string, Channel>::iterator	it = _channelMap.find(receiver);
 
@@ -348,14 +352,14 @@ void	Server::sendMessageToChannel(std::string receiver, std::string message, Cli
 		Utils::sendErrorMessage(ERR_NOSUCHNICK, client);
 		return ;
 	}
-	std::string	full_message = client.getClientNickname() + ": " + message + END_MSG;
+	std::string	full_message = message + END_MSG;
 
 	it->second.sendMessageToAll(full_message);
 }
 
 
 
-void	Server::sendMessageToUser(std::string receiver, std::string message, Client& client)
+void	Server::sendMessageToUser(std::string receiver, std::string message, const Client& client)
 {
 	std::map<int, Client>::iterator	it;
 
