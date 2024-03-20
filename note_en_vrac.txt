@@ -71,6 +71,11 @@ A GERER
 :irc 003 JEss :This server was created on 2024/01/24
 004 JEss :irc 1.0 -none- itkol
 
+BUGS:
+	- n'arrive pas rejoindre a nouveau un channel que le client vient de PART
+	- le message de JOIN ne s'affiche pas pour tout le monde dans un channel
+	- idem pour PART
+	- WELCOME apparait lorsque j'utilise PRIVMSG (a destination d'un autre client)
 
 
 INVITE

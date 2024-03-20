@@ -81,6 +81,7 @@
 
 # define PASS_NOT_ENTERED "\033[0;33m> Please use PASS command to enter server password first <\033[0m"
 # define NICK_NOT_ENTERED "\033[0;33m> Please set Nickname first (use NICK command) <\033[0m"
+# define USER_NOT_ENTERED "\033[0;33m> Please set Username first (use USER command) <\033[0m"
 # define PASS_ALREADY_ENTERED "\033[0;33m> Password has already been entered <\033[0m"
 # define NOT_CONNECTED "\033[0;33m> You are not connected yet. Use PASS, NICK, USER <\033[0m"
 

@@ -23,20 +23,28 @@ Commands::Commands()
 
 void		Commands::commandJOIN(const std::string& line, const std::string& command, Client& client, Server& server)
 {
-	std::string					join_params;
+	if (server.getIrssi() == false)
+	{
+		if (isParameterSetUp(client.getClientPassword(), client, PASS_NOT_ENTERED) == false)
+			return ;
+		if (isParameterSetUp(client.getClientNickname(), client, NICK_NOT_ENTERED) == false)
+			return ;
+		if (isParameterSetUp(client.getClientUsername(), client, USER_NOT_ENTERED) == false)
+			return ;
+	}
+
 	std::vector<std::string>	channels;
 	std::vector<std::string>	passwrds;
 	std::map<std::string, std::string*>	chan_pass;
 
-	join_params = eraseCommandfromLine(line, command);
+	std::string	join_params = eraseCommandfromLine(line, command);
 	if (join_params.empty() == true)
 	{
 		Utils::sendErrorMessage(ERR_NEEDMOREPARAMS, client);
 		return ;
 	}
 	checkJoinParams(join_params, &channels, &passwrds);
-
-	server.manageChannel(channels, passwrds, client);
+	server.executeJoinCommand(channels, passwrds, client);
 }
 
 
@@ -46,20 +54,27 @@ void		Commands::commandJOIN(const std::string& line, const std::string& command,
 
 void		Commands::commandPART(const std::string& line, const std::string& command, Client& client, Server& server)
 {
-	std::string					part_params;
+	if (server.getIrssi() == false)
+	{
+		if (isParameterSetUp(client.getClientPassword(), client, PASS_NOT_ENTERED) == false)
+			return ;
+		if (isParameterSetUp(client.getClientNickname(), client, NICK_NOT_ENTERED) == false)
+			return ;
+		if (isParameterSetUp(client.getClientUsername(), client, USER_NOT_ENTERED) == false)
+			return ;
+	}
+
+	std::string					message;
 	std::vector<std::string>	channels;
 
-	part_params = eraseCommandfromLine(line, command);
+	std::string	part_params = eraseCommandfromLine(line, command);
 	if (part_params.empty() == true)
 	{
 		Utils::sendErrorMessage(ERR_NEEDMOREPARAMS, client);
 		return ;
 	}
-	checkPartParams(part_params, &channels);
-
-	for (size_t i = 0; i < channels.size(); i++)
-		std::cout << channels[i] << std::endl;
-	server.partFromChannels(client, channels);
+	checkPartParams(part_params, &channels, &message);
+	client.partFromChannels(client, channels, message);
 }
 
 
@@ -70,12 +85,20 @@ void		Commands::commandPART(const std::string& line, const std::string& command,
 
 void		Commands::commandPRIVMSG(const std::string& line, const std::string& command, Client& client, Server& server)
 {
-	std::string					privmsg_params;
+	if (server.getIrssi() == false)
+	{
+		if (isParameterSetUp(client.getClientPassword(), client, PASS_NOT_ENTERED) == false)
+			return ;
+		if (isParameterSetUp(client.getClientNickname(), client, NICK_NOT_ENTERED) == false)
+			return ;
+		if (isParameterSetUp(client.getClientUsername(), client, USER_NOT_ENTERED) == false)
+			return ;
+	}
+
 	std::string					message;
 	std::vector<std::string>	receivers;
 
-	(void)server;
-	privmsg_params = eraseCommandfromLine(line, command);
+	std::string	privmsg_params = eraseCommandfromLine(line, command);
 	if (privmsg_params.empty() == true)
 	{
 		Utils::sendErrorMessage(ERR_NEEDMOREPARAMS, client);
@@ -87,7 +110,6 @@ void		Commands::commandPRIVMSG(const std::string& line, const std::string& comma
 		Utils::sendErrorMessage(ERR_NOTEXTTOSEND, client);
 		return ;
 	}
-
 	server.sendMessageToReceivers(receivers, message, client);
 }
 
@@ -161,6 +183,12 @@ void		Commands::commandUSER(const std::string& line, const std::string& command,
 	}
 
 	const std::string	userInfo = eraseCommandfromLine(line, command);
+	if (userInfo.empty() == true)
+	{
+		Utils::sendErrorMessage(ERR_NEEDMOREPARAMS, client);
+		return ;
+	}
+
 	client.setLastArgument(userInfo);
 
 	if (isParameterSetUp(userInfo, client, EMPTY) == false)

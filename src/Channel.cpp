@@ -36,7 +36,7 @@ void	Channel::newClient(std::string passwrd, Client &client)
 {
 	channelClient	newClient = {.client = &client, .isOperator = false};
 
-	for (size_t i = 0; i <= _channelClients.size(); i++)
+	for (size_t i = 0; i < _channelClients.size(); i++)
 	{
 		if (_channelClients[i].client == &client)
 			return ;
@@ -65,6 +65,33 @@ void	Channel::newClient(std::string passwrd, Client &client)
 		//RPL_ENDOFNAMES
 	}
 }
+
+
+
+void	Channel::removeClient(Client &client)
+{
+	std::vector<channelClient>::iterator	it;
+
+	for (it = _channelClients.begin(); it < _channelClients.end(); it++)
+	{
+		if (&client == (*it).client)
+		{
+			_channelClients.erase(it);
+		}
+	}
+}
+
+void	Channel::printClients()
+{
+	for (size_t pos = 0; pos < _channelClients.size(); pos++)
+	{
+		std::cout << RED << "	client " << pos << "= " << _channelClients[pos].client->getClientNickname()
+		<< ", address = " << (_channelClients[pos].client) << NC << std::endl;
+	}
+}
+
+
+
 
 void	Channel::sendMessageToAll(std::string message)
 {

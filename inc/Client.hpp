@@ -17,7 +17,7 @@ class Client
 		Client(const int& serverSocket);
 		~Client();
 
-
+	void	printChannels();
 	// Getters
 	int							getClientSocket() const;
 	const std::string			getClientUsername() const;
@@ -43,7 +43,8 @@ class Client
 	// Functions
 	void						interpretMessage(Server& server);
 	void						newChannel(Channel& channel_name);
-	void						addChannelToClient(Channel* channel);
+	void						partFromChannels(Client& client, const std::vector<std::string> channels, const std::string message = "");
+	// void						addChannelToClient(Channel* channel);
 
 	// Commands
 	// bool					isCommandFromList(const std::string& command, const Server& server) const;

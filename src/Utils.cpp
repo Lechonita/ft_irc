@@ -19,30 +19,33 @@ std::string Utils::replacePattern(std::string &message, const std::string &from,
 
 
 
-// std::string		Utils::getClientListInChannel(const Client &client, const std::string channelName)
-// {
-// 	std::vector<Channel*>	channels = client.getClientChannels();
-// 	std::string				client_list = "";
-// 	size_t					pos;
+std::string		Utils::getClientListInChannel(const Client &client, const std::string channelName)
+{
+	std::vector<Channel*>	channels = client.getClientChannels();
+	std::string				client_list = "";
+	size_t					pos;
 
-// 	for (pos = 0; pos < channels.size(); pos++)
-// 	{
-// 		if (channels[pos]->getChannelName() == channelName)
-// 			break ;
-// 	}
-// 	std::vector<channelClient>	clients = channels[pos]->getChannelClients();
+	if (channels.empty() == true)
+		return ("");
+	for (pos = 0; pos < channels.size(); pos++)
+	{
+		if (channels[pos]->getChannelName() == channelName)
+			break ;
+	}
+	if (pos == channels.size())
+		return ("");
+	std::vector<channelClient>	clients = channels[pos]->getChannelClients();
 
-// 	for (size_t i = 0; i < clients.size(); i++)
-// 	{
-// 		if (i == 0)
-// 			client_list += "@";
-// 		client_list += clients[i].client->getClientNickname();
-// 		client_list += " ";
-// 	}
-// 	return (client_list);
-// }
-
-
+	for (size_t i = 0; i < clients.size(); i++)
+	{
+		if (clients[i].isOperator == true)
+			client_list += "@";
+		client_list += clients[i].client->getClientNickname();
+		if (i != clients.size() - 1)
+			client_list += " ";
+	}
+	return (client_list);
+}
 
 
 
@@ -125,7 +128,9 @@ void	Utils::sendMessage(const std::string &message, const Client &client)
 		perror(PERR_SEND);
 	}
 	else
+	{
 		std::cout << OUTGOING_MSG << message;
+	}
 }
 
 
@@ -205,6 +210,20 @@ void	Utils::joinMessageSuccessful(const Client& client, std::string channel_name
 	sendErrorMessage(message3, client, channel_name);
 }
 
+
+
+void	Utils::partMessage(const Client& client, const std::string channel_name, const std::string message)
+{
+	std::string						full_message = ":" + client.getClientNickname()
+												+ "!~" + client.getClientUsername() + "@"
+												+ client.getClientIP() + " PART " + channel_name;
+
+	if (message.empty() == true)
+		full_message = full_message + ":" + client.getClientNickname();
+	else
+		full_message = full_message + ":" + message;
+	sendErrorMessage(message, client);
+}
 
 
 // Util functions

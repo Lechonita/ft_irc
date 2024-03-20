@@ -208,20 +208,42 @@ std::map<int, Client>				Server::getClientMap() const { return (_clientMap); }
 std::map<std::string, Channel>		Server::getChannelMap() const { return (_channelMap); }
 bool								Server::getIrssi()const { return (_irssi); }
 
+// std::vector<std::string>	Server::getCommandList() const { return (_cmdMap); }
 
+
+void	Server::printAll() //provisoire, a supprimer
+{
+	std::map<std::string, Channel>::iterator	it_channels;
+	std::map<int, Client>::iterator				it_client;
+
+	for (it_channels = _channelMap.begin() ; it_channels != _channelMap.end() ; it_channels++)
+	{
+		std::cout << GREEN << "channel= " << it_channels->second.getChannelName()
+		<< ", channel address = " << &(it_channels->second) << NC << std::endl;
+		it_channels->second.printClients();
+	}
+
+	for (it_client = _clientMap.begin() ; it_client != _clientMap.end() ; it_client++)
+	{
+		std::cout << RED << "client= " << it_client->first << ", " << it_client->second.getClientNickname()
+		<< ", client address = " << &(it_client->second) << NC << std::endl;
+		it_client->second.printChannels();
+	}
+}
 
 // Setters
 
 void	Server::setIrssi(const bool result) { _irssi = result; }
 
-void	Server::setChannelMap(std::string channel_name, int client_socket)
+void	Server::createNewChannel(std::string channel_name, int client_socket)
 {
 	std::map<int, Client>::iterator	it_client = _clientMap.find(client_socket);
 
 	_channelMap.insert(std::make_pair(channel_name, Channel(channel_name, &(it_client->second))));
-	it_client->second.newChannel(_channelMap.begin()->second);
+	it_client->second.newChannel(_channelMap.find(channel_name)->second);
 	Utils::joinMessageSuccessful(it_client->second, channel_name);
 }
+
 
 void	Server::addClientToChannel(std::string channel, std::string passwrd, Client& client)
 {
@@ -233,7 +255,7 @@ void	Server::addClientToChannel(std::string channel, std::string passwrd, Client
 
 
 
-void	Server::manageChannel(std::vector<std::string> channels, std::vector<std::string> passwrds, Client& client)
+void	Server::executeJoinCommand(std::vector<std::string> channels, std::vector<std::string> passwrds, Client& client)
 {
 	for (size_t i = 0; i < channels.size(); i++)
 	{
@@ -243,7 +265,7 @@ void	Server::manageChannel(std::vector<std::string> channels, std::vector<std::s
 		}
 		else if (_channelMap.find(channels[i]) == _channelMap.end())
 		{
-			setChannelMap(channels[i], client.getClientSocket());
+			createNewChannel(channels[i], client.getClientSocket());
 		}
 		else if (i >= passwrds.size())
 		{
@@ -276,14 +298,6 @@ bool	Server::isPartOfChannel(std::string channel_name, Client& client)
 	}
 	Utils::sendErrorMessage(ERR_NOTONCHANNEL, client, channel_name);
 	return (false);
-}
-
-
-
-void	Server::partFromChannels(Client& client, std::vector<std::string> channels)
-{
-	(void)client;
-	(void)channels;
 }
 
 
@@ -337,7 +351,7 @@ void	Server::sendMessageToUser(std::string receiver, std::string message, Client
 	}
 	std::string	full_message = client.getClientNickname() + ": " + message+ END_MSG;
 
-	Utils::sendMessage(full_message, it->second.getClientSocket());
+	Utils::sendMessage(full_message, it->second);
 }
 
 

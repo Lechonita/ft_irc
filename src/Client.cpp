@@ -49,6 +49,14 @@ bool					Client ::getClientStatus() const { return (_clientStatus); }
 
 // Setters
 
+void	Client::printChannels()
+{
+	for (size_t i = 0; i < _channels.size(); i++)
+		std::cout << GREEN << "	channel " << i << "= " << _channels[i]->getChannelName()
+		<< ", channel address = " << (_channels[i]) << NC << std::endl;
+}
+
+
 void	Client::setBuffer(const char *buffer) { _buffer += buffer; }
 void	Client::setLastArgument(const std::string& arg) { _lastArg = arg; }
 void	Client::setLastCommand(const std::string& command) { _lastCommand = command; }
@@ -126,13 +134,34 @@ void	Client::newChannel(Channel& channel)
 }
 
 
-void	Client::addChannelToClient(Channel* channel)
+// void	Client::addChannelToClient(Channel* channel)
+// {
+// 	std::vector<Channel*>	channels = getClientChannels();
+// 	channels.push_back(channel);
+// }
+
+
+
+
+
+void	Client::partFromChannels(Client& client, const std::vector<std::string> channels, const std::string message)
 {
-	std::vector<Channel*>	channels = getClientChannels();
-	channels.push_back(channel);
+	std::vector<Channel*>::iterator	it;
+
+	for (size_t i = 0; i < channels.size(); i++)
+	{
+		for (it = _channels.begin(); it != _channels.end(); it++)
+		{
+			if (channels[i] == (*it)->getChannelName())
+			{
+				(*it)->removeClient(client);
+				_channels.erase(it);
+				Utils::partMessage(client, channels[i], message);
+				break;
+			}
+		}
+	}
 }
-
-
 
 // Exceptions
 

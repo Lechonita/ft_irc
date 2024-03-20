@@ -40,8 +40,12 @@ class Commands
 
 		// join_utils
 		static void			checkJoinParams(std::string join_params, std::vector<std::string> *channels, std::vector<std::string> *passwrds);
+
+		// privmsg_utils
 		static void			checkPrivmsgParams(std::string parameters, std::vector<std::string> *receivers, std::string *message);
-		static void			checkPartParams(std::string part_params, std::vector<std::string> *channels);
+
+		// part_utils
+		static void			checkPartParams(std::string part_params, std::vector<std::string> *channels, std::string *message);
 
 		// nick_utils
 		static bool			isValidNickname(const std::string& nickname, const Client& client, const Server& server);
