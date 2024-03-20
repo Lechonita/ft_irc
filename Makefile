@@ -35,6 +35,7 @@ SRC			+= Channel.cpp
 SRC			+= Commands.cpp
 SRC			+= cap_utils.cpp
 SRC			+= join_utils.cpp
+SRC			+= kick_utils.cpp
 SRC			+= part_utils.cpp
 SRC			+= privmsg_utils.cpp
 SRC			+= nick_utils.cpp

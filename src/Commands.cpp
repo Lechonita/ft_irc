@@ -49,6 +49,36 @@ void		Commands::commandJOIN(const std::string& line, const std::string& command,
 
 
 
+//KICK
+
+void		Commands::commandKICK(const std::string& line, const std::string& command, Client& client, Server& server)
+{
+	if (server.getIrssi() == false)
+	{
+		if (isParameterSetUp(client.getClientPassword(), client, PASS_NOT_ENTERED) == false)
+			return ;
+		if (isParameterSetUp(client.getClientNickname(), client, NICK_NOT_ENTERED) == false)
+			return ;
+		if (isParameterSetUp(client.getClientUsername(), client, USER_NOT_ENTERED) == false)
+			return ;
+	}
+
+	std::string	kick_params = eraseCommandfromLine(line, command);
+	if (kick_params.empty() == true)
+	{
+		Utils::sendErrorMessage(ERR_NEEDMOREPARAMS, client);
+		return ;
+	}
+	std::string					message;
+	std::vector<std::string>	channels;
+	std::vector<std::string>	clients;
+
+	checkKickParams(kick_params, &channels, &clients, &message);
+	server.kickThatMf(client, channels, clients, message);
+}
+
+
+
 //PART
 
 

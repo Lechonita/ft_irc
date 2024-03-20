@@ -364,6 +364,22 @@ void	Server::sendMessageToUser(std::string receiver, std::string message, const 
 
 
 
+void	Server::kickThatMf(Client& client, std::vector<std::string> channels, std::vector<std::string> clients, std::string message)
+{
+	std::map<std::string, Channel>::iterator	it_channels;
+	std::map<int, Client>::iterator	it;
+
+	for (size_t pos = 0; pos < channels.size(); pos++)
+	{
+		it_channels = _channelMap.find(channels[pos]);
+		if (it_channels != _channelMap.end())
+		{
+			youAreNotInThatChanAnymore();
+		}
+	}
+}
+
+
 // std::vector<std::string>	Server::setCommandList()
 // {
 // 	std::vector<std::string>	res;

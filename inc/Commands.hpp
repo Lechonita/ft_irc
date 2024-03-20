@@ -21,6 +21,7 @@ class Commands
 
 		// Command functions
 		void			commandJOIN(const std::string& line, const std::string& command, Client& client, Server& server);
+		void			commandKICK(const std::string& line, const std::string& command, Client& client, Server& server);
 		void			commandPART(const std::string& line, const std::string& command, Client& client, Server& server);
 		void			commandPRIVMSG(const std::string& line, const std::string& command, Client& client, Server& server);
 		void			commandPASS(const std::string& line, const std::string& command, Client& client, Server& server);
@@ -40,6 +41,9 @@ class Commands
 
 		// join_utils
 		static void			checkJoinParams(std::string join_params, std::vector<std::string> *channels, std::vector<std::string> *passwrds);
+
+		// kick_utils
+		static void			checkKickParams(std::string join_params, std::vector<std::string> *channels, std::vector<std::string> *passwrds, std::string *message);
 
 		// privmsg_utils
 		static void			checkPrivmsgParams(std::string parameters, std::vector<std::string> *receivers, std::string *message);
