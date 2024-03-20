@@ -15,6 +15,7 @@ Client::Client(const int& clientSocket): _clientSocket(clientSocket)
 	_lastCommand = EMPTY;
 	_buffer = EMPTY;
 	_clientStatus = DISCONNECTED;
+	_irssi = false;
 
 	std::cout << std::endl;
 	std::cout << "WELCOME\n" << std::endl;
@@ -43,7 +44,8 @@ const std::string			Client::getLastArgument() const { return (_lastArg); }
 const std::string			Client::getLastCommand() const { return (_lastCommand); }
 const char*					Client::getClientIP() const { return (_clientIP); }
 const std::vector<Channel*>	Client::getClientChannels() const {return (_channels);}
-bool					Client ::getClientStatus() const { return (_clientStatus); }
+bool						Client ::getClientStatus() const { return (_clientStatus); }
+bool						Client::getIrssi()const { return (_irssi); }
 
 
 
@@ -62,19 +64,19 @@ void	Client::setLastArgument(const std::string& arg) { _lastArg = arg; }
 void	Client::setLastCommand(const std::string& command) { _lastCommand = command; }
 void	Client::setClientIP(const char * IP) { _clientIP = IP; }
 void	Client::setClientStatus(const bool& connected) { _clientStatus = connected; }
+void	Client::setIrssi(const bool result) { _irssi = result; }
 
 
-
-void	Client::setPassword(const std::string& password, const bool irssi)
+void	Client::setPassword(const std::string& password)
 {
 	_clientPassword = password;
-	if (irssi == false)
+	if (_irssi == false)
 		Utils::sendMessage(PASS_OK, *this);
 }
 
 
 
-void	Client::setNickname(const std::string& nickname, const bool irssi)
+void	Client::setNickname(const std::string& nickname)
 {
 	if (_clientNickname.empty() == false)
 	{
@@ -83,17 +85,17 @@ void	Client::setNickname(const std::string& nickname, const bool irssi)
 	}
 	else
 	{
-		if (irssi == false)
+		if (_irssi == false)
 			Utils::sendMessage(NICK_OK, *this);
 	}
 	_clientNickname = nickname;
 }
 
 
-void	Client::setUsername(const std::string& username, const bool irssi)
+void	Client::setUsername(const std::string& username)
 {
 	_clientUsername = username;
-	if (irssi == false)
+	if (_irssi == false)
 		Utils::sendMessage(USERNAME_OK, *this);
 }
 

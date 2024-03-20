@@ -23,7 +23,7 @@ Commands::Commands()
 
 void		Commands::commandJOIN(const std::string& line, const std::string& command, Client& client, Server& server)
 {
-	if (server.getIrssi() == false)
+	if (client.getIrssi() == false)
 	{
 		if (isParameterSetUp(client.getClientPassword(), client, PASS_NOT_ENTERED) == false)
 			return ;
@@ -54,7 +54,9 @@ void		Commands::commandJOIN(const std::string& line, const std::string& command,
 
 void		Commands::commandPART(const std::string& line, const std::string& command, Client& client, Server& server)
 {
-	if (server.getIrssi() == false)
+	(void)server;
+
+	if (client.getIrssi() == false)
 	{
 		if (isParameterSetUp(client.getClientPassword(), client, PASS_NOT_ENTERED) == false)
 			return ;
@@ -85,7 +87,7 @@ void		Commands::commandPART(const std::string& line, const std::string& command,
 
 void		Commands::commandPRIVMSG(const std::string& line, const std::string& command, Client& client, Server& server)
 {
-	if (server.getIrssi() == false)
+	if (client.getIrssi() == false)
 	{
 		if (isParameterSetUp(client.getClientPassword(), client, PASS_NOT_ENTERED) == false)
 			return ;
@@ -132,7 +134,7 @@ void		Commands::commandPASS(const std::string& line, const std::string& command,
 
 	if (isValidPassword(password, client, server) == true)
 	{
-		client.setPassword(password, server.getIrssi());
+		client.setPassword(password);
 		client.setLastArgument(password);
 	}
 }
@@ -143,7 +145,7 @@ void		Commands::commandPASS(const std::string& line, const std::string& command,
 
 void		Commands::commandNICK(const std::string& line, const std::string& command, Client& client, Server& server)
 {
-	if (server.getIrssi() == false)
+	if (client.getIrssi() == false)
 	{
 		if (isParameterSetUp(client.getClientPassword(), client, PASS_NOT_ENTERED) == false)
 			return ;
@@ -163,7 +165,7 @@ void		Commands::commandNICK(const std::string& line, const std::string& command,
 
 	if (isValidNickname(nickname, client, server) == true)
 	{
-		client.setNickname(nickname, server.getIrssi());
+		client.setNickname(nickname);
 	}
 }
 
@@ -173,7 +175,9 @@ void		Commands::commandNICK(const std::string& line, const std::string& command,
 
 void		Commands::commandUSER(const std::string& line, const std::string& command, Client& client, Server& server)
 {
-	if (server.getIrssi() == false)
+	(void)server;
+
+	if (client.getIrssi() == false)
 	{
 		if (isParameterSetUp(client.getClientPassword(), client, PASS_NOT_ENTERED) == false)
 			return ;
@@ -203,7 +207,7 @@ void		Commands::commandUSER(const std::string& line, const std::string& command,
 		return ;
 	}
 
-	client.setUsername(parameters[0], server.getIrssi());
+	client.setUsername(parameters[0]);
 	client.setClientStatus(CONNECTED);
 	Utils::displayWelcomeMessage(client);
 }
@@ -214,6 +218,8 @@ void		Commands::commandUSER(const std::string& line, const std::string& command,
 
 void		Commands::commandCAP(const std::string& line, const std::string& command, Client& client, Server& server)
 {
+	(void)server;
+
 	const std::string	parameter = eraseCommandfromLine(line, command);
 	client.setLastArgument(parameter);
 
@@ -221,7 +227,7 @@ void		Commands::commandCAP(const std::string& line, const std::string& command, 
 		return ;
 
 	if (isIrssi(parameter) == true)
-		server.setIrssi(true);
+		client.setIrssi(true);
 }
 
 

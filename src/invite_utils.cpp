@@ -49,20 +49,11 @@ bool		Commands::userIsInChannel(const Client& client, const std::string& channel
 
 		for (itClient = channelClients.begin(); itClient != channelClients.end(); ++itClient)
 		{
-			printf("---------------------\nI am looking for %s\n", usernickname.c_str());
-			printf("I am now on %s\n", itClient->client->getClientNickname().c_str());
 			if ((*it)->getChannelName() == channelname && itClient->client->getClientNickname() == usernickname)
 				return (true);
 		}
 	}
 	return (false);
-
-
-	// const std::string	clientList = Utils::getClientListInChannel(client, channelname);
-
-	// if (clientList.find(usernickname) != std::string::npos)
-	// 	return (true);
-	// return (false);
 }
 
 
@@ -109,4 +100,3 @@ bool		Commands::isOperator(const Client& client, const std::string channelname)
 	}
 	return (false);
 }
-

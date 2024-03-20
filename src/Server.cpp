@@ -9,8 +9,7 @@ Server::Server(const std::string &port, const std::string &password)
 	: _port(port),
 	  _password(password),
 	  _nbClients(0),
-	  _pollFd(0),
-	  _irssi(false)
+	  _pollFd(0)
 {
 	// SOCKET : This code creates a TCP socket for IPv6 communication
 	// AF_INET6 = IPv6 Internet protocols
@@ -209,7 +208,7 @@ int									Server::getSocketFd() const { return (_serverSocket); }
 std::string							Server::getPassword() const { return (_password); }
 std::map<int, Client>				Server::getClientMap() const { return (_clientMap); }
 std::map<std::string, Channel>		Server::getChannelMap() const { return (_channelMap); }
-bool								Server::getIrssi()const { return (_irssi); }
+
 
 // std::vector<std::string>	Server::getCommandList() const { return (_cmdMap); }
 
@@ -234,9 +233,11 @@ void	Server::printAll() //provisoire, a supprimer
 	}
 }
 
+
+
 // Setters
 
-void	Server::setIrssi(const bool result) { _irssi = result; }
+
 
 void	Server::createNewChannel(std::string channel_name, int client_socket)
 {
@@ -251,29 +252,10 @@ void	Server::createNewChannel(std::string channel_name, int client_socket)
 
 // TO BE ORGANIZED
 
-// static int	findClientSocketWithNickname(const std::string& nickname, const std::map<int, Client> clients)
-// {
-// 	std::map<int, Client>::const_iterator	it;
-
-// 	for (it = clients.begin(); it != clients.end(); ++it)
-// 	{
-// 		if (it->second.getClientNickname() == nickname)
-// 			return (it->second.getClientSocket());
-// 	}
-// 	return (NO_SOCKET);
-// }
-
 
 void		Server::inviteUser(const std::vector<std::string> parameters, Client& client)
 {
-	// send message to both RPL_INVITING
 	Utils::sendErrorMessage(RPL_INVITING, client, parameters[1]);
-
-
-	// add invitee in Channel's client list
-
-	// std::map<int, Client>	clients = getClientMap();
-	// const int				socket = findClientSocketWithNickname(parameters[0], clients);
 
 	std::map<int, Client>::iterator		it;
 	for (it = _clientMap.begin(); it != _clientMap.end(); ++it)
@@ -281,15 +263,6 @@ void		Server::inviteUser(const std::vector<std::string> parameters, Client& clie
 		if (it->second.getClientNickname() == parameters[0])
 			addClientToChannel(parameters[1], EMPTY, it->second);
 	}
-
-	// if (socket != NO_SOCKET)
-	// {
-	// 	std::map<int, Client>::iterator		it = getClientMap().find(socket);
-	// 	if (it != clients.end())
-	// 	{
-	// 		addClientToChannel(parameters[1], EMPTY, it->second);
-	// 	}
-	// }
 }
 
 void	Server::addClientToChannel(std::string channel, std::string passwrd, Client& client)

@@ -24,7 +24,7 @@ class Server
 		// std::vector<std::string>			_cmdMap; // command function pointers indexed
 		std::map<int, Client>				_clientMap; // map of client sockets
 		std::map<std::string, Channel>		_channelMap; // map of channel sockets
-		bool								_irssi;
+
 
 	public:
 		Server(const std::string &port, const std::string &password);
@@ -35,10 +35,9 @@ class Server
 		std::string							getPassword() const;
 		std::map<int, Client>				getClientMap() const;
 		std::map<std::string, Channel>		getChannelMap() const;
-		bool								getIrssi() const;
+		
 
 		// Setters
-		void								setIrssi(const bool result);
 		void								createNewChannel(std::string channel_name, int client_socket);
 		// std::vector<std::string>	setCommandList();
 
