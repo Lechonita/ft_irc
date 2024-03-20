@@ -88,8 +88,8 @@ void	Channel::printClients()
 {
 	for (size_t pos = 0; pos < _channelClients.size(); pos++)
 	{
-		std::cout << "	client " << pos << "= " << _channelClients[pos].client->getClientNickname()
-		<< ", address = " << (_channelClients[pos].client) << std::endl;
+		std::cout << RED << "	client " << pos << "= " << _channelClients[pos].client->getClientNickname()
+		<< ", address = " << (_channelClients[pos].client) << NC << std::endl;
 	}
 }
 

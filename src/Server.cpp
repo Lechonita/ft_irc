@@ -220,14 +220,14 @@ void	Server::printAll() //provisoire, a supprimer
 	for (it_channels = _channelMap.begin() ; it_channels != _channelMap.end() ; it_channels++)
 	{
 		std::cout << GREEN << "channel= " << it_channels->second.getChannelName()
-		<< ", channel address = " << &(it_channels->second) << std::endl;
+		<< ", channel address = " << &(it_channels->second) << NC << std::endl;
 		it_channels->second.printClients();
 	}
 
 	for (it_client = _clientMap.begin() ; it_client != _clientMap.end() ; it_client++)
 	{
-		std::cout << GREEN << "client= " << it_client->first << ", " << it_client->second.getClientNickname()
-		<< ", client address = " << &(it_client->second) << std::endl;
+		std::cout << RED << "client= " << it_client->first << ", " << it_client->second.getClientNickname()
+		<< ", client address = " << &(it_client->second) << NC << std::endl;
 		it_client->second.printChannels();
 	}
 }
@@ -236,27 +236,27 @@ void	Server::printAll() //provisoire, a supprimer
 
 void	Server::setIrssi(const bool result) { _irssi = result; }
 
-void	Server::createNewChannel(std::string channel_name, int client_socket)
+void	Server::createNewChannel(std::string channel_name, int client_socket, Server& server)
 {
 	std::map<int, Client>::iterator	it_client = _clientMap.find(client_socket);
 
 	_channelMap.insert(std::make_pair(channel_name, Channel(channel_name, &(it_client->second))));
 	it_client->second.newChannel(_channelMap.find(channel_name)->second);
-	Utils::joinMessageSuccessful(it_client->second, channel_name);
+	Utils::joinMessageSuccessful(it_client->second, server, channel_name);
 }
 
 
-void	Server::addClientToChannel(std::string channel, std::string passwrd, Client& client)
+void	Server::addClientToChannel(std::string channel, std::string passwrd, Client& client, Server& server)
 {
 	std::map<std::string, Channel>::iterator	it = _channelMap.find(channel);
 
 	it->second.newClient(passwrd, client);
-	Utils::joinMessageSuccessful(client, channel);
+	Utils::joinMessageSuccessful(client, server, channel);
 }
 
 
 
-void	Server::executeJoinCommand(std::vector<std::string> channels, std::vector<std::string> passwrds, Client& client)
+void	Server::createOrJoinChannel(std::vector<std::string> channels, std::vector<std::string> passwrds, Client& client, Server& server)
 {
 	for (size_t i = 0; i < channels.size(); i++)
 	{
@@ -266,22 +266,22 @@ void	Server::executeJoinCommand(std::vector<std::string> channels, std::vector<s
 		}
 		else if (_channelMap.find(channels[i]) == _channelMap.end())
 		{
-			createNewChannel(channels[i], client.getClientSocket());
+			createNewChannel(channels[i], client.getClientSocket(), server);
 		}
 		else if (i >= passwrds.size())
 		{
-			addClientToChannel(channels[i], "", client);
+			addClientToChannel(channels[i], "", client, server);
 		}
 		else
 		{
-			addClientToChannel(channels[i], passwrds[i], client);
+			addClientToChannel(channels[i], passwrds[i], client, server);
 		}
 	}
 }
 
 
 
-bool	Server::isPartOfChannel(std::string channel_name, Client& client)
+bool	Server::isPartOfChannel(std::string channel_name, const Client& client)
 {
 	std::map<std::string, Channel>::iterator	it = _channelMap.find(channel_name);
 
@@ -303,7 +303,7 @@ bool	Server::isPartOfChannel(std::string channel_name, Client& client)
 
 
 
-void	Server::sendMessageToReceivers(std::vector<std::string> receivers, std::string message, Client& client)
+void	Server::sendMessageToReceivers(std::vector<std::string> receivers, std::string message, const Client& client)
 {
 	for (size_t i = 0; i < receivers.size(); i++)
 	{
@@ -313,7 +313,6 @@ void	Server::sendMessageToReceivers(std::vector<std::string> receivers, std::str
 		}
 		else if (receivers[i][0] != '#')
 		{
-			std::cout << "ca se passe ici" << std::endl;
 			sendMessageToUser(receivers[i], message, client);
 		}
 	}
@@ -321,7 +320,7 @@ void	Server::sendMessageToReceivers(std::vector<std::string> receivers, std::str
 
 
 
-void	Server::sendMessageToChannel(std::string receiver, std::string message, Client& client)
+void	Server::sendMessageToChannel(std::string receiver, std::string message, const Client& client)
 {
 	std::map<std::string, Channel>::iterator	it = _channelMap.find(receiver);
 
@@ -330,18 +329,17 @@ void	Server::sendMessageToChannel(std::string receiver, std::string message, Cli
 		Utils::sendErrorMessage(ERR_NOSUCHNICK, client);
 		return ;
 	}
-	std::string	full_message = client.getClientNickname() + ": " + message + END_MSG;
+	std::string	full_message = message + END_MSG;
 
 	it->second.sendMessageToAll(full_message);
 }
 
 
 
-void	Server::sendMessageToUser(std::string receiver, std::string message, Client& client)
+void	Server::sendMessageToUser(std::string receiver, std::string message, const Client& client)
 {
 	std::map<int, Client>::iterator	it;
 
-	std::cout << "ca se passe peut etre la" << std::endl;
 	for(it = _clientMap.begin(); it != _clientMap.end(); it++)
 	{
 		if (it->second.getClientNickname() == receiver)
@@ -349,12 +347,10 @@ void	Server::sendMessageToUser(std::string receiver, std::string message, Client
 	}
 	if (it == _clientMap.end())
 	{
-		std::cout << "ca se passe maybe la" << std::endl;
 		Utils::sendErrorMessage(ERR_NOSUCHNICK, client);
 		return ;
 	}
 	std::string	full_message = client.getClientNickname() + ": " + message+ END_MSG;
-	std::cout << "ou alors ca se passe peut etre la" << std::endl;
 
 	Utils::sendMessage(full_message, it->second);
 }
