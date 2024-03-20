@@ -30,6 +30,7 @@ class Commands
 		void			commandQUIT(const std::string& line, const std::string& command, Client& client, Server& server);
 		void			commandINVITE(const std::string& line, const std::string& command, Client& client, Server& server);
 		void			commandPING(const std::string& line, const std::string& command, Client& client, Server& server);
+		void			commandTOPIC(const std::string& line, const std::string& command, Client& client, Server& server);
 
 		// Command Utils
 		static std::string	getCommandFromLine(const std::string& line);

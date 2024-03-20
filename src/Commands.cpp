@@ -15,6 +15,7 @@ Commands::Commands()
 	_cmdMap["PART"] = &Commands::commandPART;
 	_cmdMap["INVITE"] = &Commands::commandINVITE;
 	_cmdMap["PING"] = &Commands::commandPING;
+	_cmdMap["TOPIC"] = &Commands::commandTOPIC;
 }
 
 
@@ -309,4 +310,43 @@ void		Commands::commandPING(const std::string& line, const std::string& command,
 	}
 
 	Utils::sendErrorMessage(PONG, client);
+}
+
+
+
+// PING
+
+void		Commands::commandTOPIC(const std::string& line, const std::string& command, Client& client, Server& server)
+{
+	(void)server;
+	if (client.getClientStatus() == DISCONNECTED)
+	{
+		Utils::sendErrorMessage(NOT_CONNECTED, client);
+		return ;
+	}
+
+	const std::string	arguments = eraseCommandfromLine(line, command);
+	client.setLastArgument(arguments);
+
+	const std::vector<std::string>	parameters = Utils::splitParameters(arguments);
+	
+	if (parameters.empty() == true)
+	{
+		Utils::sendErrorMessage(ERR_NEEDMOREPARAMS, client);
+		return ;
+	}
+
+	// TOPIC #channelname > simply query the current topic of a channel
+	if (parameters.size() == 1)
+	{
+
+	}
+
+	// TOPIC #channelname :New topic for the channel
+	if (parameters.size() == 2)
+	{
+		
+	}
+
+	// notify all users of the channel
 }
