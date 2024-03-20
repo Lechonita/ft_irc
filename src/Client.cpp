@@ -136,14 +136,6 @@ void	Client::newChannel(Channel& channel)
 }
 
 
-// void	Client::addChannelToClient(Channel* channel)
-// {
-// 	std::vector<Channel*>	channels = getClientChannels();
-// 	channels.push_back(channel);
-// }
-
-
-
 
 
 void	Client::partFromChannels(Client& client, const std::vector<std::string> channels, const std::string message)
