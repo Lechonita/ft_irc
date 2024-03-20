@@ -248,6 +248,50 @@ void	Server::createNewChannel(std::string channel_name, int client_socket)
 }
 
 
+
+// TO BE ORGANIZED
+
+// static int	findClientSocketWithNickname(const std::string& nickname, const std::map<int, Client> clients)
+// {
+// 	std::map<int, Client>::const_iterator	it;
+
+// 	for (it = clients.begin(); it != clients.end(); ++it)
+// 	{
+// 		if (it->second.getClientNickname() == nickname)
+// 			return (it->second.getClientSocket());
+// 	}
+// 	return (NO_SOCKET);
+// }
+
+
+void		Server::inviteUser(const std::vector<std::string> parameters, Client& client)
+{
+	// send message to both RPL_INVITING
+	Utils::sendErrorMessage(RPL_INVITING, client, parameters[1]);
+
+
+	// add invitee in Channel's client list
+
+	// std::map<int, Client>	clients = getClientMap();
+	// const int				socket = findClientSocketWithNickname(parameters[0], clients);
+
+	std::map<int, Client>::iterator		it;
+	for (it = _clientMap.begin(); it != _clientMap.end(); ++it)
+	{
+		if (it->second.getClientNickname() == parameters[0])
+			addClientToChannel(parameters[1], EMPTY, it->second);
+	}
+
+	// if (socket != NO_SOCKET)
+	// {
+	// 	std::map<int, Client>::iterator		it = getClientMap().find(socket);
+	// 	if (it != clients.end())
+	// 	{
+	// 		addClientToChannel(parameters[1], EMPTY, it->second);
+	// 	}
+	// }
+}
+
 void	Server::addClientToChannel(std::string channel, std::string passwrd, Client& client)
 {
 	std::map<std::string, Channel>::iterator	it = _channelMap.find(channel);
@@ -272,7 +316,7 @@ void	Server::executeJoinCommand(std::vector<std::string> channels, std::vector<s
 		}
 		else if (i >= passwrds.size())
 		{
-			addClientToChannel(channels[i], "", client);
+			addClientToChannel(channels[i], EMPTY, client);
 		}
 		else
 		{

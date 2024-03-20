@@ -49,6 +49,8 @@ bool		Commands::userIsInChannel(const Client& client, const std::string& channel
 
 		for (itClient = channelClients.begin(); itClient != channelClients.end(); ++itClient)
 		{
+			printf("---------------------\nI am looking for %s\n", usernickname.c_str());
+			printf("I am now on %s\n", itClient->client->getClientNickname().c_str());
 			if ((*it)->getChannelName() == channelname && itClient->client->getClientNickname() == usernickname)
 				return (true);
 		}
@@ -108,51 +110,3 @@ bool		Commands::isOperator(const Client& client, const std::string channelname)
 	return (false);
 }
 
-static Client*		findClient(const std::string& clientNickname, const Server& server)
-{
-	std::map<int, Client>	clientMap = server.getClientMap();
-	std::map<int, Client>::iterator		it;
-
-	for (it = clientMap.begin(); it != clientMap.end(); ++it)
-	{
-		if (it->second.getClientNickname() == clientNickname)
-			return (&it->second);
-	}
-	return (NULL);
-}
-
-
-// static Channel*		findChannel(const std::string& channelname, const Server& server)
-// {
-// 	std::map<std::string, Channel>				channelMap = server.getChannelMap();
-// 	std::map<std::string, Channel>::iterator	it;
-
-// 	for (it = channelMap.begin(); it != channelMap.end(); ++it)
-// 	{
-// 		if (it->second.getChannelName() == channelname)
-// 			return (&it->second);
-// 	}
-// 	return (NULL);
-// }
-
-
-void		Commands::inviteUser(const std::vector<std::string> parameters, Client& client, Server& server)
-{
-	// send message to both RPL_INVITING
-	Utils::sendErrorMessage(RPL_INVITING, client, parameters[1]);
-
-
-	// add invitee in Channel's client list
-	Client	*newClient = findClient(parameters[0], server);
-	if (newClient != NULL)
-	{
-		server.addClientToChannel(parameters[1], newClient->getClientPassword(), *newClient); // message included
-
-		// add channel in invitee's channel list
-		// Channel	*channel = findChannel(parameters[1], server);
-		// if (channel != NULL)
-		// 	(*newClient).addChannelToClient(channel);
-	}
-	// le user nouvellement ajouté n'est pas proprement ajouté dans la liste des clients du channel
-	// en attente
-}

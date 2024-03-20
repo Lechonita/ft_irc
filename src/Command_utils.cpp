@@ -56,10 +56,7 @@ std::string		Commands::eraseCommandfromLine(const std::string& line, const std::
 {
 	if (line.length() == command.length())
 		return (EMPTY);
-
-	std::string		res;
-	res = line.substr(command.size() + 1);
-	return (res);
+	return (line.substr(command.size() + 1));
 }
 
 

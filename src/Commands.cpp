@@ -261,6 +261,8 @@ void		Commands::commandINVITE(const std::string& line, const std::string& comman
 	}
 
 	const std::string	invitation = eraseCommandfromLine(line, command);
+	client.setLastArgument(invitation);
+
 	const std::vector<std::string>	parameters = Utils::splitParameters(invitation);
 
 	if (invitation.empty() == true || parameters.size() < 2)
@@ -280,7 +282,8 @@ void		Commands::commandINVITE(const std::string& line, const std::string& comman
 		return ;
 	}
 
-	inviteUser(parameters, client, server);
+
+	server.inviteUser(parameters, client);
 
 	// INVITE <invitee> <channelname>
 }
