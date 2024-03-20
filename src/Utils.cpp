@@ -57,8 +57,8 @@ std::string Utils::getFormattedMessage(const std::string &message, const Client 
 		{"<arg>", client.getLastArgument()},
 		{"<client>", client.getClientNickname()},
 		{"<channelName>", channelName},
-		{"<servername>", SERVER_NAME}};
-		// {"<nicknames>", getClientListInChannel(client, channelName)}};
+		{"<servername>", SERVER_NAME},
+		{"<nicknames>", getClientListInChannel(client, channelName)}};
 
 	std::string formattedMessage = message;
 
@@ -87,7 +87,7 @@ void Utils::sendErrorMessage(const std::string &message, const Client &client, c
 
 std::string		Utils::getFormattedMessage(const std::string &message, const Client &client)
 {
-	const std::string pattern[PATTERN_COUNT - 1][2] = {
+	const std::string pattern[PATTERN_COUNT - 2][2] = {
 		{"<command>", client.getLastCommand()},
 		{"<arg>", client.getLastArgument()},
 		{"<client>", client.getClientNickname()},
@@ -194,7 +194,7 @@ void	Utils::displayWelcomeMessage(const Client& client)
 
 
 
-void	Utils::joinMessageSuccessful(const Client& client, std::string channel_name)
+void	Utils::joinMessageSuccessful(const Client& client, Server& server, std::string channel_name)
 {
 	std::string						message1 = ":" + client.getClientNickname()
 												+ "!~" + client.getClientUsername() + "@"
@@ -205,24 +205,25 @@ void	Utils::joinMessageSuccessful(const Client& client, std::string channel_name
 	message2.erase(message2.size() - 2, 2);
 	message3.erase(message3.size() - 2, 2);
 
-	sendErrorMessage(message1, client);
+	server.sendMessageToChannel(channel_name, message1, client);
+	// sendErrorMessage(message1, client);
 	sendErrorMessage(message2, client, channel_name);
 	sendErrorMessage(message3, client, channel_name);
 }
 
 
 
-void	Utils::partMessage(const Client& client, const std::string channel_name, const std::string message)
+void	Utils::partMessage(const Client& client, Server& server, const std::string channel_name, const std::string message)
 {
 	std::string						full_message = ":" + client.getClientNickname()
 												+ "!~" + client.getClientUsername() + "@"
 												+ client.getClientIP() + " PART " + channel_name;
 
-	if (message.empty() == true)
-		full_message = full_message + ":" + client.getClientNickname();
+	if (message == "")
+		full_message = full_message + " :" + client.getClientNickname();
 	else
-		full_message = full_message + ":" + message;
-	sendErrorMessage(message, client);
+		full_message = full_message + " :" + message;
+	server.sendMessageToChannel(channel_name, full_message, client);
 }
 
 

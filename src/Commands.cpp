@@ -44,7 +44,7 @@ void		Commands::commandJOIN(const std::string& line, const std::string& command,
 		return ;
 	}
 	checkJoinParams(join_params, &channels, &passwrds);
-	server.executeJoinCommand(channels, passwrds, client);
+	server.createOrJoinChannel(channels, passwrds, client, server);
 }
 
 
@@ -74,7 +74,7 @@ void		Commands::commandPART(const std::string& line, const std::string& command,
 		return ;
 	}
 	checkPartParams(part_params, &channels, &message);
-	client.partFromChannels(client, channels, message);
+	client.partFromChannels(client, server, channels, message);
 }
 
 

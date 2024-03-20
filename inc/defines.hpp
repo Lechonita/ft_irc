@@ -60,7 +60,7 @@ extern bool		doSignal;
 # define EMPTY ""
 # define SPACE " "
 # define MAX_NICK_LEN 9
-# define PATTERN_COUNT 5
+# define PATTERN_COUNT 6
 # define EXPECTED_USER_PARAM 5
 # define INCOMING_MSG "\033[0;36m<< \033[0m"
 # define OUTGOING_MSG "\033[0;35m>> \033[0m"
@@ -140,7 +140,7 @@ extern bool		doSignal;
 // # define RPL_EXCEPTLIST			"348 <channelName> <exceptionmask>"
 // # define RPL_ENDOFEXCEPTLIST	"349 <channelName> :End of channel exception list"
 // # define RPL_ENDOFBANLIST		"368 <channelName> :End of channel ban list"
-# define RPL_NAMREPLY 			"353 <client> = <channelName> : <nicknames>"
+# define RPL_NAMREPLY 			"353 <client> = <channelName> :<nicknames>"
 # define RPL_ENDOFNAMES			"366 <channelName> :End of NAMES list"
 # define RPL_BANLIST			"367 <channelName> <banmask>"
 

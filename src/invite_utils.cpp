@@ -146,7 +146,7 @@ void		Commands::inviteUser(const std::vector<std::string> parameters, Client& cl
 	Client	*newClient = findClient(parameters[0], server);
 	if (newClient != NULL)
 	{
-		server.addClientToChannel(parameters[1], newClient->getClientPassword(), *newClient); // message included
+		server.addClientToChannel(parameters[1], newClient->getClientPassword(), *newClient, server); // message included
 
 		// add channel in invitee's channel list
 		// Channel	*channel = findChannel(parameters[1], server);

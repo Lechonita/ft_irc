@@ -43,8 +43,7 @@ class Client
 	// Functions
 	void						interpretMessage(Server& server);
 	void						newChannel(Channel& channel_name);
-	void						partFromChannels(Client& client, const std::vector<std::string> channels, const std::string message = "");
-	// void						addChannelToClient(Channel* channel);
+	void						partFromChannels(Client& client, Server& server, const std::vector<std::string> channels, const std::string message = "");
 
 	// Commands
 	// bool					isCommandFromList(const std::string& command, const Server& server) const;
