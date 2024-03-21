@@ -100,3 +100,57 @@ void	Channel::sendMessageToAll(std::string message)
 		Utils::sendMessage(message, *_channelClients[i].client);
 	}
 }
+
+
+
+bool	Channel::kickerIsQualified(Client &client)
+{
+	size_t	pos;
+
+	for (pos = 0; pos < _channelClients.size(); pos++)
+	{
+		if (_channelClients[pos].client == &client)
+			break ;
+	}
+	if (pos == _channelClients.size())
+	{
+		Utils::sendErrorMessage(ERR_NOTONCHANNEL, client, _channelName); //The error sent by default is ERR_CHANOPRIVSNEEDED, we chose to sent this instead for clarity
+		return (false);
+	}
+	else if (_channelClients[pos].isOperator == false)
+	{
+		Utils::sendErrorMessage(ERR_CHANOPRIVSNEEDED, client, _channelName);
+		return (false);
+	}
+	return (true);
+}
+
+
+
+void	Channel::kickThoseMfOut(Client &client, Server &server, std::vector<std::string> clients, std::string message)
+{
+	if (kickerIsQualified(client) == false)
+		return ;
+
+	for (size_t i = 0; i < clients.size(); i++)
+	{
+		std::vector<channelClient>::iterator	it;
+
+		for (it = _channelClients.begin(); it != _channelClients.end(); it++)
+		{
+			if (it->client->getClientNickname() == clients[i])
+			{
+				it->client->removeChannelFromClient();
+				_channelClients.erase(it);
+			}
+		}
+		if (it == _channelClients.end())
+		{
+			// faire fonction qui cherche client et affiche message d'erreur
+			std::map<int, Client>	existingClients = server.getClientMap();
+
+			std::map<int, Client>::iterator it = ;
+			Utils::sendErrorMessage(ERR_USERNOTINCHANNEL, clients[i], _channelName);
+		}
+	}
+}

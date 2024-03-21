@@ -44,6 +44,8 @@ class Channel
 		void						newClient(std::string passwrd, Client &client);
 		void						removeClient(Client &client);
 		void						sendMessageToAll(std::string message);
+		void						kickThoseMfOut(Client &client, Server &server, std::vector<std::string> clients, std::string message);
+		bool						kickerIsQualified(Client &client);
 		void						printClients();
 	private:
 

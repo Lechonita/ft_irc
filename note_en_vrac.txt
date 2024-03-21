@@ -72,11 +72,7 @@ A GERER
 004 JEss :irc 1.0 -none- itkol
 
 BUGS:
-	- n'arrive pas rejoindre a nouveau un channel que le client vient de PART
-	- le message de JOIN ne s'affiche pas pour tout le monde dans un channel
-	- idem pour PART
-	- WELCOME apparait lorsque j'utilise PRIVMSG (a destination d'un autre client)
-
+	-
 
 INVITE
 
@@ -92,3 +88,6 @@ message automatique sur le terminal de l'invité :
 Jesson = nickname de l'invité
 Guest05609 = nickname de ce lui qui invite
 newtest = channelname
+
+- verifier les cas ou aucun nom de channel n'est specifier pour JOIN et PART et KICK
+- verifier l'absence de nom de clients pour JOIN PART KICK et PRIVMSG

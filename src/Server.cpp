@@ -364,7 +364,7 @@ void	Server::sendMessageToUser(std::string receiver, std::string message, const 
 
 
 
-void	Server::kickThatMf(Client& client, std::vector<std::string> channels, std::vector<std::string> clients, std::string message)
+void	Server::removeClientsFromChannels(Client& client, std::vector<std::string> channels, std::vector<std::string> clients, std::string message)
 {
 	std::map<std::string, Channel>::iterator	it_channels;
 	std::map<int, Client>::iterator	it;
@@ -374,7 +374,11 @@ void	Server::kickThatMf(Client& client, std::vector<std::string> channels, std::
 		it_channels = _channelMap.find(channels[pos]);
 		if (it_channels != _channelMap.end())
 		{
-			youAreNotInThatChanAnymore();
+			it_channels->second.kickThoseMfOut(client, *this, clients, message);
+		}
+		else
+		{
+			Utils::sendErrorMessage(ERR_NOSUCHCHANNEL, client, channels[pos]);
 		}
 	}
 }

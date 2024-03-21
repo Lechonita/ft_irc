@@ -74,7 +74,7 @@ void		Commands::commandKICK(const std::string& line, const std::string& command,
 	std::vector<std::string>	clients;
 
 	checkKickParams(kick_params, &channels, &clients, &message);
-	server.kickThatMf(client, channels, clients, message);
+	server.removeClientsFromChannels(client, channels, clients, message);
 }
 
 
