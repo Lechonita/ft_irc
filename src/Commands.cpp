@@ -7,6 +7,7 @@ Commands::Commands()
 {
 	_cmdMap["JOIN"] = &Commands::commandJOIN;
 	_cmdMap["PASS"] = &Commands::commandPASS;
+	_cmdMap["MODE"] = &Commands::commandMODE;
 	_cmdMap["NICK"] = &Commands::commandNICK;
 	_cmdMap["USER"] = &Commands::commandUSER;
 	_cmdMap["CAP"] = &Commands::commandCAP;
@@ -106,6 +107,13 @@ void		Commands::commandPART(const std::string& line, const std::string& command,
 	}
 	checkPartParams(part_params, &channels, &message);
 	client.partFromChannels(client, server, channels, message);
+}
+
+
+
+void	Commands::commandMODE(const std::string& line, const std::string& command, Client& client, Server& server)
+{
+
 }
 
 

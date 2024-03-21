@@ -14,7 +14,6 @@ class Server;
 
 class Utils
 {
-
 	public:
 
 	// Error management
@@ -39,7 +38,6 @@ class Utils
 	// utils functions
 	static std::vector<std::string>		splitParameters(const std::string& userInfo);
 	static std::string					getClientListInChannel(const Client &client, const std::string channelName);
-
 };
 
 #endif

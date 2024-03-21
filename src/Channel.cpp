@@ -27,9 +27,15 @@ Channel::~Channel() {}
 std::string					Channel::getChannelName() const {return (_channelName);}
 std::string					Channel::getChannelTopic() const {return (_channelTopic);}
 std::string					Channel::getChannelPass() const {return (_channelPass);}
-std::vector<channelModes>	Channel::getChannelModes() const {return (_channelModes);}
+// std::vector<channelModes>	Channel::getChannelModes() const {return (_channelModes);}
 std::vector<channelClient>	Channel::getChannelClients() const {return (_channelClients);}
 
+
+void	Channel::setIMode(bool status) {_iMode = status;}
+void	Channel::setTMode(bool status) {_tMode = status;}
+void	Channel::setKMode(bool status) {_kMode = status;}
+void	Channel::setOMode(bool status) {_oMode = status;}
+void	Channel::setLMode(bool status) {_lMode = status;}
 
 
 void	Channel::newClient(std::string passwrd, Client &client)

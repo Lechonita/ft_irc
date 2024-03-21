@@ -23,6 +23,7 @@ class Commands
 		void			commandJOIN(const std::string& line, const std::string& command, Client& client, Server& server);
 		void			commandKICK(const std::string& line, const std::string& command, Client& client, Server& server);
 		void			commandPART(const std::string& line, const std::string& command, Client& client, Server& server);
+		void			commandMODE(const std::string& line, const std::string& command, Client& client, Server& server);
 		void			commandPRIVMSG(const std::string& line, const std::string& command, Client& client, Server& server);
 		void			commandPASS(const std::string& line, const std::string& command, Client& client, Server& server);
 		void			commandNICK(const std::string& line, const std::string& command, Client& client, Server& server);

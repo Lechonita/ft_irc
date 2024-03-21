@@ -12,6 +12,17 @@ class Server;
 
 class Client
 {
+	private:
+		std::string					_clientUsername;
+		std::string					_clientPassword;
+		std::string					_clientNickname;
+		std::string					_lastArg;
+		std::string					_lastCommand;
+		std::string					_buffer;
+		std::vector<Channel*>		_channels;
+		const char*					_clientIP;
+		int							_clientSocket;
+		bool						_clientStatus;
 
 	public:
 		Client(const int& serverSocket);
@@ -29,7 +40,6 @@ class Client
 	const std::vector<Channel*>	getClientChannels() const;
 	bool						getClientStatus() const;
 
-
 	// Setters
 	void						setBuffer(const char *buffer);
 	void						setUsername(const std::string& username, const bool irssi);
@@ -45,6 +55,7 @@ class Client
 	void						newChannel(Channel& channel_name);
 	void						partFromChannels(Client& client, Server& server, const std::vector<std::string> channels, const std::string message = "");
 	void						removeChannelFromClient(const Channel& channel);
+
 	// Commands
 	// bool					isCommandFromList(const std::string& command, const Server& server) const;
 
@@ -60,19 +71,6 @@ class Client
 		public:
 			const char *what() const throw();
 	};
-
-
-	private:
-		std::string					_clientUsername;
-		std::string					_clientPassword;
-		std::string					_clientNickname;
-		std::string					_lastArg;
-		std::string					_lastCommand;
-		std::string					_buffer;
-		std::vector<Channel*>		_channels;
-		const char*					_clientIP;
-		int							_clientSocket;
-		bool						_clientStatus;
 };
 
 #endif
