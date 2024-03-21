@@ -9,9 +9,11 @@
 
 class Client;
 
+class Server;
+
 struct channelClient
 {
-	const Client	*client;
+	Client	*client;
 	bool			isOperator;
 };
 

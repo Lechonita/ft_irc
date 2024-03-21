@@ -13,6 +13,7 @@ Commands::Commands()
 	_cmdMap["QUIT"] = &Commands::commandQUIT;
 	_cmdMap["PRIVMSG"] = &Commands::commandPRIVMSG;
 	_cmdMap["PART"] = &Commands::commandPART;
+	_cmdMap["KICK"] = &Commands::commandKICK;
 	_cmdMap["INVITE"] = &Commands::commandINVITE;
 	_cmdMap["PING"] = &Commands::commandPING;
 }

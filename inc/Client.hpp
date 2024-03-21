@@ -44,7 +44,7 @@ class Client
 	void						interpretMessage(Server& server);
 	void						newChannel(Channel& channel_name);
 	void						partFromChannels(Client& client, Server& server, const std::vector<std::string> channels, const std::string message = "");
-
+	void						removeChannelFromClient(const Channel& channel);
 	// Commands
 	// bool					isCommandFromList(const std::string& command, const Server& server) const;
 

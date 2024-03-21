@@ -127,30 +127,51 @@ bool	Channel::kickerIsQualified(Client &client)
 
 
 
+static void	errorUserNotInChan(Client &client,Server &server, std::string client_tokick, std::string channel_name)
+{
+	std::map<int, Client>	existingClients = server.getClientMap();
+	std::map<int, Client>::iterator it;
+
+	for (it = existingClients.begin(); it != existingClients.end(); it++)
+	{
+		if (it->second.getClientNickname() == client_tokick)
+		{
+			Utils::sendErrorMessage(ERR_USERNOTINCHANNEL, client, channel_name);
+			break ;
+		}
+	}
+	if (it == existingClients.end())
+		Utils::sendErrorMessage(ERR_NOSUCHNICK, client);
+}
+
+
+
 void	Channel::kickThoseMfOut(Client &client, Server &server, std::vector<std::string> clients, std::string message)
 {
 	if (kickerIsQualified(client) == false)
 		return ;
 
-	for (size_t i = 0; i < clients.size(); i++)
+	for (size_t pos_client = 0; pos_client < clients.size(); pos_client++)
 	{
-		std::vector<channelClient>::iterator	it;
+		std::vector<channelClient>::iterator	it= _channelClients.begin();
+		size_t pos_chan;
 
-		for (it = _channelClients.begin(); it != _channelClients.end(); it++)
+		client.setLastArgument(clients[pos_client]);
+		for (pos_chan = 0; pos_chan <= _channelClients.size(); pos_chan++)
 		{
-			if (it->client->getClientNickname() == clients[i])
+			if (pos_chan == _channelClients.size())
 			{
-				it->client->removeChannelFromClient();
-				_channelClients.erase(it);
+				errorUserNotInChan(client, server, clients[pos_client], _channelName);
+				break ;
 			}
-		}
-		if (it == _channelClients.end())
-		{
-			// faire fonction qui cherche client et affiche message d'erreur
-			std::map<int, Client>	existingClients = server.getClientMap();
-
-			std::map<int, Client>::iterator it = ;
-			Utils::sendErrorMessage(ERR_USERNOTINCHANNEL, clients[i], _channelName);
+			else if (it->client->getClientNickname() == clients[pos_client])
+			{
+				Utils::kickMessageSuccessfull(client, server, _channelName, message, clients[pos_client]);
+				it->client->removeChannelFromClient(*this);
+				_channelClients.erase(it);
+				break ;
+			}
+			it++;
 		}
 	}
 }

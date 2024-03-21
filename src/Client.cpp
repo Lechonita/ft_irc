@@ -163,6 +163,25 @@ void	Client::partFromChannels(Client& client, Server& server, const std::vector<
 	}
 }
 
+
+
+void	Client::removeChannelFromClient(const Channel& channel)
+{
+	std::vector<Channel*>::iterator	it;
+
+	for(it = _channels.begin(); it != _channels.end(); it++)
+	{
+		if ((*it) == &channel)
+		{
+			_channels.erase(it);
+			return ;
+		}
+	}
+}
+
+
+
+
 // Exceptions
 
 const char *Client::Exception::what() const throw() { return (ERR_CLIENT); }
