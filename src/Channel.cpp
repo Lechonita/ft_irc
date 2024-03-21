@@ -6,7 +6,7 @@
 /*************************** CONSTRUCTOR / DESTRUCTOR ***************************/
 /********************************************************************************/
 
-Channel::Channel(const std::string& name, Client *client): _channelName(name)
+Channel::Channel(const std::string& name, Client *client): _channelName(name), _channelTopic(EMPTY), _channelPass(EMPTY)
 {
 	const channelClient newClient = {.client = client, .isOperator = true};
 	_channelClients.push_back(newClient);
@@ -23,6 +23,15 @@ Channel::~Channel() {}
 /********************************************************************************/
 /***************************** MEMBER FUNCTIONS *********************************/
 /********************************************************************************/
+
+
+// Setters
+
+void		Channel::setChannelTopic(const std::string& channelTopic) { _channelTopic = channelTopic; }
+
+
+
+// Getters
 
 std::string					Channel::getChannelName() const {return (_channelName);}
 std::string					Channel::getChannelTopic() const {return (_channelTopic);}

@@ -243,4 +243,26 @@ std::vector<std::string>		Utils::splitParameters(const std::string& userInfo)
 }
 
 
+static std::string		getChannelListInServer(const Server& server)
+{
+	std::map<std::string, Channel>	channels = server.getChannelMap();
+	std::string						channelList = "";
 
+	std::map<std::string, Channel>::iterator	it;
+	for (it = channels.begin(); it != channels.end(); ++it)
+	{
+		channelList += it->second.getChannelName();
+		channelList += " ";
+	}
+	return (channelList);
+}
+
+
+bool		Utils::channelExists(const Server& server, const std::string& channelname)
+{
+	const std::string	channelList = getChannelListInServer(server);
+
+	if (channelList.find(channelname) != std::string::npos)
+		return (true);
+	return (false);
+}

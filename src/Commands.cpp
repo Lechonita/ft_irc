@@ -289,7 +289,6 @@ void		Commands::commandINVITE(const std::string& line, const std::string& comman
 		return ;
 	}
 
-
 	server.inviteUser(parameters, client);
 
 	// INVITE <invitee> <channelname>
@@ -318,7 +317,6 @@ void		Commands::commandPING(const std::string& line, const std::string& command,
 
 void		Commands::commandTOPIC(const std::string& line, const std::string& command, Client& client, Server& server)
 {
-	(void)server;
 	if (client.getClientStatus() == DISCONNECTED)
 	{
 		Utils::sendErrorMessage(NOT_CONNECTED, client);
@@ -328,25 +326,18 @@ void		Commands::commandTOPIC(const std::string& line, const std::string& command
 	const std::string	arguments = eraseCommandfromLine(line, command);
 	client.setLastArgument(arguments);
 
-	const std::vector<std::string>	parameters = Utils::splitParameters(arguments);
-	
-	if (parameters.empty() == true)
+	if (arguments.empty() == true)
 	{
 		Utils::sendErrorMessage(ERR_NEEDMOREPARAMS, client);
 		return ;
 	}
 
-	// TOPIC #channelname > simply query the current topic of a channel
-	if (parameters.size() == 1)
-	{
+	const std::vector<std::string>	parameters = Utils::splitParameters(arguments);
 
+	if (areValidTopicParameters(parameters, client, server) == false)
+	{
+		return ;
 	}
 
-	// TOPIC #channelname :New topic for the channel
-	if (parameters.size() == 2)
-	{
-		
-	}
-
-	// notify all users of the channel
+	chooseAndExecuteTopicAction(parameters, client);
 }

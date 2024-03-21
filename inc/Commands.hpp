@@ -20,17 +20,17 @@ class Commands
 		~Commands() {}
 
 		// Command functions
-		void			commandJOIN(const std::string& line, const std::string& command, Client& client, Server& server);
-		void			commandPART(const std::string& line, const std::string& command, Client& client, Server& server);
-		void			commandPRIVMSG(const std::string& line, const std::string& command, Client& client, Server& server);
-		void			commandPASS(const std::string& line, const std::string& command, Client& client, Server& server);
-		void			commandNICK(const std::string& line, const std::string& command, Client& client, Server& server);
-		void			commandUSER(const std::string& line, const std::string& command, Client& client, Server& server);
-		void			commandCAP(const std::string& line, const std::string& command, Client& client, Server& server);
-		void			commandQUIT(const std::string& line, const std::string& command, Client& client, Server& server);
-		void			commandINVITE(const std::string& line, const std::string& command, Client& client, Server& server);
-		void			commandPING(const std::string& line, const std::string& command, Client& client, Server& server);
-		void			commandTOPIC(const std::string& line, const std::string& command, Client& client, Server& server);
+		void				commandJOIN(const std::string& line, const std::string& command, Client& client, Server& server);
+		void				commandPART(const std::string& line, const std::string& command, Client& client, Server& server);
+		void				commandPRIVMSG(const std::string& line, const std::string& command, Client& client, Server& server);
+		void				commandPASS(const std::string& line, const std::string& command, Client& client, Server& server);
+		void				commandNICK(const std::string& line, const std::string& command, Client& client, Server& server);
+		void				commandUSER(const std::string& line, const std::string& command, Client& client, Server& server);
+		void				commandCAP(const std::string& line, const std::string& command, Client& client, Server& server);
+		void				commandQUIT(const std::string& line, const std::string& command, Client& client, Server& server);
+		void				commandINVITE(const std::string& line, const std::string& command, Client& client, Server& server);
+		void				commandPING(const std::string& line, const std::string& command, Client& client, Server& server);
+		void				commandTOPIC(const std::string& line, const std::string& command, Client& client, Server& server);
 
 		// Command Utils
 		static std::string	getCommandFromLine(const std::string& line);
@@ -63,11 +63,10 @@ class Commands
 
 		// invite_utils
 		static bool			areValidInviteParameters(const std::vector<std::string> parameters, const Client& client, const Server& server);
-		static bool			userIsInChannel(const Client& client, const std::string& channelname, const std::string& usernickname);
-		static bool			channelExists(const Server& server, const std::string& channelname);
-		static bool			isOperator(const Client& client, const std::string channelname);
-		static void			inviteUser(const std::vector<std::string> parameters, Client& client, Server& server);
 
+		// topic_utils
+		static bool			areValidTopicParameters(const std::vector<std::string> parameters, const Client& client, const Server& server);
+		static void			chooseAndExecuteTopicAction(const std::vector<std::string> parameters, const Client& client);
 
 	private:
 		typedef void (Commands::*functionPointer)(const std::string&, const std::string&, Client&, Server&);

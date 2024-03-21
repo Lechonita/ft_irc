@@ -33,18 +33,23 @@ class Channel
 		Channel(const std::string& name, Client *client);
 		~Channel();
 
-		// getters
+		// Setters
+		void						setChannelTopic(const std::string& channelTopic);
+
+		// Getters
 		std::string					getChannelName() const;
 		std::string					getChannelTopic() const;
 		std::string					getChannelPass() const;
 		std::vector<channelModes>	getChannelModes() const;
 		std::vector<channelClient>	getChannelClients() const;
 
-		// utils
+		// Utils
 		void						newClient(std::string passwrd, Client &client);
 		void						removeClient(Client &client);
 		void						sendMessageToAll(std::string message);
 		void						printClients();
+	
+
 	private:
 
 		std::string					_channelName;
