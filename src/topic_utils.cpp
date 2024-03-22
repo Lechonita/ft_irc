@@ -18,23 +18,6 @@ static void		changeChannelTopic(const Client& client, const std::string& channel
 }
 
 
-
-static std::string		getChannelTopic(const std::string& channelname, const Client& client)
-{
-	std::vector<Channel*>					channels = client.getClientChannels();
-	std::vector<Channel*>::const_iterator	it;
-
-	for (it = channels.begin(); it != channels.end(); ++it)
-	{
-		if ((*it)->getChannelName() == channelname)
-		{
-			return ((*it)->getChannelTopic());
-		}
-	}
-	return (EMPTY);
-}
-
-
 static void		displayTopic(const std::vector<std::string> parameters, const Client& client, const std::string& topic)
 {
 	if (topic == EMPTY)
@@ -51,7 +34,7 @@ void		Commands::chooseAndExecuteTopicAction(const std::vector<std::string> param
 {
 	if (parameters.size() == 1)
 	{
-		const std::string		topic = getChannelTopic(parameters[0], client);
+		const std::string		topic = Utils::getChannelTopic(parameters[0], client);
 		displayTopic(parameters, client, topic);
 	}
 

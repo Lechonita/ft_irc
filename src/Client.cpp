@@ -11,6 +11,7 @@ Client::Client(const int& clientSocket): _clientSocket(clientSocket)
 	_clientUsername = EMPTY;
 	_clientPassword = EMPTY;
 	_clientNickname = EMPTY;
+	_clientRealName = EMPTY;
 	_lastArg = EMPTY;
 	_lastCommand = EMPTY;
 	_buffer = EMPTY;
@@ -39,6 +40,7 @@ Client::~Client()
 int							Client::getClientSocket() const { return (_clientSocket); }
 const std::string			Client::getClientUsername() const { return (_clientUsername); }
 const std::string			Client::getClientNickname() const { return (_clientNickname); }
+const std::string			Client::getClientRealName() const { return (_clientRealName); }
 const std::string			Client::getClientPassword() const { return (_clientPassword); }
 const std::string			Client::getLastArgument() const { return (_lastArg); }
 const std::string			Client::getLastCommand() const { return (_lastCommand); }
@@ -57,7 +59,6 @@ void	Client::printChannels()
 		std::cout << GREEN << "	channel " << i << "= " << _channels[i]->getChannelName()
 		<< ", channel address = " << (_channels[i]) << NC << std::endl;
 }
-
 
 void	Client::setBuffer(const char *buffer) { _buffer += buffer; }
 void	Client::setLastArgument(const std::string& arg) { _lastArg = arg; }
@@ -89,6 +90,13 @@ void	Client::setNickname(const std::string& nickname)
 			Utils::sendMessage(NICK_OK, *this);
 	}
 	_clientNickname = nickname;
+}
+
+
+void	Client::setRealName(const std::vector<std::string>	parameters)
+{
+	const std::string	name = parameters[3].substr(1) + " " + parameters[4];
+	_clientRealName = name;
 }
 
 

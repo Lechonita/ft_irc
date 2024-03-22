@@ -19,50 +19,23 @@ std::string Utils::replacePattern(std::string &message, const std::string &from,
 
 
 
-std::string		Utils::getClientListInChannel(const Client &client, const std::string channelName)
-{
-	std::vector<Channel*>	channels = client.getClientChannels();
-	std::string				client_list = "";
-	size_t					pos;
-
-	if (channels.empty() == true)
-		return ("");
-	for (pos = 0; pos < channels.size(); pos++)
-	{
-		if (channels[pos]->getChannelName() == channelName)
-			break ;
-	}
-	if (pos == channels.size())
-		return ("");
-	std::vector<channelClient>	clients = channels[pos]->getChannelClients();
-
-	for (size_t i = 0; i < clients.size(); i++)
-	{
-		if (clients[i].isOperator == true)
-			client_list += "@";
-		client_list += clients[i].client->getClientNickname();
-		if (i != clients.size() - 1)
-			client_list += " ";
-	}
-	return (client_list);
-}
-
 
 
 // Command, Arg, Client, ChannelName
 std::string Utils::getFormattedMessage(const std::string &message, const Client &client, const std::string channelName)
 {
-	const std::string pattern[PATTERN_COUNT][2] = {
+	const std::string pattern[PATTERN_COUNT_CHAN][2] = {
 		{"<command>", client.getLastCommand()},
 		{"<arg>", client.getLastArgument()},
 		{"<client>", client.getClientNickname()},
 		{"<channelName>", channelName},
 		{"<servername>", SERVER_NAME},
-		{"<nicknames>", getClientListInChannel(client, channelName)}};
+		{"<nicknames>", getClientListInChannel(client, channelName)},
+		{"<topic>", getChannelTopic(channelName, client)}};
 
 	std::string formattedMessage = message;
 
-	for (size_t i = 0; i < PATTERN_COUNT; ++i)
+	for (size_t i = 0; i < PATTERN_COUNT_CHAN; ++i)
 	{
 		formattedMessage = replacePattern(formattedMessage, pattern[i][0], pattern[i][1]);
 	}
@@ -87,7 +60,7 @@ void Utils::sendErrorMessage(const std::string &message, const Client &client, c
 
 std::string		Utils::getFormattedMessage(const std::string &message, const Client &client)
 {
-	const std::string pattern[PATTERN_COUNT - 2][2] = {
+	const std::string pattern[PATTERN_COUNT][2] = {
 		{"<command>", client.getLastCommand()},
 		{"<arg>", client.getLastArgument()},
 		{"<client>", client.getClientNickname()},
@@ -95,7 +68,7 @@ std::string		Utils::getFormattedMessage(const std::string &message, const Client
 
 	std::string formattedMessage = message;
 
-	for (size_t i = 0; i < PATTERN_COUNT - 1; ++i)
+	for (size_t i = 0; i < PATTERN_COUNT; ++i)
 	{
 		formattedMessage = replacePattern(formattedMessage, pattern[i][0], pattern[i][1]);
 	}
@@ -243,7 +216,54 @@ std::vector<std::string>		Utils::splitParameters(const std::string& userInfo)
 }
 
 
-static std::string		getChannelListInServer(const Server& server)
+
+
+std::string		Utils::getClientListInChannel(const Client &client, const std::string channelName)
+{
+	std::vector<Channel*>	channels = client.getClientChannels();
+	std::string				client_list = "";
+	size_t					pos;
+
+	if (channels.empty() == true)
+		return ("");
+	for (pos = 0; pos < channels.size(); pos++)
+	{
+		if (channels[pos]->getChannelName() == channelName)
+			break ;
+	}
+	if (pos == channels.size())
+		return ("");
+	std::vector<channelClient>	clients = channels[pos]->getChannelClients();
+
+	for (size_t i = 0; i < clients.size(); i++)
+	{
+		if (clients[i].isOperator == true)
+			client_list += "@";
+		client_list += clients[i].client->getClientNickname();
+		if (i != clients.size() - 1)
+			client_list += " ";
+	}
+	return (client_list);
+}
+
+
+
+std::string		Utils::getClientListInServer(const Server& server)
+{
+	std::map<int, Client>	clients = server.getClientMap();
+	std::string						clientList = "";
+
+	std::map<int, Client>::iterator	it;
+	for (it = clients.begin(); it != clients.end(); ++it)
+	{
+		clientList += it->second.getClientNickname();
+		clientList += " ";
+	}
+	return (clientList);
+}
+
+
+std::string		Utils::getChannelListInServer(const Server& server)
 {
 	std::map<std::string, Channel>	channels = server.getChannelMap();
 	std::string						channelList = "";
@@ -260,9 +280,26 @@ static std::string		getChannelListInServer(const Server& server)
 
 bool		Utils::channelExists(const Server& server, const std::string& channelname)
 {
-	const std::string	channelList = getChannelListInServer(server);
+	const std::string	channelList = Utils::getChannelListInServer(server);
 
 	if (channelList.find(channelname) != std::string::npos)
 		return (true);
 	return (false);
+}
+
+
+
+std::string		Utils::getChannelTopic(const std::string& channelname, const Client& client)
+{
+	std::vector<Channel*>					channels = client.getClientChannels();
+	std::vector<Channel*>::const_iterator	it;
+
+	for (it = channels.begin(); it != channels.end(); ++it)
+	{
+		if ((*it)->getChannelName() == channelname)
+		{
+			return ((*it)->getChannelTopic());
+		}
+	}
+	return (EMPTY);
 }

@@ -22,6 +22,7 @@ class Client
 	int							getClientSocket() const;
 	const std::string			getClientUsername() const;
 	const std::string			getClientNickname() const;
+	const std::string			getClientRealName() const;
 	const std::string			getClientPassword() const;
 	const std::string			getLastArgument() const;
 	const std::string			getLastCommand() const;
@@ -35,6 +36,7 @@ class Client
 	void						setBuffer(const char *buffer);
 	void						setUsername(const std::string& username);
 	void						setNickname(const std::string& nickname);
+	void						setRealName(const std::vector<std::string>	parameters);
 	void						setPassword(const std::string& password);
 	void						setLastArgument(const std::string& arg);
 	void						setLastCommand(const std::string& command);
@@ -67,6 +69,7 @@ class Client
 		std::string					_clientUsername;
 		std::string					_clientPassword;
 		std::string					_clientNickname;
+		std::string					_clientRealName;
 		std::string					_lastArg;
 		std::string					_lastCommand;
 		std::string					_buffer;

@@ -21,7 +21,6 @@ class Server
 		int									_bind; // assign an IP address and port to the socket
 		int									_listen; // marks a socket as passive - used to accept connections
 		std::vector<pollfd>					_pollFd; // poll descriptors, one per client connection
-		// std::vector<std::string>			_cmdMap; // command function pointers indexed
 		std::map<int, Client>				_clientMap; // map of client sockets
 		std::map<std::string, Channel>		_channelMap; // map of channel sockets
 
@@ -41,6 +40,8 @@ class Server
 		void								createNewChannel(std::string channel_name, int client_socket);
 
 		// functions that should be reorganised?
+		void								sendUserInformation(const std::vector<std::string> parameters, const Client& client);
+		void								sendChannelInformation(const std::vector<std::string> parameters, const Client& client);
 		void								inviteUser(const std::vector<std::string> parameters, Client& client);
 		void								addClientToChannel(std::string channel, std::string passwrd, Client& client);
 		void								createNewChannel(std::string channel_name, int client_socket, Server& server);

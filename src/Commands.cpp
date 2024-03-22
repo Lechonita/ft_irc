@@ -16,6 +16,7 @@ Commands::Commands()
 	_cmdMap["INVITE"] = &Commands::commandINVITE;
 	_cmdMap["PING"] = &Commands::commandPING;
 	_cmdMap["TOPIC"] = &Commands::commandTOPIC;
+	_cmdMap["WHOIS"] = &Commands::commandWHOIS;
 }
 
 
@@ -209,6 +210,7 @@ void		Commands::commandUSER(const std::string& line, const std::string& command,
 	}
 
 	client.setUsername(parameters[0]);
+	client.setRealName(parameters);
 	client.setClientStatus(CONNECTED);
 	Utils::displayWelcomeMessage(client);
 }
@@ -340,4 +342,56 @@ void		Commands::commandTOPIC(const std::string& line, const std::string& command
 	}
 
 	chooseAndExecuteTopicAction(parameters, client);
+}
+
+// /dcc <nom de la personne> send <fichier>
+
+
+// WHOIS
+
+void		Commands::commandWHOIS(const std::string& line, const std::string& command, Client& client, Server& server)
+{
+	if (client.getClientStatus() == DISCONNECTED)
+	{
+		Utils::sendErrorMessage(NOT_CONNECTED, client);
+		return ;
+	}
+
+	const std::string	argument = eraseCommandfromLine(line, command);
+	client.setLastArgument(argument);
+
+	if (argument.empty() == true)
+	{
+		Utils::sendErrorMessage(ERR_NONICKNAMEGIVEN, client);
+		return ;
+	}
+
+	const std::vector<std::string>	parameters = Utils::splitParameters(argument);
+
+	const size_t	parameterType = getParameterType(parameters[0], server);
+
+	if (parameterType == UNKNOWN_TYPE)
+	{
+		Utils::sendErrorMessage(ERR_NOSUCHNICK, client);
+		return ;
+	}
+
+	if (parameterType == USER_TYPE)
+	{
+		server.sendUserInformation(parameters, client);
+	}
+	else if (parameterType == CHANNEL_TYPE)
+	{
+		server.sendChannelInformation(parameters, client);
+	}
+
+	// ERR_NOSUCHSERVER
+	// RPL_WHOISUSER
+	// RPL_WHOISCHANNELS
+	// RPL_WHOISSERVER
+	// RPL_AWAY
+	// RPL_WHOISOPERATOR
+	// RPL_WHOISIDLE
+	// RPL_ENDOFWHOIS
+
 }

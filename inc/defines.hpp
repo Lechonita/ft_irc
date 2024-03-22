@@ -61,12 +61,18 @@ extern bool		doSignal;
 # define EMPTY ""
 # define SPACE " "
 # define MAX_NICK_LEN 9
-# define PATTERN_COUNT 6
+# define PATTERN_COUNT_CHAN 7
+# define PATTERN_COUNT 4
 # define EXPECTED_USER_PARAM 5
 # define INCOMING_MSG "\033[0;36m<< \033[0m"
 # define OUTGOING_MSG "\033[0;35m>> \033[0m"
 # define CONNECTED true
 # define DISCONNECTED false
+# define UNKNOWN_TYPE 0
+# define USER_TYPE 1
+# define CHANNEL_TYPE 2
+# define USER_INFO_LINES 5
+# define CHAN_INFO_LINES 3
 
 
 // Server specifications
@@ -74,6 +80,8 @@ extern bool		doSignal;
 # define HOST_NAME "localhost"
 # define SERVER_NAME "irc"
 
+
+# define NEWLINE '\n'
 # define PREFIX_CHAN '#'
 # define END_MSG "\r\n"
 
