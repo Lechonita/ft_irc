@@ -18,11 +18,11 @@ void	Server::sendUserInformation(const std::vector<std::string> parameters, cons
 			else
 				status = "Disconnected";
 
-			line[0] = "Nickname :" + it->second.getClientNickname() + NEWLINE;
-			line[1] = "Username :" + it->second.getClientUsername() + NEWLINE;
-			line[2] = "Hostname :" + std::string(HOST_NAME) + NEWLINE;
-			line[3] = "Real name :" + it->second.getClientRealName() + NEWLINE;
-			line[4] = "Connextion status :" + status + NEWLINE;
+			line[0] = "  Nickname :" + it->second.getClientNickname() + NEWLINE;
+			line[1] = "  Username :" + it->second.getClientUsername() + NEWLINE;
+			line[2] = "  Hostname :" + std::string(HOST_NAME) + NEWLINE;
+			line[3] = "  Real name :" + it->second.getClientRealName() + NEWLINE;
+			line[4] = "  Connextion status :" + status + NEWLINE;
 		}
 	}
 
@@ -50,9 +50,9 @@ void	Server::sendChannelInformation(const std::vector<std::string> parameters, c
 	{
 		if (it->second.getChannelName() == parameters[0])
 		{
-			line[0] = "Name :" + it->second.getChannelName() + NEWLINE;
-			line[1] = "Topic :" + it->second.getChannelTopic() + NEWLINE;
-			line[2] = "Client List :" + Utils::getClientListInChannel(client, parameters[0]) + NEWLINE;
+			line[0] = "  Name :" + it->second.getChannelName() + NEWLINE;
+			line[1] = "  Topic :" + it->second.getChannelTopic() + NEWLINE;
+			line[2] = "  Client List :" + Utils::getClientListInChannel(client, parameters[0]) + NEWLINE;
 		}
 	}
 
