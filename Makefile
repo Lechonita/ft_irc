@@ -41,6 +41,7 @@ SRC			+= privmsg_utils.cpp
 SRC			+= nick_utils.cpp
 SRC			+= pass_utils.cpp
 SRC			+= user_utils.cpp
+SRC			+= mode_utils.cpp
 SRC			+= quit_utils.cpp
 SRC			+= invite_utils.cpp
 SRC			+= Command_utils.cpp

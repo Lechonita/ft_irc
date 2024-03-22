@@ -66,6 +66,9 @@ extern bool		doSignal;
 # define OUTGOING_MSG "\033[0;35m>> \033[0m"
 # define CONNECTED true
 # define DISCONNECTED false
+# define ADD_MODE 1
+# define REMOVE_MODE -1
+# define NO_MODE 0
 
 
 // Server specifications
@@ -115,6 +118,7 @@ extern bool		doSignal;
 # define ERR_ALREADYREGISTERED	"\033[0;33m462 <client> :You may not reregister\033[0m"
 # define ERR_PASSWDMISMATCH		"\033[0;33m464 :Password incorrect\033[0m"
 # define ERR_CHANNELISFULL		"\033[0;33m471 <client> <channelName> :Cannot join channel (+l)\033[0m"
+# define ERR_UNKNOWNMODE		"\033[0;33m472 <arg> :is unknown mode char to me\033[0m"
 # define ERR_INVITEONLYCHAN		"\033[0;33m473 <client> <channelName> :Cannot join channel (+i)\033[0m"
 # define ERR_BADCHANNELKEY		"\033[0;33m475 <client> <channelName> :Cannot join channel (+k)\033[0m"
 # define ERR_BADCHANMASK		"\033[0;33m476 <channelName> :Bad Channel Mask\033[0m"

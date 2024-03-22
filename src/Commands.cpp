@@ -25,15 +25,8 @@ Commands::Commands()
 
 void		Commands::commandJOIN(const std::string& line, const std::string& command, Client& client, Server& server)
 {
-	if (server.getIrssi() == false)
-	{
-		if (isParameterSetUp(client.getClientPassword(), client, PASS_NOT_ENTERED) == false)
-			return ;
-		if (isParameterSetUp(client.getClientNickname(), client, NICK_NOT_ENTERED) == false)
-			return ;
-		if (isParameterSetUp(client.getClientUsername(), client, USER_NOT_ENTERED) == false)
-			return ;
-	}
+	if (client.getClientStatus() == DISCONNECTED)
+		return ;
 
 	std::vector<std::string>	channels;
 	std::vector<std::string>	passwrds;
@@ -55,15 +48,8 @@ void		Commands::commandJOIN(const std::string& line, const std::string& command,
 
 void		Commands::commandKICK(const std::string& line, const std::string& command, Client& client, Server& server)
 {
-	if (server.getIrssi() == false)
-	{
-		if (isParameterSetUp(client.getClientPassword(), client, PASS_NOT_ENTERED) == false)
-			return ;
-		if (isParameterSetUp(client.getClientNickname(), client, NICK_NOT_ENTERED) == false)
-			return ;
-		if (isParameterSetUp(client.getClientUsername(), client, USER_NOT_ENTERED) == false)
-			return ;
-	}
+	if (client.getClientStatus() == DISCONNECTED)
+		return ;
 
 	std::string	kick_params = eraseCommandfromLine(line, command);
 	if (kick_params.empty() == true)
@@ -86,15 +72,8 @@ void		Commands::commandKICK(const std::string& line, const std::string& command,
 
 void		Commands::commandPART(const std::string& line, const std::string& command, Client& client, Server& server)
 {
-	if (server.getIrssi() == false)
-	{
-		if (isParameterSetUp(client.getClientPassword(), client, PASS_NOT_ENTERED) == false)
-			return ;
-		if (isParameterSetUp(client.getClientNickname(), client, NICK_NOT_ENTERED) == false)
-			return ;
-		if (isParameterSetUp(client.getClientUsername(), client, USER_NOT_ENTERED) == false)
-			return ;
-	}
+	if (client.getClientStatus() == DISCONNECTED)
+		return ;
 
 	std::string					message;
 	std::vector<std::string>	channels;
@@ -113,6 +92,23 @@ void		Commands::commandPART(const std::string& line, const std::string& command,
 
 void	Commands::commandMODE(const std::string& line, const std::string& command, Client& client, Server& server)
 {
+	if (client.getClientStatus() == DISCONNECTED)
+		return ;
+
+	std::vector<std::string>			channels;
+	std::vector<std::string>			modes_args;
+	std::vector<std::string>			modes_with_args;
+	std::vector<std::string>			modes_without_args;
+	std::string							mode_params = eraseCommandfromLine(line, command);
+
+	(void)server;
+	if (mode_params.empty() == true)
+	{
+		Utils::sendErrorMessage(ERR_NEEDMOREPARAMS, client);
+		return ;
+	}
+	checkModeParams(mode_params, &channels, &modes_with_args, &modes_without_args, &modes_args);
+	// server.changeChannelsModes(client, channels, modes_with_args, modes_without_args);
 
 }
 
@@ -124,15 +120,8 @@ void	Commands::commandMODE(const std::string& line, const std::string& command, 
 
 void		Commands::commandPRIVMSG(const std::string& line, const std::string& command, Client& client, Server& server)
 {
-	if (server.getIrssi() == false)
-	{
-		if (isParameterSetUp(client.getClientPassword(), client, PASS_NOT_ENTERED) == false)
-			return ;
-		if (isParameterSetUp(client.getClientNickname(), client, NICK_NOT_ENTERED) == false)
-			return ;
-		if (isParameterSetUp(client.getClientUsername(), client, USER_NOT_ENTERED) == false)
-			return ;
-	}
+	if (client.getClientStatus() == DISCONNECTED)
+		return ;
 
 	std::string					message;
 	std::vector<std::string>	receivers;

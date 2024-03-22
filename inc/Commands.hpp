@@ -46,6 +46,9 @@ class Commands
 		// kick_utils
 		static void			checkKickParams(std::string join_params, std::vector<std::string> *channels, std::vector<std::string> *passwrds, std::string *message);
 
+		// mode_utils
+		static void			checkModeParams(std::string mode_params, std::vector<std::string> *channels, std::vector<std::string> *modes_with_args, std::vector<std::string> *modes_without_args, std::vector<std::string> *modes_args);
+
 		// privmsg_utils
 		static void			checkPrivmsgParams(std::string parameters, std::vector<std::string> *receivers, std::string *message);
 
