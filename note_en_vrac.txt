@@ -91,3 +91,6 @@ newtest = channelname
 
 - verifier les cas ou aucun nom de channel n'est specifier pour JOIN et PART et KICK
 - verifier l'absence de nom de clients pour JOIN PART KICK et PRIVMSG
+- changer la commande JOIN pour les cas ou y'a une limite d'user dans le channel, un mot de passe, s'il est invite-only
+- changer la commande TOPIC pour qu'elle regarde si le mode t est active ou non dans un channel
+-

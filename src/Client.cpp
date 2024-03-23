@@ -134,15 +134,6 @@ void	Client::newChannel(Channel& channel)
 }
 
 
-// void	Client::addChannelToClient(Channel* channel)
-// {
-// 	std::vector<Channel*>	channels = getClientChannels();
-// 	channels.push_back(channel);
-// }
-
-
-
-
 
 void	Client::partFromChannels(Client& client, Server& server, const std::vector<std::string> channels, const std::string message)
 {
@@ -159,6 +150,10 @@ void	Client::partFromChannels(Client& client, Server& server, const std::vector<
 				Utils::partMessage(client, server, channels[i], message);
 				break;
 			}
+		}
+		if (it == _channels.end())
+		{
+			Utils::sendErrorMessage(ERR_NOSUCHCHANNEL, client, channels[i]);
 		}
 	}
 }

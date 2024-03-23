@@ -36,7 +36,15 @@ void	Channel::setTMode(bool status) {_tMode = status;}
 void	Channel::setKMode(bool status) {_kMode = status;}
 void	Channel::setOMode(bool status) {_oMode = status;}
 void	Channel::setLMode(bool status) {_lMode = status;}
+void	Channel::setPassword(std::string password) {_channelPass = password;}
+void	Channel::setPassword(std::string topic) {_channelTopic = topic;}
 
+void	Channel::setUserLimit(std::string limit)
+{
+	double limint = strtod(limit.c_str(), NULL);
+	if (limint < INT_MAX && limint > INT_MIN)
+		_usersLimit = atoi(limit.c_str());
+}
 
 void	Channel::newClient(std::string passwrd, Client &client)
 {
@@ -178,6 +186,161 @@ void	Channel::kickThoseMfOut(Client &client, Server &server, std::vector<std::st
 				break ;
 			}
 			it++;
+		}
+	}
+}
+
+
+bool	Channel::isChanOp(const Client &client)
+{
+	for (size_t i = 0; i < _channelClients.size(); i++)
+	{
+		if (_channelClients[i].client == &client)
+		{
+			bool status;
+			_channelClients[i].isOperator == true ? status = true : status = false;
+			return (status);
+		}
+	}
+	return (false);
+}
+
+
+
+static channelModes	findModeToChange(char mode)
+{
+	switch (mode)
+	{
+		case 'k':
+			return (MODE_K);
+
+		case 'o':
+			return (MODE_O);
+
+		case 'l':
+			return (MODE_L);
+
+		case 't':
+			return (MODE_T);
+
+		case 'i':
+			return (MODE_I);
+	}
+}
+
+
+
+void	Channel::setSimpleModes(const Client& client, std::vector<std::string> modes_without_args)
+{
+	for (size_t pos = 0; pos < modes_without_args.size(); pos++)
+	{
+		channelModes mode = findModeToChange(modes_without_args[pos][1]);
+
+		if (modes_without_args[pos][0] == '+')
+		{
+			switch (mode)
+			{
+				case MODE_T:
+					setTMode(true);
+					break;
+				case MODE_I:
+					setIMode(true);
+					break;
+			}
+		}
+		else
+		{
+			switch (mode)
+			{
+				case MODE_T:
+					setTMode(false);
+					break;
+				case MODE_I:
+					setIMode(false);
+					break;
+			}
+		}
+	}
+}
+
+
+
+void	Channel::giveOpStatusToClient(Client& client, std::string client_name)
+{
+	for (size_t pos = 0; pos < _channelClients.size(); pos++)
+	{
+		if (_channelClients[pos].client->getClientNickname() == client_name)
+		{
+			_channelClients[pos].isOperator = true;
+			return ;
+		}
+	}
+	client.setLastArgument(client_name);
+	Utils::sendErrorMessage(ERR_USERNOTINCHANNEL, client, _channelName);
+}
+
+
+
+void	Channel::takeOpStatusFromClient(Client& client, std::string client_name)
+{
+	for (size_t pos = 0; pos < _channelClients.size(); pos++)
+	{
+		if (_channelClients[pos].client->getClientNickname() == client_name)
+		{
+			_channelClients[pos].isOperator = false;
+			return ;
+		}
+	}
+	client.setLastArgument(client_name);
+	Utils::sendErrorMessage(ERR_USERNOTINCHANNEL, client, _channelName);
+}
+
+
+
+void	Channel::setArgModes(Client& client, std::vector<std::string> modes_args, std::vector<std::string> modes_with_args)
+{
+	for (size_t pos = 0; pos < modes_with_args.size(); pos++)
+	{
+		channelModes mode = findModeToChange(modes_with_args[pos][1]);
+
+		if (modes_with_args[pos][0] == '+')
+		{
+			if (pos < modes_args.size())
+			{
+				switch (mode)
+				{
+					case MODE_K:
+						setPassword(modes_args[pos]);
+						setKMode(true);
+						break;
+					case MODE_O:
+						giveOpStatusToClient(client, modes_args[pos]);
+						setOMode(true);
+						break;
+					case MODE_L:
+						setUserLimit(modes_args[pos]);
+						setLMode(true);
+						break;
+				}
+			}
+			else
+				modes_with_args.erase(modes_with_args.begin() + pos);
+		}
+		else
+		{
+			switch (mode)
+			{
+				case MODE_K:
+					setKMode(false);
+					break;
+				case MODE_O:
+					takeOpStatusFromClient(client, modes_args[pos]);
+					setOMode(false);
+					break;
+				case MODE_L:
+					setLMode(false);
+					break;
+			}
 		}
 	}
 }

@@ -212,7 +212,6 @@ std::map<int, Client>				Server::getClientMap() const { return (_clientMap); }
 std::map<std::string, Channel>		Server::getChannelMap() const { return (_channelMap); }
 bool								Server::getIrssi()const { return (_irssi); }
 
-// std::vector<std::string>	Server::getCommandList() const { return (_cmdMap); }
 
 
 void	Server::printAll() //provisoire, a supprimer
@@ -367,7 +366,6 @@ void	Server::sendMessageToUser(std::string receiver, std::string message, const 
 void	Server::removeClientsFromChannels(Client& client, std::vector<std::string> channels, std::vector<std::string> clients, std::string message)
 {
 	std::map<std::string, Channel>::iterator	it_channels;
-	std::map<int, Client>::iterator	it;
 
 	for (size_t pos = 0; pos < channels.size(); pos++)
 	{
@@ -384,14 +382,29 @@ void	Server::removeClientsFromChannels(Client& client, std::vector<std::string> 
 }
 
 
-// std::vector<std::string>	Server::setCommandList()
-// {
-// 	std::vector<std::string>	res;
 
-// 	res.push_back("JOIN");
-// 	res.push_back("PASS");
-// 	return (res);
-// }
+void	Server::changeChannelsModes(Client& client, std::vector<std::string> channels, std::vector<std::string> modes_args, std::vector<std::string> modes_with_args, std::vector<std::string> modes_without_args)
+{
+	std::map<std::string, Channel>::iterator	it_channels;
+
+	for (size_t pos = 0; pos < channels.size(); pos++)
+	{
+		it_channels = _channelMap.find(channels[pos]);
+		if (it_channels != _channelMap.end())
+		{
+			if (it_channels->second.isChanOp(client) == true)
+			{
+				it_channels->second.setSimpleModes(client, modes_without_args);
+				it_channels->second.setArgModes(client, modes_with_args, modes_args);
+			}
+			else
+				Utils::sendErrorMessage(ERR_CHANOPRIVSNEEDED, client, channels[pos]);
+		}
+		else
+			Utils::sendErrorMessage(ERR_NOSUCHCHANNEL, client, channels[pos]);
+	}
+}
+
 
 
 // Exceptions

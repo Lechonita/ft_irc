@@ -6,7 +6,7 @@
 /*   By: cbernaze <cbernaze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 13:33:45 by cbernaze          #+#    #+#             */
-/*   Updated: 2024/03/22 19:03:28 by cbernaze         ###   ########.fr       */
+/*   Updated: 2024/03/23 18:26:34 by cbernaze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ static int	removeOrAddMode(char mode, size_t &i)
 }
 
 
+
 static bool	isArgMode(char mode)
 {
 	std::vector<char>	arg_mode;
@@ -72,6 +73,7 @@ static bool	isArgMode(char mode)
 	}
 	return (false);
 }
+
 
 
 static bool	isSimpleMode(char mode)
@@ -89,7 +91,20 @@ static bool	isSimpleMode(char mode)
 }
 
 
-static int	whatKindOfMode(std::vector<std::string> *modes_with_args, std::vector<std::string> *modes_without_args, std::string modes)
+
+static bool	modeAlreadyInList(char mode, std::vector<std::string> *modes)
+{
+	for (size_t pos = 0; pos < modes->size(); pos++)
+	{
+		if ((*modes)[pos][0] == mode)
+			return (true);
+	}
+	return (false);
+}
+
+
+
+static int	whatKindOfMode(std::vector<std::string> *modes_with_args, std::vector<std::string> *modes_without_args, std::string modes, Client& client)
 {
 	size_t				i = 0;
 	char				mode = modes[i];
@@ -108,7 +123,8 @@ static int	whatKindOfMode(std::vector<std::string> *modes_with_args, std::vector
 				full_mode = "+" + full_mode;
 			else if (sign == REMOVE_MODE)
 				full_mode = "-" + full_mode;
-			modes_with_args->push_back(full_mode);
+			if (modeAlreadyInList(mode, modes_with_args) == false)
+				modes_with_args->push_back(full_mode);
 		}
 		else if (isSimpleMode(mode) == true)
 		{
@@ -116,21 +132,27 @@ static int	whatKindOfMode(std::vector<std::string> *modes_with_args, std::vector
 				full_mode = "+" + full_mode;
 			else if (sign == REMOVE_MODE)
 				full_mode = "-" + full_mode;
-			modes_without_args->push_back(full_mode);
+			if (modeAlreadyInList(mode, modes_without_args) == false)
+				modes_without_args->push_back(full_mode);
 		}
 		else if (modes[i] == '-' || modes[i] == '+')
 		{
 			modes[i] == '+' ? sign = ADD_MODE : sign = REMOVE_MODE;
 		}
 		else
-			Utils::sendErrorMessage(ERR_UNKNOWNMODE, NULL);
+		{
+			std::string unknown_mode(1, modes[i]);
+			client.setLastArgument(unknown_mode);
+			Utils::sendErrorMessage(ERR_UNKNOWNMODE, client);
+		}
 		i++;
 	}
 	return (sign);
 }
 
 
-static void	extractModesNArgs(std::string mode_params, std::vector<std::string> *modes_with_args, std::vector<std::string> *modes_without_args, std::vector<std::string> *modes_args, size_t &pos)
+
+static void	extractModesNArgs(std::string mode_params, std::vector<std::string> *modes_with_args, std::vector<std::string> *modes_without_args, std::vector<std::string> *modes_args, size_t &pos, Client& client)
 {
 	while (isspace(mode_params[pos]) != NOT_WHITESPACE)
 		pos++;
@@ -142,9 +164,9 @@ static void	extractModesNArgs(std::string mode_params, std::vector<std::string> 
 			pos++;
 
 		std::string	modes = mode_params.substr(start, pos - start);
-		const char *test = modes.c_str();
-	std::cout << test << std::endl;
-		if (whatKindOfMode(modes_with_args, modes_without_args, modes) == NO_MODE)
+	// 	const char *test = modes.c_str();
+	// std::cout << test << std::endl;
+		if (whatKindOfMode(modes_with_args, modes_without_args, modes, client) == NO_MODE)
 		{
 			modes_args->push_back(modes);
 		}
@@ -152,25 +174,30 @@ static void	extractModesNArgs(std::string mode_params, std::vector<std::string> 
 			break ;
 		pos++;
 	}
-	for (size_t i = 0; i < modes_with_args->size(); i++)
-	{
-		std::cout << BLUE << i << "-mode: " << (*modes_with_args)[i] << NC << std::endl;
-	}
-	for (size_t i = 0; i < modes_args->size(); i++)
-	{
-		std::cout << ORANGE << i << "-arg: " << (*modes_args)[i] << NC << std::endl;
-	}
-	for (size_t i = 0; i < modes_without_args->size(); i++)
-	{
-		std::cout << BLUE << "mode: " << (*modes_without_args)[i] << NC << std::endl;
-	}
+	// for (size_t i = 0; i < modes_with_args->size(); i++)
+	// {
+	// 	std::cout << BLUE << i << "-mode: " << (*modes_with_args)[i] << NC << std::endl;
+	// }
+	// for (size_t i = 0; i < modes_args->size(); i++)
+	// {
+	// 	std::cout << ORANGE << i << "-arg: " << (*modes_args)[i] << NC << std::endl;
+	// }
+	// for (size_t i = 0; i < modes_without_args->size(); i++)
+	// {
+	// 	std::cout << BLUE << "mode: " << (*modes_without_args)[i] << NC << std::endl;
+	// }
 }
 
 
-void	Commands::checkModeParams(std::string mode_params, std::vector<std::string> *channels, std::vector<std::string> *modes_with_args, std::vector<std::string> *modes_without_args, std::vector<std::string> *modes_args)
+
+void	Commands::checkModeParams(std::string mode_params, std::vector<std::string> *channels, std::vector<std::string> *modes_with_args, std::vector<std::string> *modes_without_args, std::vector<std::string> *modes_args, Client& client)
 {
 	size_t	pos = 0;
 
 	*channels = extractChannels(mode_params, pos);
-	extractModesNArgs(mode_params, modes_with_args, modes_without_args, modes_args, pos);
+	// for (size_t i = 0; i < channels->size(); i++)
+	// {
+	// 	std::cout << BLUE << i << "-channel: " << (*channels)[i] << NC << std::endl;
+	// }
+	extractModesNArgs(mode_params, modes_with_args, modes_without_args, modes_args, pos, client);
 }
