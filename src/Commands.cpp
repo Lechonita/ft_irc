@@ -252,11 +252,21 @@ void		Commands::commandQUIT(const std::string& line, const std::string& command,
 
 	Utils::notifyQuitinChannels(client, server);
 
-	// server.removeClientfromServer(client);
+	server.removeClientfromServer(client);
+	server.removeClientfromChannels(client);
 
-	// remove client from channel list (channel) >> send message to this user's channels to norify other users
-	// if it was last client from a channel, delete that channel
-	// other memory allocations
+
+
+
+	// Retirer le client du server :
+		// 1. std::map<int, Client>				_clientMap
+		// 2. std::map<std::string, Channel>	_channelMap
+	
+	// Retirer le client d'un channel :
+		// std::vector<channelClient>			_channelClients
+		// delete le channel si c'était le dernier client
+
+	// quand un client quit, il faut que ca quitte le programme mais que pour lui
 }
 
 

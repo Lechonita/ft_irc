@@ -202,6 +202,38 @@ void	Server::removeClientfromServer(const Client& client)
 
 
 
+void	Server::removeClientfromChannels(const Client& client)
+{
+	const std::string		clientNickname = client.getClientNickname();
+	// const std::string		channelList = Utils::getChannelListInClient(client);
+
+	std::map<std::string, Channel>::iterator	it;
+
+	for (it = getChannelMap().begin(); it != getChannelMap().end(); ++it)
+	{
+		std::vector<channelClient>::iterator	itClient;
+
+		for (itClient = it->second.getChannelClients().begin(); itClient != it->second.getChannelClients().end(); ++itClient)
+		{
+			if (itClient->client->getClientNickname() == clientNickname)
+				it->second.getChannelClients().erase(itClient);
+		}
+		// if (channelList.find(it->first) != std::string::npos)
+		// {
+		// 	// const std::string		clientList = Utils::getClientListInChannel(client, it->first);
+		// 	// if (clientList.find(clientNickname) != std::string::npos)
+		// 	// {
+
+		// 	// }
+		// }
+			
+	}
+
+}
+
+
+
+
 // Getters
 
 int									Server::getSocketFd() const { return (_serverSocket); }

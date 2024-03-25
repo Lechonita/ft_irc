@@ -57,6 +57,7 @@ class Server
 		void								createNewClient();
 		void								getClientMessage();
 		void								removeClientfromServer(const Client& client);
+		void								removeClientfromChannels(const Client& client);
 
 		// Client message reception
 		void								manageClientMessageReception(const char *buffer, const int& clientSocket);

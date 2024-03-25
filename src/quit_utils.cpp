@@ -5,7 +5,7 @@ void	Utils::notifyQuitinChannels(const Client& client, Server& server)
 {
 	// printf("Arrivée dans 1/ notifyQuitinChannels\n");
 
-	// (void)server;
+	(void)server;
 
 	std::vector<Channel*>				channels = client.getClientChannels();
 	std::vector<Channel*>::iterator		it;
@@ -20,7 +20,7 @@ void	Utils::notifyQuitinChannels(const Client& client, Server& server)
 			if (itClient->client->getClientNickname() == client.getClientNickname())
 			{
 				(*it)->sendMessageToAll(RPL_QUIT, client.getClientNickname());
-				server.removeClientfromServer(client);
+				break ;
 			}
 		}
 	}

@@ -39,6 +39,7 @@ class Utils
 	static std::vector<std::string>		splitParameters(const std::string& userInfo);
 	static std::string					getClientListInChannel(const Client &client, const std::string channelName);
 	static std::string					getChannelListInServer(const Server& server);
+	static std::string					getChannelListInClient(const Client& client);
 	static std::string					getClientListInServer(const Server& server);
 	static std::string					getChannelTopic(const std::string& channelname, const Client& client);
 	static bool							channelExists(const Server& server, const std::string& channelname);

@@ -278,6 +278,23 @@ std::string		Utils::getChannelListInServer(const Server& server)
 }
 
 
+
+std::string		Utils::getChannelListInClient(const Client& client)
+{
+	std::vector<Channel*>	channels = client.getClientChannels();
+	std::string				channelList = "";
+
+	std::vector<Channel*>::iterator	it;
+	for (it = channels.begin(); it != channels.end(); ++it)
+	{
+		channelList += (*it)->getChannelName();
+		channelList += " ";
+	}
+	return (channelList);
+}
+
+
+
 bool		Utils::channelExists(const Server& server, const std::string& channelname)
 {
 	const std::string	channelList = Utils::getChannelListInServer(server);

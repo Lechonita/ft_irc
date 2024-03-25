@@ -1,5 +1,4 @@
 #include "../inc/Server.hpp"
-#include "../inc/Signal.hpp"
 #include "../inc/defines.hpp"
 
 bool	doSignal = false;
