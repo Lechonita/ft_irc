@@ -4,7 +4,7 @@ bool	Commands::isValidPassword(const std::string& password, const Client& client
 {
 	if (password != server.getPassword())
 	{
-		Utils::sendErrorMessage(ERR_PASSWDMISMATCH, client);
+		Utils::sendFormattedMessage(ERR_PASSWDMISMATCH, client);
 		return (false);
 	}
 	return (true);

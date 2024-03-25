@@ -259,7 +259,7 @@ void	Server::createNewChannel(std::string channel_name, int client_socket, Serve
 
 void		Server::inviteUser(const std::vector<std::string> parameters, Client& client)
 {
-	Utils::sendErrorMessage(RPL_INVITING, client, parameters[1]);
+	Utils::sendFormattedMessage(RPL_INVITING, client, parameters[1]);
 
 	std::map<int, Client>::iterator		it;
 	for (it = _clientMap.begin(); it != _clientMap.end(); ++it)
@@ -285,7 +285,7 @@ void	Server::createOrJoinChannel(std::vector<std::string> channels, std::vector<
 	{
 		if (channels[i][0] != PREFIX_CHAN)
 		{
-			Utils::sendErrorMessage(ERR_NOSUCHCHANNEL, client, channels[i]);
+			Utils::sendFormattedMessage(ERR_NOSUCHCHANNEL, client, channels[i]);
 		}
 		else if (_channelMap.find(channels[i]) == _channelMap.end())
 		{
@@ -310,7 +310,7 @@ bool	Server::isPartOfChannel(std::string channel_name, const Client& client)
 
 	if (it == _channelMap.end())
 	{
-		Utils::sendErrorMessage(ERR_NOSUCHNICK, client);
+		Utils::sendFormattedMessage(ERR_NOSUCHNICK, client);
 		return (false);
 	}
 	std::vector<channelClient>	clients = it->second.getChannelClients();
@@ -320,7 +320,7 @@ bool	Server::isPartOfChannel(std::string channel_name, const Client& client)
 		if (clients[i].client->getClientNickname() == client.getClientNickname())
 			return (true);
 	}
-	Utils::sendErrorMessage(ERR_NOTONCHANNEL, client, channel_name);
+	Utils::sendFormattedMessage(ERR_NOTONCHANNEL, client, channel_name);
 	return (false);
 }
 
@@ -349,7 +349,7 @@ void	Server::sendMessageToChannel(std::string receiver, std::string message, con
 
 	if (it == _channelMap.end())
 	{
-		Utils::sendErrorMessage(ERR_NOSUCHNICK, client);
+		Utils::sendFormattedMessage(ERR_NOSUCHNICK, client);
 		return ;
 	}
 	std::string	full_message = message + END_MSG;
@@ -370,7 +370,7 @@ void	Server::sendMessageToUser(std::string receiver, std::string message, const 
 	}
 	if (it == _clientMap.end())
 	{
-		Utils::sendErrorMessage(ERR_NOSUCHNICK, client);
+		Utils::sendFormattedMessage(ERR_NOSUCHNICK, client);
 		return ;
 	}
 	std::string	full_message = client.getClientNickname() + ": " + message+ END_MSG;

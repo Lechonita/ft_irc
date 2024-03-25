@@ -11,7 +11,7 @@ static void		changeChannelTopic(const Client& client, const std::string& channel
 		if ((*it)->getChannelName() == channelname)
 		{
 			(*it)->setChannelTopic(newtopic);
-			Utils::sendErrorMessage(RPL_TOPIC, client, channelname);
+			Utils::sendFormattedMessage(RPL_TOPIC, client, channelname);
 			(*it)->sendMessageToAll(channelname + ": Topic changed to " + newtopic + '\n');
 		}
 	}
@@ -22,11 +22,11 @@ static void		displayTopic(const std::vector<std::string> parameters, const Clien
 {
 	if (topic == EMPTY)
 	{
-		Utils::sendErrorMessage(RPL_NOTOPIC, client, parameters[0]);
+		Utils::sendFormattedMessage(RPL_NOTOPIC, client, parameters[0]);
 		return ;
 	}
 
-	Utils::sendErrorMessage("Topic :" + topic, client, parameters[0]);
+	Utils::sendFormattedMessage("Topic :" + topic, client, parameters[0]);
 }
 
 
@@ -50,19 +50,19 @@ bool		Commands::areValidTopicParameters(const std::vector<std::string> parameter
 {
 	if (Utils::channelExists(server, parameters[0]) == false)
 	{
-		Utils::sendErrorMessage(ERR_NOSUCHCHANNEL, client, parameters[0]);
+		Utils::sendFormattedMessage(ERR_NOSUCHCHANNEL, client, parameters[0]);
 		return (false);
 	}
 
 	if (client.userIsInChannel(parameters[0], client.getClientNickname()) == false)
 	{
-		Utils::sendErrorMessage(ERR_NOTONCHANNEL, client, parameters[0]);
+		Utils::sendFormattedMessage(ERR_NOTONCHANNEL, client, parameters[0]);
 		return (false);
 	}
 
 	if (client.isOperator(parameters[0]) == false)
 	{
-		Utils::sendErrorMessage(ERR_CHANOPRIVSNEEDED, client, parameters[0]);
+		Utils::sendFormattedMessage(ERR_CHANOPRIVSNEEDED, client, parameters[0]);
 		return (false);
 	}
 	return (true);

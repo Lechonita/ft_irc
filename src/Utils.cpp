@@ -44,7 +44,7 @@ std::string Utils::getFormattedMessage(const std::string &message, const Client 
 
 
 
-void Utils::sendErrorMessage(const std::string &message, const Client &client, const std::string channelName)
+void Utils::sendFormattedMessage(const std::string &message, const Client &client, const std::string channelName)
 {
 	std::string formattedMessage = Utils::getFormattedMessage(message, client, channelName);
 
@@ -77,7 +77,7 @@ std::string		Utils::getFormattedMessage(const std::string &message, const Client
 
 
 
-void	Utils::sendErrorMessage(const std::string &message, const Client &client)
+void	Utils::sendFormattedMessage(const std::string &message, const Client &client)
 {
 	std::string formattedMessage = Utils::getFormattedMessage(message, client);
 
@@ -179,9 +179,9 @@ void	Utils::joinMessageSuccessful(const Client& client, Server& server, std::str
 	message3.erase(message3.size() - 2, 2);
 
 	server.sendMessageToChannel(channel_name, message1, client);
-	// sendErrorMessage(message1, client);
-	sendErrorMessage(message2, client, channel_name);
-	sendErrorMessage(message3, client, channel_name);
+	// sendFormattedMessage(message1, client);
+	sendFormattedMessage(message2, client, channel_name);
+	sendFormattedMessage(message3, client, channel_name);
 }
 
 

@@ -47,6 +47,7 @@ class Channel
 		void						newClient(std::string passwrd, Client &client);
 		void						removeClient(Client &client);
 		void						sendMessageToAll(std::string message);
+		void						sendMessageToAll(std::string message, std::string username);
 		void						printClients();
 	
 

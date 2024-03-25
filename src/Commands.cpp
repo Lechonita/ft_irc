@@ -42,7 +42,7 @@ void		Commands::commandJOIN(const std::string& line, const std::string& command,
 	std::string	join_params = eraseCommandfromLine(line, command);
 	if (join_params.empty() == true)
 	{
-		Utils::sendErrorMessage(ERR_NEEDMOREPARAMS, client);
+		Utils::sendFormattedMessage(ERR_NEEDMOREPARAMS, client);
 		return ;
 	}
 	checkJoinParams(join_params, &channels, &passwrds);
@@ -74,7 +74,7 @@ void		Commands::commandPART(const std::string& line, const std::string& command,
 	std::string	part_params = eraseCommandfromLine(line, command);
 	if (part_params.empty() == true)
 	{
-		Utils::sendErrorMessage(ERR_NEEDMOREPARAMS, client);
+		Utils::sendFormattedMessage(ERR_NEEDMOREPARAMS, client);
 		return ;
 	}
 	checkPartParams(part_params, &channels, &message);
@@ -105,13 +105,13 @@ void		Commands::commandPRIVMSG(const std::string& line, const std::string& comma
 	std::string	privmsg_params = eraseCommandfromLine(line, command);
 	if (privmsg_params.empty() == true)
 	{
-		Utils::sendErrorMessage(ERR_NEEDMOREPARAMS, client);
+		Utils::sendFormattedMessage(ERR_NEEDMOREPARAMS, client);
 		return ;
 	}
 	checkPrivmsgParams(privmsg_params, &receivers, &message);
 	if (message.empty() == true)
 	{
-		Utils::sendErrorMessage(ERR_NOTEXTTOSEND, client);
+		Utils::sendFormattedMessage(ERR_NOTEXTTOSEND, client);
 		return ;
 	}
 	server.sendMessageToReceivers(receivers, message, client);
@@ -125,7 +125,7 @@ void		Commands::commandPASS(const std::string& line, const std::string& command,
 {
 	if (client.getClientPassword() != EMPTY)
 	{
-		Utils::sendErrorMessage(ERR_ALREADYREGISTERED, client);
+		Utils::sendFormattedMessage(ERR_ALREADYREGISTERED, client);
 		return ;
 	}
 
@@ -156,7 +156,7 @@ void		Commands::commandNICK(const std::string& line, const std::string& command,
 	const std::string	nickname = eraseCommandfromLine(line, command);
 	if (nickname.empty() == true)
 	{
-		Utils::sendErrorMessage(ERR_NEEDMOREPARAMS, client);
+		Utils::sendFormattedMessage(ERR_NEEDMOREPARAMS, client);
 		return ;
 	}
 
@@ -191,7 +191,7 @@ void		Commands::commandUSER(const std::string& line, const std::string& command,
 	const std::string	userInfo = eraseCommandfromLine(line, command);
 	if (userInfo.empty() == true)
 	{
-		Utils::sendErrorMessage(ERR_NEEDMOREPARAMS, client);
+		Utils::sendFormattedMessage(ERR_NEEDMOREPARAMS, client);
 		return ;
 	}
 
@@ -205,7 +205,7 @@ void		Commands::commandUSER(const std::string& line, const std::string& command,
 
 	if (areValidUserParameters(parameters) == false)
 	{
-		Utils::sendErrorMessage(USER_PARAM_KO, client);
+		Utils::sendFormattedMessage(USER_PARAM_KO, client);
 		return ;
 	}
 
@@ -239,11 +239,11 @@ void		Commands::commandCAP(const std::string& line, const std::string& command, 
 
 void		Commands::commandQUIT(const std::string& line, const std::string& command, Client& client, Server& server)
 {
-	if (client.getClientStatus() == DISCONNECTED)
-	{
-		Utils::sendErrorMessage(NOT_CONNECTED, client);
-		return ;
-	}
+	// if (client.getClientStatus() == DISCONNECTED)
+	// {
+	// 	Utils::sendFormattedMessage(NOT_CONNECTED, client);
+	// 	return ;
+	// }
 
 	(void)command;
 	client.setLastArgument(line);
@@ -252,7 +252,7 @@ void		Commands::commandQUIT(const std::string& line, const std::string& command,
 
 	Utils::notifyQuitinChannels(client, server);
 
-	server.removeClientfromServer(client);
+	// server.removeClientfromServer(client);
 
 	// remove client from channel list (channel) >> send message to this user's channels to norify other users
 	// if it was last client from a channel, delete that channel
@@ -265,7 +265,7 @@ void		Commands::commandINVITE(const std::string& line, const std::string& comman
 {
 	if (client.getClientStatus() == DISCONNECTED)
 	{
-		Utils::sendErrorMessage(NOT_CONNECTED, client);
+		Utils::sendFormattedMessage(NOT_CONNECTED, client);
 		return ;
 	}
 
@@ -276,13 +276,13 @@ void		Commands::commandINVITE(const std::string& line, const std::string& comman
 
 	if (invitation.empty() == true || parameters.size() < 2)
 	{
-		Utils::sendErrorMessage(ERR_NEEDMOREPARAMS, client);
+		Utils::sendFormattedMessage(ERR_NEEDMOREPARAMS, client);
 		return ;
 	}
 
 	if (parameters.size() > 2)
 	{
-		Utils::sendErrorMessage(TOO_MANY_PARAM, client);
+		Utils::sendFormattedMessage(TOO_MANY_PARAM, client);
 		return ;
 	}
 
@@ -306,11 +306,11 @@ void		Commands::commandPING(const std::string& line, const std::string& command,
 	const std::string	parameter = eraseCommandfromLine(line, command);
 	if (parameter.empty() == true)
 	{
-		Utils::sendErrorMessage(ERR_NOORIGIN, client);
+		Utils::sendFormattedMessage(ERR_NOORIGIN, client);
 		return ;
 	}
 
-	Utils::sendErrorMessage(PONG, client);
+	Utils::sendFormattedMessage(PONG, client);
 }
 
 
@@ -321,7 +321,7 @@ void		Commands::commandTOPIC(const std::string& line, const std::string& command
 {
 	if (client.getClientStatus() == DISCONNECTED)
 	{
-		Utils::sendErrorMessage(NOT_CONNECTED, client);
+		Utils::sendFormattedMessage(NOT_CONNECTED, client);
 		return ;
 	}
 
@@ -330,7 +330,7 @@ void		Commands::commandTOPIC(const std::string& line, const std::string& command
 
 	if (arguments.empty() == true)
 	{
-		Utils::sendErrorMessage(ERR_NEEDMOREPARAMS, client);
+		Utils::sendFormattedMessage(ERR_NEEDMOREPARAMS, client);
 		return ;
 	}
 
@@ -353,7 +353,7 @@ void		Commands::commandWHOIS(const std::string& line, const std::string& command
 {
 	if (client.getClientStatus() == DISCONNECTED)
 	{
-		Utils::sendErrorMessage(NOT_CONNECTED, client);
+		Utils::sendFormattedMessage(NOT_CONNECTED, client);
 		return ;
 	}
 
@@ -362,7 +362,7 @@ void		Commands::commandWHOIS(const std::string& line, const std::string& command
 
 	if (argument.empty() == true)
 	{
-		Utils::sendErrorMessage(ERR_NONICKNAMEGIVEN, client);
+		Utils::sendFormattedMessage(ERR_NONICKNAMEGIVEN, client);
 		return ;
 	}
 
@@ -378,11 +378,11 @@ void		Commands::commandWHOIS(const std::string& line, const std::string& command
 			server.sendChannelInformation(parameters, client);
 			break ;
 
-		case UNKNOWN_TYPE:
+		default:
 			if (parameters[0].at(0) == PREFIX_CHAN)
-				Utils::sendErrorMessage(ERR_NOSUCHCHANNEL, client, parameters[0]);
+				Utils::sendFormattedMessage(ERR_NOSUCHCHANNEL, client, parameters[0]);
 			else
-				Utils::sendErrorMessage(ERR_NOSUCHNICK, client);
+				Utils::sendFormattedMessage(ERR_NOSUCHNICK, client);
 	}
 
 	// ERR_NOSUCHSERVER

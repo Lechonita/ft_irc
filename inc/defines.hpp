@@ -142,7 +142,7 @@ extern bool		doSignal;
 # define RPL_CHANNELMODEIS		"324 <channelName> <mode> <mode params>"
 # define RPL_UNIQOPIS			"325 <channelName> <client>"
 # define RPL_NOTOPIC			"331 <channelName> :No topic is set"
-# define RPL_TOPIC				"332 <channelName> :<topic>" // rajouter topic
+# define RPL_TOPIC				"332 <channelName> :<topic>"
 # define RPL_INVITING			"341 <channelName> <client>"
 // # define RPL_INVITELIST			"346 <channelName> <invitemask>"
 // # define RPL_ENDOFINVITELIST	"347 <channelName> :End of channel invite list"
@@ -152,6 +152,7 @@ extern bool		doSignal;
 # define RPL_NAMREPLY 			"353 <client> = <channelName> :<nicknames>"
 # define RPL_ENDOFNAMES			"366 <channelName> :End of NAMES list"
 # define RPL_BANLIST			"367 <channelName> <banmask>"
+# define RPL_QUIT				" has left the server.\n"
 
 
 // COMMANDS Messages

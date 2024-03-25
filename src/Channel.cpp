@@ -62,7 +62,7 @@ void	Channel::newClient(std::string passwrd, Client &client)
 		}
 		else
 		{
-			Utils::sendErrorMessage(ERR_BADCHANNELKEY, client, _channelName);
+			Utils::sendFormattedMessage(ERR_BADCHANNELKEY, client, _channelName);
 		}
 	}
 	else
@@ -107,5 +107,16 @@ void	Channel::sendMessageToAll(std::string message)
 	for(size_t i = 0; i < _channelClients.size(); i++)
 	{
 		Utils::sendMessage(message, *_channelClients[i].client);
+	}
+}
+
+
+void	Channel::sendMessageToAll(std::string message, std::string username)
+{
+	const std::string msg = username + message;
+
+	for(size_t i = 0; i < _channelClients.size(); i++)
+	{
+		Utils::sendMessage(msg, *_channelClients[i].client);
 	}
 }

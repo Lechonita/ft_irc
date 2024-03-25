@@ -5,31 +5,31 @@ bool		Commands::areValidInviteParameters(const std::vector<std::string> paramete
 {
 	if (Utils::channelExists(server, parameters[1]) == false)
 	{
-		Utils::sendErrorMessage(ERR_NOSUCHCHANNEL, client, parameters[1]);
+		Utils::sendFormattedMessage(ERR_NOSUCHCHANNEL, client, parameters[1]);
 		return (false);
 	}
 
 	if (client.userIsInChannel(parameters[1], client.getClientNickname()) == false)
 	{
-		Utils::sendErrorMessage(ERR_NOTONCHANNEL, client, parameters[1]);
+		Utils::sendFormattedMessage(ERR_NOTONCHANNEL, client, parameters[1]);
 		return (false);
 	}
 
 	if (client.isOperator(parameters[1]) == false)
 	{
-		Utils::sendErrorMessage(ERR_CHANOPRIVSNEEDED, client, parameters[1]);
+		Utils::sendFormattedMessage(ERR_CHANOPRIVSNEEDED, client, parameters[1]);
 		return (false);
 	}
 
 	if (nicknameAlreadyExists(parameters[0], server) == false)
 	{
-		Utils::sendErrorMessage(ERR_NOSUCHNICK, client, parameters[1]);
+		Utils::sendFormattedMessage(ERR_NOSUCHNICK, client, parameters[1]);
 		return (false);
 	}
 
 	if (client.userIsInChannel(parameters[1], parameters[0]) == true)
 	{
-		Utils::sendErrorMessage(ERR_USERONCHANNEL, client, parameters[1]);
+		Utils::sendFormattedMessage(ERR_USERONCHANNEL, client, parameters[1]);
 		return (false);
 	}
 	return (true);
