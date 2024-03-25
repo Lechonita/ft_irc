@@ -368,21 +368,21 @@ void		Commands::commandWHOIS(const std::string& line, const std::string& command
 
 	const std::vector<std::string>	parameters = Utils::splitParameters(argument);
 
-	const size_t	parameterType = getParameterType(parameters[0], server);
+	switch (getParameterType(parameters[0], server))
+	{
+		case USER_TYPE:
+			server.sendUserInformation(parameters, client);
+			break ;
+		
+		case CHANNEL_TYPE:
+			server.sendChannelInformation(parameters, client);
+			break ;
 
-	if (parameterType == UNKNOWN_TYPE)
-	{
-		Utils::sendErrorMessage(ERR_NOSUCHNICK, client);
-		return ;
-	}
-
-	if (parameterType == USER_TYPE)
-	{
-		server.sendUserInformation(parameters, client);
-	}
-	else if (parameterType == CHANNEL_TYPE)
-	{
-		server.sendChannelInformation(parameters, client);
+		case UNKNOWN_TYPE:
+			if (parameters[0].at(0) == PREFIX_CHAN)
+				Utils::sendErrorMessage(ERR_NOSUCHCHANNEL, client, parameters[0]);
+			else
+				Utils::sendErrorMessage(ERR_NOSUCHNICK, client);
 	}
 
 	// ERR_NOSUCHSERVER

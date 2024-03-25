@@ -3,8 +3,6 @@
 
 void	Server::sendUserInformation(const std::vector<std::string> parameters, const Client& client)
 {
-	// This information typically includes the user's nickname, username, hostname, real name, and sometimes additional details such as their channels, server operator status, and idle time.
-	
 	std::string line[USER_INFO_LINES];
 	std::map<int, Client>::iterator	it;
 
@@ -41,8 +39,6 @@ void	Server::sendUserInformation(const std::vector<std::string> parameters, cons
 
 void	Server::sendChannelInformation(const std::vector<std::string> parameters, const Client& client)
 {
-	// information about the channel, including its name, topic, and a list of users who are currently in the channel.
-
 	std::string line[CHAN_INFO_LINES];
 	std::map<std::string, Channel>::iterator	it;
 
@@ -52,7 +48,7 @@ void	Server::sendChannelInformation(const std::vector<std::string> parameters, c
 		{
 			line[0] = "  Name :" + it->second.getChannelName() + NEWLINE;
 			line[1] = "  Topic :" + it->second.getChannelTopic() + NEWLINE;
-			line[2] = "  Client List :" + Utils::getClientListInChannel(client, parameters[0]) + NEWLINE;
+			line[2] = "  User List :" + Utils::getClientListInChannel(client, parameters[0]) + NEWLINE;
 		}
 	}
 
