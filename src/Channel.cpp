@@ -37,13 +37,18 @@ void	Channel::setKMode(bool status) {_kMode = status;}
 void	Channel::setOMode(bool status) {_oMode = status;}
 void	Channel::setLMode(bool status) {_lMode = status;}
 void	Channel::setPassword(std::string password) {_channelPass = password;}
-void	Channel::setPassword(std::string topic) {_channelTopic = topic;}
+void	Channel::setTopic(std::string topic) {_channelTopic = topic;}
 
-void	Channel::setUserLimit(std::string limit)
+int		Channel::setUserLimit(std::string limit)
 {
 	double limint = strtod(limit.c_str(), NULL);
+
 	if (limint < INT_MAX && limint > INT_MIN)
+	{
 		_usersLimit = atoi(limit.c_str());
+		return (GOOD_LIMIT);
+	}
+	return (BAD_LIMIT);
 }
 
 void	Channel::newClient(std::string passwrd, Client &client)
@@ -226,11 +231,12 @@ static channelModes	findModeToChange(char mode)
 		case 'i':
 			return (MODE_I);
 	}
+	return (DEFAULT);
 }
 
 
 
-void	Channel::setSimpleModes(const Client& client, std::vector<std::string> modes_without_args)
+void	Channel::setSimpleModes(std::vector<std::string> modes_without_args)
 {
 	for (size_t pos = 0; pos < modes_without_args.size(); pos++)
 	{
@@ -246,6 +252,8 @@ void	Channel::setSimpleModes(const Client& client, std::vector<std::string> mode
 				case MODE_I:
 					setIMode(true);
 					break;
+				default :
+					break;
 			}
 		}
 		else
@@ -258,6 +266,8 @@ void	Channel::setSimpleModes(const Client& client, std::vector<std::string> mode
 				case MODE_I:
 					setIMode(false);
 					break;
+				default :
+					break;
 			}
 		}
 	}
@@ -265,34 +275,36 @@ void	Channel::setSimpleModes(const Client& client, std::vector<std::string> mode
 
 
 
-void	Channel::giveOpStatusToClient(Client& client, std::string client_name)
+int	Channel::giveOpStatusToClient(Client& client, std::string client_name)
 {
 	for (size_t pos = 0; pos < _channelClients.size(); pos++)
 	{
 		if (_channelClients[pos].client->getClientNickname() == client_name)
 		{
 			_channelClients[pos].isOperator = true;
-			return ;
+			return (CLIENT_FOUND);
 		}
 	}
 	client.setLastArgument(client_name);
 	Utils::sendErrorMessage(ERR_USERNOTINCHANNEL, client, _channelName);
+	return (CLIENT_NOT_FOUND);
 }
 
 
 
-void	Channel::takeOpStatusFromClient(Client& client, std::string client_name)
+int	Channel::takeOpStatusFromClient(Client& client, std::string client_name)
 {
 	for (size_t pos = 0; pos < _channelClients.size(); pos++)
 	{
 		if (_channelClients[pos].client->getClientNickname() == client_name)
 		{
 			_channelClients[pos].isOperator = false;
-			return ;
+			return (CLIENT_FOUND);
 		}
 	}
 	client.setLastArgument(client_name);
 	Utils::sendErrorMessage(ERR_USERNOTINCHANNEL, client, _channelName);
+	return (CLIENT_NOT_FOUND);
 }
 
 
@@ -313,13 +325,27 @@ void	Channel::setArgModes(Client& client, std::vector<std::string> modes_args, s
 						setPassword(modes_args[pos]);
 						setKMode(true);
 						break;
+
 					case MODE_O:
-						giveOpStatusToClient(client, modes_args[pos]);
-						setOMode(true);
+						if (giveOpStatusToClient(client, modes_args[pos]) == CLIENT_FOUND)
+							setOMode(true);
+						else
+						{
+							modes_with_args.erase(modes_with_args.begin() + pos);
+							modes_args.erase(modes_args.begin() + pos);
+						}
 						break;
+
 					case MODE_L:
-						setUserLimit(modes_args[pos]);
-						setLMode(true);
+						if (setUserLimit(modes_args[pos]) == GOOD_LIMIT)
+							setLMode(true);
+						else
+						{
+							modes_with_args.erase(modes_with_args.begin() + pos);
+							modes_args.erase(modes_args.begin() + pos);
+						}
+						break;
+					default :
 						break;
 				}
 			}
@@ -333,12 +359,26 @@ void	Channel::setArgModes(Client& client, std::vector<std::string> modes_args, s
 				case MODE_K:
 					setKMode(false);
 					break;
+
 				case MODE_O:
-					takeOpStatusFromClient(client, modes_args[pos]);
-					setOMode(false);
+					if (pos < modes_args.size())
+					{
+						if (takeOpStatusFromClient(client, modes_args[pos]) == CLIENT_NOT_FOUND)
+							setOMode(false);
+						else
+						{
+							modes_with_args.erase(modes_with_args.begin() + pos);
+							modes_args.erase(modes_args.begin() + pos);
+						}
+					}
+					else
+						modes_with_args.erase(modes_with_args.begin() + pos);
 					break;
+
 				case MODE_L:
 					setLMode(false);
+					break;
+				default :
 					break;
 			}
 		}

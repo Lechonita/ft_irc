@@ -24,7 +24,8 @@ enum channelModes
 	MODE_T,
 	MODE_K,
 	MODE_O,
-	MODE_L
+	MODE_L,
+	DEFAULT
 };
 
 
@@ -45,6 +46,7 @@ class Channel
 		bool						getKMode() const {return (_kMode);}
 		bool						getOMode() const {return (_oMode);}
 		bool						getLMode() const {return (_lMode);}
+		int							getUserLimit() const {return (_usersLimit);}
 
 		// setters
 		void						setIMode(bool status);
@@ -53,21 +55,21 @@ class Channel
 		void						setOMode(bool status);
 		void						setLMode(bool status);
 		void						setPassword(std::string password);
-		void						setPassword(std::string topic);
-		void						setUserLimit(std::string limit);
+		void						setTopic(std::string topic);
+		int							setUserLimit(std::string limit);
 
 		// utils
 		void						newClient(std::string passwrd, Client &client);
 		void						removeClient(Client &client);
 		void						sendMessageToAll(std::string message);
 		void						kickThoseMfOut(Client &client, Server &server, std::vector<std::string> clients, std::string message);
-		void						setSimpleModes(const Client& client, std::vector<std::string> modes_without_args);
+		void						setSimpleModes(std::vector<std::string> modes_without_args);
 		void						setArgModes(Client& client, std::vector<std::string> modes_args, std::vector<std::string> modes_with_args);
 		void						printClients();
 		bool						kickerIsQualified(Client &client);
 		bool						isChanOp(const Client &client);
-		void						giveOpStatusToClient(Client& client, std::string client_name);
-		void						takeOpStatusFromClient(Client& client, std::string client_name);
+		int							giveOpStatusToClient(Client& client, std::string client_name);
+		int							takeOpStatusFromClient(Client& client, std::string client_name);
 
 	private:
 

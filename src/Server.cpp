@@ -252,7 +252,23 @@ void	Server::addClientToChannel(std::string channel, std::string passwrd, Client
 {
 	std::map<std::string, Channel>::iterator	it = _channelMap.find(channel);
 
-	it->second.newClient(passwrd, client);
+	if (it ->second.getLMode() == true && it->second.getUserLimit() == _channelMap.size())
+	{
+		Utils::sendErrorMessage(ERR_CHANNELISFULL, client, channel);
+		return ;
+	}
+	else if (it->second.getKMode() == true)
+	{
+		if (passwrd == it->second.getChannelPass())
+			it->second.newClient(passwrd, client);
+		else
+		{
+			Utils::sendErrorMessage(ERR_BADCHANNELKEY, client, channel);
+			return ;
+		}
+	}
+	else
+		it->second.newClient(passwrd, client);
 	Utils::joinMessageSuccessful(client, server, channel);
 }
 
@@ -270,14 +286,19 @@ void	Server::createOrJoinChannel(std::vector<std::string> channels, std::vector<
 		{
 			createNewChannel(channels[i], client.getClientSocket(), server);
 		}
-		else if (i >= passwrds.size())
+		else if ( _channelMap.find(channels[i])->second.getIMode() == false)
 		{
-			addClientToChannel(channels[i], "", client, server);
+			if (i >= passwrds.size())
+			{
+				addClientToChannel(channels[i], "", client, server);
+			}
+			else
+			{
+				addClientToChannel(channels[i], passwrds[i], client, server);
+			}
 		}
 		else
-		{
-			addClientToChannel(channels[i], passwrds[i], client, server);
-		}
+			Utils::sendErrorMessage(ERR_INVITEONLYCHAN, client, channels[i]);
 	}
 }
 
@@ -383,6 +404,41 @@ void	Server::removeClientsFromChannels(Client& client, std::vector<std::string> 
 
 
 
+static std::string	modeStatusAfterExec(std::vector<std::string> modes_args, std::vector<std::string> modes_with_args, std::vector<std::string> modes_without_args)
+{
+	std::string	added_modes = "+";
+	std::string	removed_modes = "-";
+	std::string	parameters;
+
+	for (size_t i = 0; i < modes_with_args.size(); i++)
+	{
+		std::string	mode(1, modes_with_args[i][1]);
+
+		if (modes_with_args[i][0] == '+')
+			added_modes += mode;
+		else
+			removed_modes += mode;
+	}
+	for (size_t i = 0; i < modes_without_args.size(); i++)
+	{
+		std::string	mode(1, modes_without_args[i][1]);
+
+		if (modes_without_args[i][0] == '+')
+			added_modes += mode;
+		else
+			removed_modes += mode;
+	}
+	for (size_t i = 0; i < modes_with_args.size(); i++)
+	{
+		parameters += modes_args[i];
+		if (i < modes_with_args.size() - 1)
+			parameters += " ";
+	}
+	return (added_modes + " " + parameters + " " + removed_modes);
+}
+
+
+
 void	Server::changeChannelsModes(Client& client, std::vector<std::string> channels, std::vector<std::string> modes_args, std::vector<std::string> modes_with_args, std::vector<std::string> modes_without_args)
 {
 	std::map<std::string, Channel>::iterator	it_channels;
@@ -394,8 +450,10 @@ void	Server::changeChannelsModes(Client& client, std::vector<std::string> channe
 		{
 			if (it_channels->second.isChanOp(client) == true)
 			{
-				it_channels->second.setSimpleModes(client, modes_without_args);
+				it_channels->second.setSimpleModes(modes_without_args);
 				it_channels->second.setArgModes(client, modes_with_args, modes_args);
+				client.setLastArgument(modeStatusAfterExec(modes_args, modes_with_args, modes_without_args));
+				Utils::sendErrorMessage(RPL_CHANNELMODEIS, client, it_channels->second.getChannelName());
 			}
 			else
 				Utils::sendErrorMessage(ERR_CHANOPRIVSNEEDED, client, channels[pos]);

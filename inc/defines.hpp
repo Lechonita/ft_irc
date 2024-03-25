@@ -70,6 +70,10 @@ extern bool		doSignal;
 # define ADD_MODE 1
 # define REMOVE_MODE -1
 # define NO_MODE 0
+# define GOOD_LIMIT 42
+# define BAD_LIMIT -42
+# define CLIENT_FOUND 24
+# define CLIENT_NOT_FOUND -24
 
 
 // Server specifications
@@ -135,7 +139,7 @@ extern bool		doSignal;
 # define RPL_CREATED			"003 This server was created <date>"
 # define RPL_MYINFO				"004 <servername> <version> <available user modes> <available channel modes>"
 // # define RPL_AWAY				"301 <client> :<away message>"
-# define RPL_CHANNELMODEIS		"324 <channelName> <mode> <mode params>"
+# define RPL_CHANNELMODEIS		"324 <channelName> <arg>"
 # define RPL_UNIQOPIS			"325 <channelName> <client>"
 # define RPL_NOTOPIC			"331 <channelName> :No topic is set"
 # define RPL_TOPIC				"332 <channelName> :<topic>"

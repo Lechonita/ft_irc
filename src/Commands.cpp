@@ -108,10 +108,6 @@ void	Commands::commandMODE(const std::string& line, const std::string& command, 
 		return ;
 	}
 	checkModeParams(mode_params, &channels, &modes_with_args, &modes_without_args, &modes_args, client);
-	for (size_t pos = 0; pos < channels.size(); pos++)
-	{
-
-	}
 	server.changeChannelsModes(client, channels, modes_args, modes_with_args, modes_without_args);
 
 }
