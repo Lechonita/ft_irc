@@ -10,6 +10,11 @@ Channel::Channel(const std::string& name, Client *client): _channelName(name)
 {
 	const channelClient newClient = {.client = client, .isOperator = true};
 	_channelClients.push_back(newClient);
+	_iMode = false;
+	_tMode = false;
+	_kMode = false;
+	_oMode = false;
+	_lMode = false;
 	// client->newChannel(*this);
 	// send message new client in channel
 	//RPL_NAMREPLY
@@ -39,7 +44,7 @@ void	Channel::setLMode(bool status) {_lMode = status;}
 void	Channel::setPassword(std::string password) {_channelPass = password;}
 void	Channel::setTopic(std::string topic) {_channelTopic = topic;}
 
-int		Channel::setUserLimit(std::string limit)
+size_t	Channel::setUserLimit(std::string limit)
 {
 	double limint = strtod(limit.c_str(), NULL);
 
@@ -176,22 +181,27 @@ void	Channel::kickThoseMfOut(Client &client, Server &server, std::vector<std::st
 		size_t pos_chan;
 
 		client.setLastArgument(clients[pos_client]);
-		for (pos_chan = 0; pos_chan <= _channelClients.size(); pos_chan++)
+		if (clients[pos_client] != client.getClientNickname())
 		{
-			if (pos_chan == _channelClients.size())
+			for (pos_chan = 0; pos_chan <= _channelClients.size(); pos_chan++)
 			{
-				errorUserNotInChan(client, server, clients[pos_client], _channelName);
-				break ;
+				if (pos_chan == _channelClients.size())
+				{
+					errorUserNotInChan(client, server, clients[pos_client], _channelName);
+					break ;
+				}
+				else if (it->client->getClientNickname() == clients[pos_client])
+				{
+					Utils::kickMessageSuccessfull(client, server, _channelName, message, clients[pos_client]);
+					it->client->removeChannelFromClient(*this);
+					_channelClients.erase(it);
+					break ;
+				}
+				it++;
 			}
-			else if (it->client->getClientNickname() == clients[pos_client])
-			{
-				Utils::kickMessageSuccessfull(client, server, _channelName, message, clients[pos_client]);
-				it->client->removeChannelFromClient(*this);
-				_channelClients.erase(it);
-				break ;
-			}
-			it++;
 		}
+		else
+			Utils::sendErrorMessage("503 <client> cannot kick self from <channelName>", client, _channelName);
 	}
 }
 
@@ -240,6 +250,8 @@ void	Channel::setSimpleModes(std::vector<std::string> modes_without_args)
 {
 	for (size_t pos = 0; pos < modes_without_args.size(); pos++)
 	{
+		const char *test = modes_without_args[pos].c_str();
+		(void)test;
 		channelModes mode = findModeToChange(modes_without_args[pos][1]);
 
 		if (modes_without_args[pos][0] == '+')
@@ -313,15 +325,20 @@ void	Channel::setArgModes(Client& client, std::vector<std::string> modes_args, s
 {
 	for (size_t pos = 0; pos < modes_with_args.size(); pos++)
 	{
+		const char *test = modes_with_args[pos].c_str();
+		(void)test;
 		channelModes mode = findModeToChange(modes_with_args[pos][1]);
 
 		if (modes_with_args[pos][0] == '+')
 		{
 			if (pos < modes_args.size())
 			{
+		const char *test1 = modes_args[pos].c_str();
+		(void)test1;
 				switch (mode)
 				{
 					case MODE_K:
+						std::cout << BLUE << "pwd = " << modes_args[pos] << NC << std::endl;
 						setPassword(modes_args[pos]);
 						setKMode(true);
 						break;

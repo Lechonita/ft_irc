@@ -138,6 +138,7 @@ void	Client::newChannel(Channel& channel)
 void	Client::partFromChannels(Client& client, Server& server, const std::vector<std::string> channels, const std::string message)
 {
 	std::vector<Channel*>::iterator	it;
+	bool							just_removed = false;
 
 	for (size_t i = 0; i < channels.size(); i++)
 	{
@@ -146,15 +147,23 @@ void	Client::partFromChannels(Client& client, Server& server, const std::vector<
 			if (channels[i] == (*it)->getChannelName())
 			{
 				(*it)->removeClient(client);
+				if ((*it)->getChannelClients().size() == 0)
+				{
+					_channels.erase(it);
+					server.deleteChannel((channels[i]));
+					just_removed = true;
+					break ;
+				}
 				_channels.erase(it);
 				Utils::partMessage(client, server, channels[i], message);
 				break;
 			}
 		}
-		if (it == _channels.end())
+		if (just_removed == false && it == _channels.end())
 		{
 			Utils::sendErrorMessage(ERR_NOSUCHCHANNEL, client, channels[i]);
 		}
+		just_removed = false;
 	}
 }
 

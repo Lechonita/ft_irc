@@ -46,7 +46,7 @@ class Channel
 		bool						getKMode() const {return (_kMode);}
 		bool						getOMode() const {return (_oMode);}
 		bool						getLMode() const {return (_lMode);}
-		int							getUserLimit() const {return (_usersLimit);}
+		size_t						getUserLimit() const {return (_usersLimit);}
 
 		// setters
 		void						setIMode(bool status);
@@ -56,7 +56,7 @@ class Channel
 		void						setLMode(bool status);
 		void						setPassword(std::string password);
 		void						setTopic(std::string topic);
-		int							setUserLimit(std::string limit);
+		size_t						setUserLimit(std::string limit);
 
 		// utils
 		void						newClient(std::string passwrd, Client &client);
@@ -82,7 +82,7 @@ class Channel
 		bool						_oMode;
 		bool						_lMode;
 		std::vector<channelClient>	_channelClients;
-		int							_usersLimit;
+		size_t						_usersLimit;
 };
 
 #endif

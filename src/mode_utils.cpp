@@ -6,7 +6,7 @@
 /*   By: cbernaze <cbernaze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 13:33:45 by cbernaze          #+#    #+#             */
-/*   Updated: 2024/03/23 18:26:34 by cbernaze         ###   ########.fr       */
+/*   Updated: 2024/03/25 16:31:29 by cbernaze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,18 +174,6 @@ static void	extractModesNArgs(std::string mode_params, std::vector<std::string> 
 			break ;
 		pos++;
 	}
-	// for (size_t i = 0; i < modes_with_args->size(); i++)
-	// {
-	// 	std::cout << BLUE << i << "-mode: " << (*modes_with_args)[i] << NC << std::endl;
-	// }
-	// for (size_t i = 0; i < modes_args->size(); i++)
-	// {
-	// 	std::cout << ORANGE << i << "-arg: " << (*modes_args)[i] << NC << std::endl;
-	// }
-	// for (size_t i = 0; i < modes_without_args->size(); i++)
-	// {
-	// 	std::cout << BLUE << "mode: " << (*modes_without_args)[i] << NC << std::endl;
-	// }
 }
 
 
@@ -195,9 +183,5 @@ void	Commands::checkModeParams(std::string mode_params, std::vector<std::string>
 	size_t	pos = 0;
 
 	*channels = extractChannels(mode_params, pos);
-	// for (size_t i = 0; i < channels->size(); i++)
-	// {
-	// 	std::cout << BLUE << i << "-channel: " << (*channels)[i] << NC << std::endl;
-	// }
 	extractModesNArgs(mode_params, modes_with_args, modes_without_args, modes_args, pos, client);
 }

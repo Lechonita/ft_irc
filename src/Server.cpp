@@ -222,7 +222,7 @@ void	Server::printAll() //provisoire, a supprimer
 	for (it_channels = _channelMap.begin() ; it_channels != _channelMap.end() ; it_channels++)
 	{
 		std::cout << GREEN << "channel= " << it_channels->second.getChannelName()
-		<< ", channel address = " << &(it_channels->second) << NC << std::endl;
+		<< ", channel address = " << &(it_channels->second) << "pwd = " << it_channels->second.getChannelPass() << NC << std::endl;
 		it_channels->second.printClients();
 	}
 
@@ -252,7 +252,7 @@ void	Server::addClientToChannel(std::string channel, std::string passwrd, Client
 {
 	std::map<std::string, Channel>::iterator	it = _channelMap.find(channel);
 
-	if (it ->second.getLMode() == true && it->second.getUserLimit() == _channelMap.size())
+	if (it ->second.getLMode() == true && it->second.getUserLimit() == it->second.getChannelClients().size())
 	{
 		Utils::sendErrorMessage(ERR_CHANNELISFULL, client, channel);
 		return ;
@@ -430,11 +430,17 @@ static std::string	modeStatusAfterExec(std::vector<std::string> modes_args, std:
 	}
 	for (size_t i = 0; i < modes_with_args.size(); i++)
 	{
-		parameters += modes_args[i];
+		if (i < modes_args.size())
+			parameters += modes_args[i];
 		if (i < modes_with_args.size() - 1)
 			parameters += " ";
 	}
-	return (added_modes + " " + parameters + " " + removed_modes);
+	std::string	args;
+	if (added_modes.size() > 1)
+		args += added_modes + " " + parameters + " ";
+	if (removed_modes.size() > 1)
+		args += removed_modes;
+	return (args);
 }
 
 
@@ -448,10 +454,11 @@ void	Server::changeChannelsModes(Client& client, std::vector<std::string> channe
 		it_channels = _channelMap.find(channels[pos]);
 		if (it_channels != _channelMap.end())
 		{
+			std::cout << RED << "imode= " << it_channels->second.getIMode() << "tmode= " << it_channels->second.getTMode() << "kmode= " << it_channels->second.getKMode() << "omode= " << it_channels->second.getOMode() << "lmode= " << it_channels->second.getLMode() << NC << std::endl;
 			if (it_channels->second.isChanOp(client) == true)
 			{
 				it_channels->second.setSimpleModes(modes_without_args);
-				it_channels->second.setArgModes(client, modes_with_args, modes_args);
+				it_channels->second.setArgModes(client, modes_args, modes_with_args);
 				client.setLastArgument(modeStatusAfterExec(modes_args, modes_with_args, modes_without_args));
 				Utils::sendErrorMessage(RPL_CHANNELMODEIS, client, it_channels->second.getChannelName());
 			}
@@ -461,6 +468,15 @@ void	Server::changeChannelsModes(Client& client, std::vector<std::string> channe
 		else
 			Utils::sendErrorMessage(ERR_NOSUCHCHANNEL, client, channels[pos]);
 	}
+}
+
+
+
+void	Server::deleteChannel(std::string channel_name)
+{
+	std::map<std::string, Channel>::iterator	it = _channelMap.find(channel_name);
+
+	_channelMap.erase(it);
 }
 
 

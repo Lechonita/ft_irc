@@ -108,6 +108,18 @@ void	Commands::commandMODE(const std::string& line, const std::string& command, 
 		return ;
 	}
 	checkModeParams(mode_params, &channels, &modes_with_args, &modes_without_args, &modes_args, client);
+	for (size_t i = 0; i < modes_with_args.size(); i++)
+	{
+		std::cout << BLUE << i << "-mode: " << (modes_with_args)[i] << NC << std::endl;
+	}
+	for (size_t i = 0; i < modes_args.size(); i++)
+	{
+		std::cout << ORANGE << i << "-arg: " << (modes_args)[i] << NC << std::endl;
+	}
+	for (size_t i = 0; i < modes_without_args.size(); i++)
+	{
+		std::cout << BLUE << "mode: " << (modes_without_args)[i] << NC << std::endl;
+	}
 	server.changeChannelsModes(client, channels, modes_args, modes_with_args, modes_without_args);
 
 }
