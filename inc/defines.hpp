@@ -15,6 +15,7 @@
 # include <csignal>
 # include <fcntl.h>
 # include <unistd.h>
+# include <limits.h>
 # include <iostream>
 # include <typeinfo>
 # include <exception>
@@ -61,8 +62,8 @@ extern bool		doSignal;
 # define EMPTY ""
 # define SPACE " "
 # define MAX_NICK_LEN 9
-# define PATTERN_COUNT_CHAN 7
-# define PATTERN_COUNT 4
+# define PATTERN_COUNT_CHAN 9
+# define PATTERN_COUNT 6
 # define EXPECTED_USER_PARAM 5
 # define INCOMING_MSG "\033[0;36m<< \033[0m"
 # define OUTGOING_MSG "\033[0;35m>> \033[0m"
@@ -73,6 +74,13 @@ extern bool		doSignal;
 # define CHANNEL_TYPE 2
 # define USER_INFO_LINES 5
 # define CHAN_INFO_LINES 3
+# define ADD_MODE 1
+# define REMOVE_MODE -1
+# define NO_MODE 0
+# define GOOD_LIMIT 42
+# define BAD_LIMIT -42
+# define CLIENT_FOUND 24
+# define CLIENT_NOT_FOUND -24
 
 
 // Server specifications
@@ -124,6 +132,7 @@ extern bool		doSignal;
 # define ERR_ALREADYREGISTERED	"\033[0;33m462 <client> :You may not reregister\033[0m"
 # define ERR_PASSWDMISMATCH		"\033[0;33m464 :Password incorrect\033[0m"
 # define ERR_CHANNELISFULL		"\033[0;33m471 <client> <channelName> :Cannot join channel (+l)\033[0m"
+# define ERR_UNKNOWNMODE		"\033[0;33m472 <arg> :is unknown mode char to me\033[0m"
 # define ERR_INVITEONLYCHAN		"\033[0;33m473 <client> <channelName> :Cannot join channel (+i)\033[0m"
 # define ERR_BADCHANNELKEY		"\033[0;33m475 <client> <channelName> :Cannot join channel (+k)\033[0m"
 # define ERR_BADCHANMASK		"\033[0;33m476 <channelName> :Bad Channel Mask\033[0m"
@@ -139,11 +148,11 @@ extern bool		doSignal;
 # define RPL_CREATED			"003 This server was created <date>"
 # define RPL_MYINFO				"004 <servername> <version> <available user modes> <available channel modes>"
 // # define RPL_AWAY				"301 <client> :<away message>"
-# define RPL_CHANNELMODEIS		"324 <channelName> <mode> <mode params>"
+# define RPL_CHANNELMODEIS		"324 <channelName> <arg>"
 # define RPL_UNIQOPIS			"325 <channelName> <client>"
-# define RPL_NOTOPIC			"331 <channelName> :No topic is set"
+# define RPL_NOTOPIC			":<nickname> TOPIC <channelName> :New topic"
 # define RPL_TOPIC				"332 <channelName> :<topic>"
-# define RPL_INVITING			"341 <channelName> <client>"
+// # define RPL_INVITING			":<inviter> INVITE <invitee> <channelName>"
 // # define RPL_INVITELIST			"346 <channelName> <invitemask>"
 // # define RPL_ENDOFINVITELIST	"347 <channelName> :End of channel invite list"
 // # define RPL_EXCEPTLIST			"348 <channelName> <exceptionmask>"
@@ -153,6 +162,8 @@ extern bool		doSignal;
 # define RPL_ENDOFNAMES			"366 <channelName> :End of NAMES list"
 # define RPL_BANLIST			"367 <channelName> <banmask>"
 # define RPL_QUIT				" has left the server.\n"
+# define RPL_NICKCHANGE			":<oldnickname> NICK <nickname>"
+// # define RPL_NICKWASSET			"NICK <nickname>"
 
 
 // COMMANDS Messages

@@ -28,8 +28,10 @@ std::string Utils::getFormattedMessage(const std::string &message, const Client 
 		{"<command>", client.getLastCommand()},
 		{"<arg>", client.getLastArgument()},
 		{"<client>", client.getClientNickname()},
-		{"<channelName>", channelName},
 		{"<servername>", SERVER_NAME},
+		{"<oldnickname>", client.getClientOldNickname()},
+		{"<nickname>", client.getClientNickname()},
+		{"<channelName>", channelName},
 		{"<nicknames>", getClientListInChannel(client, channelName)},
 		{"<topic>", getChannelTopic(channelName, client)}};
 
@@ -64,7 +66,9 @@ std::string		Utils::getFormattedMessage(const std::string &message, const Client
 		{"<command>", client.getLastCommand()},
 		{"<arg>", client.getLastArgument()},
 		{"<client>", client.getClientNickname()},
-		{"<servername>", SERVER_NAME}};
+		{"<servername>", SERVER_NAME},
+		{"<oldnickname>", client.getClientOldNickname()},
+		{"<nickname>", client.getClientNickname()}};
 
 	std::string formattedMessage = message;
 
@@ -199,6 +203,20 @@ void	Utils::partMessage(const Client& client, Server& server, const std::string 
 	server.sendMessageToChannel(channel_name, full_message, client);
 }
 
+
+
+void	Utils::kickMessageSuccessfull(const Client& client, Server& server, const std::string channel_name, const std::string message, std::string client_kicked)
+{
+	std::string						full_message = ":" + client.getClientNickname()
+												+ "!~" + client.getClientUsername() + "@"
+												+ client.getClientIP() + " KICK " + channel_name;
+
+	if (message == "")
+		full_message = full_message + " "  + client_kicked + " :" + client.getClientNickname();
+	else
+		full_message = full_message + " " + client_kicked + " :" + message;
+	server.sendMessageToChannel(channel_name, full_message, client);
+}
 
 // Util functions
 

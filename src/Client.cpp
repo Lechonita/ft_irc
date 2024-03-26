@@ -40,6 +40,7 @@ Client::~Client()
 int							Client::getClientSocket() const { return (_clientSocket); }
 const std::string			Client::getClientUsername() const { return (_clientUsername); }
 const std::string			Client::getClientNickname() const { return (_clientNickname); }
+const std::string			Client::getClientOldNickname() const { return (_clientOldNickname); }
 const std::string			Client::getClientRealName() const { return (_clientRealName); }
 const std::string			Client::getClientPassword() const { return (_clientPassword); }
 const std::string			Client::getLastArgument() const { return (_lastArg); }
@@ -81,16 +82,29 @@ void	Client::setNickname(const std::string& nickname)
 {
 	if (_clientNickname.empty() == false)
 	{
-		Utils::sendMessage(NICK_CHANGED, *this);
+		setOldNickname(_clientNickname);
 		_clientNickname.clear();
+		_clientNickname = nickname;
+		Utils::sendFormattedMessage(RPL_NICKCHANGE, *this);
+		Utils::sendMessage(NICK_CHANGED, *this);
 	}
 	else
 	{
+		_clientNickname = nickname;
 		if (_irssi == false)
 			Utils::sendMessage(NICK_OK, *this);
 	}
-	_clientNickname = nickname;
 }
+
+
+
+void	Client::setOldNickname(const std::string& oldnickname)
+{
+	if (_clientOldNickname.empty() == false)
+		_clientOldNickname.clear();
+	_clientOldNickname = oldnickname;
+}
+
 
 
 void	Client::setRealName(const std::vector<std::string>	parameters)
@@ -145,10 +159,10 @@ void	Client::newChannel(Channel& channel)
 
 
 
-
 void	Client::partFromChannels(Client& client, Server& server, const std::vector<std::string> channels, const std::string message)
 {
 	std::vector<Channel*>::iterator	it;
+	bool							just_removed = false;
 
 	for (size_t i = 0; i < channels.size(); i++)
 	{
@@ -157,14 +171,26 @@ void	Client::partFromChannels(Client& client, Server& server, const std::vector<
 			if (channels[i] == (*it)->getChannelName())
 			{
 				(*it)->removeClient(client);
+				if ((*it)->getChannelClients().size() == 0)
+				{
+					_channels.erase(it);
+					server.deleteChannel((channels[i]));
+					just_removed = true;
+					break ;
+				}
 				_channels.erase(it);
 				Utils::partMessage(client, server, channels[i], message);
+				just_removed = true;
 				break;
 			}
 		}
+		if (just_removed == false && it == _channels.end())
+		{
+			Utils::sendFormattedMessage(ERR_NOSUCHCHANNEL, client, channels[i]);
+		}
+		just_removed = false;
 	}
 }
-
 
 
 
@@ -204,6 +230,22 @@ bool		Client::userIsInChannel(const std::string& channelname, const std::string&
 		}
 	}
 	return (false);
+}
+
+
+
+void	Client::removeChannelFromClient(const Channel& channel)
+{
+	std::vector<Channel*>::iterator	it;
+
+	for(it = _channels.begin(); it != _channels.end(); it++)
+	{
+		if ((*it) == &channel)
+		{
+			_channels.erase(it);
+			return ;
+		}
+	}
 }
 
 
