@@ -89,9 +89,10 @@ Jesson = nickname de l'invité
 Guest05609 = nickname de ce lui qui invite
 newtest = channelname
 
-- verifier les cas ou aucun nom de channel n'est specifier pour JOIN et PART et KICK
-- verifier l'absence de nom de clients pour JOIN PART KICK et PRIVMSG
-- changer la commande JOIN pour les cas ou y'a une limite d'user dans le channel, un mot de passe, s'il est invite-only
 - changer la commande TOPIC pour qu'elle regarde si le mode t est active ou non dans un channel
-- supprimer les channels dans PART si jamais je suis le dernier utilisateur du channel
-- on ne peut pas se KICK soi-meme d'un channel
+- verifier message recu dans le cas ou commande est : PRIVMSG #test42,jess hello (jess et test42 existe et je fais parti de test42)
+x verifier les cas ou aucun nom de channel n'est specifier pour JOIN et PART et KICK
+x verifier l'absence de nom de clients pour JOIN PART KICK et PRIVMSG
+x changer la commande JOIN pour les cas ou y'a une limite d'user dans le channel, un mot de passe, s'il est invite-only
+x supprimer les channels dans PART si jamais je suis le dernier utilisateur du channel
+x on ne peut pas se KICK soi-meme d'un channel

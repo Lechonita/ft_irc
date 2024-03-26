@@ -156,6 +156,7 @@ void	Client::partFromChannels(Client& client, Server& server, const std::vector<
 				}
 				_channels.erase(it);
 				Utils::partMessage(client, server, channels[i], message);
+				just_removed = true;
 				break;
 			}
 		}

@@ -350,6 +350,7 @@ void	Channel::setArgModes(Client& client, std::vector<std::string> modes_args, s
 						{
 							modes_with_args.erase(modes_with_args.begin() + pos);
 							modes_args.erase(modes_args.begin() + pos);
+							pos--;
 						}
 						break;
 
@@ -360,6 +361,7 @@ void	Channel::setArgModes(Client& client, std::vector<std::string> modes_args, s
 						{
 							modes_with_args.erase(modes_with_args.begin() + pos);
 							modes_args.erase(modes_args.begin() + pos);
+							pos--;
 						}
 						break;
 					default :
@@ -374,22 +376,27 @@ void	Channel::setArgModes(Client& client, std::vector<std::string> modes_args, s
 			switch (mode)
 			{
 				case MODE_K:
+					setPassword("");
 					setKMode(false);
 					break;
 
 				case MODE_O:
 					if (pos < modes_args.size())
 					{
-						if (takeOpStatusFromClient(client, modes_args[pos]) == CLIENT_NOT_FOUND)
+						if (takeOpStatusFromClient(client, modes_args[pos]) == CLIENT_FOUND)
 							setOMode(false);
 						else
 						{
 							modes_with_args.erase(modes_with_args.begin() + pos);
 							modes_args.erase(modes_args.begin() + pos);
+							pos--;
 						}
 					}
 					else
+					{
 						modes_with_args.erase(modes_with_args.begin() + pos);
+						pos--;
+					}
 					break;
 
 				case MODE_L:
