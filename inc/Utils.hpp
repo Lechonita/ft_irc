@@ -14,7 +14,6 @@ class Server;
 
 class Utils
 {
-
 	public:
 
 	// Error management
@@ -29,6 +28,7 @@ class Utils
 	static void							displayWelcomeMessage(const Client& client);
 	static void							joinMessageSuccessful(const Client& client, Server& server, std::string channel_name);
 	static void							partMessage(const Client& client, Server& server, const std::string channel_name, const std::string message = "");
+	static void							kickMessageSuccessfull(const Client& client, Server& server, const std::string channel_name, const std::string message, std::string client_kicked);
 
 	// Quit_utils
 	static void							notifyQuitinChannels(const Client& client, const Server& server);

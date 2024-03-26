@@ -15,6 +15,7 @@
 # include <csignal>
 # include <fcntl.h>
 # include <unistd.h>
+# include <limits.h>
 # include <iostream>
 # include <typeinfo>
 # include <exception>
@@ -67,6 +68,13 @@ extern bool		doSignal;
 # define OUTGOING_MSG "\033[0;35m>> \033[0m"
 # define CONNECTED true
 # define DISCONNECTED false
+# define ADD_MODE 1
+# define REMOVE_MODE -1
+# define NO_MODE 0
+# define GOOD_LIMIT 42
+# define BAD_LIMIT -42
+# define CLIENT_FOUND 24
+# define CLIENT_NOT_FOUND -24
 
 
 // Server specifications
@@ -116,6 +124,7 @@ extern bool		doSignal;
 # define ERR_ALREADYREGISTERED	"\033[0;33m462 <client> :You may not reregister\033[0m"
 # define ERR_PASSWDMISMATCH		"\033[0;33m464 :Password incorrect\033[0m"
 # define ERR_CHANNELISFULL		"\033[0;33m471 <client> <channelName> :Cannot join channel (+l)\033[0m"
+# define ERR_UNKNOWNMODE		"\033[0;33m472 <arg> :is unknown mode char to me\033[0m"
 # define ERR_INVITEONLYCHAN		"\033[0;33m473 <client> <channelName> :Cannot join channel (+i)\033[0m"
 # define ERR_BADCHANNELKEY		"\033[0;33m475 <client> <channelName> :Cannot join channel (+k)\033[0m"
 # define ERR_BADCHANMASK		"\033[0;33m476 <channelName> :Bad Channel Mask\033[0m"
@@ -131,7 +140,7 @@ extern bool		doSignal;
 # define RPL_CREATED			"003 This server was created <date>"
 # define RPL_MYINFO				"004 <servername> <version> <available user modes> <available channel modes>"
 // # define RPL_AWAY				"301 <client> :<away message>"
-# define RPL_CHANNELMODEIS		"324 <channelName> <mode> <mode params>"
+# define RPL_CHANNELMODEIS		"324 <channelName> <arg>"
 # define RPL_UNIQOPIS			"325 <channelName> <client>"
 # define RPL_NOTOPIC			"331 <channelName> :No topic is set"
 # define RPL_TOPIC				"332 <channelName> :<topic>" // rajouter topic

@@ -12,7 +12,18 @@ class Server;
 
 class Client
 {
-
+	private:
+		std::string					_clientUsername;
+		std::string					_clientPassword;
+		std::string					_clientNickname;
+		std::string					_lastArg;
+		std::string					_lastCommand;
+		std::string					_buffer;
+		std::vector<Channel*>		_channels;
+		const char*					_clientIP;
+		int							_clientSocket;
+		bool						_clientStatus;
+		bool						_irssi;
 	public:
 		Client(const int& serverSocket);
 		~Client();
@@ -45,9 +56,11 @@ class Client
 	// Functions
 	void						interpretMessage(Server& server);
 	void						newChannel(Channel& channel_name);
-	void						partFromChannels(Client& client, Server& server, const std::vector<std::string> channels, const std::string message = EMPTY);
-	bool						isOperator(const std::string channelname) const;
-	bool						userIsInChannel(const std::string& channelname, const std::string& usernickname) const;
+	void						partFromChannels(Client& client, Server& server, const std::vector<std::string> channels, const std::string message = "");
+	void						removeChannelFromClient(const Channel& channel);
+
+	// Commands
+	// bool					isCommandFromList(const std::string& command, const Server& server) const;
 
 
 	// Exceptions
@@ -61,20 +74,6 @@ class Client
 		public:
 			const char *what() const throw();
 	};
-
-
-	private:
-		std::string					_clientUsername;
-		std::string					_clientPassword;
-		std::string					_clientNickname;
-		std::string					_lastArg;
-		std::string					_lastCommand;
-		std::string					_buffer;
-		std::vector<Channel*>		_channels;
-		const char*					_clientIP;
-		int							_clientSocket;
-		bool						_clientStatus;
-		bool						_irssi;
 };
 
 #endif

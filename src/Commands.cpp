@@ -7,12 +7,14 @@ Commands::Commands()
 {
 	_cmdMap["JOIN"] = &Commands::commandJOIN;
 	_cmdMap["PASS"] = &Commands::commandPASS;
+	_cmdMap["MODE"] = &Commands::commandMODE;
 	_cmdMap["NICK"] = &Commands::commandNICK;
 	_cmdMap["USER"] = &Commands::commandUSER;
 	_cmdMap["CAP"] = &Commands::commandCAP;
 	_cmdMap["QUIT"] = &Commands::commandQUIT;
 	_cmdMap["PRIVMSG"] = &Commands::commandPRIVMSG;
 	_cmdMap["PART"] = &Commands::commandPART;
+	_cmdMap["KICK"] = &Commands::commandKICK;
 	_cmdMap["INVITE"] = &Commands::commandINVITE;
 	_cmdMap["PING"] = &Commands::commandPING;
 	_cmdMap["TOPIC"] = &Commands::commandTOPIC;
@@ -24,15 +26,8 @@ Commands::Commands()
 
 void		Commands::commandJOIN(const std::string& line, const std::string& command, Client& client, Server& server)
 {
-	if (client.getIrssi() == false)
-	{
-		if (isParameterSetUp(client.getClientPassword(), client, PASS_NOT_ENTERED) == false)
-			return ;
-		if (isParameterSetUp(client.getClientNickname(), client, NICK_NOT_ENTERED) == false)
-			return ;
-		if (isParameterSetUp(client.getClientUsername(), client, USER_NOT_ENTERED) == false)
-			return ;
-	}
+	if (client.getClientStatus() == DISCONNECTED)
+		return ;
 
 	std::vector<std::string>	channels;
 	std::vector<std::string>	passwrds;
@@ -50,22 +45,36 @@ void		Commands::commandJOIN(const std::string& line, const std::string& command,
 
 
 
+//KICK
+
+void		Commands::commandKICK(const std::string& line, const std::string& command, Client& client, Server& server)
+{
+	if (client.getClientStatus() == DISCONNECTED)
+		return ;
+
+	std::string	kick_params = eraseCommandfromLine(line, command);
+	if (kick_params.empty() == true)
+	{
+		Utils::sendErrorMessage(ERR_NEEDMOREPARAMS, client);
+		return ;
+	}
+	std::string					message;
+	std::vector<std::string>	channels;
+	std::vector<std::string>	clients;
+
+	checkKickParams(kick_params, &channels, &clients, &message);
+	server.removeClientsFromChannels(client, channels, clients, message);
+}
+
+
+
 //PART
 
 
 void		Commands::commandPART(const std::string& line, const std::string& command, Client& client, Server& server)
 {
-	(void)server;
-
-	if (client.getIrssi() == false)
-	{
-		if (isParameterSetUp(client.getClientPassword(), client, PASS_NOT_ENTERED) == false)
-			return ;
-		if (isParameterSetUp(client.getClientNickname(), client, NICK_NOT_ENTERED) == false)
-			return ;
-		if (isParameterSetUp(client.getClientUsername(), client, USER_NOT_ENTERED) == false)
-			return ;
-	}
+	if (client.getClientStatus() == DISCONNECTED)
+		return ;
 
 	std::string					message;
 	std::vector<std::string>	channels;
@@ -82,21 +91,50 @@ void		Commands::commandPART(const std::string& line, const std::string& command,
 
 
 
+void	Commands::commandMODE(const std::string& line, const std::string& command, Client& client, Server& server)
+{
+	if (client.getClientStatus() == DISCONNECTED)
+		return ;
+
+	std::vector<std::string>			channels;
+	std::vector<std::string>			modes_args;
+	std::vector<std::string>			modes_with_args;
+	std::vector<std::string>			modes_without_args;
+	std::string							mode_params = eraseCommandfromLine(line, command);
+
+	(void)server;
+	if (mode_params.empty() == true)
+	{
+		Utils::sendErrorMessage(ERR_NEEDMOREPARAMS, client);
+		return ;
+	}
+	checkModeParams(mode_params, &channels, &modes_with_args, &modes_without_args, &modes_args, client);
+	for (size_t i = 0; i < modes_with_args.size(); i++)
+	{
+		std::cout << BLUE << i << "-mode: " << (modes_with_args)[i] << NC << std::endl;
+	}
+	for (size_t i = 0; i < modes_args.size(); i++)
+	{
+		std::cout << ORANGE << i << "-arg: " << (modes_args)[i] << NC << std::endl;
+	}
+	for (size_t i = 0; i < modes_without_args.size(); i++)
+	{
+		std::cout << BLUE << "mode: " << (modes_without_args)[i] << NC << std::endl;
+	}
+	server.changeChannelsModes(client, channels, modes_args, modes_with_args, modes_without_args);
+
+}
+
+
+
 //PRIVMSG
 
 
 
 void		Commands::commandPRIVMSG(const std::string& line, const std::string& command, Client& client, Server& server)
 {
-	if (client.getIrssi() == false)
-	{
-		if (isParameterSetUp(client.getClientPassword(), client, PASS_NOT_ENTERED) == false)
-			return ;
-		if (isParameterSetUp(client.getClientNickname(), client, NICK_NOT_ENTERED) == false)
-			return ;
-		if (isParameterSetUp(client.getClientUsername(), client, USER_NOT_ENTERED) == false)
-			return ;
-	}
+	if (client.getClientStatus() == DISCONNECTED)
+		return ;
 
 	std::string					message;
 	std::vector<std::string>	receivers;

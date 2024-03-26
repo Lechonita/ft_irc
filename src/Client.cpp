@@ -137,10 +137,10 @@ void	Client::newChannel(Channel& channel)
 
 
 
-
 void	Client::partFromChannels(Client& client, Server& server, const std::vector<std::string> channels, const std::string message)
 {
 	std::vector<Channel*>::iterator	it;
+	bool							just_removed = false;
 
 	for (size_t i = 0; i < channels.size(); i++)
 	{
@@ -149,53 +149,41 @@ void	Client::partFromChannels(Client& client, Server& server, const std::vector<
 			if (channels[i] == (*it)->getChannelName())
 			{
 				(*it)->removeClient(client);
+				if ((*it)->getChannelClients().size() == 0)
+				{
+					_channels.erase(it);
+					server.deleteChannel((channels[i]));
+					just_removed = true;
+					break ;
+				}
 				_channels.erase(it);
 				Utils::partMessage(client, server, channels[i], message);
+				just_removed = true;
 				break;
 			}
 		}
+		if (just_removed == false && it == _channels.end())
+		{
+			Utils::sendErrorMessage(ERR_NOSUCHCHANNEL, client, channels[i]);
+		}
+		just_removed = false;
 	}
 }
 
 
 
-
-bool		Client::isOperator(const std::string channelname) const
+void	Client::removeChannelFromClient(const Channel& channel)
 {
-	std::vector<Channel*>::const_iterator	it;
+	std::vector<Channel*>::iterator	it;
 
-	for (it = _channels.begin(); it != _channels.end(); ++it)
+	for(it = _channels.begin(); it != _channels.end(); it++)
 	{
-		std::vector<channelClient>				channelClients = (*it)->getChannelClients();
-		std::vector<channelClient>::iterator	itClient;
-
-		for (itClient = channelClients.begin(); itClient != channelClients.end(); ++itClient)
+		if ((*it) == &channel)
 		{
-			if ((*it)->getChannelName() == channelname && itClient->client->getClientNickname() == _clientNickname && itClient->isOperator == true)
-				return (true);
+			_channels.erase(it);
+			return ;
 		}
 	}
-	return (false);
-}
-
-
-
-bool		Client::userIsInChannel(const std::string& channelname, const std::string& usernickname) const
-{
-	std::vector<Channel*>::const_iterator	it;
-
-	for (it = _channels.begin(); it != _channels.end(); ++it)
-	{
-		std::vector<channelClient>				channelClients = (*it)->getChannelClients();
-		std::vector<channelClient>::iterator	itClient;
-
-		for (itClient = channelClients.begin(); itClient != channelClients.end(); ++itClient)
-		{
-			if ((*it)->getChannelName() == channelname && itClient->client->getClientNickname() == usernickname)
-				return (true);
-		}
-	}
-	return (false);
 }
 
 

@@ -9,10 +9,12 @@
 
 class Client;
 
+class Server;
+
 struct channelClient
 {
-	const Client	*client;
-	bool			isOperator;
+	Client	*client;
+	bool	isOperator;
 };
 
 
@@ -22,7 +24,8 @@ enum channelModes
 	MODE_T,
 	MODE_K,
 	MODE_O,
-	MODE_L
+	MODE_L,
+	DEFAULT
 };
 
 
@@ -40,23 +43,49 @@ class Channel
 		std::string					getChannelName() const;
 		std::string					getChannelTopic() const;
 		std::string					getChannelPass() const;
-		std::vector<channelModes>	getChannelModes() const;
 		std::vector<channelClient>	getChannelClients() const;
+		bool						getIMode() const {return (_iMode);}
+		bool						getTMode() const {return (_tMode);}
+		bool						getKMode() const {return (_kMode);}
+		bool						getOMode() const {return (_oMode);}
+		bool						getLMode() const {return (_lMode);}
+		size_t						getUserLimit() const {return (_usersLimit);}
 
-		// Utils
+		// setters
+		void						setIMode(bool status);
+		void						setTMode(bool status);
+		void						setKMode(bool status);
+		void						setOMode(bool status);
+		void						setLMode(bool status);
+		void						setPassword(std::string password);
+		void						setTopic(std::string topic);
+		size_t						setUserLimit(std::string limit);
+
+		// utils
 		void						newClient(std::string passwrd, Client &client);
 		void						removeClient(Client &client);
 		void						sendMessageToAll(std::string message);
+		void						kickThoseMfOut(Client &client, Server &server, std::vector<std::string> clients, std::string message);
+		void						setSimpleModes(std::vector<std::string> modes_without_args);
+		void						setArgModes(Client& client, std::vector<std::string> modes_args, std::vector<std::string> modes_with_args);
 		void						printClients();
-	
+		bool						kickerIsQualified(Client &client);
+		bool						isChanOp(const Client &client);
+		int							giveOpStatusToClient(Client& client, std::string client_name);
+		int							takeOpStatusFromClient(Client& client, std::string client_name);
 
 	private:
 
 		std::string					_channelName;
 		std::string					_channelTopic;
 		std::string					_channelPass;
-		std::vector<channelModes>	_channelModes;
+		bool						_iMode;
+		bool						_tMode;
+		bool						_kMode;
+		bool						_oMode;
+		bool						_lMode;
 		std::vector<channelClient>	_channelClients;
+		size_t						_usersLimit;
 };
 
 #endif

@@ -35,7 +35,7 @@ class Server
 		std::string							getPassword() const;
 		std::map<int, Client>				getClientMap() const;
 		std::map<std::string, Channel>		getChannelMap() const;
-		
+
 
 		// Setters
 		void								createNewChannel(std::string channel_name, int client_socket);
@@ -49,8 +49,9 @@ class Server
 		void								sendMessageToChannel(std::string receiver, std::string message, const Client& client);
 		void								sendMessageToUser(std::string receiver, std::string message, const Client& client);
 		bool								isPartOfChannel(std::string channel_name, const Client& client);
-
-
+		void								removeClientsFromChannels(Client& client, std::vector<std::string> channels, std::vector<std::string> clients, std::string message);
+		void								changeChannelsModes(Client& client, std::vector<std::string> channels, std::vector<std::string> modes_args, std::vector<std::string> modes_with_args, std::vector<std::string> modes_without_args);
+		void								deleteChannel(std::string channel_name);
 		// Functions
 		void								runServer();
 		void								createNewClient();
@@ -120,8 +121,6 @@ class Server
 			public:
 				const char *what() const throw();
 		};
-
-
 };
 
 #endif

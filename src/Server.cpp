@@ -9,7 +9,8 @@ Server::Server(const std::string &port, const std::string &password)
 	: _port(port),
 	  _password(password),
 	  _nbClients(0),
-	  _pollFd(0)
+	  _pollFd(0),
+
 {
 	// SOCKET : This code creates a TCP socket for IPv6 communication
 	// AF_INET6 = IPv6 Internet protocols
@@ -210,7 +211,6 @@ std::map<int, Client>				Server::getClientMap() const { return (_clientMap); }
 std::map<std::string, Channel>		Server::getChannelMap() const { return (_channelMap); }
 
 
-// std::vector<std::string>	Server::getCommandList() const { return (_cmdMap); }
 
 
 void	Server::printAll() //provisoire, a supprimer
@@ -221,7 +221,7 @@ void	Server::printAll() //provisoire, a supprimer
 	for (it_channels = _channelMap.begin() ; it_channels != _channelMap.end() ; it_channels++)
 	{
 		std::cout << GREEN << "channel= " << it_channels->second.getChannelName()
-		<< ", channel address = " << &(it_channels->second) << NC << std::endl;
+		<< ", channel address = " << &(it_channels->second) << "pwd = " << it_channels->second.getChannelPass() << NC << std::endl;
 		it_channels->second.printClients();
 	}
 
@@ -273,8 +273,24 @@ void	Server::addClientToChannel(std::string channel, std::string passwrd, Client
 {
 	std::map<std::string, Channel>::iterator	it = _channelMap.find(channel);
 
-	it->second.newClient(passwrd, client);
-	Utils::joinMessageSuccessful(client, *this, channel);
+	if (it ->second.getLMode() == true && it->second.getUserLimit() == it->second.getChannelClients().size())
+	{
+		Utils::sendErrorMessage(ERR_CHANNELISFULL, client, channel);
+		return ;
+	}
+	else if (it->second.getKMode() == true)
+	{
+		if (passwrd == it->second.getChannelPass())
+			it->second.newClient(passwrd, client);
+		else
+		{
+			Utils::sendErrorMessage(ERR_BADCHANNELKEY, client, channel);
+			return ;
+		}
+	}
+	else
+		it->second.newClient(passwrd, client);
+	Utils::joinMessageSuccessful(client, server, channel);
 }
 
 
@@ -291,14 +307,19 @@ void	Server::createOrJoinChannel(std::vector<std::string> channels, std::vector<
 		{
 			createNewChannel(channels[i], client.getClientSocket(), server);
 		}
-		else if (i >= passwrds.size())
+		else if ( _channelMap.find(channels[i])->second.getIMode() == false)
 		{
-			addClientToChannel(channels[i], EMPTY, client);
+			if (i >= passwrds.size())
+			{
+				addClientToChannel(channels[i], "", client, server);
+			}
+			else
+			{
+				addClientToChannel(channels[i], passwrds[i], client, server);
+			}
 		}
 		else
-		{
-			addClientToChannel(channels[i], passwrds[i], client);
-		}
+			Utils::sendErrorMessage(ERR_INVITEONLYCHAN, client, channels[i]);
 	}
 }
 
@@ -330,6 +351,10 @@ void	Server::sendMessageToReceivers(std::vector<std::string> receivers, std::str
 {
 	for (size_t i = 0; i < receivers.size(); i++)
 	{
+		message = ":" + client.getClientNickname()
+					+ "!~" + client.getClientUsername() + "@"
+					+ client.getClientIP() + " PRIVMSG " + receivers[i]
+					+ " :" + message;
 		if (receivers[i][0] == '#' && isPartOfChannel(receivers[i], client) == true)
 		{
 			sendMessageToChannel(receivers[i], message, client);
@@ -373,9 +398,106 @@ void	Server::sendMessageToUser(std::string receiver, std::string message, const 
 		Utils::sendErrorMessage(ERR_NOSUCHNICK, client);
 		return ;
 	}
-	std::string	full_message = client.getClientNickname() + ": " + message+ END_MSG;
+	std::string	full_message = message + END_MSG;
 
 	Utils::sendMessage(full_message, it->second);
+}
+
+
+
+void	Server::removeClientsFromChannels(Client& client, std::vector<std::string> channels, std::vector<std::string> clients, std::string message)
+{
+	std::map<std::string, Channel>::iterator	it_channels;
+
+	for (size_t pos = 0; pos < channels.size(); pos++)
+	{
+		it_channels = _channelMap.find(channels[pos]);
+		if (it_channels != _channelMap.end())
+		{
+			it_channels->second.kickThoseMfOut(client, *this, clients, message);
+		}
+		else
+		{
+			Utils::sendErrorMessage(ERR_NOSUCHCHANNEL, client, channels[pos]);
+		}
+	}
+}
+
+
+
+static std::string	modeStatusAfterExec(std::vector<std::string> modes_args, std::vector<std::string> modes_with_args, std::vector<std::string> modes_without_args)
+{
+	std::string	added_modes = "+";
+	std::string	removed_modes = "-";
+	std::string	parameters;
+
+	for (size_t i = 0; i < modes_with_args.size(); i++)
+	{
+		std::string	mode(1, modes_with_args[i][1]);
+
+		if (modes_with_args[i][0] == '+')
+			added_modes += mode;
+		else
+			removed_modes += mode;
+	}
+	for (size_t i = 0; i < modes_without_args.size(); i++)
+	{
+		std::string	mode(1, modes_without_args[i][1]);
+
+		if (modes_without_args[i][0] == '+')
+			added_modes += mode;
+		else
+			removed_modes += mode;
+	}
+	for (size_t i = 0; i < modes_with_args.size(); i++)
+	{
+		if (i < modes_args.size())
+			parameters += modes_args[i];
+		if (i < modes_with_args.size() - 1)
+			parameters += " ";
+	}
+	std::string	args;
+	if (added_modes.size() > 1)
+		args += added_modes + " " + parameters + " ";
+	if (removed_modes.size() > 1)
+		args += removed_modes;
+	return (args);
+}
+
+
+
+void	Server::changeChannelsModes(Client& client, std::vector<std::string> channels, std::vector<std::string> modes_args, std::vector<std::string> modes_with_args, std::vector<std::string> modes_without_args)
+{
+	std::map<std::string, Channel>::iterator	it_channels;
+
+	for (size_t pos = 0; pos < channels.size(); pos++)
+	{
+		it_channels = _channelMap.find(channels[pos]);
+		if (it_channels != _channelMap.end())
+		{
+			std::cout << RED << "imode= " << it_channels->second.getIMode() << "tmode= " << it_channels->second.getTMode() << "kmode= " << it_channels->second.getKMode() << "omode= " << it_channels->second.getOMode() << "lmode= " << it_channels->second.getLMode() << NC << std::endl;
+			if (it_channels->second.isChanOp(client) == true)
+			{
+				it_channels->second.setSimpleModes(modes_without_args);
+				it_channels->second.setArgModes(client, modes_args, modes_with_args);
+				client.setLastArgument(modeStatusAfterExec(modes_args, modes_with_args, modes_without_args));
+				Utils::sendErrorMessage(RPL_CHANNELMODEIS, client, it_channels->second.getChannelName());
+			}
+			else
+				Utils::sendErrorMessage(ERR_CHANOPRIVSNEEDED, client, channels[pos]);
+		}
+		else
+			Utils::sendErrorMessage(ERR_NOSUCHCHANNEL, client, channels[pos]);
+	}
+}
+
+
+
+void	Server::deleteChannel(std::string channel_name)
+{
+	std::map<std::string, Channel>::iterator	it = _channelMap.find(channel_name);
+
+	_channelMap.erase(it);
 }
 
 
@@ -399,6 +521,12 @@ const char *Server::BlockException::what() const throw() { return (ERR_SERVER_BL
 const char *Server::AcceptException::what() const throw() { return (ERR_SERVER_ACCEPT); }
 
 const char *Server::ParametersException::what() const throw() { return (ERR_NEEDMOREPARAMS); }
+
+// const char *Server::ReadException::what() const throw()
+// {
+// 	return ("\033[0;31mError: Could not read client's message.\n\033[0m");
+// }
+
 
 
 /*************************************/

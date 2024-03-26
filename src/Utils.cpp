@@ -227,6 +227,20 @@ void	Utils::partMessage(const Client& client, Server& server, const std::string 
 }
 
 
+
+void	Utils::kickMessageSuccessfull(const Client& client, Server& server, const std::string channel_name, const std::string message, std::string client_kicked)
+{
+	std::string						full_message = ":" + client.getClientNickname()
+												+ "!~" + client.getClientUsername() + "@"
+												+ client.getClientIP() + " KICK " + channel_name;
+
+	if (message == "")
+		full_message = full_message + " "  + client_kicked + " :" + client.getClientNickname();
+	else
+		full_message = full_message + " " + client_kicked + " :" + message;
+	server.sendMessageToChannel(channel_name, full_message, client);
+}
+
 // Util functions
 
 std::vector<std::string>		Utils::splitParameters(const std::string& userInfo)
