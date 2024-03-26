@@ -9,8 +9,7 @@ Server::Server(const std::string &port, const std::string &password)
 	: _port(port),
 	  _password(password),
 	  _nbClients(0),
-	  _pollFd(0),
-
+	  _pollFd(0)
 {
 	// SOCKET : This code creates a TCP socket for IPv6 communication
 	// AF_INET6 = IPv6 Internet protocols
@@ -257,7 +256,7 @@ void	Server::createNewChannel(std::string channel_name, int client_socket, Serve
 // TO BE ORGANIZED
 
 
-void		Server::inviteUser(const std::vector<std::string> parameters, Client& client)
+void	Server::inviteUser(const std::vector<std::string> parameters, Client& client, Server& server)
 {
 	Utils::sendErrorMessage(RPL_INVITING, client, parameters[1]);
 
@@ -265,11 +264,11 @@ void		Server::inviteUser(const std::vector<std::string> parameters, Client& clie
 	for (it = _clientMap.begin(); it != _clientMap.end(); ++it)
 	{
 		if (it->second.getClientNickname() == parameters[0])
-			addClientToChannel(parameters[1], EMPTY, it->second);
+			addClientToChannel(parameters[1], EMPTY, it->second, server);
 	}
 }
 
-void	Server::addClientToChannel(std::string channel, std::string passwrd, Client& client)
+void	Server::addClientToChannel(std::string channel, std::string passwrd, Client& client, Server& server)
 {
 	std::map<std::string, Channel>::iterator	it = _channelMap.find(channel);
 

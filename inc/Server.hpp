@@ -37,12 +37,9 @@ class Server
 		std::map<std::string, Channel>		getChannelMap() const;
 
 
-		// Setters
-		void								createNewChannel(std::string channel_name, int client_socket);
-
 		// functions that should be reorganised?
-		void								inviteUser(const std::vector<std::string> parameters, Client& client);
-		void								addClientToChannel(std::string channel, std::string passwrd, Client& client);
+		void								inviteUser(const std::vector<std::string> parameters, Client& client, Server& server);
+		void								addClientToChannel(std::string channel, std::string passwrd, Client& client, Server& server);
 		void								createNewChannel(std::string channel_name, int client_socket, Server& server);
 		void								createOrJoinChannel(std::vector<std::string> channels, std::vector<std::string> passwrds, Client& client, Server& server);
 		void								sendMessageToReceivers(std::vector<std::string> receivers, std::string message, const Client& client);

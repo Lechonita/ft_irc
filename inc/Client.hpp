@@ -57,6 +57,8 @@ class Client
 	void						interpretMessage(Server& server);
 	void						newChannel(Channel& channel_name);
 	void						partFromChannels(Client& client, Server& server, const std::vector<std::string> channels, const std::string message = "");
+	bool						isOperator(const std::string channelname) const;
+	bool						userIsInChannel(const std::string& channelname, const std::string& usernickname) const;
 	void						removeChannelFromClient(const Channel& channel);
 
 	// Commands

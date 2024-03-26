@@ -172,6 +172,46 @@ void	Client::partFromChannels(Client& client, Server& server, const std::vector<
 
 
 
+bool		Client::isOperator(const std::string channelname) const
+{
+	std::vector<Channel*>::const_iterator	it;
+
+	for (it = _channels.begin(); it != _channels.end(); ++it)
+	{
+		std::vector<channelClient>				channelClients = (*it)->getChannelClients();
+		std::vector<channelClient>::iterator	itClient;
+
+		for (itClient = channelClients.begin(); itClient != channelClients.end(); ++itClient)
+		{
+			if ((*it)->getChannelName() == channelname && itClient->client->getClientNickname() == _clientNickname && itClient->isOperator == true)
+				return (true);
+		}
+	}
+	return (false);
+}
+
+
+
+bool		Client::userIsInChannel(const std::string& channelname, const std::string& usernickname) const
+{
+	std::vector<Channel*>::const_iterator	it;
+
+	for (it = _channels.begin(); it != _channels.end(); ++it)
+	{
+		std::vector<channelClient>				channelClients = (*it)->getChannelClients();
+		std::vector<channelClient>::iterator	itClient;
+
+		for (itClient = channelClients.begin(); itClient != channelClients.end(); ++itClient)
+		{
+			if ((*it)->getChannelName() == channelname && itClient->client->getClientNickname() == usernickname)
+				return (true);
+		}
+	}
+	return (false);
+}
+
+
+
 void	Client::removeChannelFromClient(const Channel& channel)
 {
 	std::vector<Channel*>::iterator	it;

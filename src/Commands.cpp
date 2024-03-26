@@ -327,7 +327,7 @@ void		Commands::commandINVITE(const std::string& line, const std::string& comman
 		return ;
 	}
 
-	server.inviteUser(parameters, client);
+	server.inviteUser(parameters, client, server);
 
 	// INVITE <invitee> <channelname>
 }
