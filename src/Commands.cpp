@@ -248,13 +248,15 @@ void		Commands::commandQUIT(const std::string& line, const std::string& command,
 	(void)command;
 	client.setLastArgument(line);
 
-	close(client.getClientSocket());
 
 	Utils::notifyQuitinChannels(client, server);
 
-	server.removeClientfromServer(client);
 	server.removeClientfromChannels(client);
+	printf("1/ Avant removeClientfromChannels\n");
+	server.removeClientfromServer(client);
+	printf("6/ Sortie de removeClientfromChannels\n");
 
+	close(client.getClientSocket());
 
 
 

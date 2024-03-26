@@ -10,17 +10,20 @@ void	Utils::notifyQuitinChannels(const Client& client, Server& server)
 	std::vector<Channel*>				channels = client.getClientChannels();
 	std::vector<Channel*>::iterator		it;
 	
-	for(it = channels.begin(); it != channels.end(); ++it)
+	if (channels.size() > 0)
 	{
-		std::vector<channelClient>				clients = (*it)->getChannelClients();
-		std::vector<channelClient>::iterator	itClient;
-		
-		for (itClient = clients.begin(); itClient != clients.end(); ++itClient)
+		for(it = channels.begin(); it != channels.end(); ++it)
 		{
-			if (itClient->client->getClientNickname() == client.getClientNickname())
+			std::vector<channelClient>				clients = (*it)->getChannelClients();
+			std::vector<channelClient>::iterator	itClient;
+			
+			for (itClient = clients.begin(); itClient != clients.end(); ++itClient)
 			{
-				(*it)->sendMessageToAll(RPL_QUIT, client.getClientNickname());
-				break ;
+				if (itClient->client->getClientNickname() == client.getClientNickname())
+				{
+					(*it)->sendMessageToAll(RPL_QUIT, client.getClientNickname());
+					break ;
+				}
 			}
 		}
 	}

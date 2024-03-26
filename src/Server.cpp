@@ -141,7 +141,7 @@ void	Server::createNewClient()
 		throw(BlockException());
 	}
 
-	std::cout << "[ New connection ] Client fd = " << clientSocket
+	std::cout << "\n[ New connection ] Client fd = " << clientSocket
 			<< "  /  ip = " << inet_ntoa(clientAddress.sin_addr)
 			<< "  /  port = " << ntohs(clientAddress.sin_port) << std::endl;
 
@@ -202,33 +202,53 @@ void	Server::removeClientfromServer(const Client& client)
 
 
 
+static std::string		getChannelClientNickname(std::vector<channelClient>::iterator itClient)
+{
+	printf("    Entrée dans getChannelClientNickname\n");
+	const Client	tmpClient = *itClient->client;
+	printf("    >>>>>>>>  tmpclient créé\n");
+	std::string		nickname = tmpClient.getClientNickname();
+	printf("    Nickname = -%s-\n", nickname.c_str());
+	return (nickname);
+}
+
+
+
 void	Server::removeClientfromChannels(const Client& client)
 {
+	printf("2/ Entering removeClientfromChannels\n");
 	const std::string		clientNickname = client.getClientNickname();
 	// const std::string		channelList = Utils::getChannelListInClient(client);
 
 	std::map<std::string, Channel>::iterator	it;
 
-	for (it = getChannelMap().begin(); it != getChannelMap().end(); ++it)
+	if (getChannelMap().size() > 0)
 	{
-		std::vector<channelClient>::iterator	itClient;
-
-		for (itClient = it->second.getChannelClients().begin(); itClient != it->second.getChannelClients().end(); ++itClient)
+		for (it = getChannelMap().begin(); it != getChannelMap().end(); ++it)
 		{
-			if (itClient->client->getClientNickname() == clientNickname)
-				it->second.getChannelClients().erase(itClient);
+			printf("3/ Je rentre dans la boucle for des channels\n");
+			printf("	Je suis sur -%s-\n", it->first.c_str());
+			std::vector<channelClient>::iterator	itClient;
+
+			for (itClient = it->second.getChannelClients().begin(); itClient != it->second.getChannelClients().end(); ++itClient)
+			{
+				printf("  4/ Je rentre dans la boucle for des clients du channel\n");
+				printf("	  Je suis sur -%s-\n", getChannelClientNickname(itClient).c_str());
+				if (getChannelClientNickname(itClient) == clientNickname)
+					it->second.getChannelClients().erase(itClient);
+			}
+			// if (channelList.find(it->first) != std::string::npos)
+			// {
+			// 	// const std::string		clientList = Utils::getClientListInChannel(client, it->first);
+			// 	// if (clientList.find(clientNickname) != std::string::npos)
+			// 	// {
+
+			// 	// }
+			// }
+				
 		}
-		// if (channelList.find(it->first) != std::string::npos)
-		// {
-		// 	// const std::string		clientList = Utils::getClientListInChannel(client, it->first);
-		// 	// if (clientList.find(clientNickname) != std::string::npos)
-		// 	// {
-
-		// 	// }
-		// }
-			
 	}
-
+	printf("5/ Je suis à la fin de removeClientfromChannels\n");
 }
 
 
