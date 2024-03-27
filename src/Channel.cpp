@@ -135,13 +135,21 @@ void	Channel::sendMessageToAll(std::string message)
 }
 
 
-void	Channel::sendMessageToAll(std::string message, std::string username)
+void	Channel::sendMessageToAll(std::string message, std::string parameter)
 {
-	const std::string msg = username + message;
-
-	for(size_t i = 0; i < _channelClients.size(); i++)
+	if (parameter[0] == PREFIX_CHAN)
 	{
-		Utils::sendMessage(msg, *_channelClients[i].client);
+		for(size_t i = 0; i < _channelClients.size(); i++)
+		{
+			Utils::sendFormattedMessage(message, *_channelClients[i].client, parameter);
+		}
+	}
+	else
+	{
+		for(size_t i = 0; i < _channelClients.size(); i++)
+		{
+			Utils::sendMessage(parameter + message, *_channelClients[i].client);
+		}
 	}
 }
 

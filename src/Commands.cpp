@@ -269,6 +269,7 @@ void		Commands::commandCAP(const std::string& line, const std::string& command, 
 
 	if (isIrssi(parameter) == true)
 		client.setIrssi(true);
+
 }
 
 
@@ -286,13 +287,14 @@ void		Commands::commandQUIT(const std::string& line, const std::string& command,
 	(void)command;
 	client.setLastArgument(line);
 
-
 	Utils::notifyQuitinChannels(client, server);
 
-	server.removeClientfromChannels(client);
-	printf("1/ Avant removeClientfromChannels\n");
 	server.removeClientfromServer(client);
-	printf("6/ Sortie de removeClientfromChannels\n");
+
+	const std::vector<std::string>	channels = Utils::getChannelListInClient(client);
+	std::vector<std::string>	user;
+	user.push_back(client.getClientNickname());
+	server.removeClientsfromChannels(client, channels, user, );
 
 	close(client.getClientSocket());
 

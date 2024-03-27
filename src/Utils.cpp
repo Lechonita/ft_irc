@@ -297,16 +297,15 @@ std::string		Utils::getChannelListInServer(const Server& server)
 
 
 
-std::string		Utils::getChannelListInClient(const Client& client)
+std::vector<std::string>		Utils::getChannelListInClient(const Client& client)
 {
-	std::vector<Channel*>	channels = client.getClientChannels();
-	std::string				channelList = "";
+	std::vector<Channel*>		channels = client.getClientChannels();
+	std::vector<std::string>	channelList;
 
 	std::vector<Channel*>::iterator	it;
 	for (it = channels.begin(); it != channels.end(); ++it)
 	{
-		channelList += (*it)->getChannelName();
-		channelList += " ";
+		channelList.push_back((*it)->getChannelName());
 	}
 	return (channelList);
 }

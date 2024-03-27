@@ -11,8 +11,7 @@ static void		changeChannelTopic(const Client& client, const std::string& channel
 		if ((*it)->getChannelName() == channelname)
 		{
 			(*it)->setChannelTopic(newtopic);
-			Utils::sendFormattedMessage(RPL_TOPIC, client, channelname); // a revoir
-			(*it)->sendMessageToAll(channelname + ": Topic changed to " + newtopic + '\n');
+			(*it)->sendMessageToAll(RPL_TOPIC, channelname);
 		}
 	}
 }
@@ -37,8 +36,7 @@ void		Commands::chooseAndExecuteTopicAction(const std::vector<std::string> param
 		const std::string		topic = Utils::getChannelTopic(parameters[0], client);
 		displayTopic(parameters, client, topic);
 	}
-
-	if (parameters.size() == 2)
+	else if (parameters.size() == 2)
 	{
 		changeChannelTopic(client, parameters[0], parameters[1]);
 	}

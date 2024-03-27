@@ -107,3 +107,7 @@ LISTE DE BUGS A CORRIGER
 - voir ce qui se passe une fois que le timeout s'est écoulé
 
 - /msg sur irssi > les messages dans un channel s'affichent 2 fois
+
+- Commande CAP > verifier pour le cas irssi où le mdp n'est pas donné
+
+- Quand le timeout est atteint sur irssi, un nouveau user join et ca join tout ! aussi son nickname est celui du pc
