@@ -294,7 +294,7 @@ void		Commands::commandQUIT(const std::string& line, const std::string& command,
 	const std::vector<std::string>	channels = Utils::getChannelListInClient(client);
 	std::vector<std::string>	user;
 	user.push_back(client.getClientNickname());
-	server.removeClientsfromChannels(client, channels, user, );
+	server.removeClientsFromChannels(client, channels, user, RPL_QUIT);
 
 	close(client.getClientSocket());
 
