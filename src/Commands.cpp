@@ -205,6 +205,11 @@ void		Commands::commandNICK(const std::string& line, const std::string& command,
 
 	if (isValidNickname(nickname, client, server) == true)
 	{
+		if (nicknameAlreadyExists(nickname, server) == true)
+		{
+			Utils::sendFormattedMessage(ERR_NICKNAMEINUSE, client);
+			nickname = ;
+		}
 		client.setNickname(nickname);
 	}
 }

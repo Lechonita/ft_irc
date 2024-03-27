@@ -20,7 +20,7 @@ void	Server::sendUserInformation(const std::vector<std::string> parameters, cons
 			line[1] = "  Username :" + it->second.getClientUsername() + NEWLINE;
 			line[2] = "  Hostname :" + std::string(HOST_NAME) + NEWLINE;
 			line[3] = "  Real name :" + it->second.getClientRealName() + NEWLINE;
-			line[4] = "  Connextion status :" + status + NEWLINE;
+			line[4] = "  Connection status :" + status + NEWLINE;
 		}
 	}
 

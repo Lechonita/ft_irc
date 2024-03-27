@@ -42,10 +42,5 @@ bool	Commands::isValidNickname(const std::string& nickname, const Client& client
 		}
 	}
 
-	if (nicknameAlreadyExists(nickname, server) == true)
-	{
-		Utils::sendFormattedMessage(ERR_NICKNAMEINUSE, client);
-		return (false);
-	}
 	return (true);
 }

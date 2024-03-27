@@ -20,8 +20,6 @@ std::string Utils::replacePattern(std::string &message, const std::string &from,
 
 
 
-
-// Command, Arg, Client, ChannelName
 std::string Utils::getFormattedMessage(const std::string &message, const Client &client, const std::string channelName)
 {
 	const std::string pattern[PATTERN_COUNT_CHAN][2] = {
@@ -31,6 +29,8 @@ std::string Utils::getFormattedMessage(const std::string &message, const Client 
 		{"<servername>", SERVER_NAME},
 		{"<oldnickname>", client.getClientOldNickname()},
 		{"<nickname>", client.getClientNickname()},
+		{"<clientIP", client.getClientIP()},
+		{"<username>", client.getClientUsername()},
 		{"<channelName>", channelName},
 		{"<nicknames>", getClientListInChannel(client, channelName)},
 		{"<topic>", getChannelTopic(channelName, client)}};
@@ -38,6 +38,27 @@ std::string Utils::getFormattedMessage(const std::string &message, const Client 
 	std::string formattedMessage = message;
 
 	for (size_t i = 0; i < PATTERN_COUNT_CHAN; ++i)
+	{
+		formattedMessage = replacePattern(formattedMessage, pattern[i][0], pattern[i][1]);
+	}
+	return (formattedMessage + END_MSG);
+}
+
+std::string		Utils::getFormattedMessage(const std::string &message, const Client &client)
+{
+	const std::string pattern[PATTERN_COUNT][2] = {
+		{"<command>", client.getLastCommand()},
+		{"<arg>", client.getLastArgument()},
+		{"<client>", client.getClientNickname()},
+		{"<servername>", SERVER_NAME},
+		{"<oldnickname>", client.getClientOldNickname()},
+		{"<nickname>", client.getClientNickname()},
+		{"<clientIP", client.getClientIP()},
+		{"<username>", client.getClientUsername()}};
+
+	std::string formattedMessage = message;
+
+	for (size_t i = 0; i < PATTERN_COUNT; ++i)
 	{
 		formattedMessage = replacePattern(formattedMessage, pattern[i][0], pattern[i][1]);
 	}
@@ -57,28 +78,6 @@ void Utils::sendFormattedMessage(const std::string &message, const Client &clien
 	else
 		std::cout << OUTGOING_MSG << formattedMessage;
 }
-
-
-
-std::string		Utils::getFormattedMessage(const std::string &message, const Client &client)
-{
-	const std::string pattern[PATTERN_COUNT][2] = {
-		{"<command>", client.getLastCommand()},
-		{"<arg>", client.getLastArgument()},
-		{"<client>", client.getClientNickname()},
-		{"<servername>", SERVER_NAME},
-		{"<oldnickname>", client.getClientOldNickname()},
-		{"<nickname>", client.getClientNickname()}};
-
-	std::string formattedMessage = message;
-
-	for (size_t i = 0; i < PATTERN_COUNT; ++i)
-	{
-		formattedMessage = replacePattern(formattedMessage, pattern[i][0], pattern[i][1]);
-	}
-	return (formattedMessage + END_MSG);
-}
-
 
 
 void	Utils::sendFormattedMessage(const std::string &message, const Client &client)
