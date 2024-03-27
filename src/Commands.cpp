@@ -185,13 +185,14 @@ void		Commands::commandPASS(const std::string& line, const std::string& command,
 
 void		Commands::commandNICK(const std::string& line, const std::string& command, Client& client, Server& server)
 {
+	// :nonstop.ix.me.dal.net 433 * bob :Nickname is already in use.
 	if (client.getIrssi() == false)
 	{
 		if (isParameterSetUp(client.getClientPassword(), client, PASS_NOT_ENTERED) == false)
 			return ;
 	}
 
-	const std::string	nickname = eraseCommandfromLine(line, command);
+	std::string	nickname = eraseCommandfromLine(line, command);
 	if (nickname.empty() == true)
 	{
 		Utils::sendFormattedMessage(ERR_NEEDMOREPARAMS, client);
@@ -203,12 +204,12 @@ void		Commands::commandNICK(const std::string& line, const std::string& command,
 	if (isParameterSetUp(nickname, client, EMPTY) == false)
 		return ;
 
-	if (isValidNickname(nickname, client, server) == true)
+	if (isValidNickname(nickname, client) == true)
 	{
 		if (nicknameAlreadyExists(nickname, server) == true)
 		{
 			Utils::sendFormattedMessage(ERR_NICKNAMEINUSE, client);
-			nickname = ;
+			nickname = createNewNickname(nickname, server);
 		}
 		client.setNickname(nickname);
 	}

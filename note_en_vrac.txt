@@ -99,6 +99,7 @@ x on ne peut pas se KICK soi-meme d'un channel
 
 
 /connect localhost 1024 lol
+/connect localhost 1025 lol
 
 
 
