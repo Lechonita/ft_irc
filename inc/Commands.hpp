@@ -33,6 +33,7 @@ class Commands
 		void				commandINVITE(const std::string& line, const std::string& command, Client& client, Server& server);
 		void				commandPING(const std::string& line, const std::string& command, Client& client, Server& server);
 		void				commandTOPIC(const std::string& line, const std::string& command, Client& client, Server& server);
+		void				commandWHOIS(const std::string& line, const std::string& command, Client& client, Server& server);
 
 		// Command Utils
 		static std::string	getCommandFromLine(const std::string& line);
@@ -75,6 +76,10 @@ class Commands
 		// topic_utils
 		static bool			areValidTopicParameters(const std::vector<std::string> parameters, const Client& client, const Server& server);
 		static void			chooseAndExecuteTopicAction(const std::vector<std::string> parameters, const Client& client);
+
+		// whois_utils
+		static size_t		getParameterType(const std::string& parameter, const Server& server);
+
 
 	private:
 		typedef void (Commands::*functionPointer)(const std::string&, const std::string&, Client&, Server&);

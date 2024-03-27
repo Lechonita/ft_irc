@@ -17,8 +17,8 @@ class Utils
 	public:
 
 	// Error management
-	static void							sendErrorMessage(const std::string& message, const Client& client, const std::string channelName);
-	static void							sendErrorMessage(const std::string& message, const Client& client);
+	static void							sendFormattedMessage(const std::string& message, const Client& client, const std::string channelName);
+	static void							sendFormattedMessage(const std::string& message, const Client& client);
 	static std::string					getFormattedMessage(const std::string& message, const Client& client, const std::string channelName);
 	static std::string					getFormattedMessage(const std::string& message, const Client& client);
 	static std::string					replacePattern(std::string& message, const std::string& toChange, const std::string& replacement);
@@ -31,13 +31,17 @@ class Utils
 	static void							kickMessageSuccessfull(const Client& client, Server& server, const std::string channel_name, const std::string message, std::string client_kicked);
 
 	// Quit_utils
-	static void							notifyQuitinChannels(const Client& client, const Server& server);
+	static void							notifyQuitinChannels(const Client& client, Server& server);
 	static void							sendQuitMessagetoChannels(const std::string& nickname, const Channel channel);
 	static void							displayQuitChannelMessage(const std::string& nickname, const int receiverSocket);
 
 	// utils functions
 	static std::vector<std::string>		splitParameters(const std::string& userInfo);
+	static std::vector<std::string>		getChannelListInClient(const Client& client);
 	static std::string					getClientListInChannel(const Client &client, const std::string channelName);
+	static std::string					getChannelListInServer(const Server& server);
+	static std::string					getClientListInServer(const Server& server);
+	static std::string					getChannelTopic(const std::string& channelname, const Client& client);
 	static bool							channelExists(const Server& server, const std::string& channelname);
 
 };

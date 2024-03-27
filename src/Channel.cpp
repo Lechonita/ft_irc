@@ -86,7 +86,7 @@ void	Channel::newClient(std::string passwrd, Client &client)
 		}
 		else
 		{
-			Utils::sendErrorMessage(ERR_BADCHANNELKEY, client, _channelName);
+			Utils::sendFormattedMessage(ERR_BADCHANNELKEY, client, _channelName);
 		}
 	}
 	else
@@ -145,6 +145,25 @@ void	Channel::sendMessageToAll(std::string message)
 }
 
 
+void	Channel::sendMessageToAll(std::string message, std::string parameter)
+{
+	if (parameter[0] == PREFIX_CHAN)
+	{
+		for(size_t i = 0; i < _channelClients.size(); i++)
+		{
+			Utils::sendFormattedMessage(message, *_channelClients[i].client, parameter);
+		}
+	}
+	else
+	{
+		for(size_t i = 0; i < _channelClients.size(); i++)
+		{
+			Utils::sendMessage(parameter + message, *_channelClients[i].client);
+		}
+	}
+}
+
+
 
 bool	Channel::kickerIsQualified(Client &client)
 {
@@ -157,12 +176,12 @@ bool	Channel::kickerIsQualified(Client &client)
 	}
 	if (pos == _channelClients.size())
 	{
-		Utils::sendErrorMessage(ERR_NOTONCHANNEL, client, _channelName); //The error sent by default is ERR_CHANOPRIVSNEEDED, we chose to sent this instead for clarity
+		Utils::sendFormattedMessage(ERR_NOTONCHANNEL, client, _channelName); //The error sent by default is ERR_CHANOPRIVSNEEDED, we chose to sent this instead for clarity
 		return (false);
 	}
 	else if (_channelClients[pos].isOperator == false)
 	{
-		Utils::sendErrorMessage(ERR_CHANOPRIVSNEEDED, client, _channelName);
+		Utils::sendFormattedMessage(ERR_CHANOPRIVSNEEDED, client, _channelName);
 		return (false);
 	}
 	return (true);
@@ -179,12 +198,12 @@ static void	errorUserNotInChan(Client &client,Server &server, std::string client
 	{
 		if (it->second.getClientNickname() == client_tokick)
 		{
-			Utils::sendErrorMessage(ERR_USERNOTINCHANNEL, client, channel_name);
+			Utils::sendFormattedMessage(ERR_USERNOTINCHANNEL, client, channel_name);
 			break ;
 		}
 	}
 	if (it == existingClients.end())
-		Utils::sendErrorMessage(ERR_NOSUCHNICK, client);
+		Utils::sendFormattedMessage(ERR_NOSUCHNICK, client);
 }
 
 
@@ -220,7 +239,7 @@ void	Channel::kickThoseMfOut(Client &client, Server &server, std::vector<std::st
 			}
 		}
 		else
-			Utils::sendErrorMessage("503 <client> cannot kick self from <channelName>", client, _channelName);
+			Utils::sendFormattedMessage("503 <client> cannot kick self from <channelName>", client, _channelName);
 	}
 }
 
@@ -317,7 +336,7 @@ int	Channel::giveOpStatusToClient(Client& client, std::string client_name)
 		}
 	}
 	client.setLastArgument(client_name);
-	Utils::sendErrorMessage(ERR_USERNOTINCHANNEL, client, _channelName);
+	Utils::sendFormattedMessage(ERR_USERNOTINCHANNEL, client, _channelName);
 	return (CLIENT_NOT_FOUND);
 }
 
@@ -334,7 +353,7 @@ int	Channel::takeOpStatusFromClient(Client& client, std::string client_name)
 		}
 	}
 	client.setLastArgument(client_name);
-	Utils::sendErrorMessage(ERR_USERNOTINCHANNEL, client, _channelName);
+	Utils::sendFormattedMessage(ERR_USERNOTINCHANNEL, client, _channelName);
 	return (CLIENT_NOT_FOUND);
 }
 

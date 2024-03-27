@@ -1,5 +1,4 @@
 #include "../inc/Server.hpp"
-#include "../inc/Signal.hpp"
 #include "../inc/defines.hpp"
 
 bool	doSignal = false;
@@ -44,7 +43,7 @@ int main(int ac, char **av)
 		while (doSignal == false)
 		{
 			server.runServer();
-			server.printAll();
+			// server.printAll();
 		}
 	}
 	catch (Server::Exception &e)

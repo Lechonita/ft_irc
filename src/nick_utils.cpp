@@ -1,8 +1,5 @@
 #include "../inc/Commands.hpp"
 
-//  ERR_NONICKNAMEGIVEN
-//  ERR_NICKCOLLISION
-
 
 // Command NICK
 
@@ -40,14 +37,14 @@ bool	Commands::isValidNickname(const std::string& nickname, const Client& client
 			isValidCharacter(nickname[i]) == false ||
 			nickname.size() > MAX_NICK_LEN)
 		{
-			Utils::sendErrorMessage(ERR_ERRONEUSNICKNAME, client);
+			Utils::sendFormattedMessage(ERR_ERRONEUSNICKNAME, client);
 			return (false);
 		}
 	}
 
 	if (nicknameAlreadyExists(nickname, server) == true)
 	{
-		Utils::sendErrorMessage(ERR_NICKNAMEINUSE, client);
+		Utils::sendFormattedMessage(ERR_NICKNAMEINUSE, client);
 		return (false);
 	}
 	return (true);

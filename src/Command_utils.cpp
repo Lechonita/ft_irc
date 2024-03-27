@@ -46,7 +46,7 @@ void		Commands::executeCommand(std::string& line, std::string& command, Server& 
 	}
 	if (correctCmd == false)
 	{
-		Utils::sendErrorMessage(ERR_UNKNOWNCOMMAND, client);
+		Utils::sendFormattedMessage(ERR_UNKNOWNCOMMAND, client);
 	}
 }
 
@@ -66,7 +66,7 @@ bool	Commands::isParameterSetUp(const std::string& parameter, const Client& clie
 	if (parameter == EMPTY)
 	{
 		if (errorMessage != EMPTY)
-			Utils::sendErrorMessage(errorMessage, client);
+			Utils::sendFormattedMessage(errorMessage, client);
 		return (false);
 	}
 	return (true);

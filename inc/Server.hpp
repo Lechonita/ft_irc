@@ -21,7 +21,6 @@ class Server
 		int									_bind; // assign an IP address and port to the socket
 		int									_listen; // marks a socket as passive - used to accept connections
 		std::vector<pollfd>					_pollFd; // poll descriptors, one per client connection
-		// std::vector<std::string>			_cmdMap; // command function pointers indexed
 		std::map<int, Client>				_clientMap; // map of client sockets
 		std::map<std::string, Channel>		_channelMap; // map of channel sockets
 
@@ -37,23 +36,33 @@ class Server
 		std::map<std::string, Channel>		getChannelMap() const;
 
 
-		// functions that should be reorganised?
+		// Run server functions
+		void								runServer();
+		void								createNewClient();
+		void								getClientMessage();
+
+		// Send functions
+		void								sendUserInformation(const std::vector<std::string> parameters, const Client& client);
+		void								sendChannelInformation(const std::vector<std::string> parameters, const Client& client);
+		void								sendMessageToReceivers(std::vector<std::string> receivers, std::string message, const Client& client);
+		void								sendMessageToChannel(std::string receiver, std::string message, const Client& client);
+		void								sendMessageToUser(std::string receiver, std::string message, const Client& client);
+		
+		// Creation, invitation, addition
 		void								inviteUser(const std::vector<std::string> parameters, Client& client, Server& server);
 		void								addClientToChannel(std::string channel, std::string passwrd, Client& client, Server& server);
 		void								createNewChannel(std::string channel_name, int client_socket, Server& server);
 		void								createOrJoinChannel(std::vector<std::string> channels, std::vector<std::string> passwrds, Client& client, Server& server);
-		void								sendMessageToReceivers(std::vector<std::string> receivers, std::string message, const Client& client);
-		void								sendMessageToChannel(std::string receiver, std::string message, const Client& client);
-		void								sendMessageToUser(std::string receiver, std::string message, const Client& client);
-		bool								isPartOfChannel(std::string channel_name, const Client& client);
+
+		// Remove functions
 		void								removeClientsFromChannels(Client& client, std::vector<std::string> channels, std::vector<std::string> clients, std::string message);
+		void								removeClientfromServer(const Client& client);
+		void								removeClientfromChannels(const Client& client);
+
+		// Channel functions
+		bool								isPartOfChannel(std::string channel_name, const Client& client);
 		void								changeChannelsModes(Client& client, std::vector<std::string> channels, std::vector<std::string> modes_args, std::vector<std::string> modes_with_args, std::vector<std::string> modes_without_args);
 		void								deleteChannel(std::string channel_name);
-		// Functions
-		void								runServer();
-		void								createNewClient();
-		void								getClientMessage();
-		void								removeClientfromServer(const Client& client);
 
 		// Client message reception
 		void								manageClientMessageReception(const char *buffer, const int& clientSocket);

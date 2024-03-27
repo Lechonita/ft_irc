@@ -18,6 +18,7 @@ Commands::Commands()
 	_cmdMap["INVITE"] = &Commands::commandINVITE;
 	_cmdMap["PING"] = &Commands::commandPING;
 	_cmdMap["TOPIC"] = &Commands::commandTOPIC;
+	_cmdMap["WHOIS"] = &Commands::commandWHOIS;
 }
 
 
@@ -36,7 +37,7 @@ void		Commands::commandJOIN(const std::string& line, const std::string& command,
 	std::string	join_params = eraseCommandfromLine(line, command);
 	if (join_params.empty() == true)
 	{
-		Utils::sendErrorMessage(ERR_NEEDMOREPARAMS, client);
+		Utils::sendFormattedMessage(ERR_NEEDMOREPARAMS, client);
 		return ;
 	}
 	checkJoinParams(join_params, &channels, &passwrds);
@@ -55,7 +56,7 @@ void		Commands::commandKICK(const std::string& line, const std::string& command,
 	std::string	kick_params = eraseCommandfromLine(line, command);
 	if (kick_params.empty() == true)
 	{
-		Utils::sendErrorMessage(ERR_NEEDMOREPARAMS, client);
+		Utils::sendFormattedMessage(ERR_NEEDMOREPARAMS, client);
 		return ;
 	}
 	std::string					message;
@@ -82,7 +83,7 @@ void		Commands::commandPART(const std::string& line, const std::string& command,
 	std::string	part_params = eraseCommandfromLine(line, command);
 	if (part_params.empty() == true)
 	{
-		Utils::sendErrorMessage(ERR_NEEDMOREPARAMS, client);
+		Utils::sendFormattedMessage(ERR_NEEDMOREPARAMS, client);
 		return ;
 	}
 	checkPartParams(part_params, &channels, &message);
@@ -105,7 +106,7 @@ void	Commands::commandMODE(const std::string& line, const std::string& command, 
 	(void)server;
 	if (mode_params.empty() == true)
 	{
-		Utils::sendErrorMessage(ERR_NEEDMOREPARAMS, client);
+		Utils::sendFormattedMessage(ERR_NEEDMOREPARAMS, client);
 		return ;
 	}
 	checkModeParams(mode_params, &channels, &modes_with_args, &modes_without_args, &modes_args, client);
@@ -142,13 +143,13 @@ void		Commands::commandPRIVMSG(const std::string& line, const std::string& comma
 	std::string	privmsg_params = eraseCommandfromLine(line, command);
 	if (privmsg_params.empty() == true)
 	{
-		Utils::sendErrorMessage(ERR_NEEDMOREPARAMS, client);
+		Utils::sendFormattedMessage(ERR_NEEDMOREPARAMS, client);
 		return ;
 	}
 	checkPrivmsgParams(privmsg_params, &receivers, &message);
 	if (message.empty() == true)
 	{
-		Utils::sendErrorMessage(ERR_NOTEXTTOSEND, client);
+		Utils::sendFormattedMessage(ERR_NOTEXTTOSEND, client);
 		return ;
 	}
 	server.sendMessageToReceivers(receivers, message, client);
@@ -162,7 +163,7 @@ void		Commands::commandPASS(const std::string& line, const std::string& command,
 {
 	if (client.getClientPassword() != EMPTY)
 	{
-		Utils::sendErrorMessage(ERR_ALREADYREGISTERED, client);
+		Utils::sendFormattedMessage(ERR_ALREADYREGISTERED, client);
 		return ;
 	}
 
@@ -193,7 +194,7 @@ void		Commands::commandNICK(const std::string& line, const std::string& command,
 	const std::string	nickname = eraseCommandfromLine(line, command);
 	if (nickname.empty() == true)
 	{
-		Utils::sendErrorMessage(ERR_NEEDMOREPARAMS, client);
+		Utils::sendFormattedMessage(ERR_NEEDMOREPARAMS, client);
 		return ;
 	}
 
@@ -228,7 +229,7 @@ void		Commands::commandUSER(const std::string& line, const std::string& command,
 	const std::string	userInfo = eraseCommandfromLine(line, command);
 	if (userInfo.empty() == true)
 	{
-		Utils::sendErrorMessage(ERR_NEEDMOREPARAMS, client);
+		Utils::sendFormattedMessage(ERR_NEEDMOREPARAMS, client);
 		return ;
 	}
 
@@ -242,11 +243,12 @@ void		Commands::commandUSER(const std::string& line, const std::string& command,
 
 	if (areValidUserParameters(parameters) == false)
 	{
-		Utils::sendErrorMessage(USER_PARAM_KO, client);
+		Utils::sendFormattedMessage(USER_PARAM_KO, client);
 		return ;
 	}
 
 	client.setUsername(parameters[0]);
+	client.setRealName(parameters);
 	client.setClientStatus(CONNECTED);
 	Utils::displayWelcomeMessage(client);
 }
@@ -267,6 +269,7 @@ void		Commands::commandCAP(const std::string& line, const std::string& command, 
 
 	if (isIrssi(parameter) == true)
 		client.setIrssi(true);
+
 }
 
 
@@ -275,24 +278,37 @@ void		Commands::commandCAP(const std::string& line, const std::string& command, 
 
 void		Commands::commandQUIT(const std::string& line, const std::string& command, Client& client, Server& server)
 {
-	if (client.getClientStatus() == DISCONNECTED)
-	{
-		Utils::sendErrorMessage(NOT_CONNECTED, client);
-		return ;
-	}
+	// if (client.getClientStatus() == DISCONNECTED)
+	// {
+	// 	Utils::sendFormattedMessage(NOT_CONNECTED, client);
+	// 	return ;
+	// }
 
 	(void)command;
 	client.setLastArgument(line);
-
-	close(client.getClientSocket());
 
 	Utils::notifyQuitinChannels(client, server);
 
 	server.removeClientfromServer(client);
 
-	// remove client from channel list (channel) >> send message to this user's channels to norify other users
-	// if it was last client from a channel, delete that channel
-	// other memory allocations
+	const std::vector<std::string>	channels = Utils::getChannelListInClient(client);
+	std::vector<std::string>	user;
+	user.push_back(client.getClientNickname());
+	server.removeClientsFromChannels(client, channels, user, RPL_QUIT);
+
+	close(client.getClientSocket());
+
+
+
+	// Retirer le client du server :
+		// 1. std::map<int, Client>				_clientMap
+		// 2. std::map<std::string, Channel>	_channelMap
+	
+	// Retirer le client d'un channel :
+		// std::vector<channelClient>			_channelClients
+		// delete le channel si c'était le dernier client
+
+	// quand un client quit, il faut que ca quitte le programme mais que pour lui
 }
 
 
@@ -301,7 +317,7 @@ void		Commands::commandINVITE(const std::string& line, const std::string& comman
 {
 	if (client.getClientStatus() == DISCONNECTED)
 	{
-		Utils::sendErrorMessage(NOT_CONNECTED, client);
+		Utils::sendFormattedMessage(NOT_CONNECTED, client);
 		return ;
 	}
 
@@ -312,13 +328,13 @@ void		Commands::commandINVITE(const std::string& line, const std::string& comman
 
 	if (invitation.empty() == true || parameters.size() < 2)
 	{
-		Utils::sendErrorMessage(ERR_NEEDMOREPARAMS, client);
+		Utils::sendFormattedMessage(ERR_NEEDMOREPARAMS, client);
 		return ;
 	}
 
 	if (parameters.size() > 2)
 	{
-		Utils::sendErrorMessage(TOO_MANY_PARAM, client);
+		Utils::sendFormattedMessage(TOO_MANY_PARAM, client);
 		return ;
 	}
 
@@ -342,11 +358,11 @@ void		Commands::commandPING(const std::string& line, const std::string& command,
 	const std::string	parameter = eraseCommandfromLine(line, command);
 	if (parameter.empty() == true)
 	{
-		Utils::sendErrorMessage(ERR_NOORIGIN, client);
+		Utils::sendFormattedMessage(ERR_NOORIGIN, client);
 		return ;
 	}
 
-	Utils::sendErrorMessage(PONG, client);
+	Utils::sendFormattedMessage(PONG, client);
 }
 
 
@@ -357,7 +373,7 @@ void		Commands::commandTOPIC(const std::string& line, const std::string& command
 {
 	if (client.getClientStatus() == DISCONNECTED)
 	{
-		Utils::sendErrorMessage(NOT_CONNECTED, client);
+		Utils::sendFormattedMessage(NOT_CONNECTED, client);
 		return ;
 	}
 
@@ -366,7 +382,7 @@ void		Commands::commandTOPIC(const std::string& line, const std::string& command
 
 	if (arguments.empty() == true)
 	{
-		Utils::sendErrorMessage(ERR_NEEDMOREPARAMS, client);
+		Utils::sendFormattedMessage(ERR_NEEDMOREPARAMS, client);
 		return ;
 	}
 
@@ -378,4 +394,56 @@ void		Commands::commandTOPIC(const std::string& line, const std::string& command
 	}
 
 	chooseAndExecuteTopicAction(parameters, client);
+}
+
+// /dcc <nom de la personne> send <fichier>
+
+
+// WHOIS
+
+void		Commands::commandWHOIS(const std::string& line, const std::string& command, Client& client, Server& server)
+{
+	if (client.getClientStatus() == DISCONNECTED)
+	{
+		Utils::sendFormattedMessage(NOT_CONNECTED, client);
+		return ;
+	}
+
+	const std::string	argument = eraseCommandfromLine(line, command);
+	client.setLastArgument(argument);
+
+	if (argument.empty() == true)
+	{
+		Utils::sendFormattedMessage(ERR_NONICKNAMEGIVEN, client);
+		return ;
+	}
+
+	const std::vector<std::string>	parameters = Utils::splitParameters(argument);
+
+	switch (getParameterType(parameters[0], server))
+	{
+		case USER_TYPE:
+			server.sendUserInformation(parameters, client);
+			break ;
+		
+		case CHANNEL_TYPE:
+			server.sendChannelInformation(parameters, client);
+			break ;
+
+		default:
+			if (parameters[0].at(0) == PREFIX_CHAN)
+				Utils::sendFormattedMessage(ERR_NOSUCHCHANNEL, client, parameters[0]);
+			else
+				Utils::sendFormattedMessage(ERR_NOSUCHNICK, client);
+	}
+
+	// ERR_NOSUCHSERVER
+	// RPL_WHOISUSER
+	// RPL_WHOISCHANNELS
+	// RPL_WHOISSERVER
+	// RPL_AWAY
+	// RPL_WHOISOPERATOR
+	// RPL_WHOISIDLE
+	// RPL_ENDOFWHOIS
+
 }

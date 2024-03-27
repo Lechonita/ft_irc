@@ -62,12 +62,18 @@ extern bool		doSignal;
 # define EMPTY ""
 # define SPACE " "
 # define MAX_NICK_LEN 9
+# define PATTERN_COUNT_CHAN 9
 # define PATTERN_COUNT 6
 # define EXPECTED_USER_PARAM 5
 # define INCOMING_MSG "\033[0;36m<< \033[0m"
 # define OUTGOING_MSG "\033[0;35m>> \033[0m"
 # define CONNECTED true
 # define DISCONNECTED false
+# define UNKNOWN_TYPE 0
+# define USER_TYPE 1
+# define CHANNEL_TYPE 2
+# define USER_INFO_LINES 5
+# define CHAN_INFO_LINES 3
 # define ADD_MODE 1
 # define REMOVE_MODE -1
 # define NO_MODE 0
@@ -82,6 +88,8 @@ extern bool		doSignal;
 # define HOST_NAME "localhost"
 # define SERVER_NAME "irc"
 
+
+# define NEWLINE '\n'
 # define PREFIX_CHAN '#'
 # define END_MSG "\r\n"
 
@@ -142,9 +150,9 @@ extern bool		doSignal;
 // # define RPL_AWAY				"301 <client> :<away message>"
 # define RPL_CHANNELMODEIS		"324 <channelName> <arg>"
 # define RPL_UNIQOPIS			"325 <channelName> <client>"
-# define RPL_NOTOPIC			"331 <channelName> :No topic is set"
-# define RPL_TOPIC				"332 <channelName> :<topic>" // rajouter topic
-# define RPL_INVITING			"341 <channelName> <client>"
+# define RPL_TOPIC				":<nickname> TOPIC <channelName> <topic>"
+# define RPL_NOTOPIC			"331 <channelName> :Mo topic is set"
+// # define RPL_INVITING			":<inviter> INVITE <invitee> <channelName>"
 // # define RPL_INVITELIST			"346 <channelName> <invitemask>"
 // # define RPL_ENDOFINVITELIST	"347 <channelName> :End of channel invite list"
 // # define RPL_EXCEPTLIST			"348 <channelName> <exceptionmask>"
@@ -153,6 +161,9 @@ extern bool		doSignal;
 # define RPL_NAMREPLY 			"353 <client> = <channelName> :<nicknames>"
 # define RPL_ENDOFNAMES			"366 <client> <channelName> :End of /NAMES list"
 # define RPL_BANLIST			"367 <channelName> <banmask>"
+# define RPL_QUIT				" has left the server.\n"
+# define RPL_NICKCHANGE			":<oldnickname> NICK <nickname>"
+// # define RPL_NICKWASSET			"NICK <nickname>"
 
 
 // COMMANDS Messages

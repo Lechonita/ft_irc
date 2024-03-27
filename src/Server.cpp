@@ -141,7 +141,7 @@ void	Server::createNewClient()
 		throw(BlockException());
 	}
 
-	std::cout << "[ New connection ] Client fd = " << clientSocket
+	std::cout << "\n[ New connection ] Client fd = " << clientSocket
 			<< "  /  ip = " << inet_ntoa(clientAddress.sin_addr)
 			<< "  /  port = " << ntohs(clientAddress.sin_port) << std::endl;
 
@@ -202,6 +202,58 @@ void	Server::removeClientfromServer(const Client& client)
 
 
 
+static std::string		getChannelClientNickname(std::vector<channelClient>::iterator itClient)
+{
+	printf("    Entrée dans getChannelClientNickname\n");
+	const Client	tmpClient = *itClient->client;
+	printf("    >>>>>>>>  tmpclient créé\n");
+	std::string		nickname = tmpClient.getClientNickname();
+	printf("    Nickname = -%s-\n", nickname.c_str());
+	return (nickname);
+}
+
+
+
+void	Server::removeClientfromChannels(const Client& client)
+{
+	printf("2/ Entering removeClientfromChannels\n");
+	const std::string		clientNickname = client.getClientNickname();
+	// const std::string		channelList = Utils::getChannelListInClient(client);
+
+	std::map<std::string, Channel>::iterator	it;
+
+	if (getChannelMap().size() > 0)
+	{
+		for (it = getChannelMap().begin(); it != getChannelMap().end(); ++it)
+		{
+			printf("3/ Je rentre dans la boucle for des channels\n");
+			printf("	Je suis sur -%s-\n", it->first.c_str());
+			std::vector<channelClient>::iterator	itClient;
+
+			for (itClient = it->second.getChannelClients().begin(); itClient != it->second.getChannelClients().end(); ++itClient)
+			{
+				printf("  4/ Je rentre dans la boucle for des clients du channel\n");
+				printf("	  Je suis sur -%s-\n", getChannelClientNickname(itClient).c_str());
+				if (getChannelClientNickname(itClient) == clientNickname)
+					it->second.getChannelClients().erase(itClient);
+			}
+			// if (channelList.find(it->first) != std::string::npos)
+			// {
+			// 	// const std::string		clientList = Utils::getClientListInChannel(client, it->first);
+			// 	// if (clientList.find(clientNickname) != std::string::npos)
+			// 	// {
+
+			// 	// }
+			// }
+				
+		}
+	}
+	printf("5/ Je suis à la fin de removeClientfromChannels\n");
+}
+
+
+
+
 // Getters
 
 int									Server::getSocketFd() const { return (_serverSocket); }
@@ -258,7 +310,9 @@ void	Server::createNewChannel(std::string channel_name, int client_socket, Serve
 
 void	Server::inviteUser(const std::vector<std::string> parameters, Client& client, Server& server)
 {
-	Utils::sendErrorMessage(RPL_INVITING, client, parameters[1]);
+	const std::string	message = ":" + client.getClientNickname() + " INVITE " + parameters[0] + " " + parameters[1] + '\n';
+
+	Utils::sendMessage(message, client);
 
 	std::map<int, Client>::iterator		it;
 	for (it = _clientMap.begin(); it != _clientMap.end(); ++it)
@@ -274,7 +328,7 @@ void	Server::addClientToChannel(std::string channel, std::string passwrd, Client
 
 	if (it ->second.getLMode() == true && it->second.getUserLimit() == it->second.getChannelClients().size())
 	{
-		Utils::sendErrorMessage(ERR_CHANNELISFULL, client, channel);
+		Utils::sendFormattedMessage(ERR_CHANNELISFULL, client, channel);
 		return ;
 	}
 	else if (it->second.getKMode() == true)
@@ -283,7 +337,7 @@ void	Server::addClientToChannel(std::string channel, std::string passwrd, Client
 			it->second.newClient(passwrd, client);
 		else
 		{
-			Utils::sendErrorMessage(ERR_BADCHANNELKEY, client, channel);
+			Utils::sendFormattedMessage(ERR_BADCHANNELKEY, client, channel);
 			return ;
 		}
 	}
@@ -300,7 +354,7 @@ void	Server::createOrJoinChannel(std::vector<std::string> channels, std::vector<
 	{
 		if (channels[i][0] != PREFIX_CHAN)
 		{
-			Utils::sendErrorMessage(ERR_NOSUCHCHANNEL, client, channels[i]);
+			Utils::sendFormattedMessage(ERR_NOSUCHCHANNEL, client, channels[i]);
 		}
 		else if (_channelMap.find(channels[i]) == _channelMap.end())
 		{
@@ -318,7 +372,7 @@ void	Server::createOrJoinChannel(std::vector<std::string> channels, std::vector<
 			}
 		}
 		else
-			Utils::sendErrorMessage(ERR_INVITEONLYCHAN, client, channels[i]);
+			Utils::sendFormattedMessage(ERR_INVITEONLYCHAN, client, channels[i]);
 	}
 }
 
@@ -330,7 +384,7 @@ bool	Server::isPartOfChannel(std::string channel_name, const Client& client)
 
 	if (it == _channelMap.end())
 	{
-		Utils::sendErrorMessage(ERR_NOSUCHNICK, client);
+		Utils::sendFormattedMessage(ERR_NOSUCHNICK, client);
 		return (false);
 	}
 	std::vector<channelClient>	clients = it->second.getChannelClients();
@@ -340,7 +394,7 @@ bool	Server::isPartOfChannel(std::string channel_name, const Client& client)
 		if (clients[i].client->getClientNickname() == client.getClientNickname())
 			return (true);
 	}
-	Utils::sendErrorMessage(ERR_NOTONCHANNEL, client, channel_name);
+	Utils::sendFormattedMessage(ERR_NOTONCHANNEL, client, channel_name);
 	return (false);
 }
 
@@ -373,7 +427,7 @@ void	Server::sendMessageToChannel(std::string receiver, std::string message, con
 
 	if (it == _channelMap.end())
 	{
-		Utils::sendErrorMessage(ERR_NOSUCHNICK, client);
+		Utils::sendFormattedMessage(ERR_NOSUCHNICK, client);
 		return ;
 	}
 	std::string	full_message = message + END_MSG;
@@ -395,7 +449,7 @@ void	Server::sendMessageToUser(std::string receiver, std::string message, const 
 	}
 	if (it == _clientMap.end())
 	{
-		Utils::sendErrorMessage(ERR_NOSUCHNICK, client);
+		Utils::sendFormattedMessage(ERR_NOSUCHNICK, client);
 		return ;
 	}
 	std::string	full_message = message + END_MSG;
@@ -418,7 +472,7 @@ void	Server::removeClientsFromChannels(Client& client, std::vector<std::string> 
 		}
 		else
 		{
-			Utils::sendErrorMessage(ERR_NOSUCHCHANNEL, client, channels[pos]);
+			Utils::sendFormattedMessage(ERR_NOSUCHCHANNEL, client, channels[pos]);
 		}
 	}
 }
@@ -481,13 +535,13 @@ void	Server::changeChannelsModes(Client& client, std::vector<std::string> channe
 				it_channels->second.setSimpleModes(modes_without_args);
 				it_channels->second.setArgModes(client, modes_args, modes_with_args);
 				client.setLastArgument(modeStatusAfterExec(modes_args, modes_with_args, modes_without_args));
-				Utils::sendErrorMessage(RPL_CHANNELMODEIS, client, it_channels->second.getChannelName());
+				Utils::sendFormattedMessage(RPL_CHANNELMODEIS, client, it_channels->second.getChannelName());
 			}
 			else
-				Utils::sendErrorMessage(ERR_CHANOPRIVSNEEDED, client, channels[pos]);
+				Utils::sendFormattedMessage(ERR_CHANOPRIVSNEEDED, client, channels[pos]);
 		}
 		else
-			Utils::sendErrorMessage(ERR_NOSUCHCHANNEL, client, channels[pos]);
+			Utils::sendFormattedMessage(ERR_NOSUCHCHANNEL, client, channels[pos]);
 	}
 }
 

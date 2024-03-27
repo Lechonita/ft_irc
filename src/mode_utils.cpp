@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mode_utils.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cbernaze <cbernaze@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jrouillo <jrouillo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 13:33:45 by cbernaze          #+#    #+#             */
-/*   Updated: 2024/03/25 16:31:29 by cbernaze         ###   ########.fr       */
+/*   Updated: 2024/03/26 17:10:00 by jrouillo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ static int	whatKindOfMode(std::vector<std::string> *modes_with_args, std::vector
 		{
 			std::string unknown_mode(1, modes[i]);
 			client.setLastArgument(unknown_mode);
-			Utils::sendErrorMessage(ERR_UNKNOWNMODE, client);
+			Utils::sendFormattedMessage(ERR_UNKNOWNMODE, client);
 		}
 		i++;
 	}
