@@ -110,20 +110,19 @@ void	Commands::commandMODE(const std::string& line, const std::string& command, 
 		return ;
 	}
 	checkModeParams(mode_params, &channels, &modes_with_args, &modes_without_args, &modes_args, client);
-	for (size_t i = 0; i < modes_with_args.size(); i++)
-	{
-		std::cout << BLUE << i << "-mode: " << (modes_with_args)[i] << NC << std::endl;
-	}
-	for (size_t i = 0; i < modes_args.size(); i++)
-	{
-		std::cout << ORANGE << i << "-arg: " << (modes_args)[i] << NC << std::endl;
-	}
-	for (size_t i = 0; i < modes_without_args.size(); i++)
-	{
-		std::cout << BLUE << "mode: " << (modes_without_args)[i] << NC << std::endl;
-	}
+	// for (size_t i = 0; i < modes_with_args.size(); i++)
+	// {
+	// 	std::cout << BLUE << i << "-mode: " << (modes_with_args)[i] << NC << std::endl;
+	// }
+	// for (size_t i = 0; i < modes_args.size(); i++)
+	// {
+	// 	std::cout << ORANGE << i << "-arg: " << (modes_args)[i] << NC << std::endl;
+	// }
+	// for (size_t i = 0; i < modes_without_args.size(); i++)
+	// {
+	// 	std::cout << BLUE << "mode: " << (modes_without_args)[i] << NC << std::endl;
+	// }
 	server.changeChannelsModes(client, channels, modes_args, modes_with_args, modes_without_args);
-
 }
 
 
@@ -289,21 +288,26 @@ void		Commands::commandQUIT(const std::string& line, const std::string& command,
 
 	Utils::notifyQuitinChannels(client, server);
 
-	server.removeClientfromServer(client);
 
 	const std::vector<std::string>	channels = Utils::getChannelListInClient(client);
 	std::vector<std::string>	user;
+	std::cout << RED << "la republique c'est moi" << NC << std::endl;
 	user.push_back(client.getClientNickname());
+	std::cout << RED << "manu a poil" << NC << std::endl;
 	server.removeClientsFromChannels(client, channels, user, RPL_QUIT);
-
+	std::cout << RED << "dans mon monde a moi y'a que des poneys" << NC << std::endl;
 	close(client.getClientSocket());
+	std::cout << RED << "jessica deep" << NC << std::endl;
+	server.removeClientfromServer(client);
+	std::cout << RED << "size of clients = " << server.getClientMap().size() << NC << std::endl;
+
 
 
 
 	// Retirer le client du server :
 		// 1. std::map<int, Client>				_clientMap
 		// 2. std::map<std::string, Channel>	_channelMap
-	
+
 	// Retirer le client d'un channel :
 		// std::vector<channelClient>			_channelClients
 		// delete le channel si c'était le dernier client
@@ -425,7 +429,7 @@ void		Commands::commandWHOIS(const std::string& line, const std::string& command
 		case USER_TYPE:
 			server.sendUserInformation(parameters, client);
 			break ;
-		
+
 		case CHANNEL_TYPE:
 			server.sendChannelInformation(parameters, client);
 			break ;

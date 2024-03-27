@@ -161,6 +161,8 @@ void	Server::createNewClient()
 
 void	Server::getClientMessage()
 {
+	int i = _clientMap.size();
+	std::cout << i;
 	if (_nbClients == 0 || _clientMap.size() == 0)
 		return ;
 
@@ -245,7 +247,7 @@ void	Server::removeClientfromChannels(const Client& client)
 
 			// 	// }
 			// }
-				
+
 		}
 	}
 	printf("5/ Je suis à la fin de removeClientfromChannels\n");
@@ -410,7 +412,7 @@ void	Server::sendMessageToReceivers(std::vector<std::string> receivers, std::str
 					+ " :" + message;
 		if (receivers[i][0] == '#' && isPartOfChannel(receivers[i], client) == true)
 		{
-			sendMessageToChannel(receivers[i], message, client);
+			sendMessageToChannelNotSelf(receivers[i], message, client);
 		}
 		else if (receivers[i][0] != '#')
 		{
@@ -436,7 +438,20 @@ void	Server::sendMessageToChannel(std::string receiver, std::string message, con
 	it->second.sendMessageToAll(full_message);
 }
 
+void	Server::sendMessageToChannelNotSelf(std::string receiver, std::string message, const Client& client)
+{
+	std::map<std::string, Channel>::iterator	it = _channelMap.find(receiver);
 
+	if (it == _channelMap.end())
+	{
+		Utils::sendFormattedMessage(ERR_NOSUCHNICK, client);
+		return ;
+	}
+	std::string	full_message = message + END_MSG;
+
+	it->second.sendPrivmsgToChan(client, full_message);
+	// it->second.sendMessageToAll(full_message);
+}
 
 void	Server::sendMessageToUser(std::string receiver, std::string message, const Client& client)
 {

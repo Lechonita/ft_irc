@@ -46,8 +46,9 @@ class Server
 		void								sendChannelInformation(const std::vector<std::string> parameters, const Client& client);
 		void								sendMessageToReceivers(std::vector<std::string> receivers, std::string message, const Client& client);
 		void								sendMessageToChannel(std::string receiver, std::string message, const Client& client);
+		void								sendMessageToChannelNotSelf(std::string receiver, std::string message, const Client& client);
 		void								sendMessageToUser(std::string receiver, std::string message, const Client& client);
-		
+
 		// Creation, invitation, addition
 		void								inviteUser(const std::vector<std::string> parameters, Client& client, Server& server);
 		void								addClientToChannel(std::string channel, std::string passwrd, Client& client, Server& server);
