@@ -41,8 +41,8 @@ std::string		Utils::getClientListInChannel(const Client &client, const std::stri
 		if (clients[i].isOperator == true)
 			client_list += "@";
 		client_list += clients[i].client->getClientNickname();
-		if (i != clients.size() - 1)
-			client_list += " ";
+		// if (i != clients.size() - 1)
+		client_list += " ";
 	}
 	return (client_list);
 }
@@ -219,9 +219,7 @@ void	Utils::partMessage(const Client& client, Server& server, const std::string 
 												+ "!~" + client.getClientUsername() + "@"
 												+ client.getClientIP() + " PART " + channel_name;
 
-	if (message == "")
-		full_message = full_message + " :" + client.getClientNickname();
-	else
+	if (message != "")
 		full_message = full_message + " :" + message;
 	server.sendMessageToChannel(channel_name, full_message, client);
 }

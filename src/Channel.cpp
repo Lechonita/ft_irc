@@ -125,6 +125,16 @@ void	Channel::printClients()
 
 
 
+void	Channel::sendPrivmsgToChan(const Client& client, std::string message)
+{
+	for(size_t i = 0; i < _channelClients.size(); i++)
+	{
+		if (client.getClientNickname() != _channelClients[i].client->getClientNickname())
+			Utils::sendMessage(message, *_channelClients[i].client);
+	}
+}
+
+
 
 void	Channel::sendMessageToAll(std::string message)
 {

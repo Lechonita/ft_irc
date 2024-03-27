@@ -151,7 +151,7 @@ extern bool		doSignal;
 // # define RPL_ENDOFEXCEPTLIST	"349 <channelName> :End of channel exception list"
 // # define RPL_ENDOFBANLIST		"368 <channelName> :End of channel ban list"
 # define RPL_NAMREPLY 			"353 <client> = <channelName> :<nicknames>"
-# define RPL_ENDOFNAMES			"366 <channelName> :End of NAMES list"
+# define RPL_ENDOFNAMES			"366 <client> <channelName> :End of /NAMES list"
 # define RPL_BANLIST			"367 <channelName> <banmask>"
 
 

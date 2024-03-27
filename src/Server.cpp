@@ -378,6 +378,7 @@ void	Server::sendMessageToChannel(std::string receiver, std::string message, con
 	}
 	std::string	full_message = message + END_MSG;
 
+	// it->second.sendPrivmsgToChan(client, full_message);
 	it->second.sendMessageToAll(full_message);
 }
 

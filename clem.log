@@ -1,0 +1,177 @@
+<< CAP LS
+<< PASS lol
+<< NICK cbernaze
+<< USER cbernaze cbernaze localhost :Clement BERNAZEAU
+>> :irc 001 cbernaze :Welcome to the Internet Relay Network cbernaze!cbernaze@127.0.0.1
+<< MODE cbernaze +i
+>> :irc 002 cbernaze :Your host is irc, running version 0.6
+>> :irc 003 cbernaze :This server was created on 2024/3/27
+>> 004 cbernaze :irc 1.0 -none- itkol
+>> [0;33m403 cbernaze cbernaze :No such channel[0m
+<< PING irc
+>> PONG irc :cbernaze
+--> lag pong
+<< NICK clem
+>> [0;32mYour nickname has been changed successfuly.
+<< PING irc
+>> [0mPONG irc :clem
+<< JOIN #test42
+>> :ircserv 353 clem = #test42 :@clem 
+>> :ircserv 366 #test42 :End of /NAMES list
+<< CAP LS
+<< PASS lol
+<< NICK cbernaze
+<< USER cbernaze cbernaze localhost :Clement BERNAZEAU
+>> :irc 001 cbernaze :Welcome to the Internet Relay Network cbernaze!cbernaze@127.0.0.1
+<< MODE cbernaze +i
+>> :irc 002 cbernaze :Your host is irc, running version 0.6
+>> :irc 003 cbernaze :This server was created on 2024/3/27
+>> 004 cbernaze :irc 1.0 -none- itkol
+>> [0;33m403 cbernaze cbernaze :No such channel[0m
+<< PING irc
+>> PONG irc :cbernaze
+--> lag pong
+<< JOIN #test
+>> :cbernaze!~cbernaze@127.0.0.1 JOIN :#test
+>> :ircserv 353 cbernaze = #test :@cbernaze 
+>> :ircserv 366 #test :End of /NAMES list
+<< PING irc
+>> PONG irc :cbernaze
+--> lag pong
+<< PING irc
+>> PONG irc :cbernaze
+--> lag pong
+<< PING irc
+>> PONG irc :cbernaze
+--> lag pong
+<< PING irc
+>> PONG irc :cbernaze
+--> lag pong
+<< CAP LS
+<< PASS lol
+<< NICK cbernaze
+<< USER cbernaze cbernaze localhost :Clement BERNAZEAU
+>> :irc 001 cbernaze :Welcome to the Internet Relay Network cbernaze!cbernaze@127.0.0.1
+<< MODE cbernaze +i
+>> :irc 002 cbernaze :Your host is irc, running version 0.6
+>> :irc 003 cbernaze :This server was created on 2024/3/27
+>> 004 cbernaze :irc 1.0 -none- itkol
+>> [0;33m403 cbernaze cbernaze :No such channel[0m
+<< PING irc
+>> PONG irc :cbernaze
+--> lag pong
+<< NICK clem
+>> [0;32mYour nickname has been changed successfuly.
+<< JOIN #test
+>> [0m:clem!~cbernaze@127.0.0.1 JOIN :#test
+>> :ircserv 353 clem = #test :@clem 
+>> :ircserv 366 clem #test :End of /NAMES list
+<< MODE #test
+>> 324 #test 
+<< PING irc
+>> PONG irc :clem
+--> lag pong
+<< PING irc
+>> PONG irc :clem
+--> FAILED mode channel: chanquery abort
+<< MODE #test
+--> lag pong
+>> 324 #test 
+<< PING irc
+>> PONG irc :clem
+--> lag pong
+<< PING irc
+>> PONG irc :clem
+--> FAILED mode channel: chanquery abort
+<< WHO #test
+--> lag pong
+>> [0;33m421 clem WHO :Unknown command[0m
+<< PING irc
+>> PONG irc :clem
+--> lag pong
+<< PING irc
+>> PONG irc :clem
+--> FAILED who: chanquery abort
+<< WHO #test
+--> lag pong
+>> [0;33m421 clem WHO :Unknown command[0m
+<< PING irc
+>> PONG irc :clem
+--> lag pong
+<< PING irc
+>> PONG irc :clem
+--> FAILED who: chanquery abort
+<< MODE #test b
+--> lag pong
+>> 324 #test 
+<< PING irc
+>> PONG irc :clem
+--> lag pong
+<< PING irc
+>> PONG irc :clem
+--> FAILED mode b: chanquery abort
+--> lag pong
+<< PING irc
+>> PONG irc :clem
+--> lag pong
+<< PING irc
+>> PONG irc :clem
+--> lag pong
+<< PING irc
+>> PONG irc :clem
+--> lag pong
+<< PING irc
+>> PONG irc :clem
+--> lag pong
+<< PING irc
+>> PONG irc :clem
+--> lag pong
+<< PING irc
+>> PONG irc :clem
+--> lag pong
+<< PING irc
+>> PONG irc :clem
+--> lag pong
+<< PING irc
+>> PONG irc :clem
+--> lag pong
+<< PING irc
+>> PONG irc :clem
+--> lag pong
+<< PING irc
+>> PONG irc :clem
+--> lag pong
+<< PING irc
+>> PONG irc :clem
+--> lag pong
+<< PING irc
+>> PONG irc :clem
+--> lag pong
+<< PING irc
+>> PONG irc :clem
+--> lag pong
+<< PING irc
+>> PONG irc :clem
+--> lag pong
+<< PING irc
+>> PONG irc :clem
+--> lag pong
+<< PING irc
+>> PONG irc :clem
+--> lag pong
+<< PING irc
+>> PONG irc :clem
+--> lag pong
+<< PING irc
+>> PONG irc :clem
+--> lag pong
+<< PING irc
+>> PONG irc :clem
+--> lag pong
+>> :cbernaze!~cbernaze@127.0.0.1 JOIN :#test
+<< PING irc
+>> PONG irc :clem
+--> lag pong
+<< PING irc
+>> PONG irc :clem
+--> lag pong

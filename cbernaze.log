@@ -1,0 +1,51 @@
+<< CAP LS
+<< PASS lol
+<< NICK cbernaze
+<< USER cbernaze cbernaze localhost :Clement BERNAZEAU
+>> :irc 001 cbernaze :Welcome to the Internet Relay Network cbernaze!cbernaze@127.0.0.1
+<< MODE cbernaze +i
+>> :irc 002 cbernaze :Your host is irc, running version 0.6
+>> :irc 003 cbernaze :This server was created on 2024/3/26
+>> 004 cbernaze :irc 1.0 -none- itkol
+>> [0;33m403 cbernaze cbernaze :No such channel[0m
+<< PING irc
+>> PONG irc :cbernaze
+--> lag pong
+<< JOIN #test42
+>> :cbernaze!~cbernaze@127.0.0.1 JOIN :#test42
+>> :ircserv 353 cbernaze = #test42 :@cbernaze
+>> :ircserv 366 #test42 :End of NAMES list
+<< PING irc
+>> PONG irc :cbernaze
+--> lag pong
+<< PING irc
+>> PONG irc :cbernaze
+--> lag pong
+<< PING irc
+>> PONG irc :cbernaze
+--> lag pong
+<< PART #test42
+<< PING irc
+>> PONG irc :cbernaze
+--> lag pong
+<< JOIN #test43
+>> :cbernaze!~cbernaze@127.0.0.1 JOIN :#test43
+>> :ircserv 353 cbernaze = #test43 :@cbernaze
+>> :ircserv 366 #test43 :End of NAMES list
+>> :!~cbernaze@127.0.0.1 JOIN :#test43
+>> :jess!~cbernaze@127.0.0.1 PART #test43
+<< PING irc
+>> PONG irc :cbernaze
+--> lag pong
+<< PING irc
+>> PONG irc :cbernaze
+--> lag pong
+<< PING irc
+>> PONG irc :cbernaze
+--> lag pong
+<< PING irc
+>> PONG irc :cbernaze
+--> lag pong
+<< PING irc
+>> PONG irc :cbernaze
+--> lag pong

@@ -148,6 +148,7 @@ void	Client::partFromChannels(Client& client, Server& server, const std::vector<
 		{
 			if (channels[i] == (*it)->getChannelName())
 			{
+				Utils::partMessage(client, server, channels[i], message);
 				(*it)->removeClient(client);
 				if ((*it)->getChannelClients().size() == 0)
 				{
@@ -157,7 +158,6 @@ void	Client::partFromChannels(Client& client, Server& server, const std::vector<
 					break ;
 				}
 				_channels.erase(it);
-				Utils::partMessage(client, server, channels[i], message);
 				just_removed = true;
 				break;
 			}

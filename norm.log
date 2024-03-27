@@ -1,0 +1,120 @@
+<< CAP LS
+<< NICK cbernaze
+<< USER cbernaze cbernaze irc.dal.net :Clement BERNAZEAU
+>> :bifrost.ca.us.dal.net NOTICE AUTH :*** Looking up your hostname...
+>> :bifrost.ca.us.dal.net NOTICE AUTH :*** Checking Ident
+>> :bifrost.ca.us.dal.net NOTICE AUTH :*** Found your hostname
+>> :bifrost.ca.us.dal.net NOTICE AUTH :*** No Ident response
+>> :bifrost.ca.us.dal.net 001 cbernaze :Welcome to the DALnet IRC Network cbernaze!~cbernaze@62.210.33.242
+<< MODE cbernaze +i
+>> :bifrost.ca.us.dal.net 002 cbernaze :Your host is bifrost.ca.us.dal.net, running version bahamut-2.2.2
+>> :bifrost.ca.us.dal.net 003 cbernaze :This server was created Wed Oct 12 2022 at 17:21:47 EDT
+>> :bifrost.ca.us.dal.net 004 cbernaze bifrost.ca.us.dal.net bahamut-2.2.2 aAbcCdefFghHiIjkKmnoOPrRsSwxXy AbceiIjklLmMnoOpPrRsStv beIjklov
+>> :bifrost.ca.us.dal.net 005 cbernaze NETWORK=DALnet SAFELIST MAXBANS=200 MAXCHANNELS=30 CHANNELLEN=32 KICKLEN=307 NICKLEN=30 TOPICLEN=307 MODES=6 CHANTYPES=# CHANLIMIT=#:30 PREFIX=(ohv)@%+ STATUSMSG=@%+ :are available on this server
+>> :bifrost.ca.us.dal.net 005 cbernaze CASEMAPPING=ascii WATCH=128 SILENCE=10 ELIST=cmntu EXCEPTS INVEX CHANMODES=beI,k,jl,ciPAmMnOprRsSt MAXLIST=b:200,e:100,I:100 TARGMAX=DCCALLOW:,JOIN:,KICK:4,KILL:20,NOTICE:20,PART:,PRIVMSG:20,WHOIS:,WHOWAS: :are available on this server
+>> :bifrost.ca.us.dal.net 251 cbernaze :There are 64 users and 7126 invisible on 37 servers
+>> :bifrost.ca.us.dal.net 252 cbernaze 81 :IRC Operators online
+>> :bifrost.ca.us.dal.net 254 cbernaze 3743 :channels formed
+>> :bifrost.ca.us.dal.net 255 cbernaze :I have 214 clients and 1 servers
+>> :bifrost.ca.us.dal.net 265 cbernaze :Current local users: 214 Max: 601
+>> :bifrost.ca.us.dal.net 266 cbernaze :Current global users: 7190 Max: 12060
+>> :bifrost.ca.us.dal.net NOTICE cbernaze :*** Notice -- motd was last changed at 9/7/2020 9:20
+>> :bifrost.ca.us.dal.net NOTICE cbernaze :*** Notice -- Please read the motd if you haven't read it
+>> :bifrost.ca.us.dal.net 375 cbernaze :- bifrost.ca.us.dal.net Message of the Day - 
+>> :bifrost.ca.us.dal.net 372 cbernaze :- 
+>> :bifrost.ca.us.dal.net 372 cbernaze :- Welcome to DALnet!
+>> :bifrost.ca.us.dal.net 372 cbernaze :- 
+>> :bifrost.ca.us.dal.net 372 cbernaze :-   _     _  __               _
+>> :bifrost.ca.us.dal.net 372 cbernaze :-  | |__ (_)/ _|_ __ ___  ___| |_
+>> :bifrost.ca.us.dal.net 372 cbernaze :-  | '_ \| | |_| '__/ _ \/ __| __|
+>> :bifrost.ca.us.dal.net 372 cbernaze :-  | |_) | |  _| | | (_) \__ \ |_
+>> :bifrost.ca.us.dal.net 372 cbernaze :-  |_.__/|_|_| |_|  \___/|___/\__|
+>> :bifrost.ca.us.dal.net 372 cbernaze :-  -----bifrost.ca.us.dal.net-----
+>> :bifrost.ca.us.dal.net 372 cbernaze :- 
+>> :bifrost.ca.us.dal.net 372 cbernaze :-   Server Staff
+>> :bifrost.ca.us.dal.net 372 cbernaze :- 
+>> :bifrost.ca.us.dal.net 372 cbernaze :-  Administrators
+>> :bifrost.ca.us.dal.net 372 cbernaze :-  heimdall (heimdall@dal.net)
+>> :bifrost.ca.us.dal.net 372 cbernaze :-  tau (tau@dal.net)
+>> :bifrost.ca.us.dal.net 372 cbernaze :- 
+>> :bifrost.ca.us.dal.net 372 cbernaze :-  Operators
+>> :bifrost.ca.us.dal.net 372 cbernaze :-  Ariel7 (ariel7@dal.net)
+>> :bifrost.ca.us.dal.net 372 cbernaze :-  CaeSpock (caespock@dal.net)
+>> :bifrost.ca.us.dal.net 372 cbernaze :-  chalcedony (chalcedony@dal.net)
+>> :bifrost.ca.us.dal.net 372 cbernaze :-  dros (dros@dal.net)
+>> :bifrost.ca.us.dal.net 372 cbernaze :-  Estella (estella@dal.net)
+>> :bifrost.ca.us.dal.net 372 cbernaze :-  jason (jason@dal.net)
+>> :bifrost.ca.us.dal.net 372 cbernaze :-  jeian (jeian@dal.net)
+>> :bifrost.ca.us.dal.net 372 cbernaze :-  knas (knas@dal.net)
+>> :bifrost.ca.us.dal.net 372 cbernaze :-  Mobscene (mobscene@dal.net)
+>> :bifrost.ca.us.dal.net 372 cbernaze :-  Priyanka (priyanka@dal.net)
+>> :bifrost.ca.us.dal.net 372 cbernaze :-  strax (strax@dal.net)
+>> :bifrost.ca.us.dal.net 372 cbernaze :- 
+>> :bifrost.ca.us.dal.net 372 cbernaze :-   Server Policies
+>> :bifrost.ca.us.dal.net 372 cbernaze :- 
+>> :bifrost.ca.us.dal.net 372 cbernaze :-  - No malicious bots!
+>> :bifrost.ca.us.dal.net 372 cbernaze :-  - No channel fillers of any kind!
+>> :bifrost.ca.us.dal.net 372 cbernaze :-  - User and/or operator impersonations will NOT be tolerated.
+>> :bifrost.ca.us.dal.net 372 cbernaze :- 
+>> :bifrost.ca.us.dal.net 372 cbernaze :-   Help channels
+>> :bifrost.ca.us.dal.net 372 cbernaze :- 
+>> :bifrost.ca.us.dal.net 372 cbernaze :-  - #operhelp - IRC operator help
+>> :bifrost.ca.us.dal.net 372 cbernaze :-  - #help     - General IRC/services help
+>> :bifrost.ca.us.dal.net 372 cbernaze :- 
+>> :bifrost.ca.us.dal.net 372 cbernaze :- By connecting to this network, you agree to abide by
+>> :bifrost.ca.us.dal.net 372 cbernaze :- its acceptable use policy (AUP), available on our website:
+>> :bifrost.ca.us.dal.net 372 cbernaze :- https://www.dal.net/aup
+>> :bifrost.ca.us.dal.net 372 cbernaze :- 
+>> :bifrost.ca.us.dal.net 372 cbernaze :- Thank you for connecting to DALnet!
+>> :bifrost.ca.us.dal.net 376 cbernaze :End of /MOTD command.
+>> :cbernaze MODE cbernaze :+iH
+<< PING bifrost.ca.us.dal.net
+>> :bifrost.ca.us.dal.net PONG bifrost.ca.us.dal.net :cbernaze
+--> lag pong
+<< JOIN #test
+>> :cbernaze!~cbernaze@4a33-efab-90f8-df58-57a0.210.62.ip JOIN :#test
+>> :bifrost.ca.us.dal.net 332 cbernaze #test :13w08e11l12c04o09m12e 08t09o 00#04t08e13s09t 13o12n 04d12a04l08n09e00t09.
+>> :bifrost.ca.us.dal.net 333 cbernaze #test melika!tkob@f2f-12b7-2a9b-bd1c-e0b5.life.is-a.beauty 1686454513
+>> :bifrost.ca.us.dal.net 353 cbernaze = #test :cbernaze tkob iuestcipi thekingofbandit @andrei @andrew 
+>> :bifrost.ca.us.dal.net 366 cbernaze #test :End of /NAMES list.
+<< MODE #test
+>> :bifrost.ca.us.dal.net 324 cbernaze #test +tn 
+--> chanquery mode
+<< WHO #test
+>> :bifrost.ca.us.dal.net 329 cbernaze #test 1680688351
+--> event 329
+>> :bifrost.ca.us.dal.net 352 cbernaze #test ~cbernaze 4a33-efab-90f8-df58-57a0.210.62.ip bifrost.ca.us.dal.net cbernaze H :0 Clement BERNAZEAU
+--> silent event who
+>> :bifrost.ca.us.dal.net 352 cbernaze #test ~thekingof 4648-f1e-1597-14eb-5966.203.5300.2607.ip halcyon.il.us.dal.net tkob H :2 thekingofbandit
+--> silent event who
+>> :bifrost.ca.us.dal.net 352 cbernaze #test ~andrei a9-20c4-655c-b4bd-7844.81.206.ip atw.hu.eu.dal.net iuestcipi H :3 andrei
+--> silent event who
+>> :bifrost.ca.us.dal.net 352 cbernaze #test tkob f2f-12b7-2a9b-bd1c-e0b5.life.is-a.beauty sakura.jp.as.dal.net thekingofbandit H :3 The King of Bandit
+--> silent event who
+>> :bifrost.ca.us.dal.net 352 cbernaze #test unknown 4ede-e670-3738-e5d8-1642.45.185.ip sakura.jp.as.dal.net andrei H@ :3 andrei
+--> silent event who
+>> :bifrost.ca.us.dal.net 352 cbernaze #test ~andrew 751e-f489-2f83-3244-4f69.4.81.ip bifrost.ca.us.dal.net andrew G@ :0 andrew
+--> silent event who
+>> :bifrost.ca.us.dal.net 315 cbernaze #test :End of /WHO list.
+--> chanquery who end
+<< MODE #test b
+>> :bifrost.ca.us.dal.net 367 cbernaze #test *!*@1f9a-e727-f3df-f7e3-c39.210.62.ip andrei!unknown@4ede-e670-3738-e5d8-1642.45.185.ip 1710570055
+--> chanquery ban
+>> :bifrost.ca.us.dal.net 368 cbernaze #test :End of Channel Ban List
+--> chanquery ban end
+<< PING bifrost.ca.us.dal.net
+>> :bifrost.ca.us.dal.net PONG bifrost.ca.us.dal.net :cbernaze
+--> lag pong
+<< PING bifrost.ca.us.dal.net
+>> :bifrost.ca.us.dal.net PONG bifrost.ca.us.dal.net :cbernaze
+--> lag pong
+<< PING bifrost.ca.us.dal.net
+>> :bifrost.ca.us.dal.net PONG bifrost.ca.us.dal.net :cbernaze
+--> lag pong
+<< PING bifrost.ca.us.dal.net
+>> :bifrost.ca.us.dal.net PONG bifrost.ca.us.dal.net :cbernaze
+--> lag pong
+<< PING bifrost.ca.us.dal.net
+>> :bifrost.ca.us.dal.net PONG bifrost.ca.us.dal.net :cbernaze
+--> lag pong
+<< QUIT :leaving

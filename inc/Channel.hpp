@@ -64,6 +64,7 @@ class Channel
 		// utils
 		void						newClient(std::string passwrd, Client &client);
 		void						removeClient(Client &client);
+		void						sendPrivmsgToChan(const Client& client, std::string message);
 		void						sendMessageToAll(std::string message);
 		void						kickThoseMfOut(Client &client, Server &server, std::vector<std::string> clients, std::string message);
 		void						setSimpleModes(std::vector<std::string> modes_without_args);
