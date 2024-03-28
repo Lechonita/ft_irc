@@ -58,7 +58,7 @@ class Commands
 		static void			checkPartParams(std::string part_params, std::vector<std::string> *channels, std::string *message);
 
 		// nick_utils
-		static bool			isValidNickname(const std::string& nickname, const Client& client);
+		static bool			isValidNickname(const std::string& nickname, const Client& client, const Server& server);
 		static bool			nicknameAlreadyExists(const std::string& nickname, const Server& server);
 		static std::string	createNewNickname(std::string& nickname, const Server& server);
 
