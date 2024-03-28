@@ -92,6 +92,7 @@ Server::~Server()
 // Functions
 
 
+
 void	Server::runServer()
 {
 	if (poll(&_pollFd[0], _pollFd.size(), TIMEOUT) == ERROR)
