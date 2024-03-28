@@ -1,13 +1,13 @@
-==58920== Memcheck, a memory error detector
-==58920== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==58920== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
-==58920== Command: ./ircserv 6667 lol
-==58920== 
+==250580== Memcheck, a memory error detector
+==250580== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==250580== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==250580== Command: ./ircserv 6667 lol
+==250580== 
 [0;32m
        Server Creation Successful [Connected][0m
 
 
-[ New connection ] Client fd = 4  /  ip = 127.0.0.1  /  port = 56690
+[ New connection ] Client fd = 4  /  ip = 127.0.0.1  /  port = 41640
 
 WELCOME
 
@@ -18,441 +18,84 @@ WELCOME
 [0;36m<< [0mUSER cbernaze cbernaze localhost :Clement BERNAZEAU
 [0;35m>> [0m:irc 001 cbernaze :Welcome to the Internet Relay Network cbernaze!cbernaze@127.0.0.1
 [0;35m>> [0m:irc 002 cbernaze :Your host is irc, running version 0.6
-[0;35m>> [0m:irc 003 cbernaze :This server was created on 2024/3/27
+[0;35m>> [0m:irc 003 cbernaze :This server was created on 2024/3/28
 [0;35m>> [0m004 cbernaze :irc 1.0 -none- itkol
 [0;31mclient= 4, cbernaze, client address = 0x4de9188[0m
 [0;36m<< [0mMODE cbernaze +i
 +i
 [0;35m>> [0m[0;33m403 cbernaze cbernaze :No such channel[0m
 [0;31mclient= 4, cbernaze, client address = 0x4de9188[0m
+[0;36m<< [0mPING irc
+[0;35m>> [0mPONG irc :cbernaze
+[0;31mclient= 4, cbernaze, client address = 0x4de9188[0m
 [0;36m<< [0mQUIT :leaving
-[0;31mla republique c'est moi[0m
-[0;31mmanu a poil[0m
-[0;31mdans mon monde a moi y'a que des poneys[0m
-[0;31mjessica deep[0m
-[0;31msize of clients = 0[0m
-==58920== Invalid read of size 8
-==58920==    at 0x49C23E4: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::find(char const*, unsigned long, unsigned long) const (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30)
-==58920==    by 0x418312: Client::interpretMessage(Server&) (Client.cpp:146)
-==58920==    by 0x42BC3C: Server::interpretClientBuffer(std::_Rb_tree_iterator<std::pair<int const, Client> > const&, Server&) (Client_message_reception.cpp:9)
-==58920==    by 0x42BD73: Server::manageClientMessageReception(char const*, int const&) (Client_message_reception.cpp:33)
-==58920==    by 0x40CB57: Server::getClientMessage() (Server.cpp:186)
-==58920==    by 0x40C58A: Server::runServer() (Server.cpp:119)
-==58920==    by 0x40409D: main (main.cpp:45)
-==58920==  Address 0x4de9270 is 272 bytes inside a block of size 336 free'd
-==58920==    at 0x484B8AF: operator delete(void*) (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==58920==    by 0x40A5AC: std::__new_allocator<std::_Rb_tree_node<std::pair<int const, Client> > >::deallocate(std::_Rb_tree_node<std::pair<int const, Client> >*, unsigned long) (new_allocator.h:158)
-==58920==    by 0x40A574: __gnu_cxx::__alloc_traits<std::allocator<std::_Rb_tree_node<std::pair<int const, Client> > >, std::_Rb_tree_node<std::pair<int const, Client> > >::deallocate(std::allocator<std::_Rb_tree_node<std::pair<int const, Client> > >&, std::_Rb_tree_node<std::pair<int const, Client> >*, unsigned long) (alloc_traits.h:141)
-==58920==    by 0x40A429: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_put_node(std::_Rb_tree_node<std::pair<int const, Client> >*) (stl_tree.h:567)
-==58920==    by 0x40A36D: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_drop_node(std::_Rb_tree_node<std::pair<int const, Client> >*) (stl_tree.h:634)
-==58920==    by 0x414AC5: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_erase_aux(std::_Rb_tree_const_iterator<std::pair<int const, Client> >) (stl_tree.h:2497)
-==58920==    by 0x414A86: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::erase(std::_Rb_tree_iterator<std::pair<int const, Client> >) (stl_tree.h:1219)
-==58920==    by 0x411FD4: std::map<int, Client, std::less<int>, std::allocator<std::pair<int const, Client> > >::erase(std::_Rb_tree_iterator<std::pair<int const, Client> >) (stl_map.h:1101)
-==58920==    by 0x40CC31: Server::removeClientfromServer(Client const&) (Server.cpp:200)
-==58920==    by 0x41FD72: Commands::commandQUIT(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, Client&, Server&) (Commands.cpp:301)
-==58920==    by 0x42B397: Commands::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&, Server&, Client&) (Command_utils.cpp:43)
-==58920==    by 0x42B0DB: Commands::findCommandInMessage(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&, Server&, Client&) (Command_utils.cpp:14)
-==58920==  Block was alloc'd at
-==58920==    at 0x4849013: operator new(unsigned long) (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==58920==    by 0x41482F: std::__new_allocator<std::_Rb_tree_node<std::pair<int const, Client> > >::allocate(unsigned long, void const*) (new_allocator.h:137)
-==58920==    by 0x4147C0: __gnu_cxx::__alloc_traits<std::allocator<std::_Rb_tree_node<std::pair<int const, Client> > >, std::_Rb_tree_node<std::pair<int const, Client> > >::allocate(std::allocator<std::_Rb_tree_node<std::pair<int const, Client> > >&, unsigned long) (alloc_traits.h:133)
-==58920==    by 0x4146A1: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_get_node() (stl_tree.h:563)
-==58920==    by 0x41465C: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_create_node(std::pair<int const, Client> const&) (stl_tree.h:585)
-==58920==    by 0x41462F: std::_Rb_tree_node<std::pair<int const, Client> >* std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_Alloc_node::operator()<std::pair<int const, Client> >(std::pair<int const, Client> const&) const (stl_tree.h:531)
-==58920==    by 0x414463: std::_Rb_tree_iterator<std::pair<int const, Client> > std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_insert_<std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_Alloc_node>(std::_Rb_tree_node_base*, std::_Rb_tree_node_base*, std::pair<int const, Client> const&, std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_Alloc_node&) (stl_tree.h:1832)
-==58920==    by 0x414189: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_insert_unique(std::pair<int const, Client> const&) (stl_tree.h:2177)
-==58920==    by 0x411B0C: std::map<int, Client, std::less<int>, std::allocator<std::pair<int const, Client> > >::insert(std::pair<int const, Client> const&) (stl_map.h:834)
-==58920==    by 0x40C821: Server::createNewClient() (Server.cpp:151)
-==58920==    by 0x40C4EF: Server::runServer() (Server.cpp:110)
-==58920==    by 0x40409D: main (main.cpp:45)
-==58920== 
-==58920== Invalid read of size 8
-==58920==    at 0x49C240E: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::find(char const*, unsigned long, unsigned long) const (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30)
-==58920==    by 0x418312: Client::interpretMessage(Server&) (Client.cpp:146)
-==58920==    by 0x42BC3C: Server::interpretClientBuffer(std::_Rb_tree_iterator<std::pair<int const, Client> > const&, Server&) (Client_message_reception.cpp:9)
-==58920==    by 0x42BD73: Server::manageClientMessageReception(char const*, int const&) (Client_message_reception.cpp:33)
-==58920==    by 0x40CB57: Server::getClientMessage() (Server.cpp:186)
-==58920==    by 0x40C58A: Server::runServer() (Server.cpp:119)
-==58920==    by 0x40409D: main (main.cpp:45)
-==58920==  Address 0x4de9268 is 264 bytes inside a block of size 336 free'd
-==58920==    at 0x484B8AF: operator delete(void*) (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==58920==    by 0x40A5AC: std::__new_allocator<std::_Rb_tree_node<std::pair<int const, Client> > >::deallocate(std::_Rb_tree_node<std::pair<int const, Client> >*, unsigned long) (new_allocator.h:158)
-==58920==    by 0x40A574: __gnu_cxx::__alloc_traits<std::allocator<std::_Rb_tree_node<std::pair<int const, Client> > >, std::_Rb_tree_node<std::pair<int const, Client> > >::deallocate(std::allocator<std::_Rb_tree_node<std::pair<int const, Client> > >&, std::_Rb_tree_node<std::pair<int const, Client> >*, unsigned long) (alloc_traits.h:141)
-==58920==    by 0x40A429: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_put_node(std::_Rb_tree_node<std::pair<int const, Client> >*) (stl_tree.h:567)
-==58920==    by 0x40A36D: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_drop_node(std::_Rb_tree_node<std::pair<int const, Client> >*) (stl_tree.h:634)
-==58920==    by 0x414AC5: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_erase_aux(std::_Rb_tree_const_iterator<std::pair<int const, Client> >) (stl_tree.h:2497)
-==58920==    by 0x414A86: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::erase(std::_Rb_tree_iterator<std::pair<int const, Client> >) (stl_tree.h:1219)
-==58920==    by 0x411FD4: std::map<int, Client, std::less<int>, std::allocator<std::pair<int const, Client> > >::erase(std::_Rb_tree_iterator<std::pair<int const, Client> >) (stl_map.h:1101)
-==58920==    by 0x40CC31: Server::removeClientfromServer(Client const&) (Server.cpp:200)
-==58920==    by 0x41FD72: Commands::commandQUIT(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, Client&, Server&) (Commands.cpp:301)
-==58920==    by 0x42B397: Commands::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&, Server&, Client&) (Command_utils.cpp:43)
-==58920==    by 0x42B0DB: Commands::findCommandInMessage(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&, Server&, Client&) (Command_utils.cpp:14)
-==58920==  Block was alloc'd at
-==58920==    at 0x4849013: operator new(unsigned long) (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==58920==    by 0x41482F: std::__new_allocator<std::_Rb_tree_node<std::pair<int const, Client> > >::allocate(unsigned long, void const*) (new_allocator.h:137)
-==58920==    by 0x4147C0: __gnu_cxx::__alloc_traits<std::allocator<std::_Rb_tree_node<std::pair<int const, Client> > >, std::_Rb_tree_node<std::pair<int const, Client> > >::allocate(std::allocator<std::_Rb_tree_node<std::pair<int const, Client> > >&, unsigned long) (alloc_traits.h:133)
-==58920==    by 0x4146A1: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_get_node() (stl_tree.h:563)
-==58920==    by 0x41465C: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_create_node(std::pair<int const, Client> const&) (stl_tree.h:585)
-==58920==    by 0x41462F: std::_Rb_tree_node<std::pair<int const, Client> >* std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_Alloc_node::operator()<std::pair<int const, Client> >(std::pair<int const, Client> const&) const (stl_tree.h:531)
-==58920==    by 0x414463: std::_Rb_tree_iterator<std::pair<int const, Client> > std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_insert_<std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_Alloc_node>(std::_Rb_tree_node_base*, std::_Rb_tree_node_base*, std::pair<int const, Client> const&, std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_Alloc_node&) (stl_tree.h:1832)
-==58920==    by 0x414189: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_insert_unique(std::pair<int const, Client> const&) (stl_tree.h:2177)
-==58920==    by 0x411B0C: std::map<int, Client, std::less<int>, std::allocator<std::pair<int const, Client> > >::insert(std::pair<int const, Client> const&) (stl_map.h:834)
-==58920==    by 0x40C821: Server::createNewClient() (Server.cpp:151)
-==58920==    by 0x40C4EF: Server::runServer() (Server.cpp:110)
-==58920==    by 0x40409D: main (main.cpp:45)
-==58920== 
-==58920== Invalid read of size 1
-==58920==    at 0x484FD5F: memchr (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==58920==    by 0x49C2443: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::find(char const*, unsigned long, unsigned long) const (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30)
-==58920==    by 0x418312: Client::interpretMessage(Server&) (Client.cpp:146)
-==58920==    by 0x42BC3C: Server::interpretClientBuffer(std::_Rb_tree_iterator<std::pair<int const, Client> > const&, Server&) (Client_message_reception.cpp:9)
-==58920==    by 0x42BD73: Server::manageClientMessageReception(char const*, int const&) (Client_message_reception.cpp:33)
-==58920==    by 0x40CB57: Server::getClientMessage() (Server.cpp:186)
-==58920==    by 0x40C58A: Server::runServer() (Server.cpp:119)
-==58920==    by 0x40409D: main (main.cpp:45)
-==58920==  Address 0x4de9340 is 0 bytes inside a block of size 87 free'd
-==58920==    at 0x484B8AF: operator delete(void*) (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==58920==    by 0x417464: Client::~Client() (Client.cpp:31)
-==58920==    by 0x40A528: std::pair<int const, Client>::~pair() (stl_pair.h:185)
-==58920==    by 0x40A488: std::__new_allocator<std::pair<int const, Client> >::destroy(std::pair<int const, Client>*) (new_allocator.h:190)
-==58920==    by 0x40A3C2: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_destroy_node(std::_Rb_tree_node<std::pair<int const, Client> >*) (stl_tree.h:623)
-==58920==    by 0x40A360: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_drop_node(std::_Rb_tree_node<std::pair<int const, Client> >*) (stl_tree.h:633)
-==58920==    by 0x414AC5: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_erase_aux(std::_Rb_tree_const_iterator<std::pair<int const, Client> >) (stl_tree.h:2497)
-==58920==    by 0x414A86: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::erase(std::_Rb_tree_iterator<std::pair<int const, Client> >) (stl_tree.h:1219)
-==58920==    by 0x411FD4: std::map<int, Client, std::less<int>, std::allocator<std::pair<int const, Client> > >::erase(std::_Rb_tree_iterator<std::pair<int const, Client> >) (stl_map.h:1101)
-==58920==    by 0x40CC31: Server::removeClientfromServer(Client const&) (Server.cpp:200)
-==58920==    by 0x41FD72: Commands::commandQUIT(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, Client&, Server&) (Commands.cpp:301)
-==58920==    by 0x42B397: Commands::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&, Server&, Client&) (Command_utils.cpp:43)
-==58920==  Block was alloc'd at
-==58920==    at 0x4849013: operator new(unsigned long) (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==58920==    by 0x49C00BD: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_mutate(unsigned long, unsigned long, char const*, unsigned long) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30)
-==58920==    by 0x49C1B4F: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_append(char const*, unsigned long) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30)
-==58920==    by 0x417A73: Client::setBuffer(char const*) (Client.cpp:64)
-==58920==    by 0x42BC7C: Server::setClientBuffer(std::_Rb_tree_iterator<std::pair<int const, Client> > const&, char const*) (Client_message_reception.cpp:16)
-==58920==    by 0x42BD63: Server::manageClientMessageReception(char const*, int const&) (Client_message_reception.cpp:32)
-==58920==    by 0x40CB57: Server::getClientMessage() (Server.cpp:186)
-==58920==    by 0x40C58A: Server::runServer() (Server.cpp:119)
-==58920==    by 0x40409D: main (main.cpp:45)
-==58920== 
-==58920== Invalid read of size 1
-==58920==    at 0x484FD71: memchr (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==58920==    by 0x49C2443: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::find(char const*, unsigned long, unsigned long) const (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30)
-==58920==    by 0x418312: Client::interpretMessage(Server&) (Client.cpp:146)
-==58920==    by 0x42BC3C: Server::interpretClientBuffer(std::_Rb_tree_iterator<std::pair<int const, Client> > const&, Server&) (Client_message_reception.cpp:9)
-==58920==    by 0x42BD73: Server::manageClientMessageReception(char const*, int const&) (Client_message_reception.cpp:33)
-==58920==    by 0x40CB57: Server::getClientMessage() (Server.cpp:186)
-==58920==    by 0x40C58A: Server::runServer() (Server.cpp:119)
-==58920==    by 0x40409D: main (main.cpp:45)
-==58920==  Address 0x4de9341 is 1 bytes inside a block of size 87 free'd
-==58920==    at 0x484B8AF: operator delete(void*) (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==58920==    by 0x417464: Client::~Client() (Client.cpp:31)
-==58920==    by 0x40A528: std::pair<int const, Client>::~pair() (stl_pair.h:185)
-==58920==    by 0x40A488: std::__new_allocator<std::pair<int const, Client> >::destroy(std::pair<int const, Client>*) (new_allocator.h:190)
-==58920==    by 0x40A3C2: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_destroy_node(std::_Rb_tree_node<std::pair<int const, Client> >*) (stl_tree.h:623)
-==58920==    by 0x40A360: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_drop_node(std::_Rb_tree_node<std::pair<int const, Client> >*) (stl_tree.h:633)
-==58920==    by 0x414AC5: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_erase_aux(std::_Rb_tree_const_iterator<std::pair<int const, Client> >) (stl_tree.h:2497)
-==58920==    by 0x414A86: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::erase(std::_Rb_tree_iterator<std::pair<int const, Client> >) (stl_tree.h:1219)
-==58920==    by 0x411FD4: std::map<int, Client, std::less<int>, std::allocator<std::pair<int const, Client> > >::erase(std::_Rb_tree_iterator<std::pair<int const, Client> >) (stl_map.h:1101)
-==58920==    by 0x40CC31: Server::removeClientfromServer(Client const&) (Server.cpp:200)
-==58920==    by 0x41FD72: Commands::commandQUIT(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, Client&, Server&) (Commands.cpp:301)
-==58920==    by 0x42B397: Commands::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&, Server&, Client&) (Command_utils.cpp:43)
-==58920==  Block was alloc'd at
-==58920==    at 0x4849013: operator new(unsigned long) (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==58920==    by 0x49C00BD: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_mutate(unsigned long, unsigned long, char const*, unsigned long) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30)
-==58920==    by 0x49C1B4F: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_append(char const*, unsigned long) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30)
-==58920==    by 0x417A73: Client::setBuffer(char const*) (Client.cpp:64)
-==58920==    by 0x42BC7C: Server::setClientBuffer(std::_Rb_tree_iterator<std::pair<int const, Client> > const&, char const*) (Client_message_reception.cpp:16)
-==58920==    by 0x42BD63: Server::manageClientMessageReception(char const*, int const&) (Client_message_reception.cpp:32)
-==58920==    by 0x40CB57: Server::getClientMessage() (Server.cpp:186)
-==58920==    by 0x40C58A: Server::runServer() (Server.cpp:119)
-==58920==    by 0x40409D: main (main.cpp:45)
-==58920== 
-==58920== Invalid read of size 1
-==58920==    at 0x4852037: bcmp (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==58920==    by 0x49C2459: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::find(char const*, unsigned long, unsigned long) const (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30)
-==58920==    by 0x418312: Client::interpretMessage(Server&) (Client.cpp:146)
-==58920==    by 0x42BC3C: Server::interpretClientBuffer(std::_Rb_tree_iterator<std::pair<int const, Client> > const&, Server&) (Client_message_reception.cpp:9)
-==58920==    by 0x42BD73: Server::manageClientMessageReception(char const*, int const&) (Client_message_reception.cpp:33)
-==58920==    by 0x40CB57: Server::getClientMessage() (Server.cpp:186)
-==58920==    by 0x40C58A: Server::runServer() (Server.cpp:119)
-==58920==    by 0x40409D: main (main.cpp:45)
-==58920==  Address 0x4de934e is 14 bytes inside a block of size 87 free'd
-==58920==    at 0x484B8AF: operator delete(void*) (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==58920==    by 0x417464: Client::~Client() (Client.cpp:31)
-==58920==    by 0x40A528: std::pair<int const, Client>::~pair() (stl_pair.h:185)
-==58920==    by 0x40A488: std::__new_allocator<std::pair<int const, Client> >::destroy(std::pair<int const, Client>*) (new_allocator.h:190)
-==58920==    by 0x40A3C2: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_destroy_node(std::_Rb_tree_node<std::pair<int const, Client> >*) (stl_tree.h:623)
-==58920==    by 0x40A360: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_drop_node(std::_Rb_tree_node<std::pair<int const, Client> >*) (stl_tree.h:633)
-==58920==    by 0x414AC5: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_erase_aux(std::_Rb_tree_const_iterator<std::pair<int const, Client> >) (stl_tree.h:2497)
-==58920==    by 0x414A86: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::erase(std::_Rb_tree_iterator<std::pair<int const, Client> >) (stl_tree.h:1219)
-==58920==    by 0x411FD4: std::map<int, Client, std::less<int>, std::allocator<std::pair<int const, Client> > >::erase(std::_Rb_tree_iterator<std::pair<int const, Client> >) (stl_map.h:1101)
-==58920==    by 0x40CC31: Server::removeClientfromServer(Client const&) (Server.cpp:200)
-==58920==    by 0x41FD72: Commands::commandQUIT(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, Client&, Server&) (Commands.cpp:301)
-==58920==    by 0x42B397: Commands::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&, Server&, Client&) (Command_utils.cpp:43)
-==58920==  Block was alloc'd at
-==58920==    at 0x4849013: operator new(unsigned long) (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==58920==    by 0x49C00BD: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_mutate(unsigned long, unsigned long, char const*, unsigned long) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30)
-==58920==    by 0x49C1B4F: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_append(char const*, unsigned long) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30)
-==58920==    by 0x417A73: Client::setBuffer(char const*) (Client.cpp:64)
-==58920==    by 0x42BC7C: Server::setClientBuffer(std::_Rb_tree_iterator<std::pair<int const, Client> > const&, char const*) (Client_message_reception.cpp:16)
-==58920==    by 0x42BD63: Server::manageClientMessageReception(char const*, int const&) (Client_message_reception.cpp:32)
-==58920==    by 0x40CB57: Server::getClientMessage() (Server.cpp:186)
-==58920==    by 0x40C58A: Server::runServer() (Server.cpp:119)
-==58920==    by 0x40409D: main (main.cpp:45)
-==58920== 
-==58920== Invalid read of size 8
-==58920==    at 0x49C0C88: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::erase(unsigned long, unsigned long) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30)
-==58920==    by 0x418333: Client::interpretMessage(Server&) (Client.cpp:146)
-==58920==    by 0x42BC3C: Server::interpretClientBuffer(std::_Rb_tree_iterator<std::pair<int const, Client> > const&, Server&) (Client_message_reception.cpp:9)
-==58920==    by 0x42BD73: Server::manageClientMessageReception(char const*, int const&) (Client_message_reception.cpp:33)
-==58920==    by 0x40CB57: Server::getClientMessage() (Server.cpp:186)
-==58920==    by 0x40C58A: Server::runServer() (Server.cpp:119)
-==58920==    by 0x40409D: main (main.cpp:45)
-==58920==  Address 0x4de9270 is 272 bytes inside a block of size 336 free'd
-==58920==    at 0x484B8AF: operator delete(void*) (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==58920==    by 0x40A5AC: std::__new_allocator<std::_Rb_tree_node<std::pair<int const, Client> > >::deallocate(std::_Rb_tree_node<std::pair<int const, Client> >*, unsigned long) (new_allocator.h:158)
-==58920==    by 0x40A574: __gnu_cxx::__alloc_traits<std::allocator<std::_Rb_tree_node<std::pair<int const, Client> > >, std::_Rb_tree_node<std::pair<int const, Client> > >::deallocate(std::allocator<std::_Rb_tree_node<std::pair<int const, Client> > >&, std::_Rb_tree_node<std::pair<int const, Client> >*, unsigned long) (alloc_traits.h:141)
-==58920==    by 0x40A429: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_put_node(std::_Rb_tree_node<std::pair<int const, Client> >*) (stl_tree.h:567)
-==58920==    by 0x40A36D: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_drop_node(std::_Rb_tree_node<std::pair<int const, Client> >*) (stl_tree.h:634)
-==58920==    by 0x414AC5: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_erase_aux(std::_Rb_tree_const_iterator<std::pair<int const, Client> >) (stl_tree.h:2497)
-==58920==    by 0x414A86: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::erase(std::_Rb_tree_iterator<std::pair<int const, Client> >) (stl_tree.h:1219)
-==58920==    by 0x411FD4: std::map<int, Client, std::less<int>, std::allocator<std::pair<int const, Client> > >::erase(std::_Rb_tree_iterator<std::pair<int const, Client> >) (stl_map.h:1101)
-==58920==    by 0x40CC31: Server::removeClientfromServer(Client const&) (Server.cpp:200)
-==58920==    by 0x41FD72: Commands::commandQUIT(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, Client&, Server&) (Commands.cpp:301)
-==58920==    by 0x42B397: Commands::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&, Server&, Client&) (Command_utils.cpp:43)
-==58920==    by 0x42B0DB: Commands::findCommandInMessage(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&, Server&, Client&) (Command_utils.cpp:14)
-==58920==  Block was alloc'd at
-==58920==    at 0x4849013: operator new(unsigned long) (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==58920==    by 0x41482F: std::__new_allocator<std::_Rb_tree_node<std::pair<int const, Client> > >::allocate(unsigned long, void const*) (new_allocator.h:137)
-==58920==    by 0x4147C0: __gnu_cxx::__alloc_traits<std::allocator<std::_Rb_tree_node<std::pair<int const, Client> > >, std::_Rb_tree_node<std::pair<int const, Client> > >::allocate(std::allocator<std::_Rb_tree_node<std::pair<int const, Client> > >&, unsigned long) (alloc_traits.h:133)
-==58920==    by 0x4146A1: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_get_node() (stl_tree.h:563)
-==58920==    by 0x41465C: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_create_node(std::pair<int const, Client> const&) (stl_tree.h:585)
-==58920==    by 0x41462F: std::_Rb_tree_node<std::pair<int const, Client> >* std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_Alloc_node::operator()<std::pair<int const, Client> >(std::pair<int const, Client> const&) const (stl_tree.h:531)
-==58920==    by 0x414463: std::_Rb_tree_iterator<std::pair<int const, Client> > std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_insert_<std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_Alloc_node>(std::_Rb_tree_node_base*, std::_Rb_tree_node_base*, std::pair<int const, Client> const&, std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_Alloc_node&) (stl_tree.h:1832)
-==58920==    by 0x414189: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_insert_unique(std::pair<int const, Client> const&) (stl_tree.h:2177)
-==58920==    by 0x411B0C: std::map<int, Client, std::less<int>, std::allocator<std::pair<int const, Client> > >::insert(std::pair<int const, Client> const&) (stl_map.h:834)
-==58920==    by 0x40C821: Server::createNewClient() (Server.cpp:151)
-==58920==    by 0x40C4EF: Server::runServer() (Server.cpp:110)
-==58920==    by 0x40409D: main (main.cpp:45)
-==58920== 
-==58920== Invalid read of size 8
-==58920==    at 0x49C01C3: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_erase(unsigned long, unsigned long) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30)
-==58920==    by 0x49C0CBB: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::erase(unsigned long, unsigned long) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30)
-==58920==    by 0x418333: Client::interpretMessage(Server&) (Client.cpp:146)
-==58920==    by 0x42BC3C: Server::interpretClientBuffer(std::_Rb_tree_iterator<std::pair<int const, Client> > const&, Server&) (Client_message_reception.cpp:9)
-==58920==    by 0x42BD73: Server::manageClientMessageReception(char const*, int const&) (Client_message_reception.cpp:33)
-==58920==    by 0x40CB57: Server::getClientMessage() (Server.cpp:186)
-==58920==    by 0x40C58A: Server::runServer() (Server.cpp:119)
-==58920==    by 0x40409D: main (main.cpp:45)
-==58920==  Address 0x4de9270 is 272 bytes inside a block of size 336 free'd
-==58920==    at 0x484B8AF: operator delete(void*) (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==58920==    by 0x40A5AC: std::__new_allocator<std::_Rb_tree_node<std::pair<int const, Client> > >::deallocate(std::_Rb_tree_node<std::pair<int const, Client> >*, unsigned long) (new_allocator.h:158)
-==58920==    by 0x40A574: __gnu_cxx::__alloc_traits<std::allocator<std::_Rb_tree_node<std::pair<int const, Client> > >, std::_Rb_tree_node<std::pair<int const, Client> > >::deallocate(std::allocator<std::_Rb_tree_node<std::pair<int const, Client> > >&, std::_Rb_tree_node<std::pair<int const, Client> >*, unsigned long) (alloc_traits.h:141)
-==58920==    by 0x40A429: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_put_node(std::_Rb_tree_node<std::pair<int const, Client> >*) (stl_tree.h:567)
-==58920==    by 0x40A36D: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_drop_node(std::_Rb_tree_node<std::pair<int const, Client> >*) (stl_tree.h:634)
-==58920==    by 0x414AC5: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_erase_aux(std::_Rb_tree_const_iterator<std::pair<int const, Client> >) (stl_tree.h:2497)
-==58920==    by 0x414A86: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::erase(std::_Rb_tree_iterator<std::pair<int const, Client> >) (stl_tree.h:1219)
-==58920==    by 0x411FD4: std::map<int, Client, std::less<int>, std::allocator<std::pair<int const, Client> > >::erase(std::_Rb_tree_iterator<std::pair<int const, Client> >) (stl_map.h:1101)
-==58920==    by 0x40CC31: Server::removeClientfromServer(Client const&) (Server.cpp:200)
-==58920==    by 0x41FD72: Commands::commandQUIT(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, Client&, Server&) (Commands.cpp:301)
-==58920==    by 0x42B397: Commands::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&, Server&, Client&) (Command_utils.cpp:43)
-==58920==    by 0x42B0DB: Commands::findCommandInMessage(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&, Server&, Client&) (Command_utils.cpp:14)
-==58920==  Block was alloc'd at
-==58920==    at 0x4849013: operator new(unsigned long) (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==58920==    by 0x41482F: std::__new_allocator<std::_Rb_tree_node<std::pair<int const, Client> > >::allocate(unsigned long, void const*) (new_allocator.h:137)
-==58920==    by 0x4147C0: __gnu_cxx::__alloc_traits<std::allocator<std::_Rb_tree_node<std::pair<int const, Client> > >, std::_Rb_tree_node<std::pair<int const, Client> > >::allocate(std::allocator<std::_Rb_tree_node<std::pair<int const, Client> > >&, unsigned long) (alloc_traits.h:133)
-==58920==    by 0x4146A1: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_get_node() (stl_tree.h:563)
-==58920==    by 0x41465C: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_create_node(std::pair<int const, Client> const&) (stl_tree.h:585)
-==58920==    by 0x41462F: std::_Rb_tree_node<std::pair<int const, Client> >* std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_Alloc_node::operator()<std::pair<int const, Client> >(std::pair<int const, Client> const&) const (stl_tree.h:531)
-==58920==    by 0x414463: std::_Rb_tree_iterator<std::pair<int const, Client> > std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_insert_<std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_Alloc_node>(std::_Rb_tree_node_base*, std::_Rb_tree_node_base*, std::pair<int const, Client> const&, std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_Alloc_node&) (stl_tree.h:1832)
-==58920==    by 0x414189: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_insert_unique(std::pair<int const, Client> const&) (stl_tree.h:2177)
-==58920==    by 0x411B0C: std::map<int, Client, std::less<int>, std::allocator<std::pair<int const, Client> > >::insert(std::pair<int const, Client> const&) (stl_map.h:834)
-==58920==    by 0x40C821: Server::createNewClient() (Server.cpp:151)
-==58920==    by 0x40C4EF: Server::runServer() (Server.cpp:110)
-==58920==    by 0x40409D: main (main.cpp:45)
-==58920== 
-==58920== Invalid read of size 8
-==58920==    at 0x49C01F3: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_erase(unsigned long, unsigned long) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30)
-==58920==    by 0x49C0CBB: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::erase(unsigned long, unsigned long) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30)
-==58920==    by 0x418333: Client::interpretMessage(Server&) (Client.cpp:146)
-==58920==    by 0x42BC3C: Server::interpretClientBuffer(std::_Rb_tree_iterator<std::pair<int const, Client> > const&, Server&) (Client_message_reception.cpp:9)
-==58920==    by 0x42BD73: Server::manageClientMessageReception(char const*, int const&) (Client_message_reception.cpp:33)
-==58920==    by 0x40CB57: Server::getClientMessage() (Server.cpp:186)
-==58920==    by 0x40C58A: Server::runServer() (Server.cpp:119)
-==58920==    by 0x40409D: main (main.cpp:45)
-==58920==  Address 0x4de9268 is 264 bytes inside a block of size 336 free'd
-==58920==    at 0x484B8AF: operator delete(void*) (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==58920==    by 0x40A5AC: std::__new_allocator<std::_Rb_tree_node<std::pair<int const, Client> > >::deallocate(std::_Rb_tree_node<std::pair<int const, Client> >*, unsigned long) (new_allocator.h:158)
-==58920==    by 0x40A574: __gnu_cxx::__alloc_traits<std::allocator<std::_Rb_tree_node<std::pair<int const, Client> > >, std::_Rb_tree_node<std::pair<int const, Client> > >::deallocate(std::allocator<std::_Rb_tree_node<std::pair<int const, Client> > >&, std::_Rb_tree_node<std::pair<int const, Client> >*, unsigned long) (alloc_traits.h:141)
-==58920==    by 0x40A429: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_put_node(std::_Rb_tree_node<std::pair<int const, Client> >*) (stl_tree.h:567)
-==58920==    by 0x40A36D: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_drop_node(std::_Rb_tree_node<std::pair<int const, Client> >*) (stl_tree.h:634)
-==58920==    by 0x414AC5: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_erase_aux(std::_Rb_tree_const_iterator<std::pair<int const, Client> >) (stl_tree.h:2497)
-==58920==    by 0x414A86: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::erase(std::_Rb_tree_iterator<std::pair<int const, Client> >) (stl_tree.h:1219)
-==58920==    by 0x411FD4: std::map<int, Client, std::less<int>, std::allocator<std::pair<int const, Client> > >::erase(std::_Rb_tree_iterator<std::pair<int const, Client> >) (stl_map.h:1101)
-==58920==    by 0x40CC31: Server::removeClientfromServer(Client const&) (Server.cpp:200)
-==58920==    by 0x41FD72: Commands::commandQUIT(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, Client&, Server&) (Commands.cpp:301)
-==58920==    by 0x42B397: Commands::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&, Server&, Client&) (Command_utils.cpp:43)
-==58920==    by 0x42B0DB: Commands::findCommandInMessage(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&, Server&, Client&) (Command_utils.cpp:14)
-==58920==  Block was alloc'd at
-==58920==    at 0x4849013: operator new(unsigned long) (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==58920==    by 0x41482F: std::__new_allocator<std::_Rb_tree_node<std::pair<int const, Client> > >::allocate(unsigned long, void const*) (new_allocator.h:137)
-==58920==    by 0x4147C0: __gnu_cxx::__alloc_traits<std::allocator<std::_Rb_tree_node<std::pair<int const, Client> > >, std::_Rb_tree_node<std::pair<int const, Client> > >::allocate(std::allocator<std::_Rb_tree_node<std::pair<int const, Client> > >&, unsigned long) (alloc_traits.h:133)
-==58920==    by 0x4146A1: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_get_node() (stl_tree.h:563)
-==58920==    by 0x41465C: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_create_node(std::pair<int const, Client> const&) (stl_tree.h:585)
-==58920==    by 0x41462F: std::_Rb_tree_node<std::pair<int const, Client> >* std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_Alloc_node::operator()<std::pair<int const, Client> >(std::pair<int const, Client> const&) const (stl_tree.h:531)
-==58920==    by 0x414463: std::_Rb_tree_iterator<std::pair<int const, Client> > std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_insert_<std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_Alloc_node>(std::_Rb_tree_node_base*, std::_Rb_tree_node_base*, std::pair<int const, Client> const&, std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_Alloc_node&) (stl_tree.h:1832)
-==58920==    by 0x414189: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_insert_unique(std::pair<int const, Client> const&) (stl_tree.h:2177)
-==58920==    by 0x411B0C: std::map<int, Client, std::less<int>, std::allocator<std::pair<int const, Client> > >::insert(std::pair<int const, Client> const&) (stl_map.h:834)
-==58920==    by 0x40C821: Server::createNewClient() (Server.cpp:151)
-==58920==    by 0x40C4EF: Server::runServer() (Server.cpp:110)
-==58920==    by 0x40409D: main (main.cpp:45)
-==58920== 
-==58920== Invalid write of size 8
-==58920==    at 0x49C01F9: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_erase(unsigned long, unsigned long) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30)
-==58920==    by 0x49C0CBB: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::erase(unsigned long, unsigned long) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30)
-==58920==    by 0x418333: Client::interpretMessage(Server&) (Client.cpp:146)
-==58920==    by 0x42BC3C: Server::interpretClientBuffer(std::_Rb_tree_iterator<std::pair<int const, Client> > const&, Server&) (Client_message_reception.cpp:9)
-==58920==    by 0x42BD73: Server::manageClientMessageReception(char const*, int const&) (Client_message_reception.cpp:33)
-==58920==    by 0x40CB57: Server::getClientMessage() (Server.cpp:186)
-==58920==    by 0x40C58A: Server::runServer() (Server.cpp:119)
-==58920==    by 0x40409D: main (main.cpp:45)
-==58920==  Address 0x4de9270 is 272 bytes inside a block of size 336 free'd
-==58920==    at 0x484B8AF: operator delete(void*) (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==58920==    by 0x40A5AC: std::__new_allocator<std::_Rb_tree_node<std::pair<int const, Client> > >::deallocate(std::_Rb_tree_node<std::pair<int const, Client> >*, unsigned long) (new_allocator.h:158)
-==58920==    by 0x40A574: __gnu_cxx::__alloc_traits<std::allocator<std::_Rb_tree_node<std::pair<int const, Client> > >, std::_Rb_tree_node<std::pair<int const, Client> > >::deallocate(std::allocator<std::_Rb_tree_node<std::pair<int const, Client> > >&, std::_Rb_tree_node<std::pair<int const, Client> >*, unsigned long) (alloc_traits.h:141)
-==58920==    by 0x40A429: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_put_node(std::_Rb_tree_node<std::pair<int const, Client> >*) (stl_tree.h:567)
-==58920==    by 0x40A36D: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_drop_node(std::_Rb_tree_node<std::pair<int const, Client> >*) (stl_tree.h:634)
-==58920==    by 0x414AC5: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_erase_aux(std::_Rb_tree_const_iterator<std::pair<int const, Client> >) (stl_tree.h:2497)
-==58920==    by 0x414A86: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::erase(std::_Rb_tree_iterator<std::pair<int const, Client> >) (stl_tree.h:1219)
-==58920==    by 0x411FD4: std::map<int, Client, std::less<int>, std::allocator<std::pair<int const, Client> > >::erase(std::_Rb_tree_iterator<std::pair<int const, Client> >) (stl_map.h:1101)
-==58920==    by 0x40CC31: Server::removeClientfromServer(Client const&) (Server.cpp:200)
-==58920==    by 0x41FD72: Commands::commandQUIT(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, Client&, Server&) (Commands.cpp:301)
-==58920==    by 0x42B397: Commands::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&, Server&, Client&) (Command_utils.cpp:43)
-==58920==    by 0x42B0DB: Commands::findCommandInMessage(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&, Server&, Client&) (Command_utils.cpp:14)
-==58920==  Block was alloc'd at
-==58920==    at 0x4849013: operator new(unsigned long) (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==58920==    by 0x41482F: std::__new_allocator<std::_Rb_tree_node<std::pair<int const, Client> > >::allocate(unsigned long, void const*) (new_allocator.h:137)
-==58920==    by 0x4147C0: __gnu_cxx::__alloc_traits<std::allocator<std::_Rb_tree_node<std::pair<int const, Client> > >, std::_Rb_tree_node<std::pair<int const, Client> > >::allocate(std::allocator<std::_Rb_tree_node<std::pair<int const, Client> > >&, unsigned long) (alloc_traits.h:133)
-==58920==    by 0x4146A1: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_get_node() (stl_tree.h:563)
-==58920==    by 0x41465C: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_create_node(std::pair<int const, Client> const&) (stl_tree.h:585)
-==58920==    by 0x41462F: std::_Rb_tree_node<std::pair<int const, Client> >* std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_Alloc_node::operator()<std::pair<int const, Client> >(std::pair<int const, Client> const&) const (stl_tree.h:531)
-==58920==    by 0x414463: std::_Rb_tree_iterator<std::pair<int const, Client> > std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_insert_<std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_Alloc_node>(std::_Rb_tree_node_base*, std::_Rb_tree_node_base*, std::pair<int const, Client> const&, std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_Alloc_node&) (stl_tree.h:1832)
-==58920==    by 0x414189: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_insert_unique(std::pair<int const, Client> const&) (stl_tree.h:2177)
-==58920==    by 0x411B0C: std::map<int, Client, std::less<int>, std::allocator<std::pair<int const, Client> > >::insert(std::pair<int const, Client> const&) (stl_map.h:834)
-==58920==    by 0x40C821: Server::createNewClient() (Server.cpp:151)
-==58920==    by 0x40C4EF: Server::runServer() (Server.cpp:110)
-==58920==    by 0x40409D: main (main.cpp:45)
-==58920== 
-==58920== Invalid write of size 1
-==58920==    at 0x49C01FD: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_erase(unsigned long, unsigned long) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30)
-==58920==    by 0x49C0CBB: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::erase(unsigned long, unsigned long) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30)
-==58920==    by 0x418333: Client::interpretMessage(Server&) (Client.cpp:146)
-==58920==    by 0x42BC3C: Server::interpretClientBuffer(std::_Rb_tree_iterator<std::pair<int const, Client> > const&, Server&) (Client_message_reception.cpp:9)
-==58920==    by 0x42BD73: Server::manageClientMessageReception(char const*, int const&) (Client_message_reception.cpp:33)
-==58920==    by 0x40CB57: Server::getClientMessage() (Server.cpp:186)
-==58920==    by 0x40C58A: Server::runServer() (Server.cpp:119)
-==58920==    by 0x40409D: main (main.cpp:45)
-==58920==  Address 0x4de9340 is 0 bytes inside a block of size 87 free'd
-==58920==    at 0x484B8AF: operator delete(void*) (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==58920==    by 0x417464: Client::~Client() (Client.cpp:31)
-==58920==    by 0x40A528: std::pair<int const, Client>::~pair() (stl_pair.h:185)
-==58920==    by 0x40A488: std::__new_allocator<std::pair<int const, Client> >::destroy(std::pair<int const, Client>*) (new_allocator.h:190)
-==58920==    by 0x40A3C2: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_destroy_node(std::_Rb_tree_node<std::pair<int const, Client> >*) (stl_tree.h:623)
-==58920==    by 0x40A360: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_drop_node(std::_Rb_tree_node<std::pair<int const, Client> >*) (stl_tree.h:633)
-==58920==    by 0x414AC5: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_erase_aux(std::_Rb_tree_const_iterator<std::pair<int const, Client> >) (stl_tree.h:2497)
-==58920==    by 0x414A86: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::erase(std::_Rb_tree_iterator<std::pair<int const, Client> >) (stl_tree.h:1219)
-==58920==    by 0x411FD4: std::map<int, Client, std::less<int>, std::allocator<std::pair<int const, Client> > >::erase(std::_Rb_tree_iterator<std::pair<int const, Client> >) (stl_map.h:1101)
-==58920==    by 0x40CC31: Server::removeClientfromServer(Client const&) (Server.cpp:200)
-==58920==    by 0x41FD72: Commands::commandQUIT(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, Client&, Server&) (Commands.cpp:301)
-==58920==    by 0x42B397: Commands::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&, Server&, Client&) (Command_utils.cpp:43)
-==58920==  Block was alloc'd at
-==58920==    at 0x4849013: operator new(unsigned long) (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==58920==    by 0x49C00BD: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_mutate(unsigned long, unsigned long, char const*, unsigned long) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30)
-==58920==    by 0x49C1B4F: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_append(char const*, unsigned long) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30)
-==58920==    by 0x417A73: Client::setBuffer(char const*) (Client.cpp:64)
-==58920==    by 0x42BC7C: Server::setClientBuffer(std::_Rb_tree_iterator<std::pair<int const, Client> > const&, char const*) (Client_message_reception.cpp:16)
-==58920==    by 0x42BD63: Server::manageClientMessageReception(char const*, int const&) (Client_message_reception.cpp:32)
-==58920==    by 0x40CB57: Server::getClientMessage() (Server.cpp:186)
-==58920==    by 0x40C58A: Server::runServer() (Server.cpp:119)
-==58920==    by 0x40409D: main (main.cpp:45)
-==58920== 
-==58920== Invalid read of size 8
-==58920==    at 0x49C23E4: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::find(char const*, unsigned long, unsigned long) const (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30)
-==58920==    by 0x418351: Client::interpretMessage(Server&) (Client.cpp:147)
-==58920==    by 0x42BC3C: Server::interpretClientBuffer(std::_Rb_tree_iterator<std::pair<int const, Client> > const&, Server&) (Client_message_reception.cpp:9)
-==58920==    by 0x42BD73: Server::manageClientMessageReception(char const*, int const&) (Client_message_reception.cpp:33)
-==58920==    by 0x40CB57: Server::getClientMessage() (Server.cpp:186)
-==58920==    by 0x40C58A: Server::runServer() (Server.cpp:119)
-==58920==    by 0x40409D: main (main.cpp:45)
-==58920==  Address 0x4de9270 is 272 bytes inside a block of size 336 free'd
-==58920==    at 0x484B8AF: operator delete(void*) (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==58920==    by 0x40A5AC: std::__new_allocator<std::_Rb_tree_node<std::pair<int const, Client> > >::deallocate(std::_Rb_tree_node<std::pair<int const, Client> >*, unsigned long) (new_allocator.h:158)
-==58920==    by 0x40A574: __gnu_cxx::__alloc_traits<std::allocator<std::_Rb_tree_node<std::pair<int const, Client> > >, std::_Rb_tree_node<std::pair<int const, Client> > >::deallocate(std::allocator<std::_Rb_tree_node<std::pair<int const, Client> > >&, std::_Rb_tree_node<std::pair<int const, Client> >*, unsigned long) (alloc_traits.h:141)
-==58920==    by 0x40A429: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_put_node(std::_Rb_tree_node<std::pair<int const, Client> >*) (stl_tree.h:567)
-==58920==    by 0x40A36D: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_drop_node(std::_Rb_tree_node<std::pair<int const, Client> >*) (stl_tree.h:634)
-==58920==    by 0x414AC5: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_erase_aux(std::_Rb_tree_const_iterator<std::pair<int const, Client> >) (stl_tree.h:2497)
-==58920==    by 0x414A86: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::erase(std::_Rb_tree_iterator<std::pair<int const, Client> >) (stl_tree.h:1219)
-==58920==    by 0x411FD4: std::map<int, Client, std::less<int>, std::allocator<std::pair<int const, Client> > >::erase(std::_Rb_tree_iterator<std::pair<int const, Client> >) (stl_map.h:1101)
-==58920==    by 0x40CC31: Server::removeClientfromServer(Client const&) (Server.cpp:200)
-==58920==    by 0x41FD72: Commands::commandQUIT(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, Client&, Server&) (Commands.cpp:301)
-==58920==    by 0x42B397: Commands::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&, Server&, Client&) (Command_utils.cpp:43)
-==58920==    by 0x42B0DB: Commands::findCommandInMessage(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&, Server&, Client&) (Command_utils.cpp:14)
-==58920==  Block was alloc'd at
-==58920==    at 0x4849013: operator new(unsigned long) (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==58920==    by 0x41482F: std::__new_allocator<std::_Rb_tree_node<std::pair<int const, Client> > >::allocate(unsigned long, void const*) (new_allocator.h:137)
-==58920==    by 0x4147C0: __gnu_cxx::__alloc_traits<std::allocator<std::_Rb_tree_node<std::pair<int const, Client> > >, std::_Rb_tree_node<std::pair<int const, Client> > >::allocate(std::allocator<std::_Rb_tree_node<std::pair<int const, Client> > >&, unsigned long) (alloc_traits.h:133)
-==58920==    by 0x4146A1: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_get_node() (stl_tree.h:563)
-==58920==    by 0x41465C: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_create_node(std::pair<int const, Client> const&) (stl_tree.h:585)
-==58920==    by 0x41462F: std::_Rb_tree_node<std::pair<int const, Client> >* std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_Alloc_node::operator()<std::pair<int const, Client> >(std::pair<int const, Client> const&) const (stl_tree.h:531)
-==58920==    by 0x414463: std::_Rb_tree_iterator<std::pair<int const, Client> > std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_insert_<std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_Alloc_node>(std::_Rb_tree_node_base*, std::_Rb_tree_node_base*, std::pair<int const, Client> const&, std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_Alloc_node&) (stl_tree.h:1832)
-==58920==    by 0x414189: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_insert_unique(std::pair<int const, Client> const&) (stl_tree.h:2177)
-==58920==    by 0x411B0C: std::map<int, Client, std::less<int>, std::allocator<std::pair<int const, Client> > >::insert(std::pair<int const, Client> const&) (stl_map.h:834)
-==58920==    by 0x40C821: Server::createNewClient() (Server.cpp:151)
-==58920==    by 0x40C4EF: Server::runServer() (Server.cpp:110)
-==58920==    by 0x40409D: main (main.cpp:45)
-==58920== 
-==58920== Invalid read of size 8
-==58920==    at 0x49C23E4: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::find(char const*, unsigned long, unsigned long) const (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30)
-==58920==    by 0x418389: Client::interpretMessage(Server&) (Client.cpp:149)
-==58920==    by 0x42BC3C: Server::interpretClientBuffer(std::_Rb_tree_iterator<std::pair<int const, Client> > const&, Server&) (Client_message_reception.cpp:9)
-==58920==    by 0x42BD73: Server::manageClientMessageReception(char const*, int const&) (Client_message_reception.cpp:33)
-==58920==    by 0x40CB57: Server::getClientMessage() (Server.cpp:186)
-==58920==    by 0x40C58A: Server::runServer() (Server.cpp:119)
-==58920==    by 0x40409D: main (main.cpp:45)
-==58920==  Address 0x4de9270 is 272 bytes inside a block of size 336 free'd
-==58920==    at 0x484B8AF: operator delete(void*) (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==58920==    by 0x40A5AC: std::__new_allocator<std::_Rb_tree_node<std::pair<int const, Client> > >::deallocate(std::_Rb_tree_node<std::pair<int const, Client> >*, unsigned long) (new_allocator.h:158)
-==58920==    by 0x40A574: __gnu_cxx::__alloc_traits<std::allocator<std::_Rb_tree_node<std::pair<int const, Client> > >, std::_Rb_tree_node<std::pair<int const, Client> > >::deallocate(std::allocator<std::_Rb_tree_node<std::pair<int const, Client> > >&, std::_Rb_tree_node<std::pair<int const, Client> >*, unsigned long) (alloc_traits.h:141)
-==58920==    by 0x40A429: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_put_node(std::_Rb_tree_node<std::pair<int const, Client> >*) (stl_tree.h:567)
-==58920==    by 0x40A36D: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_drop_node(std::_Rb_tree_node<std::pair<int const, Client> >*) (stl_tree.h:634)
-==58920==    by 0x414AC5: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_erase_aux(std::_Rb_tree_const_iterator<std::pair<int const, Client> >) (stl_tree.h:2497)
-==58920==    by 0x414A86: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::erase(std::_Rb_tree_iterator<std::pair<int const, Client> >) (stl_tree.h:1219)
-==58920==    by 0x411FD4: std::map<int, Client, std::less<int>, std::allocator<std::pair<int const, Client> > >::erase(std::_Rb_tree_iterator<std::pair<int const, Client> >) (stl_map.h:1101)
-==58920==    by 0x40CC31: Server::removeClientfromServer(Client const&) (Server.cpp:200)
-==58920==    by 0x41FD72: Commands::commandQUIT(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, Client&, Server&) (Commands.cpp:301)
-==58920==    by 0x42B397: Commands::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&, Server&, Client&) (Command_utils.cpp:43)
-==58920==    by 0x42B0DB: Commands::findCommandInMessage(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&, Server&, Client&) (Command_utils.cpp:14)
-==58920==  Block was alloc'd at
-==58920==    at 0x4849013: operator new(unsigned long) (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==58920==    by 0x41482F: std::__new_allocator<std::_Rb_tree_node<std::pair<int const, Client> > >::allocate(unsigned long, void const*) (new_allocator.h:137)
-==58920==    by 0x4147C0: __gnu_cxx::__alloc_traits<std::allocator<std::_Rb_tree_node<std::pair<int const, Client> > >, std::_Rb_tree_node<std::pair<int const, Client> > >::allocate(std::allocator<std::_Rb_tree_node<std::pair<int const, Client> > >&, unsigned long) (alloc_traits.h:133)
-==58920==    by 0x4146A1: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_get_node() (stl_tree.h:563)
-==58920==    by 0x41465C: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_create_node(std::pair<int const, Client> const&) (stl_tree.h:585)
-==58920==    by 0x41462F: std::_Rb_tree_node<std::pair<int const, Client> >* std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_Alloc_node::operator()<std::pair<int const, Client> >(std::pair<int const, Client> const&) const (stl_tree.h:531)
-==58920==    by 0x414463: std::_Rb_tree_iterator<std::pair<int const, Client> > std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_insert_<std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_Alloc_node>(std::_Rb_tree_node_base*, std::_Rb_tree_node_base*, std::pair<int const, Client> const&, std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_Alloc_node&) (stl_tree.h:1832)
-==58920==    by 0x414189: std::_Rb_tree<int, std::pair<int const, Client>, std::_Select1st<std::pair<int const, Client> >, std::less<int>, std::allocator<std::pair<int const, Client> > >::_M_insert_unique(std::pair<int const, Client> const&) (stl_tree.h:2177)
-==58920==    by 0x411B0C: std::map<int, Client, std::less<int>, std::allocator<std::pair<int const, Client> > >::insert(std::pair<int const, Client> const&) (stl_map.h:834)
-==58920==    by 0x40C821: Server::createNewClient() (Server.cpp:151)
-==58920==    by 0x40C4EF: Server::runServer() (Server.cpp:110)
-==58920==    by 0x40409D: main (main.cpp:45)
-==58920== 
+
+[ New connection ] Client fd = 4  /  ip = 127.0.0.1  /  port = 56294
+
+WELCOME
+
+[0;31mclient= 4, , client address = 0x4df2db8[0m
+[0;36m<< [0mCAP LS
+[0;36m<< [0mPASS lol
+[0;36m<< [0mNICK cbernaze
+[0;36m<< [0mUSER cbernaze cbernaze localhost :Clement BERNAZEAU
+[0;35m>> [0m:irc 001 cbernaze :Welcome to the Internet Relay Network cbernaze!cbernaze@127.0.0.1
+[0;35m>> [0m:irc 002 cbernaze :Your host is irc, running version 0.6
+[0;35m>> [0m:irc 003 cbernaze :This server was created on 2024/3/28
+[0;35m>> [0m004 cbernaze :irc 1.0 -none- itkol
+[0;36m<< [0mMODE cbernaze +i
++i
+[0;35m>> [0m[0;33m403 cbernaze cbernaze :No such channel[0m
+[0;31mclient= 4, cbernaze, client address = 0x4df2db8[0m
+[0;36m<< [0mPING irc
+[0;35m>> [0mPONG irc :cbernaze
+
+[ New connection ] Client fd = 4  /  ip = 127.0.0.1  /  port = 51214
+
+WELCOME
+
+[0;31mclient= 4, , client address = 0x4dfa3f8[0m
+[0;36m<< [0mCAP LS
+[0;36m<< [0mPASS lol
+[0;36m<< [0mNICK cbernaze
+[0;36m<< [0mUSER cbernaze cbernaze localhost :Clement BERNAZEAU
+[0;35m>> [0m:irc 001 cbernaze :Welcome to the Internet Relay Network cbernaze!cbernaze@127.0.0.1
+[0;35m>> [0m:irc 002 cbernaze :Your host is irc, running version 0.6
+[0;35m>> [0m:irc 003 cbernaze :This server was created on 2024/3/28
+[0;35m>> [0m004 cbernaze :irc 1.0 -none- itkol
+[0;36m<< [0mMODE cbernaze +i
++i
+[0;35m>> [0m[0;33m403 cbernaze cbernaze :No such channel[0m
+[0;31mclient= 4, cbernaze, client address = 0x4dfa3f8[0m
+[0;36m<< [0mPING irc
+[0;35m>> [0mPONG irc :cbernaze
+
+[ New connection ] Client fd = 4  /  ip = 127.0.0.1  /  port = 57804
+
+WELCOME
+
+[0;31mclient= 4, , client address = 0x4e019d8[0m
+[0;36m<< [0mCAP LS
+[0;36m<< [0mPASS lol
+[0;36m<< [0mNICK cbernaze
+[0;36m<< [0mUSER cbernaze cbernaze localhost :Clement BERNAZEAU
+[0;35m>> [0m:irc 001 cbernaze :Welcome to the Internet Relay Network cbernaze!cbernaze@127.0.0.1
+[0;35m>> [0m:irc 002 cbernaze :Your host is irc, running version 0.6
+[0;35m>> [0m:irc 003 cbernaze :This server was created on 2024/3/28
+[0;35m>> [0m004 cbernaze :irc 1.0 -none- itkol
+[0;36m<< [0mMODE cbernaze +i
++i
+[0;35m>> [0m[0;33m403 cbernaze cbernaze :No such channel[0m
+[0;31mclient= 4, cbernaze, client address = 0x4e019d8[0m
+[0;36m<< [0mPING irc
+[0;35m>> [0mPONG irc :cbernaze
   exit
-==58920== 
-==58920== HEAP SUMMARY:
-==58920==     in use at exit: 0 bytes in 0 blocks
-==58920==   total heap usage: 212 allocs, 212 frees, 104,929 bytes allocated
-==58920== 
-==58920== All heap blocks were freed -- no leaks are possible
-==58920== 
-==58920== For lists of detected and suppressed errors, rerun with: -s
-==58920== ERROR SUMMARY: 25 errors from 12 contexts (suppressed: 0 from 0)
+==250580== 
+==250580== HEAP SUMMARY:
+==250580==     in use at exit: 0 bytes in 0 blocks
+==250580==   total heap usage: 842 allocs, 842 frees, 155,143 bytes allocated
+==250580== 
+==250580== All heap blocks were freed -- no leaks are possible
+==250580== 
+==250580== For lists of detected and suppressed errors, rerun with: -s
+==250580== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

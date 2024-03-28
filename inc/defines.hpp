@@ -124,7 +124,7 @@ extern bool		doSignal;
 # define ERR_UNKNOWNCOMMAND		"\033[0;33m421 <client> <command> :Unknown command\033[0m"
 # define ERR_NONICKNAMEGIVEN	"\033[0;33m431 <client> :No nickname given\033[0m"
 # define ERR_ERRONEUSNICKNAME	"\033[0;33m432 <client> <arg> :Erroneus nickname\033[0m"
-# define ERR_NICKNAMEINUSE		"\033[0;33m433 <client> <arg> :Nickname is already in use\033[0m"
+# define ERR_NICKNAMEINUSE		":ircserv 433 * <client> :Nickname is already in use."
 # define ERR_USERNOTINCHANNEL	"\033[0;33m441 <client> <arg> :They aren't on that channel\033[0m"
 # define ERR_NOTONCHANNEL		"\033[0;33m442 <client> <channelName> :You're not on that channel\033[0m"
 # define ERR_USERONCHANNEL		"\033[0;33m443 <client> <arg> :is already on channel\033[0m"
@@ -162,7 +162,7 @@ extern bool		doSignal;
 # define RPL_ENDOFNAMES			"366 <client> <channelName> :End of /NAMES list"
 # define RPL_BANLIST			"367 <channelName> <banmask>"
 # define RPL_QUIT				" has left the server.\n"
-# define RPL_NICKCHANGE			":<oldnickname> NICK <nickname>"
+# define RPL_NICKCHANGE			":<oldnickname>!<username>@127.0.0.1 NICK <nickname>"
 // # define RPL_NICKWASSET			"NICK <nickname>"
 
 

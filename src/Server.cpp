@@ -161,8 +161,6 @@ void	Server::createNewClient()
 
 void	Server::getClientMessage()
 {
-	int i = _clientMap.size();
-	std::cout << i;
 	if (_nbClients == 0 || _clientMap.size() == 0)
 		return ;
 

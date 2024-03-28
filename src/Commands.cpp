@@ -291,15 +291,10 @@ void		Commands::commandQUIT(const std::string& line, const std::string& command,
 
 	const std::vector<std::string>	channels = Utils::getChannelListInClient(client);
 	std::vector<std::string>	user;
-	std::cout << RED << "la republique c'est moi" << NC << std::endl;
 	user.push_back(client.getClientNickname());
-	std::cout << RED << "manu a poil" << NC << std::endl;
 	server.removeClientsFromChannels(client, channels, user, RPL_QUIT);
-	std::cout << RED << "dans mon monde a moi y'a que des poneys" << NC << std::endl;
 	close(client.getClientSocket());
-	std::cout << RED << "jessica deep" << NC << std::endl;
 	server.removeClientfromServer(client);
-	std::cout << RED << "size of clients = " << server.getClientMap().size() << NC << std::endl;
 
 
 

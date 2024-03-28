@@ -14,6 +14,7 @@ class Channel;
 class Server
 {
 	private:
+		std::string							_buffer;
 		const std::string					_port;
 		const std::string					_password;
 		int									_nbClients;
@@ -40,6 +41,7 @@ class Server
 		void								runServer();
 		void								createNewClient();
 		void								getClientMessage();
+		void								interpretMessage(const std::map<int, Client>::iterator &client);
 
 		// Send functions
 		void								sendUserInformation(const std::vector<std::string> parameters, const Client& client);
@@ -67,8 +69,8 @@ class Server
 
 		// Client message reception
 		void								manageClientMessageReception(const char *buffer, const int& clientSocket);
-		void								setClientBuffer(const std::map<int, Client>::iterator &client, const char *buffer);
-		void								interpretClientBuffer(const std::map<int, Client>::iterator &client, Server& server);
+		void								setClientBuffer(const char *buffer);
+		// void								interpretClientBuffer(const std::map<int, Client>::iterator &client, Server& server);
 
 		// Client_disconnect
 		void								disconnectClient(const int& clientSocket);

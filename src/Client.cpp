@@ -14,7 +14,7 @@ Client::Client(const int& clientSocket): _clientSocket(clientSocket)
 	_clientRealName = EMPTY;
 	_lastArg = EMPTY;
 	_lastCommand = EMPTY;
-	_buffer = EMPTY;
+	// _buffer = EMPTY;
 	_clientStatus = DISCONNECTED;
 	_irssi = false;
 
@@ -61,7 +61,7 @@ void	Client::printChannels()
 		<< ", channel address = " << (_channels[i]) << NC << std::endl;
 }
 
-void	Client::setBuffer(const char *buffer) { _buffer += buffer; }
+// void	Client::setBuffer(const char *buffer) { _buffer += buffer; }
 void	Client::setLastArgument(const std::string& arg) { _lastArg = arg; }
 void	Client::setLastCommand(const std::string& command) { _lastCommand = command; }
 void	Client::setClientIP(const char * IP) { _clientIP = IP; }
@@ -126,29 +126,29 @@ void	Client::setUsername(const std::string& username)
 
 // Functions
 
-void	Client::interpretMessage(Server& server)
-{
-	if (_buffer.empty() == true)
-		return ;
+// void	Client::interpretMessage(Server& server)
+// {
+// 	if (_buffer.empty() == true)
+// 		return ;
 
-	size_t	pos = _buffer.find("\r\n");
-	if (pos == std::string::npos) // no \r\n found
-		pos = _buffer.find("\n");
+// 	size_t	pos = _buffer.find("\r\n");
+// 	if (pos == std::string::npos) // no \r\n found
+// 		pos = _buffer.find("\n");
 
-	while (pos != std::string::npos)
-	{
-		std::string	line = _buffer.substr(0, pos);
-		std::cout << INCOMING_MSG << line << std::endl;
+// 	while (pos != std::string::npos)
+// 	{
+// 		std::string	line = _buffer.substr(0, pos);
+// 		std::cout << INCOMING_MSG << line << std::endl;
 
-		if (line.empty() == false)
-			Commands::findCommandInMessage(line, server, *this);
-		//il faudrait que cette fonction ne soit pas dans le client et le probleme est regle, on est dans un client qui n'existe plus et _buffer n'existe plus
-		_buffer.erase(0, _buffer.find("\n") + 1);
-		pos = _buffer.find("\r\n");
-		if (pos == std::string::npos)
-			pos = _buffer.find("\n");
-	}
-}
+// 		if (line.empty() == false)
+// 			Commands::findCommandInMessage(line, server, *this);
+// 		//il faudrait que cette fonction ne soit pas dans le client et le probleme est regle, on est dans un client qui n'existe plus et _buffer n'existe plus
+// 		_buffer.erase(0, _buffer.find("\n") + 1);
+// 		pos = _buffer.find("\r\n");
+// 		if (pos == std::string::npos)
+// 			pos = _buffer.find("\n");
+// 	}
+// }
 
 
 
