@@ -195,9 +195,7 @@ void	Utils::partMessage(const Client& client, Server& server, const std::string 
 												+ "!~" + client.getClientUsername() + "@"
 												+ client.getClientIP() + " PART " + channel_name;
 
-	if (message == "")
-		full_message = full_message + " :" + client.getClientNickname();
-	else
+	if (message != "")
 		full_message = full_message + " :" + message;
 	server.sendMessageToChannel(channel_name, full_message, client);
 }

@@ -14,6 +14,7 @@ class Channel;
 class Server
 {
 	private:
+		std::string							_buffer;
 		const std::string					_port;
 		const std::string					_password;
 		int									_nbClients;
@@ -40,14 +41,16 @@ class Server
 		void								runServer();
 		void								createNewClient();
 		void								getClientMessage();
+		void								interpretMessage(const std::map<int, Client>::iterator &client);
 
 		// Send functions
 		void								sendUserInformation(const std::vector<std::string> parameters, const Client& client);
 		void								sendChannelInformation(const std::vector<std::string> parameters, const Client& client);
 		void								sendMessageToReceivers(std::vector<std::string> receivers, std::string message, const Client& client);
 		void								sendMessageToChannel(std::string receiver, std::string message, const Client& client);
+		void								sendMessageToChannelNotSelf(std::string receiver, std::string message, const Client& client);
 		void								sendMessageToUser(std::string receiver, std::string message, const Client& client);
-		
+
 		// Creation, invitation, addition
 		void								inviteUser(const std::vector<std::string> parameters, Client& client, Server& server);
 		void								addClientToChannel(std::string channel, std::string passwrd, Client& client, Server& server);
@@ -66,8 +69,8 @@ class Server
 
 		// Client message reception
 		void								manageClientMessageReception(const char *buffer, const int& clientSocket);
-		void								setClientBuffer(const std::map<int, Client>::iterator &client, const char *buffer);
-		void								interpretClientBuffer(const std::map<int, Client>::iterator &client, Server& server);
+		void								setClientBuffer(const char *buffer);
+		// void								interpretClientBuffer(const std::map<int, Client>::iterator &client, Server& server);
 
 		// Client_disconnect
 		void								disconnectClient(const int& clientSocket);
