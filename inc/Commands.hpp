@@ -60,13 +60,14 @@ class Commands
 		// nick_utils
 		static bool			isValidNickname(const std::string& nickname, const Client& client, const Server& server);
 		static bool			nicknameAlreadyExists(const std::string& nickname, const Server& server);
-		static std::string	createNewNickname(std::string& nickname, const Server& server);
+		static bool			isNicknameSetUp(const Client& client);
 
 		// pass_utils
 		static bool			isValidPassword(const std::string& password, const Client& client, const Server& server);
 
 		// user_utils
 		static bool			areValidUserParameters(const std::vector<std::string> parameters);
+		static void			addUserInformation(std::vector<std::string> parameters, Client& client);
 
 		// cap_utils
 		static bool			isIrssi(const std::string& line);

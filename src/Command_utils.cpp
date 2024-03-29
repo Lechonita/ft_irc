@@ -71,3 +71,11 @@ bool	Commands::isParameterSetUp(const std::string& parameter, const Client& clie
 	}
 	return (true);
 }
+
+
+// bool	Commands::isNicknameSetUp(const Client& client)
+// {
+// 	if (client.getNicknameOKFlag() == false)
+// 		return (false);
+// 	return (true);
+// }

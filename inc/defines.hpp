@@ -67,8 +67,7 @@ extern bool		doSignal;
 # define EXPECTED_USER_PARAM 5
 # define INCOMING_MSG "\033[0;36m<< \033[0m"
 # define OUTGOING_MSG "\033[0;35m>> \033[0m"
-# define CONNECTED true
-# define DISCONNECTED false
+
 # define UNKNOWN_TYPE 0
 # define USER_TYPE 1
 # define CHANNEL_TYPE 2
@@ -81,6 +80,14 @@ extern bool		doSignal;
 # define BAD_LIMIT -42
 # define CLIENT_FOUND 24
 # define CLIENT_NOT_FOUND -24
+
+
+// Client Connexion Status
+
+# define DISCONNECTED 0
+# define PASS_LOGIN 1
+# define NICK_USER_LOGIN 1
+# define CONNECTED 3
 
 
 // Server specifications
@@ -124,7 +131,7 @@ extern bool		doSignal;
 # define ERR_UNKNOWNCOMMAND		"\033[0;33m421 <client> <command> :Unknown command\033[0m"
 # define ERR_NONICKNAMEGIVEN	"\033[0;33m431 <client> :No nickname given\033[0m"
 # define ERR_ERRONEUSNICKNAME	"\033[0;33m432 <client> <arg> :Erroneus nickname\033[0m"
-# define ERR_NICKNAMEINUSE		":ircserv 433 * <client> :Nickname is already in use."
+# define ERR_NICKNAMEINUSE		":<servername> 433 * <client> :Nickname is already in use."
 # define ERR_USERNOTINCHANNEL	"\033[0;33m441 <client> <arg> :They aren't on that channel\033[0m"
 # define ERR_NOTONCHANNEL		"\033[0;33m442 <client> <channelName> :You're not on that channel\033[0m"
 # define ERR_USERONCHANNEL		"\033[0;33m443 <client> <arg> :is already on channel\033[0m"
