@@ -11,7 +11,7 @@ void	Server::sendUserInformation(const std::vector<std::string> parameters, cons
 		if (it->second.getClientNickname() == parameters[0])
 		{
 			std::string	status;
-			if (it->second.getClientStatus() == CONNECTED)
+			if (it->second.getClientStatus() >= CONNECTED)
 				status = "Connected";
 			else
 				status = "Disconnected";

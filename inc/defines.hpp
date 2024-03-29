@@ -88,6 +88,7 @@ extern bool		doSignal;
 # define PASS_LOGIN 1
 # define NICK_USER_LOGIN 1
 # define CONNECTED 3
+# define DISPLAY_WELCOME 1
 
 
 // Server specifications
@@ -173,7 +174,7 @@ extern bool		doSignal;
 // # define RPL_NICKWASSET			"NICK <nickname>"
 
 
-// COMMANDS Messages
+// Custom COMMANDS Messages
 
 # define PASS_OK "\033[0;32mPassword correct !\033[0m Please set up Nickname now (use NICK command).\n"
 # define NICK_OK "\033[0;32mNickname has been set !\033[0m Please set up Username now (use USER command).\n"

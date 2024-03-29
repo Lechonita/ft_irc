@@ -224,13 +224,18 @@ void		Commands::commandNICK(const std::string& line, const std::string& command,
 	{
 		client.setNicknameOKFlag(true);
 		client.setClientStatus(NICK_USER_LOGIN);
+
+		if (client.getIrssi() == true)
+			Utils::sendFormattedMessage(RPL_NICKCHANGE, client);
+		else
+			Utils::sendMessage(NICK_OK, client);
 	}
 
-	if (client.getIrssi() == true)
-		Utils::sendFormattedMessage(RPL_NICKCHANGE, client);
-
 	if (client.getClientStatus() == CONNECTED)
+	{
 		Utils::displayWelcomeMessage(client);
+		client.setClientStatus(DISPLAY_WELCOME);
+	}
 }
 
 

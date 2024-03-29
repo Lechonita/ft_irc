@@ -25,5 +25,8 @@ void	Commands::addUserInformation(std::vector<std::string> parameters, Client& c
 	client.setClientStatus(NICK_USER_LOGIN);
 
 	if (client.getClientStatus() == CONNECTED)
+	{
 		Utils::displayWelcomeMessage(client);
+		client.setClientStatus(DISPLAY_WELCOME);
+	}
 }

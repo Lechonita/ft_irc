@@ -89,8 +89,8 @@ void	Client::setNickname(const std::string& nickname)
 		_clientNickname.clear();
 		_clientNickname = nickname;
 
-		if (_irssi == false)
-			Utils::sendMessage(NICK_CHANGED, *this);
+		// if (_irssi == false)
+		// 	Utils::sendMessage(NICK_CHANGED, *this);
 		// else
 		// 	Utils::sendFormattedMessage(RPL_NICKCHANGE, *this);
 	}
@@ -98,8 +98,8 @@ void	Client::setNickname(const std::string& nickname)
 	{
 		_clientNickname = nickname;
 
-		if (_irssi == false)
-			Utils::sendMessage(NICK_OK, *this);
+		// if (_irssi == false)
+		// 	Utils::sendMessage(NICK_OK, *this);
 		// else
 		// 	Utils::sendFormattedMessage(RPL_NICKCHANGE, *this);
 	}
