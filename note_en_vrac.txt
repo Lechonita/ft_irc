@@ -40,7 +40,7 @@ CHANNEL COMMANDS :
 	x PRIVMSG (send a private message to another user)
 	- QUIT (quit server)
 	- LIST (list channels)
-	- WHOIS (get personnal information about a user)
+	x WHOIS (get personnal information about a user)
 
 CHANNEL OPERATOR COMMANDS :
 	x KICK
@@ -115,3 +115,5 @@ LISTE DE BUGS A CORRIGER
 - Commande CAP > verifier pour le cas irssi où le mdp n'est pas donné
 
 - Quand le timeout est atteint sur irssi, un nouveau user join et ca join tout ! aussi son nickname est celui du pc
+
+- 403 bob bob :No such channel a la connexion avec irssi > verifier pourquoi bob est un channel !

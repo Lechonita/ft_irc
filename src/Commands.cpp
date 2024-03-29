@@ -461,7 +461,9 @@ void		Commands::commandWHOIS(const std::string& line, const std::string& command
 
 		default:
 			if (parameters[0].at(0) == PREFIX_CHAN)
+			{
 				Utils::sendFormattedMessage(ERR_NOSUCHCHANNEL, client, parameters[0]);
+			}
 			else
 				Utils::sendFormattedMessage(ERR_NOSUCHNICK, client);
 	}

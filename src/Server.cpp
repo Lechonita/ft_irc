@@ -203,56 +203,6 @@ void	Server::removeClientfromServer(const Client& client)
 
 
 
-static std::string		getChannelClientNickname(std::vector<channelClient>::iterator itClient)
-{
-	printf("    Entrée dans getChannelClientNickname\n");
-	const Client	tmpClient = *itClient->client;
-	printf("    >>>>>>>>  tmpclient créé\n");
-	std::string		nickname = tmpClient.getClientNickname();
-	printf("    Nickname = -%s-\n", nickname.c_str());
-	return (nickname);
-}
-
-
-
-void	Server::removeClientfromChannels(const Client& client)
-{
-	printf("2/ Entering removeClientfromChannels\n");
-	const std::string		clientNickname = client.getClientNickname();
-	// const std::string		channelList = Utils::getChannelListInClient(client);
-
-	std::map<std::string, Channel>::iterator	it;
-
-	if (getChannelMap().size() > 0)
-	{
-		for (it = getChannelMap().begin(); it != getChannelMap().end(); ++it)
-		{
-			printf("3/ Je rentre dans la boucle for des channels\n");
-			printf("	Je suis sur -%s-\n", it->first.c_str());
-			std::vector<channelClient>::iterator	itClient;
-
-			for (itClient = it->second.getChannelClients().begin(); itClient != it->second.getChannelClients().end(); ++itClient)
-			{
-				printf("  4/ Je rentre dans la boucle for des clients du channel\n");
-				printf("	  Je suis sur -%s-\n", getChannelClientNickname(itClient).c_str());
-				if (getChannelClientNickname(itClient) == clientNickname)
-					it->second.getChannelClients().erase(itClient);
-			}
-			// if (channelList.find(it->first) != std::string::npos)
-			// {
-			// 	// const std::string		clientList = Utils::getClientListInChannel(client, it->first);
-			// 	// if (clientList.find(clientNickname) != std::string::npos)
-			// 	// {
-
-			// 	// }
-			// }
-
-		}
-	}
-	printf("5/ Je suis à la fin de removeClientfromChannels\n");
-}
-
-
 
 
 // Getters
@@ -485,9 +435,7 @@ void	Server::removeClientsFromChannels(Client& client, std::vector<std::string> 
 			it_channels->second.kickThoseMfOut(client, *this, clients, message);
 		}
 		else
-		{
 			Utils::sendFormattedMessage(ERR_NOSUCHCHANNEL, client, channels[pos]);
-		}
 	}
 }
 
@@ -554,8 +502,11 @@ void	Server::changeChannelsModes(Client& client, std::vector<std::string> channe
 			else
 				Utils::sendFormattedMessage(ERR_CHANOPRIVSNEEDED, client, channels[pos]);
 		}
-		else
+		else if (it_channels == _channelMap.end() && pos < channels.size())
+		{
+			printf("channels[%lu] = %s\n", pos, channels[pos].c_str());
 			Utils::sendFormattedMessage(ERR_NOSUCHCHANNEL, client, channels[pos]);
+		}
 	}
 }
 

@@ -194,9 +194,7 @@ void	Client::partFromChannels(Client& client, Server& server, const std::vector<
 			}
 		}
 		if (just_removed == false && it == _channels.end())
-		{
 			Utils::sendFormattedMessage(ERR_NOSUCHCHANNEL, client, channels[i]);
-		}
 		just_removed = false;
 	}
 }
