@@ -68,7 +68,8 @@ class Server
 
 		// Client message reception
 		void								manageClientMessageReception(const char *buffer, const int& clientSocket);
-		void								setClientBuffer(const char *buffer);
+		void								setBuffer(const char *buffer);
+		void								eraseBuffer();
 		// void								interpretClientBuffer(const std::map<int, Client>::iterator &client, Server& server);
 
 		// Client_disconnect
@@ -125,6 +126,16 @@ class Server
 				const char *what() const throw();
 		};
 		class ParametersException : public Server::Exception
+		{
+			public:
+				const char *what() const throw();
+		};
+		class BadPasswordException : public Server::Exception
+		{
+			public:
+				const char *what() const throw();
+		};
+		class ClientQuitException : public Server::Exception
 		{
 			public:
 				const char *what() const throw();

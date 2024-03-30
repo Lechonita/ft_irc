@@ -32,6 +32,6 @@ void	Server::disconnectClient(const int& clientSocket)
 	close(clientSocket);
 
 	_nbClients -= 1;
-	if (_nbClients < 1)
-		_clientMap.clear();
+	// if (_nbClients < 1)
+	// 	_clientMap.clear();
 }

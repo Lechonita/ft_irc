@@ -44,7 +44,7 @@ int main(int ac, char **av)
 		{
 			server.runServer();
 			server.printAll();
-			std::cout << "et non ca bug connard" << std::endl;
+			// std::cout << "et non ca bug connard" << std::endl;
 		}
 	}
 	catch (Server::Exception &e)

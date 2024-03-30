@@ -4,11 +4,6 @@
 #include "../inc/Commands.hpp"
 
 
-// void	Server::interpretClientBuffer(const std::map<int, Client>::iterator &client, Server& server)
-// {
-// 	client->second.interpretMessage(server);
-// }
-
 void	Server::interpretMessage(const std::map<int, Client>::iterator &client)
 {
 	if (_buffer.empty() == true)
@@ -33,12 +28,13 @@ void	Server::interpretMessage(const std::map<int, Client>::iterator &client)
 	}
 }
 
-void	Server::setClientBuffer(const char *buffer)
+void	Server::setBuffer(const char *buffer)
 {
 	_buffer += buffer;
 	// client->second.setBuffer(buffer);
 }
 
+void	Server::eraseBuffer() {_buffer = "";}
 
 
 void	Server::manageClientMessageReception(const char *buffer, const int& clientSocket)
@@ -52,8 +48,7 @@ void	Server::manageClientMessageReception(const char *buffer, const int& clientS
 
 	if (it != _clientMap.end())
 	{
-		setClientBuffer(buffer);
-		// interpretClientBuffer(it, *this);
+		setBuffer(buffer);
 		interpretMessage(it);
 	}
 }

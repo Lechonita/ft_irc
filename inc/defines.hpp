@@ -138,7 +138,7 @@ extern bool		doSignal;
 # define ERR_USERONCHANNEL		"\033[0;33m443 <client> <arg> :is already on channel\033[0m"
 # define ERR_NEEDMOREPARAMS		"\033[0;33m461 <client> <command> :Not enough parameters\033[0m"
 # define ERR_ALREADYREGISTERED	"\033[0;33m462 <client> :You may not reregister\033[0m"
-# define ERR_PASSWDMISMATCH		"\033[0;33m464 :Password incorrect\033[0m"
+# define ERR_PASSWDMISMATCH		":<servername> 464 <nickname> :Password incorrect"
 # define ERR_CHANNELISFULL		":<servername> 471 <client> <channelName> :Cannot join channel (+l)"
 # define ERR_UNKNOWNMODE		"\033[0;33m472 <arg> :is unknown mode char to me\033[0m"
 # define ERR_INVITEONLYCHAN		":<servername> 473 <client> <channelName> :Cannot join channel (+i)"

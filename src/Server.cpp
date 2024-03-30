@@ -117,7 +117,14 @@ void	Server::runServer()
 	}
 	else
 	{
-		getClientMessage();
+		try
+		{
+			getClientMessage();
+		}
+		catch (Server::Exception const& e)
+		{
+			return ;
+		}
 	}
 }
 
@@ -162,8 +169,8 @@ void	Server::createNewClient()
 
 void	Server::getClientMessage()
 {
-	// if (_nbClients == 0 || _clientMap.size() == 0)
-	// 	return ;
+	if (_nbClients == 0 || _clientMap.size() == 0)
+		return ;
 
 	char	buffer[BUFFERSIZE];
 
@@ -540,6 +547,10 @@ const char *Server::BlockException::what() const throw() { return (ERR_SERVER_BL
 const char *Server::AcceptException::what() const throw() { return (ERR_SERVER_ACCEPT); }
 
 const char *Server::ParametersException::what() const throw() { return (ERR_NEEDMOREPARAMS); }
+
+const char *Server::BadPasswordException::what() const throw() { return (ERR_PASSWDMISMATCH); }
+
+const char *Server::ClientQuitException::what() const throw() { return (ERR_PASSWDMISMATCH); }
 
 // const char *Server::ReadException::what() const throw()
 // {

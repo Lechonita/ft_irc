@@ -192,6 +192,12 @@ void		Commands::commandPASS(const std::string& line, const std::string& command,
 		client.setLastArgument(password);
 		client.setClientStatus(PASS_LOGIN);
 	}
+	else
+	{
+		server.disconnectClient(client.getClientSocket());
+		server.eraseBuffer();
+		throw Server::BadPasswordException();
+	}
 }
 
 
@@ -250,7 +256,7 @@ void		Commands::commandUSER(const std::string& line, const std::string& command,
 	{
 		if (isParameterSetUp(client.getClientPassword(), client, PASS_NOT_ENTERED) == false)
 			return ;
-		
+
 		if (client.getNicknameOKFlag() == false)
 		{
 			Utils::sendFormattedMessage(NICK_NOT_ENTERED, client);
@@ -323,9 +329,9 @@ void		Commands::commandQUIT(const std::string& line, const std::string& command,
 	std::vector<std::string>	user;
 	user.push_back(client.getClientNickname());
 	server.removeClientsFromChannels(client, channels, user, RPL_QUIT);
-	close(client.getClientSocket());
-	server.removeClientfromServer(client);
-
+	// server.removeClientfromServer(client);
+	server.disconnectClient(client.getClientSocket());
+	throw Server::ClientQuitException();
 
 
 
