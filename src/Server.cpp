@@ -162,8 +162,8 @@ void	Server::createNewClient()
 
 void	Server::getClientMessage()
 {
-	if (_nbClients == 0 || _clientMap.size() == 0)
-		return ;
+	// if (_nbClients == 0 || _clientMap.size() == 0)
+	// 	return ;
 
 	char	buffer[BUFFERSIZE];
 

@@ -62,8 +62,8 @@ extern bool		doSignal;
 # define EMPTY ""
 # define SPACE " "
 # define MAX_NICK_LEN 9
-# define PATTERN_COUNT_CHAN 9
-# define PATTERN_COUNT 6
+# define PATTERN_COUNT_CHAN 11
+# define PATTERN_COUNT 8
 # define EXPECTED_USER_PARAM 5
 # define INCOMING_MSG "\033[0;36m<< \033[0m"
 # define OUTGOING_MSG "\033[0;35m>> \033[0m"
@@ -162,7 +162,7 @@ extern bool		doSignal;
 # define RPL_ENDOFNAMES			"366 <client> <channelName> :End of /NAMES list"
 # define RPL_BANLIST			"367 <channelName> <banmask>"
 # define RPL_QUIT				" has left the server.\n"
-# define RPL_NICKCHANGE			":<oldnickname>!<username>@127.0.0.1 NICK <nickname>"
+# define RPL_NICKCHANGE			":<oldnickname>!~<username>@<clientIP> NICK <nickname>"
 // # define RPL_NICKWASSET			"NICK <nickname>"
 
 

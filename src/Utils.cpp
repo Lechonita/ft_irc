@@ -31,6 +31,8 @@ std::string Utils::getFormattedMessage(const std::string &message, const Client 
 		{"<servername>", SERVER_NAME},
 		{"<oldnickname>", client.getClientOldNickname()},
 		{"<nickname>", client.getClientNickname()},
+		{"<clientIP>", client.getClientUsername()},
+		{"<username>", client.getClientIP()},
 		{"<channelName>", channelName},
 		{"<nicknames>", getClientListInChannel(client, channelName)},
 		{"<topic>", getChannelTopic(channelName, client)}};
@@ -68,7 +70,9 @@ std::string		Utils::getFormattedMessage(const std::string &message, const Client
 		{"<client>", client.getClientNickname()},
 		{"<servername>", SERVER_NAME},
 		{"<oldnickname>", client.getClientOldNickname()},
-		{"<nickname>", client.getClientNickname()}};
+		{"<nickname>", client.getClientNickname()},
+		{"<clientIP>", client.getClientUsername()},
+		{"<username>", client.getClientIP()}};
 
 	std::string formattedMessage = message;
 
