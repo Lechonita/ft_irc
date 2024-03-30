@@ -11,7 +11,7 @@ void	Server::sendUserInformation(const std::vector<std::string> parameters, cons
 		if (it->second.getClientNickname() == parameters[0])
 		{
 			std::string	status;
-			if (it->second.getClientStatus() == CONNECTED)
+			if (it->second.getClientStatus() >= CONNECTED)
 				status = "Connected";
 			else
 				status = "Disconnected";
@@ -20,7 +20,7 @@ void	Server::sendUserInformation(const std::vector<std::string> parameters, cons
 			line[1] = "  Username :" + it->second.getClientUsername() + NEWLINE;
 			line[2] = "  Hostname :" + std::string(HOST_NAME) + NEWLINE;
 			line[3] = "  Real name :" + it->second.getClientRealName() + NEWLINE;
-			line[4] = "  Connextion status :" + status + NEWLINE;
+			line[4] = "  Connection status :" + status + NEWLINE;
 		}
 	}
 

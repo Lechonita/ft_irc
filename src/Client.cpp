@@ -17,6 +17,7 @@ Client::Client(const int& clientSocket): _clientSocket(clientSocket)
 	// _buffer = EMPTY;
 	_clientStatus = DISCONNECTED;
 	_irssi = false;
+	_nicknameOK = false;
 
 	std::cout << std::endl;
 	std::cout << "WELCOME\n" << std::endl;
@@ -38,6 +39,7 @@ Client::~Client()
 // Getters
 
 int							Client::getClientSocket() const { return (_clientSocket); }
+int							Client ::getClientStatus() const { return (_clientStatus); }
 const std::string			Client::getClientUsername() const { return (_clientUsername); }
 const std::string			Client::getClientNickname() const { return (_clientNickname); }
 const std::string			Client::getClientOldNickname() const { return (_clientOldNickname); }
@@ -47,8 +49,8 @@ const std::string			Client::getLastArgument() const { return (_lastArg); }
 const std::string			Client::getLastCommand() const { return (_lastCommand); }
 const char*					Client::getClientIP() const { return (_clientIP); }
 const std::vector<Channel*>	Client::getClientChannels() const {return (_channels);}
-bool						Client ::getClientStatus() const { return (_clientStatus); }
 bool						Client::getIrssi()const { return (_irssi); }
+bool						Client::getNicknameOKFlag() const { return (_nicknameOK); }
 
 
 
@@ -65,8 +67,9 @@ void	Client::printChannels()
 void	Client::setLastArgument(const std::string& arg) { _lastArg = arg; }
 void	Client::setLastCommand(const std::string& command) { _lastCommand = command; }
 void	Client::setClientIP(const char * IP) { _clientIP = IP; }
-void	Client::setClientStatus(const bool& connected) { _clientStatus = connected; }
+void	Client::setClientStatus(const int login) { _clientStatus += login; }
 void	Client::setIrssi(const bool result) { _irssi = result; }
+void	Client::setNicknameOKFlag(const bool flag) { _nicknameOK = flag; }
 
 
 void	Client::setPassword(const std::string& password)
@@ -85,14 +88,20 @@ void	Client::setNickname(const std::string& nickname)
 		setOldNickname(_clientNickname);
 		_clientNickname.clear();
 		_clientNickname = nickname;
-		Utils::sendFormattedMessage(RPL_NICKCHANGE, *this);
-		Utils::sendMessage(NICK_CHANGED, *this);
+
+		// if (_irssi == false)
+		// 	Utils::sendMessage(NICK_CHANGED, *this);
+		// else
+		// 	Utils::sendFormattedMessage(RPL_NICKCHANGE, *this);
 	}
 	else
 	{
 		_clientNickname = nickname;
-		if (_irssi == false)
-			Utils::sendMessage(NICK_OK, *this);
+
+		// if (_irssi == false)
+		// 	Utils::sendMessage(NICK_OK, *this);
+		// else
+		// 	Utils::sendFormattedMessage(RPL_NICKCHANGE, *this);
 	}
 }
 
@@ -185,9 +194,7 @@ void	Client::partFromChannels(Client& client, Server& server, const std::vector<
 			}
 		}
 		if (just_removed == false && it == _channels.end())
-		{
 			Utils::sendFormattedMessage(ERR_NOSUCHCHANNEL, client, channels[i]);
-		}
 		just_removed = false;
 	}
 }

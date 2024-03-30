@@ -20,8 +20,6 @@ std::string Utils::replacePattern(std::string &message, const std::string &from,
 
 
 
-
-// Command, Arg, Client, ChannelName
 std::string Utils::getFormattedMessage(const std::string &message, const Client &client, const std::string channelName)
 {
 	const std::string pattern[PATTERN_COUNT_CHAN][2] = {
@@ -31,8 +29,8 @@ std::string Utils::getFormattedMessage(const std::string &message, const Client 
 		{"<servername>", SERVER_NAME},
 		{"<oldnickname>", client.getClientOldNickname()},
 		{"<nickname>", client.getClientNickname()},
-		{"<clientIP>", client.getClientUsername()},
-		{"<username>", client.getClientIP()},
+		{"<clientIP", client.getClientIP()},
+		{"<username>", client.getClientUsername()},
 		{"<channelName>", channelName},
 		{"<nicknames>", getClientListInChannel(client, channelName)},
 		{"<topic>", getChannelTopic(channelName, client)}};
@@ -40,6 +38,27 @@ std::string Utils::getFormattedMessage(const std::string &message, const Client 
 	std::string formattedMessage = message;
 
 	for (size_t i = 0; i < PATTERN_COUNT_CHAN; ++i)
+	{
+		formattedMessage = replacePattern(formattedMessage, pattern[i][0], pattern[i][1]);
+	}
+	return (formattedMessage + END_MSG);
+}
+
+std::string		Utils::getFormattedMessage(const std::string &message, const Client &client)
+{
+	const std::string pattern[PATTERN_COUNT][2] = {
+		{"<command>", client.getLastCommand()},
+		{"<arg>", client.getLastArgument()},
+		{"<client>", client.getClientNickname()},
+		{"<servername>", SERVER_NAME},
+		{"<oldnickname>", client.getClientOldNickname()},
+		{"<nickname>", client.getClientNickname()},
+		{"<clientIP", client.getClientIP()},
+		{"<username>", client.getClientUsername()}};
+
+	std::string formattedMessage = message;
+
+	for (size_t i = 0; i < PATTERN_COUNT; ++i)
 	{
 		formattedMessage = replacePattern(formattedMessage, pattern[i][0], pattern[i][1]);
 	}
@@ -59,30 +78,6 @@ void Utils::sendFormattedMessage(const std::string &message, const Client &clien
 	else
 		std::cout << OUTGOING_MSG << formattedMessage;
 }
-
-
-
-std::string		Utils::getFormattedMessage(const std::string &message, const Client &client)
-{
-	const std::string pattern[PATTERN_COUNT][2] = {
-		{"<command>", client.getLastCommand()},
-		{"<arg>", client.getLastArgument()},
-		{"<client>", client.getClientNickname()},
-		{"<servername>", SERVER_NAME},
-		{"<oldnickname>", client.getClientOldNickname()},
-		{"<nickname>", client.getClientNickname()},
-		{"<clientIP>", client.getClientUsername()},
-		{"<username>", client.getClientIP()}};
-
-	std::string formattedMessage = message;
-
-	for (size_t i = 0; i < PATTERN_COUNT; ++i)
-	{
-		formattedMessage = replacePattern(formattedMessage, pattern[i][0], pattern[i][1]);
-	}
-	return (formattedMessage + END_MSG);
-}
-
 
 
 void	Utils::sendFormattedMessage(const std::string &message, const Client &client)
@@ -122,14 +117,14 @@ void	Utils::sendMessage(const std::string &message, const Client &client)
 
 static std::string	WelcomeLine1(const Client &client)
 {
-	return (":irc 001 " + client.getClientNickname() + " :Welcome to the Internet Relay Network " + client.getClientNickname() + "!" + client.getClientUsername() + "@" + client.getClientIP() + '\n');
+	return (":" + std::string(SERVER_NAME) + " 001 " + client.getClientNickname() + " :Welcome to the Internet Relay Network " + client.getClientNickname() + "!" + client.getClientUsername() + "@" + client.getClientIP() + '\n');
 }
 
 
 
 static std::string	WelcomeLine2(const Client &client)
 {
-	return (":irc 002 " + client.getClientNickname() + " :Your host is irc, running version 0.6\n");
+	return (":" + std::string(SERVER_NAME) + " 002 " + client.getClientNickname() + " :Your host is irc, running version 0.6\n");
 }
 
 
@@ -140,7 +135,7 @@ static std::string	WelcomeLine3(const Client &client)
 	std::tm* localTime = std::localtime(&now);
 
 	std::stringstream ss;
-	ss << ":irc 003 " << client.getClientNickname() << " :This server was created on ";
+	ss << ":" + std::string(SERVER_NAME) + " 003 " << client.getClientNickname() << " :This server was created on ";
 	ss << (localTime->tm_year + 1900) << "/";
 	ss << (localTime->tm_mon + 1) << "/";
 	ss << localTime->tm_mday << '\n';
@@ -151,7 +146,7 @@ static std::string	WelcomeLine3(const Client &client)
 
 static std::string	WelcomeLine4(const Client &client)
 {
-	return ("004 " + client.getClientNickname() + " :irc 1.0 -none- itkol\n");
+	return ("004 " + client.getClientNickname() + " :" + std::string(SERVER_NAME) + " 1.0 -none- itkol\n");
 }
 
 

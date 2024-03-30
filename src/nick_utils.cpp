@@ -13,7 +13,8 @@ bool	Commands::nicknameAlreadyExists(const std::string& nickname, const Server& 
 		for (it = clients.begin(); it != clients.end(); ++it)
 		{
 			std::string	clientNickname = it->second.getClientNickname();
-			if (clientNickname != EMPTY && clientNickname == nickname)
+			bool		nickOK = it->second.getNicknameOKFlag();
+			if (clientNickname != EMPTY && clientNickname == nickname && nickOK == true)
 				return (true);
 		}
 	}

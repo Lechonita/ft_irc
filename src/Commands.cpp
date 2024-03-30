@@ -27,8 +27,11 @@ Commands::Commands()
 
 void		Commands::commandJOIN(const std::string& line, const std::string& command, Client& client, Server& server)
 {
-	if (client.getClientStatus() == DISCONNECTED)
+	if (client.getClientStatus() < CONNECTED)
+	{
+		Utils::sendFormattedMessage(NOT_CONNECTED, client);
 		return ;
+	}
 
 	std::vector<std::string>	channels;
 	std::vector<std::string>	passwrds;
@@ -50,8 +53,11 @@ void		Commands::commandJOIN(const std::string& line, const std::string& command,
 
 void		Commands::commandKICK(const std::string& line, const std::string& command, Client& client, Server& server)
 {
-	if (client.getClientStatus() == DISCONNECTED)
+	if (client.getClientStatus() < CONNECTED)
+	{
+		Utils::sendFormattedMessage(NOT_CONNECTED, client);
 		return ;
+	}
 
 	std::string	kick_params = eraseCommandfromLine(line, command);
 	if (kick_params.empty() == true)
@@ -74,8 +80,11 @@ void		Commands::commandKICK(const std::string& line, const std::string& command,
 
 void		Commands::commandPART(const std::string& line, const std::string& command, Client& client, Server& server)
 {
-	if (client.getClientStatus() == DISCONNECTED)
+	if (client.getClientStatus() < CONNECTED)
+	{
+		Utils::sendFormattedMessage(NOT_CONNECTED, client);
 		return ;
+	}
 
 	std::string					message;
 	std::vector<std::string>	channels;
@@ -94,8 +103,11 @@ void		Commands::commandPART(const std::string& line, const std::string& command,
 
 void	Commands::commandMODE(const std::string& line, const std::string& command, Client& client, Server& server)
 {
-	if (client.getClientStatus() == DISCONNECTED)
+	if (client.getClientStatus() < CONNECTED)
+	{
+		Utils::sendFormattedMessage(NOT_CONNECTED, client);
 		return ;
+	}
 
 	std::vector<std::string>			channels;
 	std::vector<std::string>			modes_args;
@@ -133,8 +145,11 @@ void	Commands::commandMODE(const std::string& line, const std::string& command, 
 
 void		Commands::commandPRIVMSG(const std::string& line, const std::string& command, Client& client, Server& server)
 {
-	if (client.getClientStatus() == DISCONNECTED)
+	if (client.getClientStatus() < CONNECTED)
+	{
+		Utils::sendFormattedMessage(NOT_CONNECTED, client);
 		return ;
+	}
 
 	std::string					message;
 	std::vector<std::string>	receivers;
@@ -175,6 +190,7 @@ void		Commands::commandPASS(const std::string& line, const std::string& command,
 	{
 		client.setPassword(password);
 		client.setLastArgument(password);
+		client.setClientStatus(PASS_LOGIN);
 	}
 }
 
@@ -184,27 +200,41 @@ void		Commands::commandPASS(const std::string& line, const std::string& command,
 
 void		Commands::commandNICK(const std::string& line, const std::string& command, Client& client, Server& server)
 {
+	// :nonstop.ix.me.dal.net 433 * bob :Nickname is already in use.
 	if (client.getIrssi() == false)
 	{
 		if (isParameterSetUp(client.getClientPassword(), client, PASS_NOT_ENTERED) == false)
 			return ;
 	}
 
-	const std::string	nickname = eraseCommandfromLine(line, command);
+	std::string	nickname = eraseCommandfromLine(line, command);
 	if (nickname.empty() == true)
 	{
 		Utils::sendFormattedMessage(ERR_NEEDMOREPARAMS, client);
 		return ;
 	}
 
+	client.setNickname(nickname);
 	client.setLastArgument(nickname);
 
-	if (isParameterSetUp(nickname, client, EMPTY) == false)
-		return ;
+	// if (isParameterSetUp(nickname, client, EMPTY) == false)
+	// 	return ;
 
 	if (isValidNickname(nickname, client, server) == true)
 	{
-		client.setNickname(nickname);
+		client.setNicknameOKFlag(true);
+		client.setClientStatus(NICK_USER_LOGIN);
+
+		if (client.getIrssi() == true)
+			Utils::sendFormattedMessage(RPL_NICKCHANGE, client);
+		else
+			Utils::sendMessage(NICK_OK, client);
+	}
+
+	if (client.getClientStatus() == CONNECTED)
+	{
+		Utils::displayWelcomeMessage(client);
+		client.setClientStatus(DISPLAY_WELCOME);
 	}
 }
 
@@ -220,9 +250,12 @@ void		Commands::commandUSER(const std::string& line, const std::string& command,
 	{
 		if (isParameterSetUp(client.getClientPassword(), client, PASS_NOT_ENTERED) == false)
 			return ;
-
-		if (isParameterSetUp(client.getClientNickname(), client, NICK_NOT_ENTERED) == false)
-			return ;
+		
+		if (client.getNicknameOKFlag() == false)
+		{
+			Utils::sendFormattedMessage(NICK_NOT_ENTERED, client);
+			return;
+		}
 	}
 
 	const std::string	userInfo = eraseCommandfromLine(line, command);
@@ -246,10 +279,7 @@ void		Commands::commandUSER(const std::string& line, const std::string& command,
 		return ;
 	}
 
-	client.setUsername(parameters[0]);
-	client.setRealName(parameters);
-	client.setClientStatus(CONNECTED);
-	Utils::displayWelcomeMessage(client);
+	addUserInformation(parameters, client);
 }
 
 
@@ -277,7 +307,7 @@ void		Commands::commandCAP(const std::string& line, const std::string& command, 
 
 void		Commands::commandQUIT(const std::string& line, const std::string& command, Client& client, Server& server)
 {
-	// if (client.getClientStatus() == DISCONNECTED)
+	// if (client.getClientStatus() < CONNECTED)
 	// {
 	// 	Utils::sendFormattedMessage(NOT_CONNECTED, client);
 	// 	return ;
@@ -314,7 +344,7 @@ void		Commands::commandQUIT(const std::string& line, const std::string& command,
 
 void		Commands::commandINVITE(const std::string& line, const std::string& command, Client& client, Server& server)
 {
-	if (client.getClientStatus() == DISCONNECTED)
+	if (client.getClientStatus() < CONNECTED)
 	{
 		Utils::sendFormattedMessage(NOT_CONNECTED, client);
 		return ;
@@ -370,7 +400,7 @@ void		Commands::commandPING(const std::string& line, const std::string& command,
 
 void		Commands::commandTOPIC(const std::string& line, const std::string& command, Client& client, Server& server)
 {
-	if (client.getClientStatus() == DISCONNECTED)
+	if (client.getClientStatus() < CONNECTED)
 	{
 		Utils::sendFormattedMessage(NOT_CONNECTED, client);
 		return ;
@@ -402,7 +432,7 @@ void		Commands::commandTOPIC(const std::string& line, const std::string& command
 
 void		Commands::commandWHOIS(const std::string& line, const std::string& command, Client& client, Server& server)
 {
-	if (client.getClientStatus() == DISCONNECTED)
+	if (client.getClientStatus() < CONNECTED)
 	{
 		Utils::sendFormattedMessage(NOT_CONNECTED, client);
 		return ;
@@ -431,7 +461,9 @@ void		Commands::commandWHOIS(const std::string& line, const std::string& command
 
 		default:
 			if (parameters[0].at(0) == PREFIX_CHAN)
+			{
 				Utils::sendFormattedMessage(ERR_NOSUCHCHANNEL, client, parameters[0]);
+			}
 			else
 				Utils::sendFormattedMessage(ERR_NOSUCHNICK, client);
 	}
