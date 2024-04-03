@@ -313,12 +313,6 @@ void		Commands::commandCAP(const std::string& line, const std::string& command, 
 
 void		Commands::commandQUIT(const std::string& line, const std::string& command, Client& client, Server& server)
 {
-	// if (client.getClientStatus() < CONNECTED)
-	// {
-	// 	Utils::sendFormattedMessage(NOT_CONNECTED, client);
-	// 	return ;
-	// }
-
 	(void)command;
 	client.setLastArgument(line);
 
@@ -329,9 +323,9 @@ void		Commands::commandQUIT(const std::string& line, const std::string& command,
 	std::vector<std::string>	user;
 	user.push_back(client.getClientNickname());
 	server.removeClientsFromChannels(client, channels, user, RPL_QUIT);
-	// server.removeClientfromServer(client);
-	server.disconnectClient(client.getClientSocket());
-	throw Server::ClientQuitException();
+	// server.disconnectClient(client.getClientSocket());
+	client.setClientStatus(DISCONNECTED);
+	// throw Server::ClientQuitException();
 
 
 

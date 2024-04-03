@@ -117,14 +117,14 @@ void	Server::runServer()
 	}
 	else
 	{
-		try
-		{
+		// try
+		// {
 			getClientMessage();
-		}
-		catch (Server::Exception const& e)
-		{
-			return ;
-		}
+		// }
+		// catch (Server::Exception const& e)
+		// {
+		// 	return ;
+		// }
 	}
 }
 
@@ -193,6 +193,11 @@ void	Server::getClientMessage()
 				buffer[bytesRead] = '\0';
 				manageClientMessageReception(buffer, clientSocket);
 				memset(buffer, 0, BUFFERSIZE);
+				if (_clientMap.find(clientSocket)->second.getClientStatus() == DISCONNECTED)
+				{
+					disconnectClient(clientSocket);
+					return ;
+				}
 			}
 		}
 	}

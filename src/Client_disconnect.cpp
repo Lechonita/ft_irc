@@ -28,8 +28,8 @@ void	Server::removeClientFromPollFd(const int& clientSocket)
 void	Server::disconnectClient(const int& clientSocket)
 {
 	removeClientFromPollFd(clientSocket);
-	removeClientFromMap(clientSocket);
 	close(clientSocket);
+	removeClientFromMap(clientSocket);
 
 	_nbClients -= 1;
 	// if (_nbClients < 1)
