@@ -19,6 +19,7 @@ Commands::Commands()
 	_cmdMap["PING"] = &Commands::commandPING;
 	_cmdMap["TOPIC"] = &Commands::commandTOPIC;
 	_cmdMap["WHOIS"] = &Commands::commandWHOIS;
+	_cmdMap["CLIENTS"] = &Commands::commandDebugCLIENTS;
 }
 
 
@@ -484,3 +485,31 @@ void		Commands::commandWHOIS(const std::string& line, const std::string& command
 	// RPL_ENDOFWHOIS
 
 }
+
+
+
+///////////  DEBUG  ///////////
+
+
+void		Commands::commandDebugCLIENTS(const std::string& line, const std::string& command, Client& client, Server& server)
+{
+	(void)line;
+	(void)command;
+
+	const std::map<int, Client>				clients = server.getClientMap();
+	std::map<int, Client>::const_iterator	it;
+
+	for(it = clients.begin(); it != clients.end(); ++it)
+	{
+		std::stringstream ss;
+		ss << GREY_ITALIC << "  Client fd = " << it->first << " // Client nickname = " << it->second.getClientNickname() << std::endl << NC_ITALIC;
+		std::string str = ss.str();
+
+		if (send(client.getClientSocket(), str.c_str(), str.length(), 0) == ERROR)
+			perror(PERR_SEND);
+		else
+			std::cout << OUTGOING_MSG << str;
+	}
+}
+
+

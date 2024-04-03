@@ -35,16 +35,19 @@
 // Colors
 
 # define RED_ITALIC "\x1b[31m \x1b[3m"
+# define GREY_ITALIC "\x1b[90m \x1b[3m"
+# define GREEN_ITALIC "\x1b[32m \x1b[3m"
 # define RED "\033[0;31m"
 # define GREEN "\033[0;32m"
 # define ORANGE "\033[0;33m"
 # define BLUE "\033[0;36m"
 # define PINK "\033[0;35m"
+# define GREY "\033[90m"
 # define NC "\033[0m"
 # define NC_ITALIC "\x1b[0m"
 
 
-// External values
+// Global values
 
 extern bool		doSignal;
 
@@ -54,7 +57,7 @@ extern bool		doSignal;
 # define ARG_NB 3
 # define ERROR -1
 # define MAX_CLIENTS 10
-# define TIMEOUT 30000
+# define TIMEOUT -1
 # define BUFFERSIZE 1024
 # define NOT_WHITESPACE 0
 # define NO_SOCKET 0
@@ -65,8 +68,6 @@ extern bool		doSignal;
 # define PATTERN_COUNT_CHAN 11
 # define PATTERN_COUNT 8
 # define EXPECTED_USER_PARAM 5
-# define INCOMING_MSG "\033[0;36m<< \033[0m"
-# define OUTGOING_MSG "\033[0;35m>> \033[0m"
 
 # define UNKNOWN_TYPE 0
 # define USER_TYPE 1
@@ -97,9 +98,13 @@ extern bool		doSignal;
 # define SERVER_NAME "irc"
 
 
+// Prefix, Suffix
+
 # define NEWLINE '\n'
 # define PREFIX_CHAN '#'
 # define END_MSG "\r\n"
+# define INCOMING_MSG "\033[0;36m<< \033[0m"
+# define OUTGOING_MSG "\033[0;35m>> \033[0m"
 
 
 // SERVER Error messages

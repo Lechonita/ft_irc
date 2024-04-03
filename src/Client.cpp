@@ -19,8 +19,8 @@ Client::Client(const int& clientSocket): _clientSocket(clientSocket)
 	_irssi = false;
 	_nicknameOK = false;
 
-	std::cout << std::endl;
-	std::cout << "WELCOME\n" << std::endl;
+	// std::cout << std::endl;
+	// std::cout << "WELCOME\n" << std::endl;
 	// std::cout << ORANGE << "You are not connected to the server yet." << NC << std::endl;
 	// std::cout << "Use command PASS followed by <password> to connect." << std::endl;
 }

@@ -76,17 +76,6 @@ Server::~Server()
 /*************** PUBLIC **************/
 /*************************************/
 
-// Debug
-
-// static void	printClientMap(const std::map<int, Client>  &clientMap)
-// {
-// 	std::map<int, Client>::const_iterator it;
-
-// 	for (it = clientMap.begin(); it != clientMap.end(); ++it)
-// 	{
-// 		std::cout << "ClientMap #" << it->first << " : " << it->second.getClientSocket() << std::endl;
-// 	}
-// }
 
 
 // Functions
@@ -149,9 +138,10 @@ void	Server::createNewClient()
 		throw(BlockException());
 	}
 
-	std::cout << "\n[ New connection ] Client fd = " << clientSocket
+	std::cout << GREEN_ITALIC << "\n[ New connection ] Client fd = " << clientSocket
 			<< "  /  ip = " << inet_ntoa(clientAddress.sin_addr)
-			<< "  /  port = " << ntohs(clientAddress.sin_port) << std::endl;
+			<< "  /  port = " << ntohs(clientAddress.sin_port) << std::endl << NC_ITALIC;
+	std::cout << std::endl;
 
 	// Create the new client object and store it in std::map
 	Client	newClient(clientSocket);
@@ -162,8 +152,6 @@ void	Server::createNewClient()
 	_pollFd.push_back(pollfd());
 	_pollFd.back().fd = clientSocket;
 	_pollFd.back().events = POLLIN; // We want to monitor data reception on this file descriptor
-
-	// printClientMap(_clientMap);
 }
 
 

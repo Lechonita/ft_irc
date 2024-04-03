@@ -81,8 +81,6 @@ class Server
 		static void							signalExit(int signum);
 
 
-		// Debug
-		// void	printClientMap(const std::map<int, Client>  &clientMap);
 
 		// Exceptions
 		class Exception : public std::exception
