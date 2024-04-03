@@ -68,6 +68,7 @@ void	Client::setLastArgument(const std::string& arg) { _lastArg = arg; }
 void	Client::setLastCommand(const std::string& command) { _lastCommand = command; }
 void	Client::setClientIP(const char * IP) { _clientIP = IP; }
 void	Client::setClientStatus(const int login) { _clientStatus += login; }
+void	Client::resetClientStatus(const int login) {_clientStatus = login;}
 void	Client::setIrssi(const bool result) { _irssi = result; }
 void	Client::setNicknameOKFlag(const bool flag) { _nicknameOK = flag; }
 

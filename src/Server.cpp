@@ -205,18 +205,6 @@ void	Server::getClientMessage()
 
 
 
-void	Server::removeClientfromServer(const Client& client)
-{
-	const size_t	clientSocket = client.getClientSocket();
-
-	if (_clientMap.find(clientSocket) != _clientMap.end())
-		_clientMap.erase(_clientMap.find(clientSocket));
-}
-
-
-
-
-
 // Getters
 
 int									Server::getSocketFd() const { return (_serverSocket); }
@@ -448,6 +436,26 @@ void	Server::removeClientsFromChannels(Client& client, std::vector<std::string> 
 		}
 		else
 			Utils::sendFormattedMessage(ERR_NOSUCHCHANNEL, client, channels[pos]);
+	}
+}
+
+void Server::removeClientFromAllItsChan(Client& client)
+{
+	std::map<std::string, Channel>::iterator	it_channels;
+	std::vector<std::map<std::string, Channel>::iterator>	chan_to_delete;
+
+	for (it_channels = _channelMap.begin(); it_channels != _channelMap.end(); it_channels++)
+	{
+		if (it_channels->second.clientIsInChan(client) == true)
+		{
+			it_channels->second.removeClient(client);
+			if (it_channels->second.getChannelClients().empty() == true)
+				chan_to_delete.push_back(it_channels);
+		}
+	}
+	for (size_t pos = 0; pos < chan_to_delete.size(); pos++)
+	{
+		_channelMap.erase(chan_to_delete[pos]);
 	}
 }
 

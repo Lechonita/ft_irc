@@ -54,7 +54,7 @@ extern bool		doSignal;
 # define ARG_NB 3
 # define ERROR -1
 # define MAX_CLIENTS 10
-# define TIMEOUT 30000
+# define TIMEOUT -1
 # define BUFFERSIZE 1024
 # define NOT_WHITESPACE 0
 # define NO_SOCKET 0

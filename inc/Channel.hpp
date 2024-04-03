@@ -71,6 +71,7 @@ class Channel
 		void						setSimpleModes(std::vector<std::string> modes_without_args);
 		void						setArgModes(Client& client, std::vector<std::string> modes_args, std::vector<std::string> modes_with_args);
 		void						printClients();
+		bool						clientIsInChan(Client &client);
 		bool						kickerIsQualified(Client &client);
 		bool						isChanOp(const Client &client);
 		int							giveOpStatusToClient(Client& client, std::string client_name);
