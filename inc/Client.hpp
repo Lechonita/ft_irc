@@ -62,6 +62,7 @@ class Client
 		void						setLastCommand(const std::string& command);
 		void						setClientIP(const char * IP);
 		void						setClientStatus(const int login);
+		void						resetClientStatus(const int login);
 		void						setIrssi(const bool result);
 		void						setNicknameOKFlag(const bool flag);
 

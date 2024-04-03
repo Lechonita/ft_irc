@@ -125,6 +125,18 @@ void	Channel::printClients()
 
 
 
+bool	Channel::clientIsInChan(Client &client)
+{
+	for (size_t pos = 0; pos < _channelClients.size(); pos++)
+	{
+		if (client.getClientNickname() == _channelClients[pos].client->getClientNickname())
+			return (true);
+	}
+	return (false);
+}
+
+
+
 void	Channel::sendPrivmsgToChan(const Client& client, std::string message)
 {
 	for(size_t i = 0; i < _channelClients.size(); i++)

@@ -314,37 +314,17 @@ void		Commands::commandCAP(const std::string& line, const std::string& command, 
 
 void		Commands::commandQUIT(const std::string& line, const std::string& command, Client& client, Server& server)
 {
-	// if (client.getClientStatus() < CONNECTED)
-	// {
-	// 	Utils::sendFormattedMessage(NOT_CONNECTED, client);
-	// 	return ;
-	// }
-
 	(void)command;
 	client.setLastArgument(line);
 
 	Utils::notifyQuitinChannels(client, server);
 
-
 	const std::vector<std::string>	channels = Utils::getChannelListInClient(client);
 	std::vector<std::string>	user;
+
 	user.push_back(client.getClientNickname());
-	server.removeClientsFromChannels(client, channels, user, RPL_QUIT);
-	// server.removeClientfromServer(client);
-	server.disconnectClient(client.getClientSocket());
-	throw Server::ClientQuitException();
-
-
-
-	// Retirer le client du server :
-		// 1. std::map<int, Client>				_clientMap
-		// 2. std::map<std::string, Channel>	_channelMap
-
-	// Retirer le client d'un channel :
-		// std::vector<channelClient>			_channelClients
-		// delete le channel si c'était le dernier client
-
-	// quand un client quit, il faut que ca quitte le programme mais que pour lui
+	server.removeClientFromAllItsChan(client);
+	client.resetClientStatus(DISCONNECTED);
 }
 
 

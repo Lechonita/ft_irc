@@ -59,7 +59,7 @@ class Server
 
 		// Remove functions
 		void								removeClientsFromChannels(Client& client, std::vector<std::string> channels, std::vector<std::string> clients, std::string message);
-		void								removeClientfromServer(const Client& client);
+		void								removeClientFromAllItsChan(Client& client);
 
 		// Channel functions
 		bool								isPartOfChannel(std::string channel_name, const Client& client);
