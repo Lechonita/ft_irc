@@ -13,7 +13,6 @@ Channel::Channel(const std::string& name, Client *client): _channelName(name), _
 	_iMode = false;
 	_tMode = false;
 	_kMode = false;
-	_oMode = false;
 	_lMode = false;
 	// client->newChannel(*this);
 	// send message new client in channel
@@ -48,7 +47,6 @@ std::vector<channelClient>	Channel::getChannelClients() const {return (_channelC
 void	Channel::setIMode(bool status) {_iMode = status;}
 void	Channel::setTMode(bool status) {_tMode = status;}
 void	Channel::setKMode(bool status) {_kMode = status;}
-void	Channel::setOMode(bool status) {_oMode = status;}
 void	Channel::setLMode(bool status) {_lMode = status;}
 void	Channel::setPassword(std::string password) {_channelPass = password;}
 void	Channel::setTopic(std::string topic) {_channelTopic = topic;}
@@ -57,7 +55,7 @@ size_t	Channel::setUserLimit(std::string limit)
 {
 	double limint = strtod(limit.c_str(), NULL);
 
-	if (limint < INT_MAX && limint > INT_MIN)
+	if (limint < INT_MAX && limint > 0)
 	{
 		_usersLimit = atoi(limit.c_str());
 		return (GOOD_LIMIT);
@@ -300,8 +298,6 @@ void	Channel::setSimpleModes(std::vector<std::string> modes_without_args)
 {
 	for (size_t pos = 0; pos < modes_without_args.size(); pos++)
 	{
-		const char *test = modes_without_args[pos].c_str();
-		(void)test;
 		channelModes mode = findModeToChange(modes_without_args[pos][1]);
 
 		if (modes_without_args[pos][0] == '+')
@@ -371,20 +367,16 @@ int	Channel::takeOpStatusFromClient(Client& client, std::string client_name)
 
 
 
-void	Channel::setArgModes(Client& client, std::vector<std::string> modes_args, std::vector<std::string> modes_with_args)
+void	Channel::setArgModes(Client& client, std::vector<std::string> &modes_args, std::vector<std::string> &modes_with_args)
 {
 	for (size_t pos = 0; pos < modes_with_args.size(); pos++)
 	{
-		const char *test = modes_with_args[pos].c_str();
-		(void)test;
 		channelModes mode = findModeToChange(modes_with_args[pos][1]);
 
 		if (modes_with_args[pos][0] == '+')
 		{
 			if (pos < modes_args.size())
 			{
-		const char *test1 = modes_args[pos].c_str();
-		(void)test1;
 				switch (mode)
 				{
 					case MODE_K:
@@ -394,9 +386,7 @@ void	Channel::setArgModes(Client& client, std::vector<std::string> modes_args, s
 						break;
 
 					case MODE_O:
-						if (giveOpStatusToClient(client, modes_args[pos]) == CLIENT_FOUND)
-							setOMode(true);
-						else
+						if (giveOpStatusToClient(client, modes_args[pos]) != CLIENT_FOUND)
 						{
 							modes_with_args.erase(modes_with_args.begin() + pos);
 							modes_args.erase(modes_args.begin() + pos);
@@ -419,7 +409,10 @@ void	Channel::setArgModes(Client& client, std::vector<std::string> modes_args, s
 				}
 			}
 			else
+			{
 				modes_with_args.erase(modes_with_args.begin() + pos);
+				pos--;
+			}
 		}
 		else
 		{
@@ -433,9 +426,7 @@ void	Channel::setArgModes(Client& client, std::vector<std::string> modes_args, s
 				case MODE_O:
 					if (pos < modes_args.size())
 					{
-						if (takeOpStatusFromClient(client, modes_args[pos]) == CLIENT_FOUND)
-							setOMode(false);
-						else
+						if (takeOpStatusFromClient(client, modes_args[pos]) != CLIENT_FOUND)
 						{
 							modes_with_args.erase(modes_with_args.begin() + pos);
 							modes_args.erase(modes_args.begin() + pos);
