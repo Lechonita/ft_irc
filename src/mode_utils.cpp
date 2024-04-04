@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mode_utils.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrouillo <jrouillo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cbernaze <cbernaze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 13:33:45 by cbernaze          #+#    #+#             */
-/*   Updated: 2024/03/26 17:10:00 by jrouillo         ###   ########.fr       */
+/*   Updated: 2024/04/04 16:00:49 by cbernaze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ static std::vector<std::string>	extractChannels(std::string mode_params, size_t 
 		}
 		std::string	chan = mode_params.substr(start, pos - start);
 
-		channels.push_back(chan);
+		if (chan[0] == '#')
+			channels.push_back(chan);
 		if (isspace(mode_params[pos]) != NOT_WHITESPACE || pos == mode_params.size())
 			break ;
 		pos++;
@@ -38,9 +39,6 @@ static std::vector<std::string>	extractChannels(std::string mode_params, size_t 
 }
 
 
-//	je dois d'abord recevoir un signe + ou -
-//	lire jusqu'au prochain whitespace
-//	ajouter chaque char aux modes
 
 static int	removeOrAddMode(char mode, size_t &i)
 {
@@ -109,8 +107,7 @@ static int	whatKindOfMode(std::vector<std::string> *modes_with_args, std::vector
 	size_t				i = 0;
 	char				mode = modes[i];
 	int					sign = removeOrAddMode(mode, i);
-	const char *test = modes.c_str();
-	std::cout << test << std::endl;
+
 	if (sign == NO_MODE)
 		return (sign);
 	while (i < modes.size())
@@ -164,8 +161,7 @@ static void	extractModesNArgs(std::string mode_params, std::vector<std::string> 
 			pos++;
 
 		std::string	modes = mode_params.substr(start, pos - start);
-	// 	const char *test = modes.c_str();
-	// std::cout << test << std::endl;
+
 		if (whatKindOfMode(modes_with_args, modes_without_args, modes, client) == NO_MODE)
 		{
 			modes_args->push_back(modes);
