@@ -508,8 +508,6 @@ void	Server::changeChannelsModes(Client& client, std::vector<std::string> channe
 		it_channels = _channelMap.find(channels[pos]);
 		if (it_channels != _channelMap.end())
 		{
-			std::cout << RED << "imode = " << it_channels->second.getIMode() << " tmode = " << it_channels->second.getTMode()
-					<< " kmode = " << it_channels->second.getKMode() << " lmode = " << it_channels->second.getLMode() << NC << std::endl;
 			if (it_channels->second.isChanOp(client) == true)
 			{
 				it_channels->second.setSimpleModes(modes_without_args);

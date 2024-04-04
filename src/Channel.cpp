@@ -14,10 +14,6 @@ Channel::Channel(const std::string& name, Client *client): _channelName(name), _
 	_tMode = false;
 	_kMode = false;
 	_lMode = false;
-	// client->newChannel(*this);
-	// send message new client in channel
-	//RPL_NAMREPLY
-	//RPL_ENDOFNAMES
 }
 
 
@@ -40,7 +36,6 @@ void		Channel::setChannelTopic(const std::string& channelTopic) { _channelTopic 
 std::string					Channel::getChannelName() const {return (_channelName);}
 std::string					Channel::getChannelTopic() const {return (_channelTopic);}
 std::string					Channel::getChannelPass() const {return (_channelPass);}
-// std::vector<channelModes>	Channel::getChannelModes() const {return (_channelModes);}
 std::vector<channelClient>	Channel::getChannelClients() const {return (_channelClients);}
 
 
@@ -78,9 +73,6 @@ void	Channel::newClient(std::string passwrd, Client &client)
 		{
 			_channelClients.push_back(newClient);
 			client.newChannel(*this);
-			// send message new client in channel
-			//RPL_NAMREPLY
-			//RPL_ENDOFNAMES
 		}
 		else
 		{
@@ -91,9 +83,6 @@ void	Channel::newClient(std::string passwrd, Client &client)
 	{
 		_channelClients.push_back(newClient);
 		client.newChannel(*this);
-		// send message new client in channel
-		//RPL_NAMREPLY
-		//RPL_ENDOFNAMES
 	}
 }
 
