@@ -60,6 +60,7 @@ class Channel
 		size_t						setUserLimit(std::string limit);
 
 		// utils
+		void						newClient(Client &client);
 		void						newClient(std::string passwrd, Client &client);
 		void						removeClient(Client &client);
 		void						sendPrivmsgToChan(const Client& client, std::string message);

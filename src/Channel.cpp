@@ -58,10 +58,27 @@ size_t	Channel::setUserLimit(std::string limit)
 	return (BAD_LIMIT);
 }
 
-void	Channel::newClient(std::string passwrd, Client &client)
+
+
+void	Channel::newClient(Client &client)
 {
 	channelClient	newClient = {.client = &client, .isOperator = false};
 
+	for (size_t i = 0; i < _channelClients.size(); i++)
+	{
+		std::cout << "size = " << _channelClients.size() << " i = " << i << std::endl;
+		if (_channelClients[i].client == &client)
+			return ;
+	}
+	_channelClients.push_back(newClient);
+	client.newChannel(*this);
+}
+
+
+
+void	Channel::newClient(std::string passwrd, Client &client)
+{
+	channelClient	newClient = {.client = &client, .isOperator = false};
 	for (size_t i = 0; i < _channelClients.size(); i++)
 	{
 		if (_channelClients[i].client == &client)

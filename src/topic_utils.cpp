@@ -10,11 +10,18 @@ static void		changeChannelTopic(const Client& client, const std::string& channel
 	{
 		if ((*it)->getChannelName() == channelname)
 		{
-			(*it)->setChannelTopic(newtopic);
-			(*it)->sendMessageToAll(RPL_TOPIC, channelname);
+			if ((*it)->getTMode() == false || ((*it)->getTMode() == true && (*it)->isChanOp(client) == true))
+			{
+				(*it)->setChannelTopic(newtopic);
+				std::string	message = ":" + client.getClientNickname() + "!" + client.getClientUsername() + RPL_TOPIC;
+				(*it)->sendMessageToAll(message, channelname);
+			}
+			else if ((*it)->getTMode() == true && (*it)->isChanOp(client) == false)
+				Utils::sendFormattedMessage(ERR_CHANOPRIVSNEEDED, client, channelname);
 		}
 	}
 }
+
 
 
 static void		displayTopic(const std::vector<std::string> parameters, const Client& client, const std::string& topic)
@@ -29,7 +36,7 @@ static void		displayTopic(const std::vector<std::string> parameters, const Clien
 }
 
 
-void		Commands::chooseAndExecuteTopicAction(const std::vector<std::string> parameters, const Client& client)
+void		Commands::chooseAndExecuteTopicAction(std::vector<std::string> parameters, const Client& client)
 {
 	if (parameters.size() == 1)
 	{
@@ -38,6 +45,8 @@ void		Commands::chooseAndExecuteTopicAction(const std::vector<std::string> param
 	}
 	else if (parameters.size() == 2)
 	{
+		if (parameters[1][0] == ':')
+			parameters[1].erase(0, 1);
 		changeChannelTopic(client, parameters[0], parameters[1]);
 	}
 }
@@ -55,12 +64,6 @@ bool		Commands::areValidTopicParameters(const std::vector<std::string> parameter
 	if (client.userIsInChannel(parameters[0], client.getClientNickname()) == false)
 	{
 		Utils::sendFormattedMessage(ERR_NOTONCHANNEL, client, parameters[0]);
-		return (false);
-	}
-
-	if (client.isOperator(parameters[0]) == false)
-	{
-		Utils::sendFormattedMessage(ERR_CHANOPRIVSNEEDED, client, parameters[0]);
 		return (false);
 	}
 	return (true);
