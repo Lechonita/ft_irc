@@ -9,7 +9,7 @@ void	Utils::notifyQuitinChannels(const Client& client, Server& server)
 
 	std::vector<Channel*>				channels = client.getClientChannels();
 	std::vector<Channel*>::iterator		it;
-	
+
 	if (channels.size() > 0)
 	{
 		for(it = channels.begin(); it != channels.end(); ++it)

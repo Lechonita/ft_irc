@@ -383,7 +383,7 @@ void		Commands::commandPING(const std::string& line, const std::string& command,
 
 
 
-// PING
+// TOPIC
 
 void		Commands::commandTOPIC(const std::string& line, const std::string& command, Client& client, Server& server)
 {

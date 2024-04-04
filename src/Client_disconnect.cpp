@@ -39,11 +39,14 @@ void	Server::removeClientFromPollFd(const int& clientSocket)
 
 void	Server::disconnectClient(const int& clientSocket)
 {
+	std::map<int, Client>::iterator	itClient = _clientMap.find(clientSocket);
+
 	removeClientFromPollFd(clientSocket);
 	close(clientSocket);
 	removeClientFromMap(clientSocket);
 
-	_nbClients -= 1;
-	// if (_nbClients < 1)
-	// 	_clientMap.clear();
+	// Utils::notifyQuitinChannels(itClient->second, *this);
+	// removeClientFromAllItsChan(itClient->second);
+	// printf(">>>>>>> client status = %d\n", itClient->second.getClientStatus());
+	// itClient->second.resetClientStatus(DISCONNECTED);
 }

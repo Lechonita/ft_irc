@@ -38,7 +38,7 @@ CHANNEL COMMANDS :
 	x NICK (change your nick) //rajouter message d'erreur quand nickname existe deja //supprimer client lorsque QUIT ou controle C
 	x USER (set username and mode)
 	x PRIVMSG (send a private message to another user)
-	- QUIT (quit server)
+	x QUIT (quit server)
 	- LIST (list channels)
 	x WHOIS (get personnal information about a user)
 
@@ -53,9 +53,6 @@ QUESTIONS A POSER
    number represented in ASCII text.
    -> est-ce qu'on doit gerer ca?
 
-A GERER
-	-> quand des users s'envoient des messages dans un channel, ca apparait le nombre de fois qu'il y a de users dans le terminal du serveur
-	-> WELCOME apparait a chaque fois que des users s'ecrivent en prive. Ca veut dire que ca passe par le constructor...why ?
 
    IMPLEMENTER CAP LS (ENVOYE PAR LE CLIENT A LA CONNECTION AU SERVEUR, SERVEUR QUI REPOND PAR CE QU'IL PERMET DE FAIRE)
    EXEMPLE DE Dalnet :

@@ -17,7 +17,6 @@ class Server
 		std::string							_buffer;
 		const std::string					_port;
 		const std::string					_password;
-		int									_nbClients;
 		int									_serverSocket; // file descriptor that can be used for communication
 		int									_bind; // assign an IP address and port to the socket
 		int									_listen; // marks a socket as passive - used to accept connections

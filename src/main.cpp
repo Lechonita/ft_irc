@@ -43,7 +43,7 @@ int main(int ac, char **av)
 		while (doSignal == false)
 		{
 			server.runServer();
-			// server.printAll();
+			server.printAll();
 			// std::cout << "et non ca bug connard" << std::endl;
 		}
 	}

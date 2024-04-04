@@ -8,7 +8,6 @@
 Server::Server(const std::string &port, const std::string &password)
 	: _port(port),
 	  _password(password),
-	  _nbClients(0),
 	  _pollFd(0)
 {
 	// SOCKET : This code creates a TCP socket for IPv6 communication
@@ -147,7 +146,6 @@ void	Server::createNewClient()
 	Client	newClient(clientSocket);
 	newClient.setClientIP(inet_ntoa(clientAddress.sin_addr));
 	_clientMap.insert(std::make_pair(clientSocket, newClient));
-	_nbClients += 1;
 
 	_pollFd.push_back(pollfd());
 	_pollFd.back().fd = clientSocket;
@@ -157,7 +155,7 @@ void	Server::createNewClient()
 
 void	Server::getClientMessage()
 {
-	if (_nbClients == 0 || _clientMap.size() == 0)
+	if (_clientMap.size() == 0)
 		return ;
 
 	char	buffer[BUFFERSIZE];
@@ -499,7 +497,6 @@ void	Server::changeChannelsModes(Client& client, std::vector<std::string> channe
 		it_channels = _channelMap.find(channels[pos]);
 		if (it_channels != _channelMap.end())
 		{
-			std::cout << RED << "imode= " << it_channels->second.getIMode() << "tmode= " << it_channels->second.getTMode() << "kmode= " << it_channels->second.getKMode() << "omode= " << it_channels->second.getOMode() << "lmode= " << it_channels->second.getLMode() << NC << std::endl;
 			if (it_channels->second.isChanOp(client) == true)
 			{
 				it_channels->second.setSimpleModes(modes_without_args);
@@ -510,9 +507,8 @@ void	Server::changeChannelsModes(Client& client, std::vector<std::string> channe
 			else
 				Utils::sendFormattedMessage(ERR_CHANOPRIVSNEEDED, client, channels[pos]);
 		}
-		else if (it_channels == _channelMap.end() && pos < channels.size())
+		else if (pos < channels.size())
 		{
-			printf("channels[%lu] = %s\n", pos, channels[pos].c_str());
 			Utils::sendFormattedMessage(ERR_NOSUCHCHANNEL, client, channels[pos]);
 		}
 	}
