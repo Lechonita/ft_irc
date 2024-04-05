@@ -4,7 +4,7 @@
 // Command NICK
 
 
-bool	Commands::nicknameAlreadyExists(const std::string& nickname, const Server& server)
+bool	Commands::nicknameAlreadyExists(const std::string& nickname, const Client& client, const Server& server)
 {
 	std::map<int, Client> clients = server.getClientMap();
 	if (server.getClientMap().empty() == false)
@@ -14,7 +14,9 @@ bool	Commands::nicknameAlreadyExists(const std::string& nickname, const Server& 
 		{
 			std::string	clientNickname = it->second.getClientNickname();
 			bool		nickOK = it->second.getNicknameOKFlag();
-			if (clientNickname != EMPTY && clientNickname == nickname && nickOK == true)
+			int			socket = it->second.getClientSocket();
+
+			if (clientNickname != EMPTY && clientNickname == nickname && nickOK == true && client.getClientSocket() != socket)
 				return (true);
 		}
 	}
@@ -43,7 +45,7 @@ bool	Commands::isValidNickname(const std::string& nickname, const Client& client
 		}
 	}
 
-	if (nicknameAlreadyExists(nickname, server) == true)
+	if (nicknameAlreadyExists(nickname, client, server) == true)
 	{
 		Utils::sendFormattedMessage(ERR_NICKNAMEINUSE, client);
 		return (false);

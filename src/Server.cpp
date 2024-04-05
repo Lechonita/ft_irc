@@ -163,10 +163,9 @@ void	Server::getClientMessage()
 
 			if (bytesRead == ERROR || bytesRead == DISCONNECTED)
 			{
-				// printf(" >>>>>>> Je passe par le ERROR\n");
 				memset(buffer, 0, BUFFERSIZE);
 				disconnectClient(clientSocket);
-				// return ;
+				return ;
 			}
 			else
 			{
@@ -175,7 +174,6 @@ void	Server::getClientMessage()
 				memset(buffer, 0, BUFFERSIZE);
 				if (_clientMap.find(clientSocket)->second.getClientStatus() == DISCONNECTED)
 				{
-					// printf(" >>>>>>> Je passe par le else\n");
 					disconnectClient(clientSocket);
 					return ;
 				}
@@ -208,10 +206,11 @@ void	Server::printAll() //provisoire, a supprimer
 		it_channels->second.printClients();
 	}
 
+	std::cout << std::endl;
 	for (it_client = _clientMap.begin() ; it_client != _clientMap.end() ; it_client++)
 	{
 		std::cout << RED << "client= " << it_client->first << ", " << it_client->second.getClientNickname()
-		<< ", client address = " << &(it_client->second) << NC << std::endl;
+		<< ", client address = " << &(it_client->second) << ", status= " << it_client->second.getClientStatus() << NC << std::endl;
 		it_client->second.printChannels();
 	}
 }

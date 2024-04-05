@@ -65,7 +65,7 @@ bool	Commands::isParameterSetUp(const std::string& parameter, const Client& clie
 {
 	if (parameter == EMPTY)
 	{
-		if (errorMessage != EMPTY)
+		if (errorMessage != EMPTY && client.getIrssi() == false)
 			Utils::sendFormattedMessage(errorMessage, client);
 		return (false);
 	}

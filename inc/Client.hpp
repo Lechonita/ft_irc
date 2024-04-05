@@ -21,7 +21,6 @@ class Client
 		std::string					_clientRealName;
 		std::string					_lastArg;
 		std::string					_lastCommand;
-		// std::string					_buffer;
 		std::vector<Channel*>		_channels;
 		const char*					_clientIP;
 		int							_clientSocket;
@@ -52,7 +51,6 @@ class Client
 
 
 		// Setters
-		// void						setBuffer(const char *buffer);
 		void						setUsername(const std::string& username);
 		void						setNickname(const std::string& nickname);
 		void						setOldNickname(const std::string& oldnickname);
@@ -67,7 +65,6 @@ class Client
 		void						setNicknameOKFlag(const bool flag);
 
 		// Functions
-		// void						interpretMessage(Server& server);
 		void						newChannel(Channel& channel_name);
 		void						partFromChannels(Client& client, Server& server, const std::vector<std::string> channels, const std::string message = "");
 		bool						isOperator(const std::string channelname) const;

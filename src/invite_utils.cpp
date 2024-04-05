@@ -21,7 +21,7 @@ bool		Commands::areValidInviteParameters(const std::vector<std::string> paramete
 		return (false);
 	}
 
-	if (nicknameAlreadyExists(parameters[0], server) == false)
+	if (nicknameAlreadyExists(parameters[0], client, server) == false)
 	{
 		Utils::sendFormattedMessage(ERR_NOSUCHNICK, client, parameters[1]);
 		return (false);

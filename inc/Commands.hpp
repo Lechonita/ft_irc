@@ -60,7 +60,7 @@ class Commands
 
 		// nick_utils
 		static bool			isValidNickname(const std::string& nickname, const Client& client, const Server& server);
-		static bool			nicknameAlreadyExists(const std::string& nickname, const Server& server);
+		static bool			nicknameAlreadyExists(const std::string& nickname, const Client& client, const Server& server);
 
 		// pass_utils
 		static bool			isValidPassword(const std::string& password, const Client& client, const Server& server);

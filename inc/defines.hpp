@@ -136,7 +136,7 @@ extern bool		doSignal;
 # define ERR_NOTEXTTOSEND		"\033[0;33m412 <client> :No text to send\033[0m"
 # define ERR_UNKNOWNCOMMAND		"\033[0;33m421 <client> <command> :Unknown command\033[0m"
 # define ERR_NONICKNAMEGIVEN	"\033[0;33m431 <client> :No nickname given\033[0m"
-# define ERR_ERRONEUSNICKNAME	"\033[0;33m432 <client> <arg> :Erroneus nickname\033[0m"
+# define ERR_ERRONEUSNICKNAME	"\033[0;33m432 <arg> :Erroneus nickname\033[0m"
 # define ERR_NICKNAMEINUSE		":<servername> 433 * <client> :Nickname is already in use."
 # define ERR_USERNOTINCHANNEL	"\033[0;33m441 <client> <arg> :They aren't on that channel\033[0m"
 # define ERR_NOTONCHANNEL		"\033[0;33m442 <client> <channelName> :You're not on that channel\033[0m"

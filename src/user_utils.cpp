@@ -22,6 +22,7 @@ void	Commands::addUserInformation(std::vector<std::string> parameters, Client& c
 {
 	client.setUsername(parameters[0]);
 	client.setRealName(parameters);
+	std::cout << "Adding USER to status count" << std::endl;
 	client.setClientStatus(NICK_USER_LOGIN);
 
 	if (client.getClientStatus() == CONNECTED)

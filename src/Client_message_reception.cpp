@@ -20,7 +20,6 @@ void	Server::interpretMessage(const std::map<int, Client>::iterator &client)
 
 		if (line.empty() == false)
 			Commands::findCommandInMessage(line, *this, client->second);
-		//il faudrait que cette fonction ne soit pas dans le client et le probleme est regle, on est dans un client qui n'existe plus et _buffer n'existe plus
 		_buffer.erase(0, _buffer.find("\n") + 1);
 		pos = _buffer.find("\r\n");
 		if (pos == std::string::npos)
@@ -31,7 +30,6 @@ void	Server::interpretMessage(const std::map<int, Client>::iterator &client)
 void	Server::setBuffer(const char *buffer)
 {
 	_buffer += buffer;
-	// client->second.setBuffer(buffer);
 }
 
 void	Server::eraseBuffer() {_buffer = "";}

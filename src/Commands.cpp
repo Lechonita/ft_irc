@@ -102,6 +102,8 @@ void		Commands::commandPART(const std::string& line, const std::string& command,
 
 
 
+// MODE
+
 void	Commands::commandMODE(const std::string& line, const std::string& command, Client& client, Server& server)
 {
 	if (client.getClientStatus() < CONNECTED)
@@ -128,8 +130,8 @@ void	Commands::commandMODE(const std::string& line, const std::string& command, 
 
 
 
-//PRIVMSG
 
+//PRIVMSG
 
 
 void		Commands::commandPRIVMSG(const std::string& line, const std::string& command, Client& client, Server& server)
@@ -149,7 +151,10 @@ void		Commands::commandPRIVMSG(const std::string& line, const std::string& comma
 		Utils::sendFormattedMessage(ERR_NEEDMOREPARAMS, client);
 		return ;
 	}
+
+	client.setLastArgument(privmsg_params);
 	checkPrivmsgParams(privmsg_params, &receivers, &message);
+
 	if (message.empty() == true)
 	{
 		Utils::sendFormattedMessage(ERR_NOTEXTTOSEND, client);
@@ -172,8 +177,8 @@ void		Commands::commandPASS(const std::string& line, const std::string& command,
 
 	const std::string	password = eraseCommandfromLine(line, command);
 
-	if (isParameterSetUp(password, client, ERR_NEEDMOREPARAMS) == false)
-		return ;
+	// if (isParameterSetUp(password, client, ERR_NEEDMOREPARAMS) == false)
+	// 	return ;
 
 	if (isValidPassword(password, client, server) == true)
 	{
@@ -195,11 +200,9 @@ void		Commands::commandPASS(const std::string& line, const std::string& command,
 void		Commands::commandNICK(const std::string& line, const std::string& command, Client& client, Server& server)
 {
 	// :nonstop.ix.me.dal.net 433 * bob :Nickname is already in use.
-	if (client.getIrssi() == false)
-	{
-		if (isParameterSetUp(client.getClientPassword(), client, PASS_NOT_ENTERED) == false)
-			return ;
-	}
+
+	if (isParameterSetUp(client.getClientPassword(), client, PASS_NOT_ENTERED) == false)
+		return ;
 
 	std::string	nickname = eraseCommandfromLine(line, command);
 	if (nickname.empty() == true)
@@ -211,9 +214,6 @@ void		Commands::commandNICK(const std::string& line, const std::string& command,
 	client.setNickname(nickname);
 	client.setLastArgument(nickname);
 
-	// if (isParameterSetUp(nickname, client, EMPTY) == false)
-	// 	return ;
-
 	if (isValidNickname(nickname, client, server) == true)
 	{
 		client.setNicknameOKFlag(true);
@@ -221,6 +221,8 @@ void		Commands::commandNICK(const std::string& line, const std::string& command,
 
 		if (client.getIrssi() == true)
 			Utils::sendFormattedMessage(RPL_NICKCHANGE, client);
+		else if (client.getClientStatus() > CONNECTED)
+			Utils::sendMessage(NICK_CHANGED, client);
 		else
 			Utils::sendMessage(NICK_OK, client);
 	}
@@ -240,11 +242,11 @@ void		Commands::commandUSER(const std::string& line, const std::string& command,
 {
 	(void)server;
 
+	if (isParameterSetUp(client.getClientPassword(), client, PASS_NOT_ENTERED) == false)
+		return ;
+
 	if (client.getIrssi() == false)
 	{
-		if (isParameterSetUp(client.getClientPassword(), client, PASS_NOT_ENTERED) == false)
-			return ;
-
 		if (client.getNicknameOKFlag() == false)
 		{
 			Utils::sendFormattedMessage(NICK_NOT_ENTERED, client);
@@ -263,7 +265,6 @@ void		Commands::commandUSER(const std::string& line, const std::string& command,
 
 	if (isParameterSetUp(userInfo, client, EMPTY) == false)
 		return ;
-
 
 	const std::vector<std::string>	parameters = Utils::splitParameters(userInfo);
 
@@ -302,9 +303,8 @@ void		Commands::commandCAP(const std::string& line, const std::string& command, 
 void		Commands::commandQUIT(const std::string& line, const std::string& command, Client& client, Server& server)
 {
 	(void)command;
+	(void)server;
 	client.setLastArgument(line);
-	Utils::notifyQuitinChannels(client, server);
-	server.removeClientFromAllItsChan(client);
 	client.resetClientStatus(DISCONNECTED);
 }
 
