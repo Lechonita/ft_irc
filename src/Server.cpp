@@ -246,7 +246,7 @@ void	Server::inviteUser(const std::vector<std::string> parameters, Client& clien
 	Utils::sendMessage(message, client);
 
 	std::map<int, Client>::iterator		it;
-	std::map<std::string, Channel>::iterator	it_chan = _channelMap.find(parameters[0]);
+	std::map<std::string, Channel>::iterator	it_chan = _channelMap.find(parameters[1]);
 
 	for (it = _clientMap.begin(); it != _clientMap.end(); ++it)
 	{
@@ -254,12 +254,12 @@ void	Server::inviteUser(const std::vector<std::string> parameters, Client& clien
 		{
 			if (it_chan->second.getLMode() == true && it_chan->second.getUserLimit() <= it_chan->second.getChannelClients().size())
 			{
-				Utils::sendFormattedMessage(ERR_CHANNELISFULL, client, parameters[0]);
+				Utils::sendFormattedMessage(ERR_CHANNELISFULL, client, parameters[1]);
 				return ;
 			}
 			else
-				it_chan->second.newClient(client);
-			Utils::joinMessageSuccessful(client, server, parameters[1]);
+				it_chan->second.newClient(it->second);
+			Utils::joinMessageSuccessful(it->second, server, parameters[1]);
 		}
 	}
 }
@@ -490,6 +490,38 @@ static std::string	modeStatusAfterExec(std::vector<std::string> modes_args, std:
 	if (removed_modes.size() > 1)
 		args += removed_modes;
 	return (args);
+}
+
+static std::string	chanModes(const Channel &channel)
+{
+	std::string modes_of_chan = "";
+
+	if (channel.getIMode() == true)
+		modes_of_chan += 'i';
+	if (channel.getTMode() == true)
+		modes_of_chan += 't';
+	if (channel.getKMode() == true)
+		modes_of_chan += 'k';
+	if (channel.getLMode() == true)
+		modes_of_chan += 'l';
+	return (modes_of_chan);
+}
+
+void	Server::displayChanModes(Client &client, const std::vector<std::string> channels)
+{
+	std::map<std::string, Channel>::iterator	it_channels;
+
+	for (size_t pos = 0; pos < channels.size(); pos++)
+	{
+		it_channels = _channelMap.find(channels[pos]);
+		if (it_channels != _channelMap.end())
+		{
+			client.setLastArgument(chanModes(it_channels->second));
+			Utils::sendFormattedMessage(RPL_CHANNELMODES, client, channels[pos]);
+		}
+		else
+			Utils::sendFormattedMessage(ERR_NOSUCHCHANNEL, client, channels[pos]);
+	}
 }
 
 

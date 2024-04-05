@@ -19,6 +19,7 @@ Commands::Commands()
 	_cmdMap["PING"] = &Commands::commandPING;
 	_cmdMap["TOPIC"] = &Commands::commandTOPIC;
 	_cmdMap["WHOIS"] = &Commands::commandWHOIS;
+	_cmdMap["WHO"] = &Commands::commandWHO;
 }
 
 
@@ -122,7 +123,10 @@ void	Commands::commandMODE(const std::string& line, const std::string& command, 
 		return ;
 	}
 	checkModeParams(mode_params, &channels, &modes_with_args, &modes_without_args, &modes_args, client);
-	server.changeChannelsModes(client, channels, modes_args, modes_with_args, modes_without_args);
+	if (modes_with_args.empty() == true && modes_without_args.empty() == true)
+		server.displayChanModes(client, channels);
+	else
+		server.changeChannelsModes(client, channels, modes_args, modes_with_args, modes_without_args);
 }
 
 
@@ -434,14 +438,12 @@ void		Commands::commandWHOIS(const std::string& line, const std::string& command
 			else
 				Utils::sendFormattedMessage(ERR_NOSUCHNICK, client);
 	}
+}
 
-	// ERR_NOSUCHSERVER
-	// RPL_WHOISUSER
-	// RPL_WHOISCHANNELS
-	// RPL_WHOISSERVER
-	// RPL_AWAY
-	// RPL_WHOISOPERATOR
-	// RPL_WHOISIDLE
-	// RPL_ENDOFWHOIS
-
+void		Commands::commandWHO(const std::string& line, const std::string& command, Client& client, Server& server)
+{
+	(void)line;
+	(void)command;
+	(void)client;
+	(void)server;
 }
