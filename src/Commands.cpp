@@ -383,7 +383,7 @@ void		Commands::commandTOPIC(const std::string& line, const std::string& command
 		return ;
 	}
 
-	const std::vector<std::string>	parameters = Utils::splitParameters(arguments);
+	std::vector<std::string>	parameters = Utils::splitParameters(arguments);
 
 	if (areValidTopicParameters(parameters, client, server) == false)
 	{

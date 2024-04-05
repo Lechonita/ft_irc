@@ -14,10 +14,6 @@ Channel::Channel(const std::string& name, Client *client): _channelName(name), _
 	_tMode = false;
 	_kMode = false;
 	_lMode = false;
-	// client->newChannel(*this);
-	// send message new client in channel
-	//RPL_NAMREPLY
-	//RPL_ENDOFNAMES
 }
 
 
@@ -40,7 +36,6 @@ void		Channel::setChannelTopic(const std::string& channelTopic) { _channelTopic 
 std::string					Channel::getChannelName() const {return (_channelName);}
 std::string					Channel::getChannelTopic() const {return (_channelTopic);}
 std::string					Channel::getChannelPass() const {return (_channelPass);}
-// std::vector<channelModes>	Channel::getChannelModes() const {return (_channelModes);}
 std::vector<channelClient>	Channel::getChannelClients() const {return (_channelClients);}
 
 
@@ -63,10 +58,27 @@ size_t	Channel::setUserLimit(std::string limit)
 	return (BAD_LIMIT);
 }
 
-void	Channel::newClient(std::string passwrd, Client &client)
+
+
+void	Channel::newClient(Client &client)
 {
 	channelClient	newClient = {.client = &client, .isOperator = false};
 
+	for (size_t i = 0; i < _channelClients.size(); i++)
+	{
+		std::cout << "size = " << _channelClients.size() << " i = " << i << std::endl;
+		if (_channelClients[i].client == &client)
+			return ;
+	}
+	_channelClients.push_back(newClient);
+	client.newChannel(*this);
+}
+
+
+
+void	Channel::newClient(std::string passwrd, Client &client)
+{
+	channelClient	newClient = {.client = &client, .isOperator = false};
 	for (size_t i = 0; i < _channelClients.size(); i++)
 	{
 		if (_channelClients[i].client == &client)
@@ -78,9 +90,6 @@ void	Channel::newClient(std::string passwrd, Client &client)
 		{
 			_channelClients.push_back(newClient);
 			client.newChannel(*this);
-			// send message new client in channel
-			//RPL_NAMREPLY
-			//RPL_ENDOFNAMES
 		}
 		else
 		{
@@ -91,9 +100,6 @@ void	Channel::newClient(std::string passwrd, Client &client)
 	{
 		_channelClients.push_back(newClient);
 		client.newChannel(*this);
-		// send message new client in channel
-		//RPL_NAMREPLY
-		//RPL_ENDOFNAMES
 	}
 }
 

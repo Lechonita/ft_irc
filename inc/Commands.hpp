@@ -61,7 +61,6 @@ class Commands
 		// nick_utils
 		static bool			isValidNickname(const std::string& nickname, const Client& client, const Server& server);
 		static bool			nicknameAlreadyExists(const std::string& nickname, const Server& server);
-		static bool			isNicknameSetUp(const Client& client);
 
 		// pass_utils
 		static bool			isValidPassword(const std::string& password, const Client& client, const Server& server);
@@ -78,7 +77,7 @@ class Commands
 
 		// topic_utils
 		static bool			areValidTopicParameters(const std::vector<std::string> parameters, const Client& client, const Server& server);
-		static void			chooseAndExecuteTopicAction(const std::vector<std::string> parameters, const Client& client);
+		static void			chooseAndExecuteTopicAction( std::vector<std::string> parameters, const Client& client);
 
 		// whois_utils
 		static size_t		getParameterType(const std::string& parameter, const Server& server);

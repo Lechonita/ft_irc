@@ -161,7 +161,7 @@ void	Server::getClientMessage()
 			int	clientSocket = it->fd;
 			int	bytesRead = recv(clientSocket, buffer, BUFFERSIZE, 0);
 
-			if (bytesRead == ERROR)
+			if (bytesRead == ERROR || bytesRead == DISCONNECTED)
 			{
 				// printf(" >>>>>>> Je passe par le ERROR\n");
 				memset(buffer, 0, BUFFERSIZE);
@@ -247,10 +247,21 @@ void	Server::inviteUser(const std::vector<std::string> parameters, Client& clien
 	Utils::sendMessage(message, client);
 
 	std::map<int, Client>::iterator		it;
+	std::map<std::string, Channel>::iterator	it_chan = _channelMap.find(parameters[0]);
+
 	for (it = _clientMap.begin(); it != _clientMap.end(); ++it)
 	{
 		if (it->second.getClientNickname() == parameters[0])
-			addClientToChannel(parameters[1], EMPTY, it->second, server);
+		{
+			if (it_chan->second.getLMode() == true && it_chan->second.getUserLimit() <= it_chan->second.getChannelClients().size())
+			{
+				Utils::sendFormattedMessage(ERR_CHANNELISFULL, client, parameters[0]);
+				return ;
+			}
+			else
+				it_chan->second.newClient(client);
+			Utils::joinMessageSuccessful(client, server, parameters[1]);
+		}
 	}
 }
 
@@ -258,7 +269,7 @@ void	Server::addClientToChannel(std::string channel, std::string passwrd, Client
 {
 	std::map<std::string, Channel>::iterator	it = _channelMap.find(channel);
 
-	if (it ->second.getLMode() == true && it->second.getUserLimit() <= it->second.getChannelClients().size())
+	if (it->second.getLMode() == true && it->second.getUserLimit() <= it->second.getChannelClients().size())
 	{
 		Utils::sendFormattedMessage(ERR_CHANNELISFULL, client, channel);
 		return ;
