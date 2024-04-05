@@ -163,12 +163,10 @@ void	Server::getClientMessage()
 
 			if (bytesRead == ERROR)
 			{
+				// printf(" >>>>>>> Je passe par le ERROR\n");
 				memset(buffer, 0, BUFFERSIZE);
-				Utils::notifyQuitinChannels(_clientMap.find(clientSocket)->second, *this);
-				removeClientFromAllItsChan(_clientMap.find(clientSocket)->second);
-				_clientMap.find(clientSocket)->second.resetClientStatus(DISCONNECTED);
 				disconnectClient(clientSocket);
-				return ;
+				// return ;
 			}
 			else
 			{
@@ -177,6 +175,7 @@ void	Server::getClientMessage()
 				memset(buffer, 0, BUFFERSIZE);
 				if (_clientMap.find(clientSocket)->second.getClientStatus() == DISCONNECTED)
 				{
+					// printf(" >>>>>>> Je passe par le else\n");
 					disconnectClient(clientSocket);
 					return ;
 				}

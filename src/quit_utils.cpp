@@ -3,8 +3,6 @@
 
 void	Utils::notifyQuitinChannels(const Client& client, Server& server)
 {
-	// printf("Arrivée dans 1/ notifyQuitinChannels\n");
-
 	(void)server;
 
 	std::vector<Channel*>				channels = client.getClientChannels();
