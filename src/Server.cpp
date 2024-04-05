@@ -175,7 +175,7 @@ void	Server::getClientMessage()
 			int	clientSocket = it->fd;
 			int	bytesRead = recv(clientSocket, buffer, BUFFERSIZE, 0);
 
-			if (bytesRead == ERROR)
+			if (bytesRead == ERROR || bytesRead == DISCONNECTED)
 			{
 				memset(buffer, 0, BUFFERSIZE);
 				Utils::notifyQuitinChannels(_clientMap.find(clientSocket)->second, *this);
