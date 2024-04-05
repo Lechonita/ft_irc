@@ -63,6 +63,7 @@ class Server
 
 		// Channel functions
 		bool								isPartOfChannel(std::string channel_name, const Client& client);
+		void								displayChanModes(Client &client, std::vector<std::string> channels);
 		void								changeChannelsModes(Client& client, std::vector<std::string> channels, std::vector<std::string> modes_args, std::vector<std::string> modes_with_args, std::vector<std::string> modes_without_args);
 		void								deleteChannel(std::string channel_name);
 

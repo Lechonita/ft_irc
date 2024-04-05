@@ -157,6 +157,7 @@ extern bool		doSignal;
 # define RPL_MYINFO				"004 <servername> <version> <available user modes> <available channel modes>"
 // # define RPL_AWAY				"301 <client> :<away message>"
 # define RPL_CHANNELMODEIS		":<client>!~<client>@127.0.0.1 MODE <channelName> <arg>"
+# define RPL_CHANNELMODES		":irc 324 <nickname> <channelName> +<arg>"
 # define RPL_UNIQOPIS			"325 <channelName> <client>"
 # define RPL_TOPIC				"@<clientIP> TOPIC <channelName> :<topic>"
 # define RPL_NOTOPIC			"331 <channelName> :No topic is set"

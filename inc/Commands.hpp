@@ -34,6 +34,7 @@ class Commands
 		void				commandPING(const std::string& line, const std::string& command, Client& client, Server& server);
 		void				commandTOPIC(const std::string& line, const std::string& command, Client& client, Server& server);
 		void				commandWHOIS(const std::string& line, const std::string& command, Client& client, Server& server);
+		void				commandWHO(const std::string& line, const std::string& command, Client& client, Server& server);
 
 		// Command Utils
 		static std::string	getCommandFromLine(const std::string& line);
