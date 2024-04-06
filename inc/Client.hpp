@@ -21,6 +21,7 @@ class Client
 		std::string					_clientRealName;
 		std::string					_lastArg;
 		std::string					_lastCommand;
+		std::string					_buffer;
 		std::vector<Channel*>		_channels;
 		const char*					_clientIP;
 		int							_clientSocket;
@@ -44,11 +45,11 @@ class Client
 		const std::string			getClientPassword() const;
 		const std::string			getLastArgument() const;
 		const std::string			getLastCommand() const;
+		const std::string			getBuffer() const;
 		const char*					getClientIP() const;
 		const std::vector<Channel*>	getClientChannels() const;
 		bool						getIrssi() const;
 		bool						getNicknameOKFlag() const;
-
 
 		// Setters
 		void						setUsername(const std::string& username);
@@ -63,8 +64,10 @@ class Client
 		void						resetClientStatus(const int login);
 		void						setIrssi(const bool result);
 		void						setNicknameOKFlag(const bool flag);
+		void						setBuffer(const char *buffer);
 
 		// Functions
+		void						interpretMessage(Server& server);
 		void						newChannel(Channel& channel_name);
 		void						partFromChannels(Client& client, Server& server, const std::vector<std::string> channels, const std::string message = "");
 		bool						isOperator(const std::string channelname) const;

@@ -11,7 +11,7 @@ Channel::Channel(const std::string& name, Client *client): _channelName(name), _
 	const channelClient newClient = {.client = client, .isOperator = true};
 	_channelClients.push_back(newClient);
 	_iMode = false;
-	_tMode = false;
+	_tMode = true; //set to true from the beginning since TOPIC is an operator command in the subject
 	_kMode = false;
 	_lMode = false;
 }

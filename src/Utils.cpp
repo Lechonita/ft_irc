@@ -182,7 +182,6 @@ void	Utils::joinMessageSuccessful(const Client& client, Server& server, std::str
 	message3.erase(message3.size() - 2, 2);
 
 	server.sendMessageToChannel(channel_name, message1, client);
-	// sendFormattedMessage(message1, client);
 	sendFormattedMessage(message2, client, channel_name);
 	sendFormattedMessage(message3, client, channel_name);
 }

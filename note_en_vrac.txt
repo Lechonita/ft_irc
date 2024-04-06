@@ -106,6 +106,9 @@ gdb -tui ircserv
 
 LISTE DE BUGS A CORRIGER
 
+- probleme on peut creer un nouvel utilisateur lorsque le mdp est empty
+- bug de connection lorsqu'on n'a pas de port dans irssi
+x plusieurs fois NICK avant USER peut quand meme creer un nouveau client
 x voir ce qui se passe une fois que le timeout s'est écoulé
 x /msg sur irssi > les messages dans un channel s'affichent 2 fois
 x Commande CAP > verifier pour le cas irssi où le mdp n'est pas donné
@@ -113,3 +116,14 @@ x Quand le timeout est atteint sur irssi, un nouveau user join et ca join tout !
 x 403 bob bob :No such channel a la connexion avec irssi > verifier pourquoi bob est un channel !
 
 
+Commandes dcc:
+- /dcc send <nickname> fichier
+- /dcc get <nickname_sender> fichier
+- /set dcc_download_path ~/Downloads/
+
+Commandes pour reprendre un programme suspendu par control Z:
+- fg %1
+
+PASS lol
+NICK clem
+USER oerifj eorigj eroigj :eoifj erofj

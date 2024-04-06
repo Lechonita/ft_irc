@@ -54,18 +54,11 @@ Server::Server(const std::string &port, const std::string &password)
 
 	std::cout << GREEN << "\n       Server Creation Successful [Connected]" << NC << std::endl;
 	std::cout << std::endl;
-	// std::cout << "Server fd = " << _serverSocket
-	// 		<< " / ip = " << inet_ntoa(serverAddress.sin_addr)
-	// 		<< " / port = " << ntohs(serverAddress.sin_port) << std::endl;
 }
 
 
 
-Server::~Server()
-{
-	// _clientMap.clear();
-	// std::cout << "Default server destructor." << std::endl;
-}
+Server::~Server() {}
 
 /********************************************************************************/
 /***************************** MEMBER FUNCTIONS *********************************/
@@ -146,6 +139,24 @@ void	Server::createNewClient()
 }
 
 
+
+bool	passIsGiven(char *buffer, const Client& client)
+{
+	std::string line(buffer);
+	std::string cmd = line.substr(0, 6);
+
+	if (cmd == "CAP LS" && client.getClientStatus() < CONNECTED)
+	{
+		line.erase(0, line.find("\n") + 1);
+		cmd = line.substr(0, 4);
+		if (cmd != "PASS")
+			return (false);
+	}
+	return (true);
+}
+
+
+
 void	Server::getClientMessage()
 {
 	if (_clientMap.size() == 0)
@@ -161,7 +172,7 @@ void	Server::getClientMessage()
 			int	clientSocket = it->fd;
 			int	bytesRead = recv(clientSocket, buffer, BUFFERSIZE, 0);
 
-			if (bytesRead == ERROR || bytesRead == DISCONNECTED)
+			if (bytesRead == ERROR || bytesRead == DISCONNECTED || passIsGiven(buffer, _clientMap.find(clientSocket)->second) == false)
 			{
 				memset(buffer, 0, BUFFERSIZE);
 				disconnectClient(clientSocket);
@@ -210,7 +221,7 @@ void	Server::printAll() //provisoire, a supprimer
 	for (it_client = _clientMap.begin() ; it_client != _clientMap.end() ; it_client++)
 	{
 		std::cout << RED << "client= " << it_client->first << ", " << it_client->second.getClientNickname()
-		<< ", client address = " << &(it_client->second) << ", status= " << it_client->second.getClientStatus() << NC << std::endl;
+		<< ", client address = " << &(it_client->second) << ", status= " << it_client->second.getClientStatus() << "socket= " << it_client->second.getClientSocket() << NC << std::endl;
 		it_client->second.printChannels();
 	}
 }
@@ -230,13 +241,6 @@ void	Server::createNewChannel(std::string channel_name, int client_socket, Serve
 	Utils::joinMessageSuccessful(it_client->second, server, channel_name);
 }
 
-
-
-// TO BE ORGANIZED
-
-
-
-// TO BE ORGANIZED
 
 
 void	Server::inviteUser(const std::vector<std::string> parameters, Client& client, Server& server)
@@ -320,12 +324,13 @@ void	Server::createOrJoinChannel(std::vector<std::string> channels, std::vector<
 
 
 
-bool	Server::isPartOfChannel(std::string channel_name, const Client& client)
+bool	Server::isPartOfChannel(std::string channel_name, Client& client)
 {
 	std::map<std::string, Channel>::iterator	it = _channelMap.find(channel_name);
 
 	if (it == _channelMap.end())
 	{
+		client.setLastArgument(channel_name);
 		Utils::sendFormattedMessage(ERR_NOSUCHNICK, client);
 		return (false);
 	}
@@ -342,7 +347,7 @@ bool	Server::isPartOfChannel(std::string channel_name, const Client& client)
 
 
 
-void	Server::sendMessageToReceivers(std::vector<std::string> receivers, std::string message, const Client& client)
+void	Server::sendMessageToReceivers(std::vector<std::string> receivers, std::string message, Client& client)
 {
 	for (size_t i = 0; i < receivers.size(); i++)
 	{
@@ -374,26 +379,26 @@ void	Server::sendMessageToChannel(std::string receiver, std::string message, con
 	}
 	std::string	full_message = message + END_MSG;
 
-	// it->second.sendPrivmsgToChan(client, full_message);
 	it->second.sendMessageToAll(full_message);
 }
 
-void	Server::sendMessageToChannelNotSelf(std::string receiver, std::string message, const Client& client)
+void	Server::sendMessageToChannelNotSelf(std::string receiver, std::string message, Client& client)
 {
 	std::map<std::string, Channel>::iterator	it = _channelMap.find(receiver);
 
 	if (it == _channelMap.end())
 	{
+		std::cout << "name = " << receiver << std::endl;
+		client.setLastArgument(receiver);
 		Utils::sendFormattedMessage(ERR_NOSUCHNICK, client);
 		return ;
 	}
 	std::string	full_message = message + END_MSG;
 
 	it->second.sendPrivmsgToChan(client, full_message);
-	// it->second.sendMessageToAll(full_message);
 }
 
-void	Server::sendMessageToUser(std::string receiver, std::string message, const Client& client)
+void	Server::sendMessageToUser(std::string receiver, std::string message, Client& client)
 {
 	std::map<int, Client>::iterator	it;
 
@@ -404,6 +409,8 @@ void	Server::sendMessageToUser(std::string receiver, std::string message, const 
 	}
 	if (it == _clientMap.end())
 	{
+		std::cout << "name1 = " << receiver << std::endl;
+		client.setLastArgument(receiver);
 		Utils::sendFormattedMessage(ERR_NOSUCHNICK, client);
 		return ;
 	}
@@ -586,11 +593,6 @@ const char *Server::ParametersException::what() const throw() { return (ERR_NEED
 const char *Server::BadPasswordException::what() const throw() { return (ERR_PASSWDMISMATCH); }
 
 const char *Server::ClientQuitException::what() const throw() { return (ERR_PASSWDMISMATCH); }
-
-// const char *Server::ReadException::what() const throw()
-// {
-// 	return ("\033[0;31mError: Could not read client's message.\n\033[0m");
-// }
 
 
 

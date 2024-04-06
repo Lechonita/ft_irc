@@ -14,14 +14,10 @@ Client::Client(const int& clientSocket): _clientSocket(clientSocket)
 	_clientRealName = EMPTY;
 	_lastArg = EMPTY;
 	_lastCommand = EMPTY;
+	_buffer = EMPTY;
 	_clientStatus = DISCONNECTED;
 	_irssi = false;
 	_nicknameOK = false;
-
-	// std::cout << std::endl;
-	// std::cout << "WELCOME\n" << std::endl;
-	// std::cout << ORANGE << "You are not connected to the server yet." << NC << std::endl;
-	// std::cout << "Use command PASS followed by <password> to connect." << std::endl;
 }
 
 
@@ -35,7 +31,7 @@ Client::~Client() {}
 // Getters
 
 int							Client::getClientSocket() const { return (_clientSocket); }
-int							Client ::getClientStatus() const { return (_clientStatus); }
+int							Client::getClientStatus() const { return (_clientStatus); }
 const std::string			Client::getClientUsername() const { return (_clientUsername); }
 const std::string			Client::getClientNickname() const { return (_clientNickname); }
 const std::string			Client::getClientOldNickname() const { return (_clientOldNickname); }
@@ -43,6 +39,7 @@ const std::string			Client::getClientRealName() const { return (_clientRealName)
 const std::string			Client::getClientPassword() const { return (_clientPassword); }
 const std::string			Client::getLastArgument() const { return (_lastArg); }
 const std::string			Client::getLastCommand() const { return (_lastCommand); }
+const std::string			Client::getBuffer() const {return (_buffer);}
 const char*					Client::getClientIP() const { return (_clientIP); }
 const std::vector<Channel*>	Client::getClientChannels() const {return (_channels);}
 bool						Client::getIrssi()const { return (_irssi); }
@@ -59,6 +56,7 @@ void	Client::printChannels()
 		<< ", channel address = " << (_channels[i]) << NC << std::endl;
 }
 
+void	Client::setBuffer(const char *buffer) { _buffer += buffer; }
 void	Client::setLastArgument(const std::string& arg) { _lastArg = arg; }
 void	Client::setLastCommand(const std::string& command) { _lastCommand = command; }
 void	Client::setClientIP(const char * IP) { _clientIP = IP; }
@@ -130,6 +128,32 @@ void	Client::setUsername(const std::string& username)
 
 
 // Functions
+
+
+
+void	Client::interpretMessage(Server& server)
+{
+	if (_buffer.empty() == true)
+		return ;
+
+	size_t	pos = _buffer.find("\r\n");
+	if (pos == std::string::npos) // no \r\n found
+		pos = _buffer.find("\n");
+
+	while (pos != std::string::npos)
+	{
+		std::string	line = _buffer.substr(0, pos);
+		std::cout << INCOMING_MSG << line << std::endl;
+
+		if (line.empty() == false)
+			Commands::findCommandInMessage(line, server, *this);
+		_buffer.erase(0, _buffer.find("\n") + 1);
+		pos = _buffer.find("\r\n");
+		if (pos == std::string::npos)
+			pos = _buffer.find("\n");
+	}
+}
+
 
 
 void	Client::newChannel(Channel& channel)

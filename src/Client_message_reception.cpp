@@ -4,32 +4,15 @@
 #include "../inc/Commands.hpp"
 
 
-void	Server::interpretMessage(const std::map<int, Client>::iterator &client)
+
+void	Server::interpretClientBuffer(const std::map<int, Client>::iterator &client, Server& server)
 {
-	if (_buffer.empty() == true)
-		return ;
-
-	size_t	pos = _buffer.find("\r\n");
-	if (pos == std::string::npos) // no \r\n found
-		pos = _buffer.find("\n");
-
-	while (pos != std::string::npos)
-	{
-		std::string	line = _buffer.substr(0, pos);
-		std::cout << INCOMING_MSG << line << std::endl;
-
-		if (line.empty() == false)
-			Commands::findCommandInMessage(line, *this, client->second);
-		_buffer.erase(0, _buffer.find("\n") + 1);
-		pos = _buffer.find("\r\n");
-		if (pos == std::string::npos)
-			pos = _buffer.find("\n");
-	}
+	client->second.interpretMessage(server);
 }
 
-void	Server::setBuffer(const char *buffer)
+void	Server::setClientBuffer(const std::map<int, Client>::iterator &client, const char *buffer)
 {
-	_buffer += buffer;
+	client->second.setBuffer(buffer);
 }
 
 void	Server::eraseBuffer() {_buffer = "";}
@@ -46,7 +29,7 @@ void	Server::manageClientMessageReception(const char *buffer, const int& clientS
 
 	if (it != _clientMap.end())
 	{
-		setBuffer(buffer);
-		interpretMessage(it);
+		setClientBuffer(it, buffer);
+		interpretClientBuffer(it, *this);
 	}
 }

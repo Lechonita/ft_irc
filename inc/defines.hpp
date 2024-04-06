@@ -25,13 +25,6 @@
 # include <netinet/in.h>
 
 
-// #ifdef DEBUG
-// # define debug(msg) std::cerr << "DEBUG: " << msg << std::endl
-// # else
-// # define debug(msg)
-// #endif
-
-
 // Colors
 
 # define RED_ITALIC "\x1b[31m \x1b[3m"
@@ -160,24 +153,16 @@ extern bool		doSignal;
 # define RPL_YOURHOST			"002 Your host is <servername>, running version <ver>"
 # define RPL_CREATED			"003 This server was created <date>"
 # define RPL_MYINFO				"004 <servername> <version> <available user modes> <available channel modes>"
-// # define RPL_AWAY				"301 <client> :<away message>"
 # define RPL_CHANNELMODEIS		":<client>!~<client>@127.0.0.1 MODE <channelName> <arg>"
 # define RPL_CHANNELMODES		":irc 324 <nickname> <channelName> +<arg>"
 # define RPL_UNIQOPIS			"325 <channelName> <client>"
 # define RPL_TOPIC				"@<clientIP> TOPIC <channelName> :<topic>"
 # define RPL_NOTOPIC			"331 <channelName> :No topic is set"
-// # define RPL_INVITING			":<inviter> INVITE <invitee> <channelName>"
-// # define RPL_INVITELIST			"346 <channelName> <invitemask>"
-// # define RPL_ENDOFINVITELIST	"347 <channelName> :End of channel invite list"
-// # define RPL_EXCEPTLIST			"348 <channelName> <exceptionmask>"
-// # define RPL_ENDOFEXCEPTLIST	"349 <channelName> :End of channel exception list"
-// # define RPL_ENDOFBANLIST		"368 <channelName> :End of channel ban list"
 # define RPL_NAMREPLY 			"353 <client> = <channelName> :<nicknames>"
 # define RPL_ENDOFNAMES			"366 <client> <channelName> :End of /NAMES list"
 # define RPL_BANLIST			"367 <channelName> <banmask>"
 # define RPL_QUIT				" has left the server.\n"
 # define RPL_NICKCHANGE			":<oldnickname>!~<username>@<clientIP> NICK <nickname>"
-// # define RPL_NICKWASSET			"NICK <nickname>"
 
 
 // Custom COMMANDS Messages

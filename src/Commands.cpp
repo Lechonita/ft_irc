@@ -197,7 +197,6 @@ void		Commands::commandPASS(const std::string& line, const std::string& command,
 
 void		Commands::commandNICK(const std::string& line, const std::string& command, Client& client, Server& server)
 {
-	// :nonstop.ix.me.dal.net 433 * bob :Nickname is already in use.
 	if (client.getIrssi() == false)
 	{
 		if (isParameterSetUp(client.getClientPassword(), client, PASS_NOT_ENTERED) == false)
@@ -214,13 +213,13 @@ void		Commands::commandNICK(const std::string& line, const std::string& command,
 	client.setNickname(nickname);
 	client.setLastArgument(nickname);
 
-	// if (isParameterSetUp(nickname, client, EMPTY) == false)
-	// 	return ;
-
 	if (isValidNickname(nickname, client, server) == true)
 	{
 		client.setNicknameOKFlag(true);
-		client.setClientStatus(NICK_USER_LOGIN);
+		if (client.getClientStatus() == PASS_LOGIN && client.getIrssi() == false)
+			client.setClientStatus(NICK_USER_LOGIN);
+		else if (client.getIrssi() == true)
+			client.setClientStatus(NICK_USER_LOGIN);
 
 		if (client.getIrssi() == true)
 			Utils::sendFormattedMessage(RPL_NICKCHANGE, client);
@@ -305,9 +304,8 @@ void		Commands::commandCAP(const std::string& line, const std::string& command, 
 void		Commands::commandQUIT(const std::string& line, const std::string& command, Client& client, Server& server)
 {
 	(void)command;
+	(void)server;
 	client.setLastArgument(line);
-	Utils::notifyQuitinChannels(client, server);
-	server.removeClientFromAllItsChan(client);
 	client.resetClientStatus(DISCONNECTED);
 }
 

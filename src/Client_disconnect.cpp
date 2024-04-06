@@ -23,18 +23,6 @@ void	Server::removeClientFromPollFd(const int& clientSocket)
 	}
 	if (it != _pollFd.end())
 		_pollFd.erase(it);
-
-	// int		indexToRemove = -1;
-	// for (size_t i = 0; i < _pollFd.size(); ++i)
-	// {
-	// 	if (_pollFd[i].fd == clientSocket)
-	// 	{
-	// 		indexToRemove = static_cast<int>(i);
-	// 		break;
-	// 	}
-	// }
-
-	// _pollFd.erase(_pollFd.begin() + indexToRemove);
 }
 
 void	Server::disconnectClient(const int& clientSocket)
