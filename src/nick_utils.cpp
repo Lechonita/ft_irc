@@ -32,7 +32,7 @@ static bool	isValidCharacter(const char c)
 
 
 
-bool	Commands::isValidNickname(const std::string& nickname, const Client& client, const Server& server)
+bool	Commands::isValidNickname(const std::string& nickname, Client& client, const Server& server)
 {
 	for(size_t i = 0; i < nickname.size(); ++i)
 	{
@@ -47,6 +47,7 @@ bool	Commands::isValidNickname(const std::string& nickname, const Client& client
 
 	if (nicknameAlreadyExists(nickname, client, server) == true)
 	{
+		client.setOldNickname(nickname);
 		Utils::sendFormattedMessage(ERR_NICKNAMEINUSE, client);
 		return (false);
 	}

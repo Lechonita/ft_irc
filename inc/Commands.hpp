@@ -60,7 +60,7 @@ class Commands
 		static void			checkPartParams(std::string part_params, std::vector<std::string> *channels, std::string *message);
 
 		// nick_utils
-		static bool			isValidNickname(const std::string& nickname, const Client& client, const Server& server);
+		static bool			isValidNickname(const std::string& nickname, Client& client, const Server& server);
 		static bool			nicknameAlreadyExists(const std::string& nickname, const Client& client, const Server& server);
 
 		// pass_utils

@@ -210,11 +210,11 @@ void		Commands::commandNICK(const std::string& line, const std::string& command,
 		return ;
 	}
 
-	client.setNickname(nickname);
 	client.setLastArgument(nickname);
 
 	if (isValidNickname(nickname, client, server) == true)
 	{
+		client.setNickname(nickname);
 		client.setNicknameOKFlag(true);
 		if (client.getClientStatus() == PASS_LOGIN && client.getIrssi() == false)
 			client.setClientStatus(NICK_USER_LOGIN);
