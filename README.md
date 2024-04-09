@@ -17,10 +17,10 @@ A client's actions should not block the server. All clients can perform actions 
 ### Connexion commands
 
 | Command | Expected arguments | Outcome |
-| ------------- | ------------- | ----------- |
+| :-------------: | ------------- | ----------- |
 | PASS | `<password>`  | Password is necessary to properly connect to server |
 | NICK  | `<nickname>` | Setup your nickname |
-| USER  | `<username>` `<mode>` `<server>` :`<real first name>` `<real last name>` (mode and server are not taken into account) | Setup username and real name |
+| USER  | `<username>` `<mode>` `<server>` :`<real first name>` `<real last name>` | Setup username and real name (mode and server are not taken into account) |
 
 
 
