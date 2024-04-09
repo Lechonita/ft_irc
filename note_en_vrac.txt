@@ -1,25 +1,3 @@
-- un nickname par client, de maximum 9 caracteres
-- Channels names are strings (beginning with a '&' or '#' character) of
-   length up to 200 characters.  Apart from the the requirement that the
-   first character being either '&' or '#'; the only restriction on a
-   channel name is that it may not contain any spaces (' '), a control G
-   (^G or ASCII 7), or a comma (',' which is used as a list item
-   separator by the protocol).
-- the client that creates a channel becomes an operator of this channel
-- a command can only take up to 15 parameters (that's a lot)
-- 512 characters (including \r\n, so really 510) maximum per messages
-
-
-- tips pour git
-	- git rebase ou git merge
-	- git checkout a specific commit to detach the HEAD
-
-
-	Faire le client : utiliser poll() ou pollin() pour savoir si client
-	déjà existant ou non. Si pas existant, create client. Sinon, faire
-	l'action qu'il veut faire (message).
-
-
 
 - nc -C localhost 6667 // pour lancer un client dans le serveur
 - Quakenet
@@ -48,72 +26,16 @@ CHANNEL OPERATOR COMMANDS :
 	x INVITE
 	x MODE
 
-QUESTIONS A POSER
-	- The command must either be a valid IRC command or a three (3) digit
-   number represented in ASCII text.
-   -> est-ce qu'on doit gerer ca?
 
 
-   IMPLEMENTER CAP LS (ENVOYE PAR LE CLIENT A LA CONNECTION AU SERVEUR, SERVEUR QUI REPOND PAR CE QU'IL PERMET DE FAIRE)
-   EXEMPLE DE Dalnet :
-   NETWORK=DALnet SAFELIST MAXBANS=200 MAXCHANNELS=20 CHANNELLEN=32 KICKLEN=307 NICKLEN=30 TOPICLEN=307 MODES=6
-          CHANTYPES=# CHANLIMIT=#:20 PREFIX=(ohv)@%+ STATUSMSG=@%+ are available on this server
-	CASEMAPPING=ascii WATCH=128 SILENCE=10 ELIST=cmntu EXCEPTS INVEX CHANMODES=beI,k,jl,ciPAmMnOprRsSt
-          MAXLIST=b:200,e:100,I:100 TARGMAX=DCCALLOW:,JOIN:,KICK:4,KILL:20,NOTICE:20,PART:,PRIVMSG:20,WHOIS:,WHOWAS: are
-          available on this server
-
-
-:irc 001 JEss :Welcome to the Internet Relay Network JEss!cmoa@127.0.0.1
-:irc 002 JEss :Your host is irc, running version 0.6
-:irc 003 JEss :This server was created on 2024/01/24
-004 JEss :irc 1.0 -none- itkol
-
-BUGS:
-	-
-
-INVITE
-
-message automatique sur le terminal de la personne qui invite :
-	INVITE Jesson #newtest
-	:choopa.nj.us.dal.net 341 Guest05609 Jesson #newtest
-	:atw.hu.eu.dal.net NOTICE @#newtest :Guest05609 invited Jesson into channel #newtest
-
-
-message automatique sur le terminal de l'invité :
-	:Guest05609!~lechon@bc22-251f-212f-9745-7c26.210.62.ip INVITE Jesson :#newtest
-
-Jesson = nickname de l'invité
-Guest05609 = nickname de ce lui qui invite
-newtest = channelname
-
-x probleme quand on utilise control C depuis un utilisateur le client n'est pas supprime mais on peut se reconnecter
-x changer la commande TOPIC pour qu'elle regarde si le mode t est active ou non dans un channel
-x verifier message recu dans le cas ou commande est : PRIVMSG #test42,jess hello (jess et test42 existe et je fais parti de test42)
-x changer le message envoye par NICK pour que ce soit pris en compte par irssi (cf. rawlog dalnet)
-x c'est l'inverse quand on quit, on peut se reconnecter mais on est deconnecte quasiment instantanement mais le client est bien supprime
-
-x verifier les cas ou aucun nom de channel n'est specifier pour JOIN et PART et KICK
-x verifier l'absence de nom de clients pour JOIN PART KICK et PRIVMSG
-x changer la commande JOIN pour les cas ou y'a une limite d'user dans le channel, un mot de passe, s'il est invite-only
-x supprimer les channels dans PART si jamais je suis le dernier utilisateur du channel
-x on ne peut pas se KICK soi-meme d'un channel
+IRSSI
 
 /connect localhost 1024 lol
 /connect localhost 1025 lol
 
+
+GDB
 gdb -tui ircserv
-
-
-LISTE DE BUGS A CORRIGER
-
-- probleme on peut creer un nouvel utilisateur lorsque le mdp est empty
-- bug de connection lorsqu'on n'a pas de port dans irssi
-x plusieurs fois NICK avant USER peut quand meme creer un nouveau client
-x voir ce qui se passe une fois que le timeout s'est écoulé
-x /msg sur irssi > les messages dans un channel s'affichent 2 fois
-x Commande CAP > verifier pour le cas irssi où le mdp n'est pas donné
-x Quand le timeout est atteint sur irssi, un nouveau user join et ca join tout ! aussi son nickname est celui du pc
-x 403 bob bob :No such channel a la connexion avec irssi > verifier pourquoi bob est un channel !
 
 
 Commandes dcc:
@@ -121,9 +43,6 @@ Commandes dcc:
 - /dcc get <nickname_sender> fichier
 - /set dcc_download_path ~/Downloads/
 
+
 Commandes pour reprendre un programme suspendu par control Z:
 - fg %1
-
-PASS lol
-NICK clem
-USER oerifj eorigj eroigj :eoifj erofj
