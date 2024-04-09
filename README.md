@@ -40,7 +40,7 @@ A client's actions should not block the server. All clients can perform actions 
 
 | Command | Expected arguments | Outcome |
 | ------------- | ------------- | ----------- |
-| KICK | '<nickname>'  | Kicks a client out of the channel |
+| KICK | `<nickname>` | Kicks a client out of the channel |
 | TOPIC  | <channelname> / can also add <topic> | See the channel's topic. Adding a <topic> will change the channel's topic |
 | INVITE | <nickname> <channelname> | Invite a client to the channel |
 | MODE | <channelname> <mode> | Changes the mode of the channel |
@@ -52,8 +52,7 @@ A client's actions should not block the server. All clients can perform actions 
 | Mode | Expected arguments | Outcome |
 | ------------- | ------------- | ----------- |
 | +i or -i | none |  Set/remove Invite-only channel |
-| +t or -t | none |  Set/remove the restrictions of the TOPIC command to channel
-operators |
+| +t or -t | none |  Set/remove the restrictions of the TOPIC command to channel operators |
 | +k or -k | <password> | Set/remove the channel key (password) |
 | +o or -o | <nickname> | Give/take channel operator privilege |
 | +l or -l | <number> | Set/remove the user limit to channel |
