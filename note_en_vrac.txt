@@ -4,36 +4,6 @@
 - Dalnet : nc -C irc.dal.net 6667
 
 
-LISTE DES COMMANDES
-
-CHANNEL COMMANDS :
-	x JOIN (join channel)
-	x PART (leave channel)
-	- NAMES (list les utilisateurs de la channel)
-
- BASIC COMMANDS :
-	x PASS (pour rentrer le mdp) OK
-	x NICK (change your nick) OK
-	x USER (set username and mode) OK
-	x PRIVMSG (send a private message to another user)
-	x QUIT (quit server)
-	- LIST (list channels)
-	x WHOIS (get personnal information about a user)
-
-CHANNEL OPERATOR COMMANDS :
-	x KICK
-	x TOPIC
-	x INVITE
-	x MODE
-
-
-
-IRSSI
-
-/connect localhost 1024 lol
-/connect localhost 1025 lol
-
-
 GDB
 gdb -tui ircserv
 

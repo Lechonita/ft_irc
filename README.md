@@ -1,106 +1,85 @@
-# [IRC](https://datatracker.ietf.org/doc/html/rfc1459) - Internet Relay Chat
+## [IRC](https://datatracker.ietf.org/doc/html/rfc1459) - Internet Relay Chat
 
 
-## 1. En tant que dev, je veux pouvoir créer un serveur
+### 🗺️ Project Description
 
-- Créer un [serveur](https://ncona.com/2019/04/building-a-simple-server-with-cpp/)
-	* man [socket](https://man7.org/linux/man-pages/man2/socket.2.html)
-
-
-## 2. En tant que dev, je veux pouvoir accueillir plusieurs utilisateurs dans mon serveur
-
-- La communication entre client et serveur se fait par [TCP/IP](https://www.fortinet.com/fr/resources/cyberglossary/tcp-ip) (v4 ou v6)
-
-- Je peux avoir autant d’utilisateurs que je veux
-
-- Je veux pouvoir les différencier entre utilisateurs regular et les opérateurs
-
-- Un de mes utilisateurs sera mon utilisateur référent qui sera utilisé en évaluation
-
-- Mes utilisateurs pourront utiliser le mdp du serveur pour le rejoindre
-
-- Il faut utiliser IRSSI comme client (attention à la syntaxe)
+This project consists in creating an IRC Server to which multiple clients can connect to and converse, privately or in channels.
+A client's actions should not block the server. All clients can perform actions simutaneously on the server.
 
 
 
-## 3. En tant que dev, je veux pouvoir ajouter des opérations I/O
+### 🎮 Key Commands
 
-- Utiliser seulement 1 seul poll() (ou équivalent) pour toutes ces opérations
-	* [I/O operations](https://www.techtarget.com/whatis/definition/input-output-I-O) 
+	### Connexion commands
 
+	| Command | Expected arguments | Outcome |
+	| ------------- | ------------- | ----------- |
+	| PASS | <password>  | Password is necessary to properly connect to server |
+	| NICK  | <nickname> | Setup your nickname |
+	| USER  | <username> <mode> <server> :<real first name> <real last name> (mode and server are not taken into account) | Setup username and real name |
+	
+	## Basic commands
 
+	| Command | Expected arguments | Outcome |
+	| ------------- | ------------- | ----------- |
+	| JOIN | <channelname> | Join a channel. If the channel does not exist yet, it creates the server. Channel creator automatically becomes channel operator |
+	| PART  | none | Quits the channel |
+	| PRIVMSG | <channelname or nickname of receiver> <message> | Send a message to a channel or to another client |
+	| QUIT | none | Quits the server |
+	| WHOIS | <nickname> | Gives information about the requested client |
 
-## 4. En tant qu’utilisateur, je veux pouvoir me connecter au serveur
+	## Operator Commands (can only be performed by channel operators)
 
-- Je veux pouvoir me connecter au serveur:
+	| Command | Expected arguments | Outcome |
+	| ------------- | ------------- | ----------- |
+	| KICK | <nickname>  | Kicks a client out of the channel |
+	| TOPIC  | <channelname> / can also add <topic> | See the channel's topic. Adding a <topic> will change the channel's topic |
+	| INVITE | <nickname> <channelname> | Invite a client to the channel |
+	| MODE | <channelname> <mode> | Changes the mode of the channel |
 
-- Utilisation du login
+	## Channel modes
 
-- Utilisation du mdp
-
-- Rajouter un pseudo unique (nickname)
-
-- Message d’erreur approprié si le mdp est invalide
-
-- Rejondre un channel
-
-
-
-## 5. En tant qu’utilisateur, je veux pouvoir envoyer et recevoir des messages
-
-- Tous les messages d’un utiisateur doivent être envoyés à tous les utilisateurs du serveur/channel
-
-
-
-## 6. En tant qu’utilisateur opérateur, je veux pouvoir faire plusieurs actions dans le serveur
-
-- KICK
-
-- INVITE
-
-- TOPIC
-
-- MODE
-	* i
-	* t
-	* k
-	* o
-	* l
+	| Mode | Expected arguments | Outcome |
+	| ------------- | ------------- | ----------- |
+	| +i or -i | none |  Set/remove Invite-only channel |
+	| +t or -t | none |  Set/remove the restrictions of the TOPIC command to channel
+operators |
+	| +k or -k | <password> | Set/remove the channel key (password) |
+	| +o or -o | <nickname> | Give/take channel operator privilege |
+	| +l or -l | <number> | Set/remove the user limit to channel |
 
 
---------------------------------------------------------------------------
 
-# RÈGLES DU CLEAN CODE
+### 🚀 Usage
 
+#### 1. Clone the repository
 
-## Fonctions
+```shell
+git clone https://github.com/Lechonita/ft_irc.git
+```
 
-- 1 fonction = 1 action (faire une fonction pour tout !)
-- Un verbe par fonction >> is_valid, display_message, compute_formula...
-- Utiliser boolean pour les états binaires >> is_whitespace, is_digit...
-- Utiliser des overloads pour les surcharges de fonctions (et des constructeurs)
+#### 2. Compile the ```ircserv``` program
 
+```shell
+make
+```
 
-## Magic Numbers
+#### 3. Execute with a port number and a password as parameters
 
-- Pas de magic numbers !
-- Utiliser des defines autant que possible:
-	* defines existants >> STDOUT_FILENO, EXIT_SUCCESS...
-	* defines personnalisés >> ARG_COUNT, ERROR...
+```shell
+./ircserv <port number> <password>
 
+# Example
+./ircserv 1025 password123
+```
 
-## Autres réflexes
+#### 4. Connect clients to the server
 
-- Utiliser des size_t pour les itérateurs >> size_t i = 0
-- Utiliser ++i au lieux de i++ (when applicable)
-- Utiliser des const !
-- Utiliser des static
-- Pas de nesting (pas plus de 2 boucles dans une fonction)
-- Fail fast & Return early >> Mettre les fails ou les return précoces en premier dans la structure de code
+```shell
+# with netcat
+nc localhost <port number> <password>
 
-## Rendre le code lisible
-
-- Lisibilité > optimisé
-	* exemple: !isFalse()  vs  isFalse() == false
-
-
+# with irssi
+irssi
+/connect localhost <port number> <password>
+```
