@@ -18,9 +18,9 @@ A client's actions should not block the server. All clients can perform actions 
 
 | Command | Expected arguments | Outcome |
 | ------------- | ------------- | ----------- |
-| PASS | <password>  | Password is necessary to properly connect to server |
-| NICK  | <nickname> | Setup your nickname |
-| USER  | <username> <mode> <server> :<real first name> <real last name> (mode and server are not taken into account) | Setup username and real name |
+| PASS | `<password>`  | Password is necessary to properly connect to server |
+| NICK  | `<nickname>` | Setup your nickname |
+| USER  | `<username>` `<mode>` `<server>` :`<real first name>` `<real last name>` (mode and server are not taken into account) | Setup username and real name |
 
 
 
@@ -28,11 +28,11 @@ A client's actions should not block the server. All clients can perform actions 
 
 | Command | Expected arguments | Outcome |
 | ------------- | ------------- | ----------- |
-| JOIN | <channelname> | Join a channel. If the channel does not exist yet, it creates the server. Channel creator automatically becomes channel operator |
+| JOIN | `<channelname>` | Join a channel. If the channel does not exist yet, it creates the server. Channel creator automatically becomes channel operator |
 | PART  | none | Quits the channel |
-| PRIVMSG | <channelname or nickname of receiver> <message> | Send a message to a channel or to another client |
+| PRIVMSG | `<channelname or nickname of receiver>` `<message>` | Send a message to a channel or to another client |
 | QUIT | none | Quits the server |
-| WHOIS | <nickname> | Gives information about the requested client |
+| WHOIS | `<nickname>` | Gives information about the requested client |
 
 
 
@@ -40,10 +40,10 @@ A client's actions should not block the server. All clients can perform actions 
 
 | Command | Expected arguments | Outcome |
 | ------------- | ------------- | ----------- |
-| KICK | `<nickname>` | Kicks a client out of the channel |
-| TOPIC  | <channelname> / can also add <topic> | See the channel's topic. Adding a <topic> will change the channel's topic |
-| INVITE | <nickname> <channelname> | Invite a client to the channel |
-| MODE | <channelname> <mode> | Changes the mode of the channel |
+| KICK | ``<nickname>`` | Kicks a client out of the channel |
+| TOPIC  | `<channelname>` / can also add `<topic>` | See the channel's topic. Adding a `<topic>` will change the channel's topic |
+| INVITE | `<nickname>` `<channelname>` | Invite a client to the channel |
+| MODE | `<channelname>` `<mode>` | Changes the mode of the channel |
 
 
 
@@ -53,9 +53,11 @@ A client's actions should not block the server. All clients can perform actions 
 | ------------- | ------------- | ----------- |
 | +i or -i | none |  Set/remove Invite-only channel |
 | +t or -t | none |  Set/remove the restrictions of the TOPIC command to channel operators |
-| +k or -k | <password> | Set/remove the channel key (password) |
-| +o or -o | <nickname> | Give/take channel operator privilege |
-| +l or -l | <number> | Set/remove the user limit to channel |
+| +k or -k | `<password>` | Set/remove the channel key (password) |
+| +o or -o | `<nickname>` | Give/take channel operator privilege |
+| +l or -l | `<number>` | Set/remove the user limit to channel |
+
+
 
 
 
@@ -91,9 +93,11 @@ make
 
 
 
-#### 4. Connect clients to the server
+#### 4. Connect a client to the server
 
 ```shell
+/!\ In a new terminal
+
 # with netcat
 nc localhost <port number> <password>
 
