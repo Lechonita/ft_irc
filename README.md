@@ -1,6 +1,7 @@
 ## [IRC](https://datatracker.ietf.org/doc/html/rfc1459) - Internet Relay Chat
 
 
+
 ### 🗺️ Project Description
 
 This project consists in creating an IRC Server to which multiple clients can connect to and converse, privately or in channels.
@@ -8,7 +9,10 @@ A client's actions should not block the server. All clients can perform actions 
 
 
 
+
 ### 🎮 Key Commands
+
+
 
 ### Connexion commands
 
@@ -17,6 +21,8 @@ A client's actions should not block the server. All clients can perform actions 
 | PASS | <password>  | Password is necessary to properly connect to server |
 | NICK  | <nickname> | Setup your nickname |
 | USER  | <username> <mode> <server> :<real first name> <real last name> (mode and server are not taken into account) | Setup username and real name |
+
+
 
 ## Basic commands
 
@@ -28,14 +34,18 @@ A client's actions should not block the server. All clients can perform actions 
 | QUIT | none | Quits the server |
 | WHOIS | <nickname> | Gives information about the requested client |
 
+
+
 ## Operator Commands (can only be performed by channel operators)
 
 | Command | Expected arguments | Outcome |
 | ------------- | ------------- | ----------- |
-| KICK | <nickname>  | Kicks a client out of the channel |
+| KICK | '<nickname>'  | Kicks a client out of the channel |
 | TOPIC  | <channelname> / can also add <topic> | See the channel's topic. Adding a <topic> will change the channel's topic |
 | INVITE | <nickname> <channelname> | Invite a client to the channel |
 | MODE | <channelname> <mode> | Changes the mode of the channel |
+
+
 
 ## Channel modes
 
@@ -50,7 +60,10 @@ operators |
 
 
 
+
 ### 🚀 Usage
+
+
 
 #### 1. Clone the repository
 
@@ -58,11 +71,15 @@ operators |
 git clone https://github.com/Lechonita/ft_irc.git
 ```
 
+
+
 #### 2. Compile the ```ircserv``` program
 
 ```shell
 make
 ```
+
+
 
 #### 3. Execute with a port number and a password as parameters
 
@@ -72,6 +89,8 @@ make
 # Example
 ./ircserv 1025 password123
 ```
+
+
 
 #### 4. Connect clients to the server
 
