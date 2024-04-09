@@ -27,7 +27,7 @@ A client's actions should not block the server. All clients can perform actions 
 ## Basic commands
 
 | Command | Expected arguments | Outcome |
-| ------------- | ------------- | ----------- |
+| :-------------: | ------------- | ----------- |
 | JOIN | `<channelname>` | Join a channel. If the channel does not exist yet, it creates the server. Channel creator automatically becomes channel operator |
 | PART  | none | Quits the channel |
 | PRIVMSG | `<channelname or nickname of receiver>` `<message>` | Send a message to a channel or to another client |
@@ -39,7 +39,7 @@ A client's actions should not block the server. All clients can perform actions 
 ## Operator Commands (can only be performed by channel operators)
 
 | Command | Expected arguments | Outcome |
-| ------------- | ------------- | ----------- |
+| :-------------: | ------------- | ----------- |
 | KICK | ``<nickname>`` | Kicks a client out of the channel |
 | TOPIC  | `<channelname>` / can also add `<topic>` | See the channel's topic. Adding a `<topic>` will change the channel's topic |
 | INVITE | `<nickname>` `<channelname>` | Invite a client to the channel |
@@ -50,7 +50,7 @@ A client's actions should not block the server. All clients can perform actions 
 ## Channel modes
 
 | Mode | Expected arguments | Outcome |
-| ------------- | ------------- | ----------- |
+| :-------------: | ------------- | ----------- |
 | +i or -i | none |  Set/remove Invite-only channel |
 | +t or -t | none |  Set/remove the restrictions of the TOPIC command to channel operators |
 | +k or -k | `<password>` | Set/remove the channel key (password) |
