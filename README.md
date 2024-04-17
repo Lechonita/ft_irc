@@ -99,7 +99,10 @@ make
 /!\ In a new terminal
 
 # with netcat
-nc localhost <port number> <password>
+> nc localhost <port number>
+> PASS <password>
+> NICK <nickname>
+> USER <username> <mode> <server> :<real first name> <real last name>
 
 # with irssi
 irssi
